@@ -1,0 +1,90 @@
+{
+  "name": "WRPC",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@coreui/coreui": "^5.1.1",
+    "@coreui/react": "^5.3.0",
+    "@coreui/react-pro": "^5.5.0",
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
+    "@material-ui/styles": "^4.11.5",
+    "@microsoft/signalr": "^8.0.0",
+    "@mui/icons-material": "^5.14.13",
+    "@mui/joy": "^5.0.0-beta.29",
+    "@mui/lab": "^5.0.0-alpha.155",
+    "@mui/material": "^5.16.7",
+    "@mui/styled-engine-sc": "^6.0.0-alpha.1",
+    "@mui/x-data-grid": "^6.16.3",
+    "@mui/x-data-grid-pro": "^6.16.3",
+    "@mui/x-date-pickers": "^7.13.0",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "axios": "^1.4.0",
+    "bcryptjs": "^2.4.3",
+    "bootstrap": "^5.3.2",
+    "bootstrap-icons": "^1.11.1",
+    "buffer": "^6.0.3",
+    "coreui": "^0.4.2-alpha2",
+    "crypto-js": "^4.2.0",
+    "dayjs": "^1.11.13",
+    "exceljs": "^4.4.0",
+    "file-saver": "^2.0.5",
+    "jodit-react": "^1.3.39",
+    "jquery": "^3.7.1",
+    "react": "^18.2.0",
+    "react-bootstrap": "^2.9.1",
+    "react-bootstrap-table-next": "^4.0.3",
+    "react-bootstrap-table2-editor": "^1.4.0",
+    "react-bootstrap-table2-filter": "^1.3.3",
+    "react-bootstrap-table2-paginator": "^2.1.2",
+    "react-bootstrap-table2-toolkit": "^2.1.3",
+    "react-dom": "^18.2.0",
+    "react-google-recaptcha": "^3.1.0",
+    "react-router-dom": "^6.17.0",
+    "react-slick": "^0.29.0",
+    "react-swipeable-views": "^0.14.0",
+    "react-tabs-scrollable": "^2.0.6",
+    "react-toastify": "^9.1.3",
+    "slick-carousel": "^1.6.0",
+    "styled-components": "^6.1.0",
+    "swiper": "^11.0.4",
+    "web-vitals": "^2.1.4",
+    "xlsx": "^0.18.5"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@types/jquery": "^3.5.25",
+    "css-loader": "^6.8.1",
+    "file-loader": "^6.2.0",
+    "react-scripts": "^5.0.1",
+    "sass": "^1.69.4",
+    "sass-loader": "^13.3.2",
+    "style-loader": "^3.3.3",
+    "webpack": "^5.89.0"
+  }
+}
