@@ -21,7 +21,7 @@ const Formoneallparts = () => {
                 <p>Part1</p>
                 <p>Part2</p>
                 <p>Part3</p>
-                <p>Part4</p>
+                {/* <p>Part4</p> */}
                 <p>Part5</p>
               </div>
               <div className="col-md-4">
@@ -30,7 +30,7 @@ const Formoneallparts = () => {
                 <p><a href='form1part1list'>View List</a></p>
                 <p><a href='form1part2list'>View List</a></p>
                 <p><a href='form1part3list'>View List</a></p>
-                <p><a href='form1part4list'>Fill Form</a></p>
+                {/* <p><a href='form1part4list'>Fill Form</a></p> */}
                 <p><a href='form1part5list'>View List</a></p>
               </div>
               <div className="col-md-2">

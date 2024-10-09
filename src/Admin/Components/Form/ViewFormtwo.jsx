@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useRef  } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Button, Card, Col, Container, Form, Spinner } from 'react-bootstrap';
 
 // import 'bootstrap/dist/css/bootstrap.css';
@@ -8,7 +8,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material'; // Import Material-UI components
-import { Link,useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Row } from 'react-bootstrap/esm';
 import Sidebar from '../sidebar/Sidebar';
 import Header from '../header/Header'
@@ -17,8 +17,8 @@ import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import { BASE_URL } from '../../../Api/ApiFunctions';
 
 export const ViewFormtwo = () => {
-    const {id}= useParams()
-const recommondationRef = useRef();
+    const { id } = useParams()
+    const recommondationRef = useRef();
     const [dropdownOptions, setDropdownOptions] = useState([]);
     const [selectedRole, setSelectedRole] = useState('');
     const [formErrors, setFormErrors] = useState({});
@@ -38,8 +38,8 @@ const recommondationRef = useRef();
         Report: '',
         Compliances: '',
         Issuesobserved: '',
-        Remarks: ''
-
+        Remarks: '',
+        admin_remark: ''
 
     });
 
@@ -60,65 +60,65 @@ const recommondationRef = useRef();
         }));
     };
 
-const validateForm = () => {
+    const validateForm = () => {
         const errors = {};
-      
+
         if (!formData.StationName) {
-          errors.StationName = 'Do not left the field blank';
+            errors.StationName = 'Do not left the field blank';
         }
         if (!formData.kVLevel) {
             errors.kVLevel = 'Required';
-          }
+        }
         if (!formData.Owner) {
             errors.Owner = 'Do not left the field blank';
-          }
+        }
         if (!formData.Location) {
             errors.Location = 'Required';
-          }
-          if (!formData.PlannedDateAudit) {
+        }
+        if (!formData.PlannedDateAudit) {
             errors.PlannedDateAudit = 'Required';
-          }
-          if (!formData.DateAudit) {
+        }
+        if (!formData.DateAudit) {
             errors.DateAudit = 'Required';
-          }
-          if (!formData.AuditTeamState) {
+        }
+        if (!formData.AuditTeamState) {
             errors.AuditTeamState = 'Required';
-          }
-          if (!formData.AuditTeamMembers) {
+        }
+        if (!formData.AuditTeamMembers) {
             errors.AuditTeamMembers = 'Required';
-          }
-          if (!formData.Report) {
+        }
+        if (!formData.Report) {
             errors.Report = 'Required';
-          } 
-          if (!formData.Compliances) {
+        }
+        if (!formData.Compliances) {
             errors.Compliances = 'Required';
-          }
-          if (!formData.Issuesobserved) {
+        }
+        if (!formData.Issuesobserved) {
             errors.Issuesobserved = 'Required';
-          }
-          if (!formData.Remarks) {
+        }
+        if (!formData.Remarks) {
             errors.Remarks = 'Required';
-          }
-          if (!formData.CategoryS) {
+        }
+        if (!formData.CategoryS) {
             errors.CategoryS = 'Required';
-          }
-          if (!formData.OwnerR) {
+        }
+        if (!formData.OwnerR) {
             errors.OwnerR = 'Required';
-          }
-           
-      
+        }
+
+
         setFormErrors(errors);
-      
+
         // Focus on the first invalid field
         if (Object.keys(errors).length > 0) {
-          if (recommondationRef.current) {
-            recommondationRef.current.focus();
-          }
-          // Focus on other fields as needed
+            if (recommondationRef.current) {
+                recommondationRef.current.focus();
+            }
+            // Focus on other fields as needed
         }
-      
+
         return Object.keys(errors).length === 0;
-      };
+    };
 
     const handleFileChange = (event) => {
         const file = event.target.files[0];
@@ -137,9 +137,9 @@ const validateForm = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        if (!validateForm()) {
-            return;
-        }
+        // if (!validateForm()) {
+        //     return;
+        // }
 
         // Open the confirmation dialog when the user clicks "Submit"
         setConfirmDialogOpen(true);
@@ -147,16 +147,16 @@ const validateForm = () => {
 
     useEffect(() => {
         async function fetchData2() {
-          try {
-    
-            const response = await apiClient.get(`/api/TPPA_Plan_Monitoring/${id}`);
-            setFormData(response.data);
-          } catch (error) {
-            console.error("Error fetching user data:", error);
-          }
+            try {
+
+                const response = await apiClient.get(`/api/TPPA_Plan_Monitoring/${id}`);
+                setFormData(response.data);
+            } catch (error) {
+                console.error("Error fetching user data:", error);
+            }
         }
         fetchData2();
-      }, []);
+    }, []);
 
     const handleDeleteCancel = () => {
         // Handle cancel action in the confirmation dialog
@@ -168,14 +168,17 @@ const validateForm = () => {
         setConfirmDialogOpen(false);
         // Set loading state to true
         setLoading(true);
-
+        const formDataToSend = new FormData();
+        formDataToSend.append("id", formData.sr_no);  // Append SNo
+        formDataToSend.append("admin_remark", formData.admin_remark);  // Append admin_remark
+  
         try {
             const formDataToSend = {
                 ...formData,
                 usertype: parseInt(selectedRole, 10),
             };
 
-            const response = await apiClient.post(api.newuser, formDataToSend);
+            const response = await apiClient.post(api.updateplanmonitorning, formDataToSend);
             if (response.status === 200) {
                 // Simulate a 3-second delay
                 setTimeout(() => {
@@ -185,19 +188,19 @@ const validateForm = () => {
                     setSuccessDialogOpen(true);
 
                     setFormData({
-        SNo: '',
-        StationName: '',
-        kVLevel: '',
-        Owner: '',
-        Location: '',
-        PlannedDateAudit: '',
-        DateAudit: '',
-        AuditTeamState: '',
-        AuditTeamMembers: '',
-        Report: '',
-        Compliances: '',
-        Issuesobserved: '',
-        Remarks: ''
+                        SNo: '',
+                        StationName: '',
+                        kVLevel: '',
+                        Owner: '',
+                        Location: '',
+                        PlannedDateAudit: '',
+                        DateAudit: '',
+                        AuditTeamState: '',
+                        AuditTeamMembers: '',
+                        Report: '',
+                        Compliances: '',
+                        Issuesobserved: '',
+                        Remarks: ''
                     });
                     setSelectedRole('');
                 }, 1000);
@@ -216,7 +219,7 @@ const validateForm = () => {
         }
     };
 
- 
+
 
     return (
         <>
@@ -253,131 +256,131 @@ const validateForm = () => {
                                             <Card.Body>
                                                 <div className="mb-3 mt-md-4">
                                                     <h2 className="fw-bold mb-4 text-center text-uppercase">
-                                                    TPPA Plan & Monitoring 
+                                                        TPPA Plan & Monitoring
                                                     </h2>
                                                     <div className="mb-3">
-                                                      
+
                                                         <form className="ui form" onSubmit={handleSubmit}>
-                                                                <tbody>
-                                                                    <tr>
-                                                                        <td className="ui header">S.No</td>
-                                                                        <td>
-                                                                            <input className="form-control" type="text" placeholder="Serial no"  value={formData.sr_no} disabled />
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td className="ui header">Station Name</td>
-                                                                        <td>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td className="ui header">S.No</td>
+                                                                    <td>
+                                                                        <input className="form-control" type="text" placeholder="Serial no" value={formData.sr_no} disabled />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className="ui header">Station Name</td>
+                                                                    <td>
                                                                         <Form.Control
-                                                                         ref={recommondationRef}
-                                                                         className={`form-control ${formErrors.StationName ? 'is-invalid' : ''}`}
+                                                                            ref={recommondationRef}
+                                                                            className={`form-control ${formErrors.StationName ? 'is-invalid' : ''}`}
                                                                             type="text"
                                                                             placeholder="Station Name"
                                                                             name='StationName'
-                                                                            value={formData.station_name} disabled 
+                                                                            value={formData.station_name} disabled
                                                                             onChange={handleChange}
                                                                             isInvalid={!!formErrors.StationName}
-                                                                             
+
                                                                         />
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td className="ui header">KV Level</td>
-                                                                        <td>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className="ui header">KV Level</td>
+                                                                    <td>
                                                                         <Form.Control
-                                                                         ref={recommondationRef}
-                                                                         className={`form-control ${formErrors.kVLevel ? 'is-invalid' : ''}`}
+                                                                            ref={recommondationRef}
+                                                                            className={`form-control ${formErrors.kVLevel ? 'is-invalid' : ''}`}
                                                                             type="text"
                                                                             placeholder="KV Level"
                                                                             name='kVLevel'
-                                                                            value={formData.kv_level} disabled 
+                                                                            value={formData.kv_level} disabled
                                                                             onChange={handleChange}
                                                                             isInvalid={!!formErrors.kVLevel}
-                                                                             
+
                                                                         />
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td className="ui header">Owner</td>
-                                                                        <td>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className="ui header">Owner</td>
+                                                                    <td>
                                                                         <Form.Control
-                                                                         ref={recommondationRef}
-                                                                         className={`form-control ${formErrors.Owner ? 'is-invalid' : ''}`}
+                                                                            ref={recommondationRef}
+                                                                            className={`form-control ${formErrors.Owner ? 'is-invalid' : ''}`}
                                                                             type="text"
                                                                             placeholder="Owner"
                                                                             name='Owner'
-                                                                            value={formData.owner} disabled 
+                                                                            value={formData.owner} disabled
                                                                             onChange={handleChange}
                                                                             isInvalid={!!formErrors.Owner}
-                                                                             
+
                                                                         />
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td className="ui header">Location</td>
-                                                                        <td>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className="ui header">Location</td>
+                                                                    <td>
                                                                         <Form.Control
-                                                                         ref={recommondationRef}
-                                                                         className={`form-control ${formErrors.Location ? 'is-invalid' : ''}`}
+                                                                            ref={recommondationRef}
+                                                                            className={`form-control ${formErrors.Location ? 'is-invalid' : ''}`}
                                                                             type="text"
                                                                             placeholder="Location"
                                                                             name='Location'
-                                                                            value={formData.location} disabled 
+                                                                            value={formData.location} disabled
                                                                             onChange={handleChange}
                                                                             isInvalid={!!formErrors.Location}
-                                                                             
+
                                                                         />
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td className="ui header">Planned Date of Audit</td>
-                                                                        <td>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className="ui header">Planned Date of Audit</td>
+                                                                    <td>
                                                                         <Form.Control
-                                                                         ref={recommondationRef}
-                                                                         className={`form-control ${formErrors.PlannedDateAudit ? 'is-invalid' : ''}`}
+                                                                            ref={recommondationRef}
+                                                                            className={`form-control ${formErrors.PlannedDateAudit ? 'is-invalid' : ''}`}
                                                                             type="text"
                                                                             placeholder="Planned Date of Audit"
                                                                             name='PlannedDateAudit'
-                                                                            value={formData.planned_date_of_audit} disabled 
+                                                                            value={formData.planned_date_of_audit} disabled
                                                                             onChange={handleChange}
                                                                             isInvalid={!!formErrors.PlannedDateAudit}
-                                                                             
+
                                                                         />
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td className="ui header">Date of Audit</td>
-                                                                        <td>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className="ui header">Date of Audit</td>
+                                                                    <td>
                                                                         <Form.Control
-                                                                         ref={recommondationRef}
-                                                                         className={`form-control ${formErrors.DateAudit ? 'is-invalid' : ''}`}
+                                                                            ref={recommondationRef}
+                                                                            className={`form-control ${formErrors.DateAudit ? 'is-invalid' : ''}`}
                                                                             type="text"
                                                                             placeholder=" Date of Audit"
                                                                             name='DateAudit'
-                                                                            value={formData.date_of_audit} disabled 
+                                                                            value={formData.date_of_audit} disabled
                                                                             onChange={handleChange}
                                                                             isInvalid={!!formErrors.DateAudit}
-                                                                             
+
                                                                         />
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td className="ui header">Audit team state</td>
-                                                                        <td>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className="ui header">Audit team state</td>
+                                                                    <td>
                                                                         <Form.Control
-                                                                         ref={recommondationRef}
-                                                                         className={`form-control ${formErrors.AuditTeamState ? 'is-invalid' : ''}`}
+                                                                            ref={recommondationRef}
+                                                                            className={`form-control ${formErrors.AuditTeamState ? 'is-invalid' : ''}`}
                                                                             type="text"
                                                                             placeholder="Audit team state"
                                                                             name='AuditTeamState'
-                                                                            value={formData.audit_team_state} disabled 
+                                                                            value={formData.audit_team_state} disabled
                                                                             onChange={handleChange}
                                                                             isInvalid={!!formErrors.AuditTeamState}
-                                                                             
+
                                                                         />
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
+                                                                    </td>
+                                                                </tr>
+                                                                {/* <tr>
                                                                         <td className="ui header">Reports</td>
                                                                         <td>
                                                                         <Link
@@ -424,11 +427,20 @@ const validateForm = () => {
                                                                             isInvalid={!!formErrors.Issuesobserved}
                                                                             >{<PictureAsPdfIcon className="me-2" />} </Link>  
                                                                         </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td className="ui header">Remarks</td>
-                                                                        <td>
-                                                                        <Form.Control
+                                                                    </tr> */}
+                                                                <tr>
+                                                                    <td className="ui header">Remarks</td>
+                                                                    <td>
+                                                                        {formData.remarkpath ? (
+                                                                            // Display the PDF file as a clickable link
+                                                                            <a href={BASE_URL + formData.remarkpath} target="_blank" rel="noopener noreferrer">
+                                                                                View Remark Document
+                                                                            </a>
+                                                                        ) : (
+                                                                            // Show a message or placeholder if there's no file
+                                                                            <span>No PDF available</span>
+                                                                        )}
+                                                                        {/* <Form.Control
                                                                          ref={recommondationRef}
                                                                          className={`form-control ${formErrors.Remark ? 'is-invalid' : ''}`}
                                                                             type="text"
@@ -438,11 +450,24 @@ const validateForm = () => {
                                                                             onChange={handleChange}
                                                                             isInvalid={!!formErrors.Remark}
                                                                              
+                                                                        /> */}
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className="ui header">Admin Remarks</td>
+                                                                    <td>
+                                                                        <input
+                                                                            className="form-control"
+                                                                            type="text"
+                                                                            placeholder="Remarks"
+                                                                            name="admin_remark"  // Correct binding
+                                                                            value={formData.admin_remark}
+                                                                            onChange={handleChange}  // Bind the change handler
                                                                         />
-                                                                        </td>
-                                                                    </tr>
-                                                                </tbody>
-                                                                <div
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                            <div
                                                                 id="button"
                                                                 className="d-flex "
                                                                 style={{ justifyContent: "space-between" }}
@@ -455,17 +480,17 @@ const validateForm = () => {
                                                                     Submit
                                                                 </Button>
                                                             </div>
-                                                            </form>
-                                                           
-                                                          
-                                                            
+                                                        </form>
 
-                                                            <Dialog className="backdrop" open={confirmDialogOpen} onClick={handleDeleteCancel}>
-                                                                <Spinner animation="border" role="status">
-                                                                    <span className="visually-hidden">Loading...</span>
-                                                                </Spinner>
-                                                            </Dialog>
-                                                      
+
+
+
+                                                        <Dialog className="backdrop" open={confirmDialogOpen} onClick={handleDeleteCancel}>
+                                                            <Spinner animation="border" role="status">
+                                                                <span className="visually-hidden">Loading...</span>
+                                                            </Spinner>
+                                                        </Dialog>
+
                                                     </div>
                                                 </div>
                                             </Card.Body>

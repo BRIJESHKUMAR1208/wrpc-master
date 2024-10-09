@@ -8,11 +8,9 @@ import CmsDisplay from '../Header/CmsDisplay';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import apiclient from '../../../Api/ApiClient';
-
 import { Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material'; // Import Material-UI components
 import { Link } from 'react-router-dom';
 import { Row } from 'react-bootstrap/esm';
-
 import './custom-form.scss';
 import axios from 'axios';
 
@@ -166,19 +164,19 @@ export const Formtwo = () => {
         setConfirmDialogOpen(false);
     };
     const handleDeleteConfirm = async () => {
-         ;
+        ;
         setConfirmDialogOpen(false);
 
         setLoading(true);
 
         try {
- ;
-            let candidateId=0;
+            ;
+            let candidateId = 0;
             if (localStorage.getItem("candidateId")) {
-                 candidateId = localStorage.getItem("candidateId");
+                candidateId = localStorage.getItem("candidateId");
             }
-            else{
-                 candidateId = 0;
+            else {
+                candidateId = 0;
             }
 
             const formDataToSend = new FormData();
@@ -191,12 +189,12 @@ export const Formtwo = () => {
             formDataToSend.append('Date_of_Audit', formData.DateAudit);
             formDataToSend.append('Audit_Team_State', formData.AuditTeamState);
             formDataToSend.append('Audit_Team_Members', formData.AuditTeamMembers);
-            formDataToSend.append('Report', selectedFile);
+            formDataToSend.append('Remarks', selectedFile);
             formDataToSend.append('Compliances', selectedFile1);
             formDataToSend.append('Issues_Observed', selectedFile2);
-            formDataToSend.append('Remarks', formData.Remarks);
+           // formDataToSend.append('Remarks', formData.Remarks);
             formDataToSend.append('languagetype', 1);
- ;
+            ;
             const response = await apiclient.post(apis.Tppaplan, formDataToSend);
             // const response = await axios.post("https://localhost:7006/api/TPPA_Plan_Monitoring/Getppa_list", formDataToSend)
             if (response.status === 200) {
@@ -349,7 +347,7 @@ export const Formtwo = () => {
                                                                     value={formData.AuditTeamMembers}
                                                                     onChange={handleChange}
                                                                     isInvalid={!!formErrors.AuditTeamMembers} /><small class="invalid-feedback"></small></div><label
-                                                                        class="col-sm-2 col-form-label">Report<span
+                                                                        class="col-sm-2 col-form-label">Remark<span
                                                                         ><b>*</b></span>:</label>
                                                             <div class="col-sm-2">
                                                                 <span style={{ color: "red" }}>{formErrors.Report}</span>
@@ -358,7 +356,7 @@ export const Formtwo = () => {
                                                                     onChange={handleFileChange}
                                                                     isInvalid={!!formErrors.Report} /><small class="invalid-feedback"></small><small class="invalid-feedback"></small></div>
                                                         </div>
-                                                        <div class="form-group row"><label class="col-sm-2 col-form-label">Compliances<span
+                                                        {/* <div class="form-group row"><label class="col-sm-2 col-form-label">Compliances<span
                                                         ><b>*</b></span>:</label>
                                                             <div class="col-sm-2">
                                                                 <span style={{ color: "red" }}>{formErrors.Compliances}</span>
@@ -374,7 +372,8 @@ export const Formtwo = () => {
                                                                 <input class="form-control" name="Issuesobserved" type='file'
                                                                     // value={selectedFile2}
                                                                     onChange={handleFileChange2}
-                                                                    isInvalid={!!formErrors.Issuesobserved} /><small class="invalid-feedback"></small></div>
+                                                                    isInvalid={!!formErrors.Issuesobserved} /><small class="invalid-feedback"></small>
+                                                                    </div>
 
                                                             <label
                                                                 class="col-sm-2 col-form-label">Remarks<span
@@ -386,7 +385,7 @@ export const Formtwo = () => {
                                                                     onChange={handleChange}
                                                                     isInvalid={!!formErrors.Remarks} /><small class="invalid-feedback"></small></div>
                                                         </div>
-
+ */}
 
                                                     </div>
                                                 </div>

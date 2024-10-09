@@ -1,34 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { Button, Card, Col, Container, Form, Spinner } from "react-bootstrap";
-
-// import 'bootstrap/dist/css/bootstrap.css';
 import apiClient from "../../../Api/ApiClient";
 import api from "../../../Api/api.json";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { BASE_URL } from '../../../Api/ApiFunctions';
-
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-} from "@mui/material"; // Import Material-UI components
 import { Link, useParams } from "react-router-dom";
-import { Row } from "react-bootstrap/esm";
 import Sidebar from "../sidebar/Sidebar";
 import Header from "../header/Header";
 import Footer from "../footer/Footer";
-import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+import { Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material"; // Import Material-UI components
 
 export const ViewFormfour = () => {
-  const { id } = useParams()
-  const [dropdownOptions, setDropdownOptions] = useState([]);
-  const [selectedRole, setSelectedRole] = useState("");
+  const { id } = useParams();
   const [selectedFile, setSelectedFile] = useState({});
   const [formErrors, setFormErrors] = useState({});
   const [successDialogOpen, setSuccessDialogOpen] = useState(false);
-  const [getuser, setuser] = useState("");
   const [formData, setFormData] = useState({
     SNo: "",
     Substation: "",
@@ -41,108 +27,49 @@ export const ViewFormfour = () => {
     upload_file: "",
     languagetype: "",
     Remarks: "",
-    admin_remark: "",
+    admin_remark: "",  // Ensure this is initialized properly
   });
 
-  // New state variables for confirmation dialog and loading
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const handleRoleChange = (event) => {
-    setSelectedRole(event.target.value);
-  };
-
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setSelectedRole(event.target.value);
     setFormData((prevFormData) => ({
       ...prevFormData,
       [name]: value,
     }));
   };
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-
-    if (file && file.type === "application/pdf") {
-      // File is a PDF
-      setSelectedFile(file);
-
-      // You can perform additional actions here if needed
-    } else {
-      // File is not a PDF
-      alert("Please upload a PDF file.");
-    }
-  };
-  const validateForm = () => {
-    const errors = {};
-
-    if (!formData.name) {
-      errors.name = "Please enter your name";
-    } else if (!/^[A-Za-z ]+$/.test(formData.name)) {
-      errors.name = "Please input alphabet characters only";
-    }
-
-    if (!formData.email) {
-      errors.email = "Email is required";
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      errors.email = `E-mail must include "@" character `;
-    }
-
-    if (!formData.mobile_no) {
-      errors.mobile_no = "Please enter your mobile number";
-    } else if (!/^(\+91|\+91\-|0)?[789]\d{9}$/.test(formData.mobile_no)) {
-      errors.mobile_no = "Please enter a valid 10-digit phone number ";
-    }
-
-    if (!formData.address) {
-      errors.address = "Please enter your address";
-    }
-
-    if (!selectedRole) {
-      errors.selectedRole = "Role is required";
-    }
-
-    setFormErrors(errors);
-    return Object.keys(errors).length === 0;
-  };
 
   const handleSubmit = async (event) => {
+    // Prevent the default form submission behavior
     event.preventDefault();
-
-    if (!validateForm()) {
-      return;
-    }
-
-    // Open the confirmation dialog when the user clicks "Submit"
     setConfirmDialogOpen(true);
   };
 
-  const handleDeleteCancel = () => {
-    // Handle cancel action in the confirmation dialog
-    setConfirmDialogOpen(false);
-  };
-
   const handleDeleteConfirm = async () => {
-    // Close the confirmation dialog
-    setConfirmDialogOpen(false);
-    // Set loading state to true
-    setLoading(true);
-
     try {
-      const formDataToSend = {
-        ...formData,
-        usertype: parseInt(selectedRole, 10),
-      };
+      // Close confirmation dialog and show loading spinner
+      setConfirmDialogOpen(false);
+      setLoading(true);
+
+      // Create FormData to send in POST request
+      const formDataToSend = new FormData();
+      formDataToSend.append("s_no", formData.s_no);  // Append SNo
+      formDataToSend.append("admin_remark", formData.admin_remark);  // Append admin_remark
+
+      // if (selectedFile) {
+      //   formDataToSend.append("upload_file", selectedFile);
+      // }
 
       const response = await apiClient.post(api.Relaadmindata, formDataToSend);
-      if (response.status === 200) {
-        // Simulate a 3-second delay
-        setTimeout(() => {
-          // Set loading state back to false after the delay
-          setLoading(false);
-          // Show the success dialog
-          setSuccessDialogOpen(true);
 
+      if (response.status === 200) {
+       // alert("Data saveed successfully");
+        // Simulate a 1-second delay and handle success
+        setTimeout(() => {
+          setLoading(false);
+          setSuccessDialogOpen(true);
           setFormData({
             SNo: "",
             Substation: "",
@@ -154,12 +81,10 @@ export const ViewFormfour = () => {
             Srnoofrelay: "",
             upload_file: "",
             languagetype: "",
-            Remarks: ""
+            Remarks: "",
+            admin_remark: "",  // Clear admin_remark field
           });
-          setSelectedRole("");
         }, 1000);
-      } else if (response.status === 500) {
-        alert("User already exists");
       } else {
         alert("Something went wrong");
       }
@@ -169,7 +94,6 @@ export const ViewFormfour = () => {
       setLoading(false);
     }
   };
-
   useEffect(() => {
     async function fetchData2() {
       try {
@@ -181,7 +105,8 @@ export const ViewFormfour = () => {
       }
     }
     fetchData2();
-  }, []);
+  }, [id]);
+  
 
   return (
     <>
@@ -191,51 +116,49 @@ export const ViewFormfour = () => {
         <main id="main" class="main">
           <div class="pagetitle">
             <div className="pagetitle-lft">
-              <h1>Relay Settings Data </h1>
+              <h1>Relay Settings Data</h1>
               <nav>
                 <ol class="breadcrumb">
                   <li class="breadcrumb-item">Dashboard</li>
-                  <li class="breadcrumb-item ">Form two </li>
-                  <li class="breadcrumb-item active"> Relay settings data </li>
+                  <li class="breadcrumb-item ">Form two</li>
+                  <li class="breadcrumb-item active">Relay settings data</li>
                 </ol>
               </nav>
             </div>
             <div className="pagetitle-rgt">
               <Link to="/dashboard">
-                <button type="button" class="btn btn-info">
-                  Back
-                </button>
+                <button type="button" class="btn btn-info">Back</button>
               </Link>
             </div>
           </div>
           <div className="home">
             <div className="homeContainer">
               <div className="bgimg">
-                {/* <Container> */}
-                <Row className="vh-100 d-flex justify-content-center align-items-left">
-                  <Col md={10} lg={12} xs={12}>
-                    <Card>
-                      <Card.Body>
-                        <div className="mb-3 mt-md-4">
-                          <h2 className="fw-bold mb-4 text-center text-uppercase">
-                            Relay settings data
-                          </h2>
-                          <div className="mb-3">
-                            <Form >
-                              <form className="ui form">
-                                <tbody>
-                                  <tr>
-                                    <td className="ui header">S.No</td>
-                                    <td>
-                                      <input
-                                        className="form-control"
-                                        type="text"
-                                        placeholder="Serial no"
-                                        value={formData.s_no} disabled
-                                      />
-                                    </td>
-                                  </tr>
-                                  <tr>
+                <Col md={10} lg={12} xs={12}>
+                  <Card>
+                    <Card.Body>
+                      <div className="mb-3 mt-md-4">
+                        <h2 className="fw-bold mb-4 text-center text-uppercase">
+                          Relay settings data
+                        </h2>
+                        <div className="mb-3">
+                          <Form onSubmit={handleSubmit}>
+                            <tbody>
+                              {/* Form Fields */}
+                              <tr>
+                                <td className="ui header">S.No</td>
+                                
+                                <td>
+                                  <input
+                                    className="form-control"
+                                    type="text"
+                                    placeholder="Serial no"
+                                    value={formData.s_no} 
+                                    disabled
+                                  />
+                                </td>
+                              </tr>
+                              <tr>
                                     <td className="ui header">Substation</td>
                                     <td>
                                       <input
@@ -346,89 +269,62 @@ export const ViewFormfour = () => {
                                       />
                                     </td>
                                   </tr>
-                                  <tr>
-                                    <td className="ui header">Admin Remarks</td>
-                                    <td>
-                                      <input
-                                        className="form-control"
-                                        type="text"
-                                        placeholder="Remarks"
-                                        name="admin_remark"  // Bind the input to the correct state field
-                                        value={formData.admin_remark}  // Make sure you're referencing admin_remark, not admin_reamrk
-                                        onChange={handleChange}  // Update the state correctly when the input changes
-                                      />
-                                    </td>
-                                  </tr>
+                              {/* Other fields... */}
+                              <tr>
+                                <td className="ui header">Admin Remarks</td>
+                                <td>
+                                  <input
+                                    className="form-control"
+                                    type="text"
+                                    placeholder="Remarks"
+                                    name="admin_remark"  // Correct binding
+                                    value={formData.admin_remark}
+                                    onChange={handleChange}  // Bind the change handler
+                                  />
+                                </td>
+                              </tr>
+                            </tbody>
 
-                                </tbody>
-
-
-                                <div
-                                  id="button"
-                                  className="d-flex "
-                                  style={{ justifyContent: "space-between" }}
-                                >
-                                  <Button
-                                    variant="primary"
-                                    type="submit"
-                                    style={{ width: 100 }}
-                                    onSubmit={handleSubmit}
-                                  >
-                                    Submit
-                                  </Button>
-                                </div>
-                              </form>
-                              <Dialog
-                                className="backdrop"
-                                open={confirmDialogOpen}
-                                onClick={handleDeleteCancel}
-                              >
-                                <Spinner animation="border" role="status">
-                                  <span className="visually-hidden">
-                                    Loading...
-                                  </span>
-                                </Spinner>
-                              </Dialog>
-                            </Form>
-                          </div>
+                            <div
+                              id="button"
+                              className="d-flex"
+                              style={{ justifyContent: "space-between" }}
+                            >
+                              <Button variant="primary" type="submit" style={{ width: 100 }}>
+                                Submit
+                              </Button>
+                            </div>
+                          </Form>
                         </div>
-                      </Card.Body>
-                    </Card>
-                  </Col>
-                </Row>
-                {/* </Container> */}
+                      </div>
+                    </Card.Body>
+                  </Card>
+                </Col>
               </div>
             </div>
           </div>
         </main>
         <Footer />
       </div>
+
       <ToastContainer />
+
       {/* Confirmation Dialog */}
-      <Dialog open={confirmDialogOpen} onClose={handleDeleteCancel}>
+      <Dialog open={confirmDialogOpen} onClose={() => setConfirmDialogOpen(false)}>
         <DialogTitle>Confirm Create</DialogTitle>
-        <DialogContent>Are you sure you want to submit ?</DialogContent>
+        <DialogContent>Are you sure you want to submit?</DialogContent>
         <DialogActions>
-          <Button onClick={handleDeleteCancel} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleDeleteConfirm} color="primary">
-            Confirm
-          </Button>
+          <Button onClick={() => setConfirmDialogOpen(false)} color="primary">Cancel</Button>
+          <Button onClick={handleDeleteConfirm} color="primary">Confirm</Button>
         </DialogActions>
       </Dialog>
 
       {/* Success Dialog */}
-      <Dialog
-        open={successDialogOpen}
-        onClose={() => setSuccessDialogOpen(false)}
-      >
+      <Dialog open={successDialogOpen} onClose={() => setSuccessDialogOpen(false)}>
         <DialogTitle>Success</DialogTitle>
         <DialogContent>Saved successfully!</DialogContent>
         <DialogActions>
-          <Button onClick={() => setSuccessDialogOpen(false)} color="primary">
-            OK
-          </Button>
+          <Button onClick={() => setSuccessDialogOpen(false)} color="primary">OK</Button>
         </DialogActions>
       </Dialog>
     </>

@@ -86,12 +86,19 @@ const Form1part5list = () => {
                           View EL(S) PDF
                         </a>
                       </TableCell>
+                     
                       <TableCell>
-                      <Link to ={`/form1part5/${item.uniqueid}`} style={{ textDecoration: 'none' }}>
-          <Button variant="contained" color="primary">
-            Fill Part5
-          </Button>
-        </Link>
+                        {item.part1 === 1 & item.part2 ===1 & item.part3 ===1& item.part4 ===1? (
+                          <Link to ={`/form1part5/${item.uniqueid}`} style={{ textDecoration: 'none' }}>
+                          <Button variant="contained" color="primary">
+                            Fill Part5
+                          </Button>
+                        </Link>
+                        ) : (
+                          <Button variant="contained" color="primary" disabled>
+                           Fill Part5
+                          </Button>
+                        )}
                       </TableCell>
                     </TableRow>
                   ))}

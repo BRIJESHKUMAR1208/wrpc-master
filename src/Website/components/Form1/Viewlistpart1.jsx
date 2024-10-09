@@ -99,17 +99,20 @@ const Form1part1list = () => {
                         </a>
                       </TableCell>
                       <TableCell>
-                        {/* <Button
-                          variant="contained"
-                          color="secondary"
-                          onClick={() => handleEdit(item.uniqueid)}
-                        >
-                          Edit
-                        </Button> */}
+                      {item.part2 === 1 ? (
+                           <Button variant="contained" color="primary" disabled>
+                           Edit Part1
+                         </Button>
+                        ) : (
+                         
+                          <Link to={`/editform1part1/${item.uniqueid}`} style={{ textDecoration: 'none' }}>
+                          <Button variant="contained" color="primary">
+                          Edit Part1
+                          </Button>
+                        </Link>
+                        )}
+                         
                         
-                         <Link to={'/editform1part1/'+item.uniqueid}>
-                         <button>Edit</button>
-                </Link>
                       </TableCell>
                     </TableRow>
                   ))}

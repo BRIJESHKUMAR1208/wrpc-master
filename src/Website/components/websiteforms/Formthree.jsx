@@ -224,8 +224,6 @@ export const Formthree = () => {
             formDataToSend.append('Attended_CAT_B', "DFSFGDSAF");
             formDataToSend.append('Date_Attended_CAT_B', formData.BDate_Attended);
 
-
-             ;
             const response = await apiclient.post(apis.Tppapost, formDataToSend)
 
             if (response.status === 200) {

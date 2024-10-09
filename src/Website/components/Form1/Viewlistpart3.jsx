@@ -97,7 +97,10 @@ const Form1part3list = () => {
                       <TableCell>
                         {item.part1 === 1 & item.part2 ===1 ? (
                           <Link to ={`/form1part3/${item.uniqueid}`} style={{ textDecoration: 'none' }}>
-                          <Button variant="contained" color="primary">
+                          <Button variant="contained"
+                              color="primary"
+                              disabled={item.part4 === 1}
+                          >
                             Fill Part3
                           </Button>
                         </Link>
