@@ -194,7 +194,6 @@ export const LoginCandidate = () => {
     setOpenDialog(false);
   };
 
-  // Custom CSS styling for the dialog
   const dialogStyles = {
     minWidth: "300px",
     maxWidth: "400px",

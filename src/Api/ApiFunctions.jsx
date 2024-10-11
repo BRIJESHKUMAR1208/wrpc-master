@@ -4,8 +4,8 @@ import axios from 'axios';
 import apis from './api.json'
 
 
-//export const BASE_URL = 'http://mum.wrpc.gov.in';
-export const BASE_URL = 'http://localhost:5141'; 
+export const BASE_URL = 'http://mum.wrpc.gov.in';
+//export const BASE_URL = 'http://localhost:5141'; 
 // export const BASE_URL = 'https://wrpcgov.com';
 
 

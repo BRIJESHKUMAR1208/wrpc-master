@@ -165,18 +165,15 @@ export const ViewFormtwo = () => {
 
     const handleDeleteConfirm = async () => {
         // Close the confirmation dialog
-        setConfirmDialogOpen(false);
-        // Set loading state to true
-        setLoading(true);
-        const formDataToSend = new FormData();
-        formDataToSend.append("id", formData.sr_no);  // Append SNo
-        formDataToSend.append("admin_remark", formData.admin_remark);  // Append admin_remark
-  
+       
         try {
-            const formDataToSend = {
-                ...formData,
-                usertype: parseInt(selectedRole, 10),
-            };
+            setConfirmDialogOpen(false);
+            // Set loading state to true
+            setLoading(true);
+            const formDataToSend = new FormData();
+            formDataToSend.append("id", formData.sr_no);  // Append SNo
+            formDataToSend.append("admin_remark", formData.admin_remark);  // Append admin_remark
+      
 
             const response = await apiClient.post(api.updateplanmonitorning, formDataToSend);
             if (response.status === 200) {
