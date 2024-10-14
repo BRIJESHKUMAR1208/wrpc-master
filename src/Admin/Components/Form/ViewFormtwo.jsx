@@ -479,9 +479,6 @@ export const ViewFormtwo = () => {
                                                             </div>
                                                         </form>
 
-
-
-
                                                         <Dialog className="backdrop" open={confirmDialogOpen} onClick={handleDeleteCancel}>
                                                             <Spinner animation="border" role="status">
                                                                 <span className="visually-hidden">Loading...</span>

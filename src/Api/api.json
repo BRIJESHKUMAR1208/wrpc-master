@@ -15,6 +15,7 @@
     "performance":"/api/PerformanceIndices",
     "Tppapost": "/api/TPPA_Obs/PostTTPOBS_data",
     "Tppaobspart1": "/api/TPPAObservations/Part1",
+    "Tppaobspart3": "/api/TPPAObservations/Part3",
     "Tppaplan":"/api/TPPA_Plan_Monitoring/Getppa_list",
     "Trippingcompliance":"/api/Tripping_compliance_pcm_discussions/Posttripping_data",
     "Trippingreportpart1":"/api/TrippingReport/Part1",

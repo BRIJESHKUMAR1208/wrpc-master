@@ -11,11 +11,6 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material'; // Import Material-UI components
-import { Link } from 'react-router-dom';
-import { Row } from 'react-bootstrap/esm';
-
-//import './custom-form.scss';
-import axios from 'axios';
 
 
 export const Form3part1 = () => {
@@ -41,7 +36,8 @@ export const Form3part1 = () => {
         Compliances: '',
         Issuesobserved: '',
         Remarks: '',
-        CAT_A_deficiencies: ''
+        CAT_A_deficiencies: '',
+        CAT_B_deficiencies:''
     });
 
     // New state variables for confirmation dialog and loading
@@ -213,6 +209,7 @@ export const Form3part1 = () => {
             formDataToSend.append('Issues_Observed', selectedFilee1);
             formDataToSend.append('Remarks', formData.Remarks);
             formDataToSend.append('CAT_A_Deficiencies', formData.CAT_A_deficiencies);
+            formDataToSend.append('CAT_B_deficiencies', formData.CAT_B_deficiencies);
             const response = await apiclient.post(apis.Tppaobspart1, formDataToSend)
 
             if (response.status === 200) {
@@ -422,9 +419,19 @@ export const Form3part1 = () => {
                                                                     <input class="form-control" name="CAT_A_deficiencies" placeholder="Enter CAT A deficiences"
                                                                         maxlength="50" value={formData.CAT_A_deficiencies}
                                                                         onChange={handleChange}
-                                                                        isInvalid={!!formErrors.CAT_A_deficiencies} /><small class="invalid-feedback"></small>
+                                                                        isInvalid={!!formErrors.CAT_A_deficiencies} />
+                                                                        <small class="invalid-feedback"></small>
                                                                 </div>
-
+                                                                <label class="col-sm-2 col-form-label">CAT B deficiences<span
+                                                        ><b>*</b></span>:</label>
+                                                                <div class="col-sm-2">
+                                                                <span style={{ color: "red" }}>{formErrors.CAT_B_deficiencies}</span>
+                                                                <input class="form-control" name="CAT_B_deficiencies" placeholder="Enter CAT B deficiences"
+                                                                    maxlength="50"
+                                                                    value={formData.CAT_B_deficiencies}
+                                                                    onChange={handleChange}
+                                                                    isInvalid={!!formErrors.CAT_B_deficiencies} /><small class="invalid-feedback"></small>
+                                                                    </div>
                                                             </div>
 
                                                         </div>

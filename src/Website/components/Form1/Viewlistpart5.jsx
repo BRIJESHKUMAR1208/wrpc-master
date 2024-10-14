@@ -15,7 +15,7 @@ const Form1part5list = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`${BASE_URL}/api/TrippingReport/Part1`);
+        const response = await fetch(`${BASE_URL}/api/TrippingReport/Part4`);
         if (!response.ok) {
           throw new Error("Failed to fetch data");
         }
@@ -53,13 +53,12 @@ const Form1part5list = () => {
                 <TableHead>
                   <TableRow>
                     <TableCell>ID</TableCell>
-                    <TableCell>Tripping Date</TableCell>
-                    <TableCell>Tripping Time</TableCell>
-                    <TableCell>Owner Send</TableCell>
-                    <TableCell>Category</TableCell>
-                    <TableCell>FIR(S)</TableCell>
-                    <TableCell>DR(S)</TableCell>
-                    <TableCell>EL(S)</TableCell>
+                    <TableCell>PCM Number</TableCell>
+                    <TableCell>PCM Date</TableCell>
+                    <TableCell>Item No.</TableCell>
+                    <TableCell>Recommondation of PCM</TableCell>
+                    <TableCell>Utility responsible for attending )</TableCell>
+                    
                     <TableCell>Action</TableCell>
                   </TableRow>
                 </TableHead>
@@ -67,26 +66,12 @@ const Form1part5list = () => {
                   {trippingData.map((item) => (
                     <TableRow key={item.id}>
                       <TableCell>{item.uniqueid}</TableCell>
-                      <TableCell>{item.tripping_date}</TableCell>
-                      <TableCell>{item.tripping_time}</TableCell>
-                      <TableCell>{item.owner_send}</TableCell>
-                      <TableCell>{item.category_s}</TableCell>
-                      <TableCell>
-                        <a href={BASE_URL + item.fir_spdfpath} target="_blank" rel="noopener noreferrer">
-                          View FIR(s) PDF
-                        </a>
-                      </TableCell>
-                      <TableCell>
-                        <a href={BASE_URL + item.dr_spath} target="_blank" rel="noopener noreferrer">
-                          View DR(S) PDF
-                        </a>
-                      </TableCell>
-                      <TableCell>
-                        <a href={BASE_URL + item.el_spath} target="_blank" rel="noopener noreferrer">
-                          View EL(S) PDF
-                        </a>
-                      </TableCell>
-                     
+                      <TableCell>{item.pcm_number}</TableCell>
+                      <TableCell>{item.pcm_date}</TableCell>
+                      <TableCell>{item.item_no_heading}</TableCell>
+                      <TableCell>{item.recommendation_of_pcm}</TableCell>
+                      <TableCell>{item.utility_responsible_for_attending}</TableCell>
+                      
                       <TableCell>
                         {item.part1 === 1 & item.part2 ===1 & item.part3 ===1& item.part4 ===1? (
                           <Link to ={`/form1part5/${item.uniqueid}`} style={{ textDecoration: 'none' }}>
