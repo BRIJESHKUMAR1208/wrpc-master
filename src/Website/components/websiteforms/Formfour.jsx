@@ -223,7 +223,7 @@ export const Formfour = () => {
     //     };
     //     fetchRoles();
     //   }, []);
-    console.log(formData)
+  
 
 
     return (
@@ -295,7 +295,8 @@ export const Formfour = () => {
                                                                     placeholder="Enter kV Level"
                                                                     onChange={handleChange}
                                                                     isInvalid={!!formErrors.kV_Level}
-                                                                    maxlength="50" value={formData.kV_Level} /><small class="invalid-feedback"></small></div>
+                                                                    maxlength="50" value={formData.kV_Level} /><small class="invalid-feedback"></small>
+                                                                    </div>
                                                                    
                                                         </div>
 
@@ -330,8 +331,7 @@ export const Formfour = () => {
                                                         </div>
                                                         <div class="form-group row">
                                                         <label
-                                                                        class="col-sm-2 col-form-label">Make of Relay<span
-                                                                        ><b>*</b></span>:</label>
+                                                                        class="col-sm-2 col-form-label">Make of Relay<span ><b>*</b></span>:</label>
                                                             <div class="col-sm-2">
                                                                 <span style={{ color: "red" }}>{formErrors.MakeOfRelay}</span>
                                                                 <input class="form-control" name="MakeOfRelay" placeholder="Enter"

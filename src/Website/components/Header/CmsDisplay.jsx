@@ -160,7 +160,7 @@ const CmsDisplay = () => {
             <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
               {user1.can_ft1 === 1 && (
                 <li>
-                  <Link to="/menu/form1partsdata" className="dropdown-item">
+                  <Link to="/form1partsdata" className="dropdown-item">
                     PCM Discussions
                   </Link>
                 </li>
@@ -174,7 +174,7 @@ const CmsDisplay = () => {
               )}
               {user1.can_ft3 === 1 && (
                 <li>
-                  <Link to="/candidate/form3" className="dropdown-item">
+                  <Link to="/form3all_list" className="dropdown-item">
                     TPPA Observation
                   </Link>
                 </li>
@@ -240,7 +240,7 @@ const CmsDisplay = () => {
             </div>
             <div class="collapse navbar-collapse" id="navbar1">
              
-              <Link to={"/form3all_list"} style={{ color: 'white' }}>Formdata</Link>
+              {/* <Link to={"/form3all_list"} style={{ color: 'white' }}>Formdata</Link> */}
             </div>
           </div>
         </nav>

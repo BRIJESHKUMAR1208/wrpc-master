@@ -6,7 +6,7 @@ import CmsDisplay from '../Header/CmsDisplay';
 import apis from '../../../Api/api.json';
 import apiclient from '../../../Api/ApiClient';
 // import 'bootstrap/dist/css/bootstrap.css';
-
+import { useParams } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -17,6 +17,7 @@ import { Row } from 'react-bootstrap/esm';
 
 
 export const Form3part3 = () => {
+    const { id } = useParams();
     const [dropdownOptions, setDropdownOptions] = useState([]);
     const [selectedRole, setSelectedRole] = useState('');
 
@@ -64,6 +65,21 @@ export const Form3part3 = () => {
             alert('Please upload a PDF file.');
         }
     };
+
+    useEffect(() => {
+        async function fetchData2() {
+            try {
+
+                const response = await apiclient.get(apis.TPPAobsgetdata + id);
+                setFormData(response.data);
+
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+
+            }
+        }
+        fetchData2();
+    }, [id]);
     const handleFileChange1 = (event) => {
         const file = event.target.files[0];
 
@@ -187,7 +203,7 @@ export const Form3part3 = () => {
 
 
             const formDataToSend = new FormData();
-            formDataToSend.append('user_id', candidateId);
+            formDataToSend.append('id', id);
             formDataToSend.append('Attended_CAT_A', formData.AAttendedY_N);
             formDataToSend.append('Date_Attended_CAT_A', formData.ADate_Attended);
             formDataToSend.append('Attended_CAT_B', formData.BAttendedY_N);
@@ -325,10 +341,10 @@ export const Form3part3 = () => {
                                                             class="col-sm-2 col-form-label">AttendedY_N<span
                                                             ><b>*</b></span>:</label>
                                                             <div class="col-sm-2"><span style={{ color: "red" }}>{formErrors.CAT_A_deficiencies}</span>
-                                                                <select class="form-control" name="urbanRural"
-                                                                    value={formData.urbanRural}
+                                                                <select class="form-control" name="BAttendedY_N"
+                                                                    value={formData.BAttendedY_N}
                                                                     onChange={handleChange}
-                                                                    isInvalid={!!formErrors.urbanRural}
+                                                                    isInvalid={!!formErrors.BAttendedY_N}
                                                                 >
                                                                     <option value=""> --Select-- </option>
                                                                     <option value="1">Yes</option>

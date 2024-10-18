@@ -152,7 +152,7 @@ export const Banner = () => {
                               alt={`Banner ${index + 1}`}
                             />
                           </div>
-                          <div className="banner_text">
+                          {/* <div className="banner_text">
                             <div className="small_text animated">
                               Welcome to
                             </div>
@@ -174,7 +174,7 @@ export const Banner = () => {
                               </a>
                               </div>
                             </div>
-                          </div>
+                          </div> */}
                         </figure>
                       </div>
                     ))}
@@ -395,20 +395,17 @@ export const Banner = () => {
                       <div class="marquee2">
                         <div class="dial">
                           <div class="d1">
-                            <p>
-                              <i class="fa-solid fa-bullhorn"></i> &nbsp; Dial
-                              Toll-free Helpline Number 1800-121-5555 for all
-                              queries and grievances on household
-                              electrification under Saubhagya.
+                            <p id="test" behavior="alternate" direction="right" onmouseover="this.stop();" onmouseout="this.start();" scrollamount="3">
+                              <i class="fa-solid fa-bullhorn" ></i> &nbsp;	Shri P Dayanand, IAS, Chairman CSPC is the Chairperson of WRPC For the Year 2024-25
                             </p>
                           </div>
-                          <div class="d2">
+                          {/* <div class="d2">
                             <p>
                               <i class="fa-solid fa-bullhorn"></i> &nbsp; Dial
                               '1912' for Electricity Complaints across India and
                               for more Information download 'URJA' App
                             </p>
-                          </div>
+                          </div> */}
                         </div>
                       </div>
                     </div>

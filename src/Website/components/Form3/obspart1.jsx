@@ -66,7 +66,7 @@ export const Form3part1 = () => {
             // You can perform additional actions here if needed
         } else {
             // File is not a PDF
-            alert('Please upload a PDF file.');
+            //alert('Please upload a PDF file.');
         }
     };
     const handleFileChange1 = (event) => {

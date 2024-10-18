@@ -173,8 +173,6 @@ export const ViewFormtwo = () => {
             const formDataToSend = new FormData();
             formDataToSend.append("id", formData.sr_no);  // Append SNo
             formDataToSend.append("admin_remark", formData.admin_remark);  // Append admin_remark
-      
-
             const response = await apiClient.post(api.updateplanmonitorning, formDataToSend);
             if (response.status === 200) {
                 // Simulate a 3-second delay

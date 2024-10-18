@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Card, Col, Container, Form, Spinner } from 'react-bootstrap';
-
+import apiclient from "../../../Api/ApiClient";
 // import 'bootstrap/dist/css/bootstrap.css';
 import apiClient from '../../../Api/ApiClient';
-import api from '../../../Api/api.json';
+import apis from '../../../Api/api.json';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material'; // Import Material-UI components
-import { Link,useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import { Row } from 'react-bootstrap/esm';
 import Sidebar from '../sidebar/Sidebar';
@@ -18,7 +18,7 @@ import { BASE_URL } from '../../../Api/ApiFunctions';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 
 export const ViewFormthree = () => {
-    const {id}= useParams()
+    const { id } = useParams()
     const [dropdownOptions, setDropdownOptions] = useState([]);
     const [selectedRole, setSelectedRole] = useState('');
     const [formErrors, setFormErrors] = useState({});
@@ -27,99 +27,32 @@ export const ViewFormthree = () => {
     const [selectedFile, setSelectedFile] = useState({});
     const [formData, setFormData] = useState({
         SNo: '',
-        StationName: '',
-        kVLevel: '',
-        Owner: '',
-        Location: '',
-        PlannedDateAudit: '',
-        DateAudit: '',
-        AuditEntity: '',
-        Report: '',
-        Compliances: '',
-        Issuesobserved: '',
-        Remarks: '',
-        cat_a_deficiencies:'',
-        attended_cat_a:'',
-        date_attended_cat_a:'',
-        cat_b_deficiencies:'',
-        attended_cat_b:'',
-        date_attended_cat_b:'',
-
-
-
-
+        pcmreview_cata: '',
+        pcmnumber_catb: '',
+        pcmreview_catb: '',
+        pcmnumber_catb: '',
+        part3: '',
+        admin_remark:''
     });
 
     // New state variables for confirmation dialog and loading
     const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    const handleRoleChange = (event) => {
-        setSelectedRole(event.target.value);
-    };
 
     const handleChange = (event) => {
         const { name, value } = event.target;
-        setSelectedRole(event.target.value);
         setFormData((prevFormData) => ({
             ...prevFormData,
             [name]: value,
         }));
     };
-    const handleFileChange = (event) => {
-        const file = event.target.files[0];
 
-        if (file && file.type === 'application/pdf') {
-            // File is a PDF
-            setSelectedFile(file);
 
-            // You can perform additional actions here if needed
-        } else {
-            // File is not a PDF
-            alert('Please upload a PDF file.');
-        }
-    };
-    const validateForm = () => {
-        const errors = {};
-
-        if (!formData.name) {
-            errors.name = 'Please enter your name';
-        } else if (!/^[A-Za-z ]+$/.test(formData.name)) {
-            errors.name = 'Please input alphabet characters only';
-        }
-
-        if (!formData.email) {
-            errors.email = "Email is required";
-        } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-            errors.email = `E-mail must include "@" character `;
-        }
-
-        if (!formData.mobile_no) {
-            errors.mobile_no = "Please enter your mobile number";
-        } else if (!/^(\+91|\+91\-|0)?[789]\d{9}$/.test(formData.mobile_no)) {
-            errors.mobile_no = "Please enter a valid 10-digit phone number ";
-        }
-
-        if (!formData.address) {
-            errors.address = "Please enter your address";
-        }
-
-        if (!selectedRole) {
-            errors.selectedRole = "Role is required";
-        }
-
-        setFormErrors(errors);
-        return Object.keys(errors).length === 0;
-    };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        if (!validateForm()) {
-            return;
-        }
-
-        // Open the confirmation dialog when the user clicks "Submit"
         setConfirmDialogOpen(true);
     };
 
@@ -129,57 +62,71 @@ export const ViewFormthree = () => {
     };
 
     const handleDeleteConfirm = async () => {
-        // Close the confirmation dialog
-        setConfirmDialogOpen(false);
-        // Set loading state to true
-        setLoading(true);
+
 
         try {
-            const formDataToSend = {
-                ...formData,
-                usertype: parseInt(selectedRole, 10),
-            };
-
-            const response = await apiClient.post(api.newuser, formDataToSend);
-            if (response.status === 200) {
-                
-                // Simulate a 3-second delay
-                setTimeout(() => {
-                    // Set loading state back to false after the delay
-                    setLoading(false);
-                    // Show the success dialog
-                    setSuccessDialogOpen(true);
-
-                    setFormData({
-                        SNo: '',
-                        StationName: '',
-                        kVLevel: '',
-                        Owner: '',
-                        Location: '',
-                        PlannedDateAudit: '',
-                        DateAudit: '',
-                        AuditEntity: '',
-                        Report: '',
-                        Compliances: '',
-                        Issuesobserved: '',
-                        Remarks: '',
-                        cat_a_deficiencies:'',
-                        attended_cat_a:'',
-                        date_attended_cat_a:'',
-                        cat_b_deficiencies:'',
-                        attended_cat_b:'',
-                        date_attended_cat_b:'',
-                    });
-                    setSelectedRole('');
-                }, 1000);
-            } else if (response.status === 500) {
-                alert("User already exists");
-
+            setConfirmDialogOpen(false);
+            setLoading(true);
+            const formDataToSend = new FormData();
+           
+            if(formData.part3===1){
+                formDataToSend.append("id", id);
+                formDataToSend.append('admin_remark', formData.admin_remark);
+                const response = await apiclient.post(apis.Tppaobspart4, formDataToSend)
+                if (response.status === 200) {
+    
+                    // Simulate a 3-second delay
+                    setTimeout(() => {
+                        // Set loading state back to false after the delay
+                        setLoading(false);
+                        // Show the success dialog
+                        setSuccessDialogOpen(true);
+    
+                        setFormData({
+                            SNo: '',
+    admin_remark:''
+                        });
+                        setSelectedRole('');
+                    }, 1000);
+                } else if (response.status === 500) {
+                    alert("User already exists");
+    
+                }
             }
-
-            else {
-                alert('Something went wrong');
+            else{
+                formDataToSend.append("id", id);
+                formDataToSend.append('pcmreview_catA', formData.pcmreview_cata);
+                formDataToSend.append('pcmnumber_catA', formData.pcmnumber_cata);
+                formDataToSend.append('pcmreview_catB', formData.pcmreview_catb);
+                formDataToSend.append('pcmnumber_catB', formData.pcmnumber_catb);
+                const response = await apiclient.post(apis.Tppaobspart2post, formDataToSend);
+                if (response.status === 200) {
+    
+                    // Simulate a 3-second delay
+                    setTimeout(() => {
+                        // Set loading state back to false after the delay
+                        setLoading(false);
+                        // Show the success dialog
+                        setSuccessDialogOpen(true);
+    
+                        setFormData({
+                            SNo: '',
+    
+                            attended_cat_a: '',
+                            date_attended_cat_a: '',
+                            cat_b_deficiencies: '',
+                            attended_cat_b: '',
+                            date_attended_cat_b: '',
+                        });
+                        setSelectedRole('');
+                    }, 1000);
+                } else if (response.status === 500) {
+                    alert("User already exists");
+    
+                }
             }
+            
+
         } catch (error) {
             console.error('Error submitting data:', error);
             toast.error('Something went wrong');
@@ -190,21 +137,21 @@ export const ViewFormthree = () => {
 
     useEffect(() => {
         async function fetchData2() {
-          try {
-            
-                       //const response = await apiClient.get(`/api/FormReports/Ttppaobservation/${id}`);
-            const response = await apiClient.get(`/api/TPPA_Obs/${id}`);
-            setFormData(response.data);
-    
-          } catch (error) {
-            console.error('Error fetching user data:', error);
-    
-          }
+            try {
+
+                //const response = await apiClient.get(`/api/FormReports/Ttppaobservation/${id}`);
+                const response = await apiClient.get(`/api/TPPA_Obs/${id}`);
+                setFormData(response.data);
+
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+
+            }
         }
         fetchData2();
-      }, [id]);
+    }, [id]);
 
-    
+
 
     return (
         <>
@@ -244,120 +191,129 @@ export const ViewFormthree = () => {
                                                         TPPA Observation
                                                     </h2>
                                                     <div className="mb-3">
-                                                        <Form onSubmit={handleSubmit}>
-                                                            <form className="ui form">
-                                                                <tbody>
-                                                                    <tr>
-                                                                        <td className="ui header">S.No</td>
-                                                                        <td>
-                                                                            <input className="form-control" type="text" placeholder="Serial no" value={formData.id} disabled />
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td className="ui header" >Station Name</td>
-                                                                        <td>
-                                                                            <input className="form-control" type="text" placeholder="Station Name"   value={formData.station_name} disabled />
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td className="ui header">KV Level</td>
-                                                                        <td>
-                                                                            <input className="form-control" type="text" placeholder="KV Level"  value={formData.kv_level} disabled/>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td className="ui header">Owner</td>
-                                                                        <td>
-                                                                            <input className="form-control" type="text" placeholder="Owner"  value={formData.owner} disabled/>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td className="ui header">Location</td>
-                                                                        <td>
-                                                                            <input className="form-control" type="text" placeholder="Location"  value={formData.location} disabled/>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td className="ui header">Planned Date of Audit</td>
-                                                                        <td>
-                                                                            <input className="form-control" type="text" placeholder="Planned Date of Audit"  value={formData.planned_date_of_audit} disabled />
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td className="ui header">Date of Audit</td>
-                                                                        <td>
-                                                                            <input className="form-control" type="text" placeholder="Date of Audit" value={formData.date_of_audit} disabled  />
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td className="ui header">Audit Entity</td>
-                                                                        <td>
-                                                                            <input className="form-control" type="text" placeholder="Audit Entity" value={formData.date_of_audit} disabled />
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td className="ui header">Reports</td>
-                                                                        <td>
-                                                                            {/* <input className="form-control" type="file" accept=".pdf" onChange={handleFileChange} placeholder="Reports" value={formData.reportpdfpath} disabled   /> */}
-                                                                            <Link className="form-control" to={`${BASE_URL+formData.reportpdfpath}`} ><PictureAsPdfIcon/></Link>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td className="ui header">Compliances</td>
-                                                                        <td>
-                                                                        <Link className="form-control" to={`${BASE_URL+formData.compliancesppath}`} ><PictureAsPdfIcon/></Link>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td className="ui header">Issues Observed</td>
-                                                                        <td>
-                                                                        <Link className="form-control" to={`${BASE_URL+formData.issues_observedpath}`} ><PictureAsPdfIcon/></Link>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td className="ui header">Remarks</td>
-                                                                        <td>
-                                                                            <input className="form-control" type="text" placeholder="Remarks" value={formData.remarks} disabled />
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td className="ui header">CAT A Deficiencies</td>
-                                                                        <td>
-                                                                            <input className="form-control" type="text" placeholder="CAT A Deficiencies" value={formData.cat_a_deficiencies} disabled />
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td className="ui header">Cat A Attended Y/N</td>
-                                                                        <td>
-                                                                            <input className="form-control" type="text" placeholder="" value={formData.attended_cat_a} disabled />
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td className="ui header">Cat A Date attended</td>
-                                                                        <td>
-                                                                            <input className="form-control" type="text" placeholder="Date attended" value={formData.date_attended_cat_a} disabled />
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td className="ui header">CAT B Deficiencies</td>
-                                                                        <td>
-                                                                            <input className="form-control" type="text" placeholder="CAT B Deficiencies" value={formData.cat_b_deficiencies} disabled />
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td className="ui header">Cat B Attended Y/N</td>
-                                                                        <td>
-                                                                            <input className="form-control" type="text" placeholder="CAT B ATTENDED"  value={formData.attended_cat_b} disabled />
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td className="ui header">Cat B Date attended</td>
-                                                                        <td>
-                                                                            <input className="form-control" type="text" placeholder="CAT B DATE ATTENDED" value={formData.date_attended_cat_b} disabled  />
-                                                                        </td>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </form>
+                                                        <Form className="ui form" onSubmit={handleSubmit}>
+
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td className="ui header">S.No</td>
+                                                                    <td>
+                                                                        <input className="form-control" type="text" placeholder="Serial no" value={formData.id} disabled />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className="ui header" >Station Name</td>
+                                                                    <td>
+                                                                        <input className="form-control" type="text" placeholder="Station Name" value={formData.station_name} disabled />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className="ui header">KV Level</td>
+                                                                    <td>
+                                                                        <input className="form-control" type="text" placeholder="KV Level" value={formData.kv_level} disabled />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className="ui header">Owner</td>
+                                                                    <td>
+                                                                        <input className="form-control" type="text" placeholder="Owner" value={formData.owner} disabled />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className="ui header">Location</td>
+                                                                    <td>
+                                                                        <input className="form-control" type="text" placeholder="Location" value={formData.location} disabled />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className="ui header">Planned Date of Audit</td>
+                                                                    <td>
+                                                                        <input className="form-control" type="text" placeholder="Planned Date of Audit" value={formData.planned_date_of_audit} disabled />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className="ui header">Date of Audit</td>
+                                                                    <td>
+                                                                        <input className="form-control" type="text" placeholder="Date of Audit" value={formData.date_of_audit} disabled />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className="ui header">Audit Entity</td>
+                                                                    <td>
+                                                                        <input className="form-control" type="text" placeholder="Audit Entity" value={formData.date_of_audit} disabled />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className="ui header">Reports</td>
+                                                                    <td>
+                                                                        {/* <input className="form-control" type="file" accept=".pdf" onChange={handleFileChange} placeholder="Reports" value={formData.reportpdfpath} disabled   /> */}
+                                                                        <Link className="form-control" to={`${BASE_URL + formData.reportpdfpath}`} ><PictureAsPdfIcon /></Link>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className="ui header">Compliances</td>
+                                                                    <td>
+                                                                        <Link className="form-control" to={`${BASE_URL + formData.compliancesppath}`} ><PictureAsPdfIcon /></Link>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className="ui header">Issues Observed</td>
+                                                                    <td>
+                                                                        <Link className="form-control" to={`${BASE_URL + formData.issues_observedpath}`} ><PictureAsPdfIcon /></Link>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className="ui header">Remarks</td>
+                                                                    <td>
+                                                                        <input className="form-control" type="text" placeholder="Remarks" value={formData.remarks} disabled />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className="ui header">CAT A Deficiencies</td>
+                                                                    <td>
+                                                                        <input className="form-control" type="text" placeholder="CAT A Deficiencies" value={formData.cat_a_deficiencies} disabled />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className="ui header">CAT B Deficiencies</td>
+                                                                    <td>
+                                                                        <input className="form-control" type="text" placeholder="CAT B Deficiencies" value={formData.cat_b_deficiencies} disabled />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className="ui header">PCM Review for Cat-A</td>
+                                                                    <td>
+                                                                        <input className="form-control" type="text" placeholder="PCM Review for Cat-a" value={formData.pcmreview_cata}
+                                                                            name="pcmreview_cata" onChange={handleChange}
+                                                                            disabled={formData.part3 === 1} />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className="ui header">PCM number for Cat-A</td>
+                                                                    <td>
+                                                                        <input className="form-control" type="text" placeholder="PCM number for Cat-A" value={formData.pcmnumber_cata} name="pcmnumber_cata" onChange={handleChange} disabled={formData.part3 === 1} />
+                                                                    </td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td className="ui header">PCM Review for Cat-B</td>
+                                                                    <td>
+                                                                        <input className="form-control" type="text" placeholder="PCM Review for Cat-b" value={formData.pcmreview_catb} name="pcmreview_catb" onChange={handleChange} disabled={formData.part3 === 1} />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className="ui header">PCM NUMBER for Cat-B</td>
+                                                                    <td>
+                                                                        <input className="form-control" type="text" placeholder="PCM NUMBER for Cat-B" value={formData.pcmnumber_catB} name="pcmnumber_catB" onChange={handleChange} disabled={formData.part3 === 1} />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className="ui header" hidden={formData.part3 != 1}>Admin Remark</td>
+                                                                    <td>
+                                                                        <input className="form-control" type="text" placeholder="Admin Remark" value={formData.admin_remark} name="admin_remark" onChange={handleChange} hidden={formData.part3 != 1} />
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+
 
 
                                                             <div
@@ -370,6 +326,7 @@ export const ViewFormthree = () => {
                                                                     type="submit"
                                                                     style={{ width: 100 }}
                                                                 >
+
                                                                     Submit
                                                                 </Button>
                                                             </div>

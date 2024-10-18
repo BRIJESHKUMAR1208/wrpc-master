@@ -614,7 +614,7 @@ export const ViewFormOne = () => {
                                                                     </td>
                                                                 </tr>
                                                                 
-                                                                <tr>
+                                                                {/* <tr>
                                                                     <td className="ui header">Action taken by utility to  allow complition</td>
                                                                     <td>
                                                                         <Form.Control
@@ -632,8 +632,8 @@ export const ViewFormOne = () => {
                                                                     <td>
                                                                         <span style={{ color: "red" }}>{formErrors.action_taken_by_utility_to_allow_completion}</span>
                                                                     </td>
-                                                                </tr>
-                                                                <tr>
+                                                                </tr> */}
+                                                                {/* <tr>
                                                                     <td className="ui header">Date on which attended</td>
                                                                     <td>
                                                                         <Form.Control
@@ -670,7 +670,7 @@ export const ViewFormOne = () => {
                                                                     <td>
                                                                         <span style={{ color: "red" }}>{formErrors.remarks}</span>
                                                                     </td>
-                                                                </tr>
+                                                                </tr> */}
                                                                 <tr>
                                                                     <td className="ui header">PCM Number</td>
                                                                     <td>
