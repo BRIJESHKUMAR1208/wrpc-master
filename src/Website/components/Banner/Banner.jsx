@@ -304,6 +304,7 @@ export const Banner = () => {
                                             rel="noopener noreferrer"
                                           >
                                             {item.u_news_tittle}
+                                            
                                           </a>
                                         )}
                                         {parseInt(item.u_contenttype) === 1 && (
