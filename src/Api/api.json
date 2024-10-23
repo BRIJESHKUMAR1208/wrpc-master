@@ -85,7 +85,8 @@
    "TPPA_Ob": "/api/TPPA_Obs" ,       
    "send_otp": "/api/ChangePassword/get_otp?email=" ,
    "varify_otp": "/api/ChangePassword/Verify_otp" ,
-   "new_password": "/api/ChangePassword/Generate_newpassword"
+   "new_password": "/api/ChangePassword/Generate_newpassword",
+   "Trippingcomplianceform1list":"/api/Tripping_compliance_pcm_discussions/form1list"
 
     
 }
