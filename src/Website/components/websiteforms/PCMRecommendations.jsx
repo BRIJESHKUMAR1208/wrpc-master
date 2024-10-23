@@ -1,61 +1,67 @@
+
 import React, { useState, useEffect } from "react";
 import { TopHeader } from "../TopHeader/TopHeader";
 import CmsDisplay from "../Header/CmsDisplay";
 import TextField from "@mui/material/TextField";
 import { MenuItem } from "@mui/material";
-import apiClient from "../../../Api/ApiClient";
-import apis from '../../../Api/api.json';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
 
 const PCMRecommendations = () => {
-  const [utilities, setUtilities] = useState([]);
-  const [pcm, setPcm] = useState([]);
-  const [selectedUtility, setSelectedUtility] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [utilities, setUtilities] = useState([]); // State for utilities
+  const [substations, setSubstations] = useState([]); // State for substations
+  const [utility, setUtility] = useState(null);
+  const [substation, setSubstation] = useState(null);
+  const [data, setData] = useState([]);
 
-  // Fetch utilities and PCM data from the API
+  // Fetch utilities from the API when the component mounts
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchUtilities = async () => {
       try {
-        // Replace with your actual API endpoints
-       // const utilityResponse = await fetch("API_URL_FOR_UTILITIES");
-        const utilityResponse = await apiClient.get(apis.relaysave);
-       // const pcmResponse = await fetch("API_URL_FOR_PCM");
-        const pcmResponse = await apiClient.get(apis.relaysave);
-
-        if (!utilityResponse.ok || !pcmResponse.ok) {
-          throw new Error("Failed to fetch data");
-        }
-
-        const utilityData = await utilityResponse.json();
-        const pcmData = await pcmResponse.json();
-
-        // Assuming the data structure is an array of objects with 'id' and 'label' or 'value'
-        setUtilities(utilityData);
-        setPcm(pcmData);
-        setLoading(false);
-      } catch (err) {
-        console.error("Error fetching data:", err);
-        setError(err.message);
-        setLoading(false);
+        const response = await fetch('http://localhost:5141/api/Tripping_compliance_pcm_discussions');
+        const result = await response.json();
+        setUtilities(result); // Assuming result is an array of utility objects
+      } catch (error) {
+        console.error("Error fetching utilities:", error);
       }
     };
-
-    fetchData();
+    fetchUtilities();
   }, []);
 
-  const handleUtilityChange = (event) => {
-    const utilityid = event.target.value;
-    setSelectedUtility(utilityid);
+  const handleUtility = async (event) => {
+    const selectedUtility = event.target.value;
+    setUtility(selectedUtility);
+    setSubstation(null); // Reset substation when utility changes
+    setData([]); // Clear data when utility changes
+
+    // Fetch substations based on the selected utility
+    try {
+      const  response = await fetch(`http://localhost:5141/api/Tripping_compliance_pcm_discussions/Form1listBypcmno/${selectedUtility}`);
+      const result = await response.json();
+      setSubstations(result); // Assuming result is an array of substation objects
+    } catch (error) {
+      console.error("Error fetching substations:", error);
+    }
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  const handleSubstation = (event) => {
+    const selectedSubstation = event.target.value;
+    setSubstation(selectedSubstation);
+    fetchData(utility, selectedSubstation); // Fetch data when substation is selected
+  };
 
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
+  const fetchData = async (utility, substation) => {
+    // Fetch data from API based on the selected utility and substation
+    try {
+      const response = await fetch(
+        `http://localhost:5141/api/Tripping_compliance_pcm_discussions/form1list?pcmno=${utility}&utility=${substation}`
+      );
+     // const response = await fetch(`http://localhost:5141/api/Tripping_compliance_pcm_discussions/form1list/${utility}/${substation}`);
+        const result = await response.json();
+      setData(result); // Assuming the response is an array of data
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
   return (
     <>
@@ -64,49 +70,85 @@ const PCMRecommendations = () => {
         <CmsDisplay />
         <main>
           <div className="container mt-4 vh-100">
-            <h1>PCM Meeting Recommendations and Compliance</h1>
+            <h1>Tripping Form Data</h1>
             <div className="date-sec row">
-              <div className="col-md-2">
+              <div className="col-md-5">
                 <TextField
-                  id="outlined-select-pcm"
+                  id="outlined-select-utility"
                   select
-                  label="PCM"
+                  label="PcmNo"
                   fullWidth
                   size="normal"
+                  value={utility}
+                  onChange={handleUtility}
                 >
-                  {pcm.map((item) => (
-                    <MenuItem key={item.id} value={item.value}>
-                      {item.value}
+                  {utilities.map((option) => (
+                    <MenuItem key={option.id} value={option.pcm_number}>
+                      {option.pcm_number}
                     </MenuItem>
                   ))}
                 </TextField>
               </div>
-              <div className="col-md-8">
+              <div className="col-md-5">
                 <TextField
-                  id="outlined-select-utility"
+                  id="outlined-select-substation"
                   select
                   label="Utility"
                   fullWidth
                   size="normal"
-                  value={selectedUtility}
-                  onChange={handleUtilityChange}
+                  value={substation}
+                  onChange={handleSubstation}
+                  disabled={!utility} // Disable if no utility is selected
                 >
-                  {utilities.map((item) => (
-                    <MenuItem key={item.id} value={item.label}>
-                      {item.label}
+                  {substations.map((option) => (
+                    <MenuItem key={option.pcm_number} value={option.utility_responsible_for_attending}>
+                      {option.utility_responsible_for_attending}
                     </MenuItem>
                   ))}
                 </TextField>
               </div>
             </div>
 
-            {selectedUtility ? (
-              <div>{selectedUtility.toUpperCase()}</div>
+            {utility && substation ? (
+              <div>
+                <h4>{utility} - {substation} Tripping form Files:</h4>
+                <TableContainer component={Paper}>
+                  <Table>
+                    <TableHead>
+                      <TableRow>
+                        
+                        <TableCell style={{ fontWeight: 'bold' }}>PCM Number</TableCell>
+                        <TableCell style={{ fontWeight: 'bold' }} >PCM Date</TableCell>
+                        <TableCell style={{ fontWeight: 'bold' }}>Item No(Heading)</TableCell>
+                        <TableCell style={{ fontWeight: 'bold' }}>Recommondation of PCM</TableCell>
+                        <TableCell style={{ fontWeight: 'bold' }}>Utility Responsible 
+                          For Attending</TableCell>
+                        <TableCell style={{ fontWeight: 'bold' }}>Action taken by utility to allow complition</TableCell>
+                        <TableCell style={{ fontWeight: 'bold' }}>Date on which attended</TableCell>
+                        <TableCell style={{ fontWeight: 'bold' }}>Remarks</TableCell>
+                        {/* Add more headers based on your data structure */}
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {data.map((item) => (
+                        <TableRow key={item.pcm_number}>
+                          <TableCell>{item.pcm_number}</TableCell>
+                          <TableCell>{item.pcm_date}</TableCell>
+                          <TableCell>{item.item_no_heading}</TableCell>
+                          <TableCell>{item.recommendation_of_pcm}</TableCell>
+                          <TableCell>{item.utility_responsible_for_attending}</TableCell>
+                          <TableCell>{item.action_taken_by_utility_to_allow_completion}</TableCell>
+                          <TableCell>{item.date_on_which_attended}</TableCell>
+                          <TableCell>{item.remarks}</TableCell>
+                          {/* Add more cells based on your data structure */}
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </div>
             ) : (
-              <p>
-                Please select a utility to view the PCM Meeting Recommendations
-                and Compliance
-              </p>
+              <div>Please select a Pcm number and  utility  to view  Tripping form  Files.</div>
             )}
           </div>
         </main>
@@ -116,3 +158,4 @@ const PCMRecommendations = () => {
 };
 
 export default PCMRecommendations;
+
