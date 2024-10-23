@@ -3,6 +3,7 @@ import { TopHeader } from "../TopHeader/TopHeader";
 import CmsDisplay from "../Header/CmsDisplay";
 import TextField from "@mui/material/TextField";
 import { MenuItem } from "@mui/material";
+import { CmsFooter } from "../Footer/CmsFooter";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
 
 const RelaySettingFiles = () => {
@@ -143,6 +144,7 @@ const RelaySettingFiles = () => {
               <div>Please select a utility and substation to view its Relay Setting Files.</div>
             )}
           </div>
+          <CmsFooter />
         </main>
       </div>
     </>
