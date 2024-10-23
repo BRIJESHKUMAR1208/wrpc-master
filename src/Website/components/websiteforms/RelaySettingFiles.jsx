@@ -1,35 +1,64 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { TopHeader } from "../TopHeader/TopHeader";
 import CmsDisplay from "../Header/CmsDisplay";
 import TextField from "@mui/material/TextField";
 import { MenuItem } from "@mui/material";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
 
 const RelaySettingFiles = () => {
+  const [utilities, setUtilities] = useState([]); // State for utilities
+  const [substations, setSubstations] = useState([]); // State for substations
+  const [utility, setUtility] = useState(null);
+  const [substation, setSubstation] = useState(null);
+  const [data, setData] = useState([]);
 
-    const utilities=[
-        {id:1, label:"MSETCL"},
-        {id:2, label:"MPPTCL"},
-        {id:3, label:"GETCO"},
-        {id:4, label:"CSPTCL"},
-        {id:5, label:"GED (Goa) "},
-        {id:6, label:"DD"},
-        {id:7, label:"DNH"},
-        {id:8, label:"GSECL"},
-        {id:9, label:"POWER GRID WR1"},
-        {id:10, label:"POWER GRID WR2"},
-        {id:11, label:"NTPC"},
-        {id:12, label:"KAPS 1&2 "},
-        {id:13, label:"KAPS 3&4 "},
-        {id:14, label:"TAPS 1&2 "},
-        {id:15, label:"TAPS 3&4"},
-    ];
+  // Fetch utilities from the API when the component mounts
+  useEffect(() => {
+    const fetchUtilities = async () => {
+      try {
+        const response = await fetch('http://localhost:5141/api/Relay/utility');
+        const result = await response.json();
+        setUtilities(result); // Assuming result is an array of utility objects
+      } catch (error) {
+        console.error("Error fetching utilities:", error);
+      }
+    };
+    fetchUtilities();
+  }, []);
 
-    const [utility, setutility]=useState(null);
+  const handleUtility = async (event) => {
+    const selectedUtility = event.target.value;
+    setUtility(selectedUtility);
+    setSubstation(null); // Reset substation when utility changes
+    setData([]); // Clear data when utility changes
 
-    const handleutility=(event)=>{
-        const utilityid=event.target.value;
-        setutility(utilityid);
+    // Fetch substations based on the selected utility
+    try {
+      const  response = await fetch(`http://localhost:5141/api/Relay/substation/${selectedUtility}`);
+      const result = await response.json();
+      setSubstations(result); // Assuming result is an array of substation objects
+    } catch (error) {
+      console.error("Error fetching substations:", error);
     }
+  };
+
+  const handleSubstation = (event) => {
+    const selectedSubstation = event.target.value;
+    setSubstation(selectedSubstation);
+    fetchData(utility, selectedSubstation); // Fetch data when substation is selected
+  };
+
+  const fetchData = async (utility, substation) => {
+    // Fetch data from API based on the selected utility and substation
+    try {
+      const response = await fetch(`http://localhost:5141/api/Relay/data/${utility}/${substation}`);
+        const result = await response.json();
+      setData(result); // Assuming the response is an array of data
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
   return (
     <>
       <div>
@@ -47,26 +76,72 @@ const RelaySettingFiles = () => {
                   fullWidth
                   size="normal"
                   value={utility}
-                  onChange={handleutility}
-                >{utilities.map((option) => (
-                    <MenuItem key={option.id} value={option.label}>
-                      {option.label}
+                  onChange={handleUtility}
+                >
+                  {utilities.map((option) => (
+                    <MenuItem key={option.id} value={option.utility}>
+                      {option.utility}
                     </MenuItem>
-                  ))}</TextField>
+                  ))}
+                </TextField>
               </div>
               <div className="col-md-5">
                 <TextField
-                  id="outlined-select-utility"
+                  id="outlined-select-substation"
                   select
                   label="Substation"
                   fullWidth
                   size="normal"
+                  value={substation}
+                  onChange={handleSubstation}
+                  disabled={!utility} // Disable if no utility is selected
                 >
+                  {substations.map((option) => (
+                    <MenuItem key={option.id} value={option.substation}>
+                      {option.substation}
+                    </MenuItem>
+                  ))}
                 </TextField>
               </div>
             </div>
 
-            {utility?(<div>{utility}</div>):(<div>Please select a utility to view its Relay Setting Files.</div>)}
+            {utility && substation ? (
+              <div>
+                <h4>{utility} - {substation} Relay Setting Files:</h4>
+                <TableContainer component={Paper}>
+                  <Table>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell style={{ fontWeight: 'bold' }}>S. No.</TableCell>
+                        <TableCell style={{ fontWeight: 'bold' }}>Substation</TableCell>
+                        <TableCell style={{ fontWeight: 'bold' }} >Utility</TableCell>
+                        <TableCell style={{ fontWeight: 'bold' }}>kV Level</TableCell>
+                        <TableCell style={{ fontWeight: 'bold' }}>Name of Element</TableCell>
+                        <TableCell style={{ fontWeight: 'bold' }}>Protection (M1/M2/Backup)</TableCell>
+                        <TableCell style={{ fontWeight: 'bold' }}>Admin Remark</TableCell>
+                        {/* Add more headers based on your data structure */}
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {data.map((item) => (
+                        <TableRow key={item.id}>
+                          <TableCell>{item.s_no}</TableCell>
+                          <TableCell>{item.substation}</TableCell>
+                          <TableCell>{item.utility}</TableCell>
+                          <TableCell>{item.kv_level}</TableCell>
+                          <TableCell>{item.name_of_element}</TableCell>
+                          <TableCell>{item.protection_typetext}</TableCell>
+                          <TableCell>{item.admin_remark}</TableCell>
+                          {/* Add more cells based on your data structure */}
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </div>
+            ) : (
+              <div>Please select a utility and substation to view its Relay Setting Files.</div>
+            )}
           </div>
         </main>
       </div>
