@@ -70,6 +70,7 @@ export const CmsFooter = () => {
                                     <a href={item.u_file} target="_blank">
                                       {item.u_tittle_name}
                                     </a>
+                                    
                                   )}
                                   {item.u_contenttype === 2 && (
                                     <Link to={`/footer/${item.u_id}`}>

@@ -31,7 +31,7 @@ export default function BannerTable() {
           width: 100,
           height:300,
           renderCell: (params) => (
-            <img src={params.row.imgpath} alt="Image" style={{ width: '100%', height: '100%' }} />
+            <img src={ apiClient.defaults.baseURL + params.row.imgpath} alt="Image" style={{ width: '100%', height: '100%' }} />
           ),
         },
         { field: "u_content", headerName: "Content data" },

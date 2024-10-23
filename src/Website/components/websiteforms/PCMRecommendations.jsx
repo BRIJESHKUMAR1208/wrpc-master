@@ -1,39 +1,60 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { TopHeader } from "../TopHeader/TopHeader";
 import CmsDisplay from "../Header/CmsDisplay";
 import TextField from "@mui/material/TextField";
 import { MenuItem } from "@mui/material";
+import apiClient from "../../../Api/ApiClient";
+import apis from '../../../Api/api.json';
 
 const PCMRecommendations = () => {
-  const utilities = [
-    { id: 1, label: "MSETCL" },
-    { id: 2, label: "MPPTCL" },
-    { id: 3, label: "GETCO" },
-    { id: 4, label: "CSPTCL" },
-    { id: 5, label: "GED (Goa) " },
-    { id: 6, label: "DD" },
-    { id: 7, label: "DNH" },
-    { id: 8, label: "RE Generators" },
-    { id: 9, label: "POWER GRID WR1" },
-    { id: 10, label: "POWER GRID WR2" },
-    { id: 11, label: "NTPC" },
-  ];
+  const [utilities, setUtilities] = useState([]);
+  const [pcm, setPcm] = useState([]);
+  const [selectedUtility, setSelectedUtility] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const pcm = [
-    { id: 1, value: "153" },
-    { id: 2, value: "154" },
-    { id: 3, value: "155" },
-    { id: 4, value: "156" },
-    { id: 5, value: "157" },
-    { id: 6, value: "158" },
-    { id: 7, value: "159" },
-  ];
+  // Fetch utilities and PCM data from the API
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Replace with your actual API endpoints
+       // const utilityResponse = await fetch("API_URL_FOR_UTILITIES");
+        const utilityResponse = await apiClient.get(apis.relaysave);
+       // const pcmResponse = await fetch("API_URL_FOR_PCM");
+        const pcmResponse = await apiClient.get(apis.relaysave);
 
-  const [selectedUtility, setSelectedUtility]=useState(null);
+        if (!utilityResponse.ok || !pcmResponse.ok) {
+          throw new Error("Failed to fetch data");
+        }
 
-  const handleUtilityChange=(event)=>{
-    const utilityid= event.target.value;
+        const utilityData = await utilityResponse.json();
+        const pcmData = await pcmResponse.json();
+
+        // Assuming the data structure is an array of objects with 'id' and 'label' or 'value'
+        setUtilities(utilityData);
+        setPcm(pcmData);
+        setLoading(false);
+      } catch (err) {
+        console.error("Error fetching data:", err);
+        setError(err.message);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleUtilityChange = (event) => {
+    const utilityid = event.target.value;
     setSelectedUtility(utilityid);
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
   }
 
   return (
@@ -43,11 +64,11 @@ const PCMRecommendations = () => {
         <CmsDisplay />
         <main>
           <div className="container mt-4 vh-100">
-            <h1>PCM Meeting Recommendations and compliance</h1>
+            <h1>PCM Meeting Recommendations and Compliance</h1>
             <div className="date-sec row">
               <div className="col-md-2">
                 <TextField
-                  id="outlined-select-utility"
+                  id="outlined-select-pcm"
                   select
                   label="PCM"
                   fullWidth
@@ -79,7 +100,14 @@ const PCMRecommendations = () => {
               </div>
             </div>
 
-            {selectedUtility? (<div>{selectedUtility.toUpperCase()}</div>):(<p>Please select a utility to view the PCM Meeting Recommendations and Compliance</p>)}
+            {selectedUtility ? (
+              <div>{selectedUtility.toUpperCase()}</div>
+            ) : (
+              <p>
+                Please select a utility to view the PCM Meeting Recommendations
+                and Compliance
+              </p>
+            )}
           </div>
         </main>
       </div>
