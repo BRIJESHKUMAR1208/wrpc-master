@@ -3,6 +3,7 @@ import { TopHeader } from "../TopHeader/TopHeader";
 import CmsDisplay from "../Header/CmsDisplay";
 import TextField from "@mui/material/TextField";
 import { MenuItem } from "@mui/material";
+import { BASE_URL } from "../../../Api/ApiFunctions";
 import { CmsFooter } from "../Footer/CmsFooter";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
 
@@ -17,7 +18,7 @@ const RelaySettingFiles = () => {
   useEffect(() => {
     const fetchUtilities = async () => {
       try {
-        const response = await fetch('http://localhost:5141/api/Relay/utility');
+        const response = await fetch(`${BASE_URL}/api/Relay/utility`);
         const result = await response.json();
         setUtilities(result); // Assuming result is an array of utility objects
       } catch (error) {
@@ -35,7 +36,7 @@ const RelaySettingFiles = () => {
 
     // Fetch substations based on the selected utility
     try {
-      const  response = await fetch(`http://localhost:5141/api/Relay/substation/${selectedUtility}`);
+      const  response = await fetch(`${BASE_URL}/api/Relay/substation/${selectedUtility}`);
       const result = await response.json();
       setSubstations(result); // Assuming result is an array of substation objects
     } catch (error) {
@@ -52,7 +53,7 @@ const RelaySettingFiles = () => {
   const fetchData = async (utility, substation) => {
     // Fetch data from API based on the selected utility and substation
     try {
-      const response = await fetch(`http://localhost:5141/api/Relay/data/${utility}/${substation}`);
+      const response = await fetch(`${BASE_URL}/api/Relay/data/${utility}/${substation}`);
         const result = await response.json();
       setData(result); // Assuming the response is an array of data
     } catch (error) {

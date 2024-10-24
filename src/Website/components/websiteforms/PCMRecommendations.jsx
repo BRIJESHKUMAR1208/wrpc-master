@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { TopHeader } from "../TopHeader/TopHeader";
 import CmsDisplay from "../Header/CmsDisplay";
+import { BASE_URL } from "../../../Api/ApiFunctions";
 import TextField from "@mui/material/TextField";
 import { MenuItem } from "@mui/material";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
@@ -17,7 +18,7 @@ const PCMRecommendations = () => {
   useEffect(() => {
     const fetchUtilities = async () => {
       try {
-        const response = await fetch('http://localhost:5141/api/Tripping_compliance_pcm_discussions');
+        const response = await fetch(`${BASE_URL}/api/Tripping_compliance_pcm_discussions`);
         const result = await response.json();
         setUtilities(result); // Assuming result is an array of utility objects
       } catch (error) {
@@ -35,7 +36,7 @@ const PCMRecommendations = () => {
 
     // Fetch substations based on the selected utility
     try {
-      const  response = await fetch(`http://localhost:5141/api/Tripping_compliance_pcm_discussions/Form1listBypcmno/${selectedUtility}`);
+      const  response = await fetch(`${BASE_URL}/api/Tripping_compliance_pcm_discussions/Form1listBypcmno/${selectedUtility}`);
       const result = await response.json();
       setSubstations(result); // Assuming result is an array of substation objects
     } catch (error) {
@@ -53,7 +54,7 @@ const PCMRecommendations = () => {
     // Fetch data from API based on the selected utility and substation
     try {
       const response = await fetch(
-        `http://localhost:5141/api/Tripping_compliance_pcm_discussions/form1list?pcmno=${utility}&utility=${substation}`
+        `${BASE_URL}/api/Tripping_compliance_pcm_discussions/form1list?pcmno=${utility}&utility=${substation}`
       );
      // const response = await fetch(`http://localhost:5141/api/Tripping_compliance_pcm_discussions/form1list/${utility}/${substation}`);
         const result = await response.json();

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { TopHeader } from "../TopHeader/TopHeader";
 import CmsDisplay from "../Header/CmsDisplay";
+import { BASE_URL } from "../../../Api/ApiFunctions";
 import { CmsFooter } from "../Footer/CmsFooter";
 import TextField from "@mui/material/TextField";
 import { MenuItem } from "@mui/material";
@@ -19,7 +20,7 @@ const Discrepancies = () => {
   useEffect(() => {
     const fetchSubstations = async () => {
       try {
-        const response = await fetch('http://localhost:5141/api/TPPA_Obs/stationname'); // Adjust the endpoint as necessary
+        const response = await fetch(`${BASE_URL}/api/TPPA_Obs/stationname`); // Adjust the endpoint as necessary
         const result = await response.json();
         setSubstations(result); // Assuming result is an array of substation objects
       } catch (error) {
@@ -38,11 +39,11 @@ const Discrepancies = () => {
 
     // Fetch observations for the selected substation
     try {
-      const responseA = await fetch(`http://localhost:5141/api/TPPA_Obs/data/${selectedSubstation}`);
+      const responseA = await fetch(`${BASE_URL}/api/TPPA_Obs/data/${selectedSubstation}`);
       const resultA = await responseA.json();
       setObservationsA(resultA); // Assuming result is an array of Category A observations
 
-      const responseB = await fetch(`http://localhost:5141/api/TPPA_Obs/data/${selectedSubstation}`);
+      const responseB = await fetch(`${BASE_URL}/api/TPPA_Obs/data/${selectedSubstation}`);
       const resultB = await responseB.json();
       setObservationsB(resultB); // Assuming result is an array of Category B observations
     } catch (error) {
@@ -67,7 +68,7 @@ const Discrepancies = () => {
   const fetchData = async (substation, observationA, observationB) => {
     // Fetch data from API based on the selected substation and observations
     try {
-      const response = await fetch(`http://localhost:5141/api/TPPA_Obs/category/${substation}/${observationA}/${observationB}`);
+      const response = await fetch(`${BASE_URL}/api/TPPA_Obs/category/${substation}/${observationA}/${observationB}`);
       const result = await response.json();
       setData(result); // Assuming the response is an array of data
     } catch (error) {
