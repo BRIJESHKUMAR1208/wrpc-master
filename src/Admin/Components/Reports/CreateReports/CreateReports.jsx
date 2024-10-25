@@ -86,12 +86,15 @@ export const CreateReports = () => {
 
     if (!formData.report_tittle) {
       errors.report_tittle = "Please enter report name";
-    } else if (
-      !/^[A-Za-z ]+$/.test(formData.report_tittle) &&
-      parseInt(formData.languagetype) == 1
-    ) {
-      errors.report_tittle = "Please input alphabet characters only";
-    } else if (
+    } 
+    //else if (
+    //   !/^[A-Za-z ]+$/.test(formData.report_tittle) &&
+    //   parseInt(formData.languagetype) == 1
+    // ) 
+    // {
+    //   errors.report_tittle = "Please input alphabet characters only";
+    // } 
+    else if (
       !/^[\u0900-\u097F\s]+$/.test(formData.report_tittle) &&
       parseInt(formData.languagetype) == 2
     ) {

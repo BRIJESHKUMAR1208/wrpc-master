@@ -102,6 +102,13 @@
     animation-fill-mode: both;
     border: 0;
     box-shadow: 0 5px 30px 0 rgba(82, 63, 105, 0.2);
+
+   /* Enable horizontal width expansion and text wrapping */
+  white-space: normal; /* Allow text to wrap */
+  width: auto; /* Automatically adjust width based on content */
+  min-width: 200px; /* Set a minimum width */
+  max-width: 100%; /* Prevent it from overflowing beyond the screen */
+  overflow: visible; /* Ensure content isn't clipped */
   }
   
   .dropdown-menu .dropdown-header,

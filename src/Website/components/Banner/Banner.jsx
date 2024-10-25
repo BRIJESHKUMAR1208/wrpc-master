@@ -303,7 +303,7 @@ export const Banner = () => {
                                             target="_blank"
                                             rel="noopener noreferrer"
                                           >
-                                            {item.u_news_tittle}
+                                            {item.u_link_tittle}
                                             
                                           </a>
                                         )}
