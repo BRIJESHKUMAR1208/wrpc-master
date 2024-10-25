@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { TopHeader } from "../TopHeader/TopHeader";
 import CmsDisplay from "../Header/CmsDisplay";
+import { CmsFooter } from "../Footer/CmsFooter";
 import { BASE_URL } from "../../../Api/ApiFunctions";
 import TextField from "@mui/material/TextField";
 import { MenuItem } from "@mui/material";
@@ -152,6 +153,7 @@ const PCMRecommendations = () => {
               <div>Please select a Pcm number and  utility  to view  Tripping form  Files.</div>
             )}
           </div>
+          <CmsFooter />
         </main>
       </div>
     </>

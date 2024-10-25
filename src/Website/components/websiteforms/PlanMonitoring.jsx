@@ -37,7 +37,7 @@ const PlanMonitoring = () => {
 
     // Fetch kv levels based on the selected station
     try {
-      const response = await fetch(`${BASE_URL}/api/TPPA_Plan_Monitoring/${selectedStation}`);
+      const response = await fetch(`${BASE_URL}/api/TPPA_Plan_Monitoring/kvlevel/${selectedStation}`);
       const result = await response.json();
       setKvLevels(result); // Assuming result is an array of kv level objects
     } catch (error) {
@@ -54,7 +54,10 @@ const PlanMonitoring = () => {
   const fetchData = async (station, kvLevel) => {
     // Fetch data from API based on the selected station and kv level
     try {
-      const response = await fetch(`${BASE_URL}/api/Relay/data/${station}/${kvLevel}`);
+      const response = await fetch(
+        `${BASE_URL}/api/TPPA_Plan_Monitoring/GetkvlevelStation?stationname=${station}&kvlevel=${kvLevel}`
+      );
+     // const response = await fetch(`${BASE_URL}/api/TPPA_Plan_Monitoring/data/${station}/${kvLevel}`);
       const result = await response.json();
       setData(result); // Assuming the response is an array of data
     } catch (error) {
@@ -100,8 +103,8 @@ const PlanMonitoring = () => {
                   disabled={!station} 
                 >
                   {kvLevels.map((option) => (
-                    <MenuItem key={option.id} value={option.kvLevel}>
-                      {option.kvLevel}
+                    <MenuItem key={option.sr_no} value={option.kv_level}>
+                      {option.kv_level}
                     </MenuItem>
                   ))}
                 </TextField>
@@ -115,25 +118,23 @@ const PlanMonitoring = () => {
                   <Table>
                     <TableHead>
                       <TableRow>
-                        <TableCell style={{ fontWeight: 'bold' }}>S. No.</TableCell>
-                        <TableCell style={{ fontWeight: 'bold' }}>Substation</TableCell>
-                        <TableCell style={{ fontWeight: 'bold' }} >Utility</TableCell>
+                      
+                        <TableCell style={{ fontWeight: 'bold' }}>Station Name</TableCell>
                         <TableCell style={{ fontWeight: 'bold' }}>kV Level</TableCell>
-                        <TableCell style={{ fontWeight: 'bold' }}>Name of Element</TableCell>
-                        <TableCell style={{ fontWeight: 'bold' }}>Protection (M1/M2/Backup)</TableCell>
-                        <TableCell style={{ fontWeight: 'bold' }}>Admin Remark</TableCell>
+                        <TableCell style={{ fontWeight: 'bold' }}>Planned date of Audit</TableCell>
+                        <TableCell style={{ fontWeight: 'bold' }}>Actual date of Audit</TableCell>
+                        <TableCell style={{ fontWeight: 'bold' }}>Remarks/Admin</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
                       {data.map((item) => (
-                        <TableRow key={item.id}>
-                          <TableCell>{item.s_no}</TableCell>
-                          <TableCell>{item.substation}</TableCell>
-                          <TableCell>{item.utility}</TableCell>
+                        <TableRow key={item.sr_no}>
+                        
+                          <TableCell>{item.station_name}</TableCell>
                           <TableCell>{item.kv_level}</TableCell>
-                          <TableCell>{item.name_of_element}</TableCell>
-                          <TableCell>{item.protection_typetext}</TableCell>
-                          <TableCell>{item.admin_remark}</TableCell>
+                          <TableCell>{item.planned_date_of_audit}</TableCell>
+                          <TableCell>{item.date_of_audit}</TableCell>
+                          <TableCell>{item.remarks}</TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
