@@ -30,8 +30,6 @@ export const Livestreaming = () => {
     const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
     const [loading, setLoading] = useState(false);
 
-
-
     const handleChange = (event) => {
         const { name, value } = event.target;
 
@@ -41,9 +39,6 @@ export const Livestreaming = () => {
             [name]: value,
         }));
     };
-
-
-
 
     const validateForm = () => {
         const errors = {};
