@@ -39,6 +39,11 @@ export const getBannerImg = async () => {
   const response = await axios.get(BASE_URL+ apis.getbannerimage);
   return response.data;
 };
+//+++++++++++++++++++++++++++++++++++++
+export const Getlivestreaming = async () => {
+  const response = await axios.get(BASE_URL+ apis.getlivestreaming);
+  return response.data;
+};
 //<==============================Get Banner imges===========================================>
 //<==============================Get Whats New===========================================>
 export const getwhatsnew = async () => {

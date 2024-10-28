@@ -218,8 +218,19 @@ const Sidebar = () => {
          
         </ul>
       </li>
-
-  
+      
+      <li class="nav-item">
+        <Link to='/livestreaming' class="nav-link collapsed" >
+          <i class="bi bi-person"></i>
+          <span>Live Streaming</span>
+        </Link>
+      </li>
+      <li class="nav-item">
+        <Link to='/streamingtable' class="nav-link collapsed" >
+          <i class="bi bi-person"></i>
+          <span>Live Streaming Data</span>
+        </Link>
+      </li>
        <li class="nav-item">
         <Link to='/banner' class="nav-link collapsed" >
           <i class="bi bi-person"></i>

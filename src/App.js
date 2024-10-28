@@ -16,7 +16,9 @@ import { Commerical } from "./Website/components/Commerical/Commerical";
 import CommericalData from "./Website/components/Commerical/CommericalData";
 import { Customepage } from "./Admin/Components/custom/custom.jsx";
 import CustomDetail from "./Website/components/Header/CustomDetail.jsx";
-import CustomTable from "./Admin/Components/custom/CustomTable.jsx"
+import CustomTable from "./Admin/Components/custom/CustomTable.jsx";
+import {Livestreaming} from "./Admin/Components/Banner/Livestreaming.jsx";
+import LivestreamingTable from "./Admin/Components/Banner/Livestreamingtable.jsx"
 //===================================================== admin==============================================================================
 import { CreateUser } from "./Admin/Components/User/CreateUser/CreateUser";
 import { Banner } from "./Admin/Components/Banner/Banner";
@@ -246,6 +248,8 @@ function App() {
                   <>
 
                     <Route path="/banner" element={<Banner />} />
+                    <Route path="/livestreaming" element={<Livestreaming />} />
+                    <Route path="/streamingtable" element={<LivestreamingTable />} />
                     <Route path="/slider" element={<Slider />} />
                     <Route path="/sitemap" element={<SiteMap />} />
                     <Route path="/dashboard" element={<HomeNew />} />

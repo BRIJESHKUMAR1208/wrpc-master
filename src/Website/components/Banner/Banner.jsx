@@ -7,7 +7,7 @@ import {
   getTender,
   getReport,
   getwhatsnew,
-  getMenuoptins, BASE_URL, getBannerImg
+  getMenuoptins, BASE_URL, getBannerImg, Getlivestreaming
 } from "../../../Api/ApiFunctions"; // Import Bootstrap JS
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
@@ -17,6 +17,7 @@ import TabPanel from "@mui/lab/TabPanel";
 
 export const Banner = () => {
   const [menudata, setMenuData] = useState([]);
+  const [streamingdata, setstreaming] = useState([]);
   const [selectedLanguage, setSelectedLanguage] = useState(1);
   const [value, setValue] = useState("1");
   const [showArchive, setShowArchive] = useState(false);
@@ -39,12 +40,12 @@ export const Banner = () => {
       const username = 'admin';
       const password = 'admin123';
       const encodedCredentials = btoa(`${username}:${password}`);
-     
+
       try {
         const linkData = await getLinks();
         //const linkData = await fetch('http://localhost:5141/api/whatsnew_post', requestOptions);
-       
-   
+
+
         const reportData = await getReport();
         const tenderData = await getTender();
         const whatsnewData = await getwhatsnew();
@@ -109,6 +110,8 @@ export const Banner = () => {
     async function fetchMenuData() {
       try {
         const data = await getBannerImg();
+        const Getstreamingdata = await Getlivestreaming();
+        setstreaming(Getstreamingdata);
         setMenuData(data);
       } catch (error) {
         console.error("Error fetching menu data:", error);
@@ -136,7 +139,7 @@ export const Banner = () => {
       {parseInt(selectedLanguage) === 1 ? (
         <>
           <section className="city_main_banner">
-           
+
             <div className="main-banner-slider">
               <h2>slider </h2>
 
@@ -181,206 +184,206 @@ export const Banner = () => {
                   </Slider>
                 </div>
                 <div class="col-md-4">
-                    <Box
-                      className="main-box1 "
-                      sx={{ width: "100%", typography: "body1" }}
-                      bgcolor={'#00000'}
-                    >
-                      <TabContext value={value}>
-                        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                          <TabList
-                            onChange={handleChange}
-                            aria-label="lab API tabs example"
-                          >
-                            <Tab
-                              label="News"
-                              value="1"
-                              className="custom-tab"
-                            />
-                            <Tab
-                              label="Latest Uploads"
-                              value="2"
-                              className="custom-tab"
-                            />
-                            <Tab
-                              label="Tenders"
-                              value="3"
-                              className="custom-tab"
-                            />
-                          </TabList>
-                        </Box>
-                        <TabPanel value="1" className="bg-light">
-                          {/* Content for Reports tab */}
+                  <Box
+                    className="main-box1 "
+                    sx={{ width: "100%", typography: "body1" }}
+                    bgcolor={'#00000'}
+                  >
+                    <TabContext value={value}>
+                      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                        <TabList
+                          onChange={handleChange}
+                          aria-label="lab API tabs example"
+                        >
+                          <Tab
+                            label="News"
+                            value="1"
+                            className="custom-tab"
+                          />
+                          <Tab
+                            label="Latest Uploads"
+                            value="2"
+                            className="custom-tab"
+                          />
+                          <Tab
+                            label="Tenders"
+                            value="3"
+                            className="custom-tab"
+                          />
+                        </TabList>
+                      </Box>
+                      <TabPanel value="1" className="bg-light">
+                        {/* Content for Reports tab */}
 
-                          <div
-                            className="marquee-container1 marquee1 "
-                            id="marqueeReports"
-                          >
-                            <ul className="marquee-list report-sec">
-                              {reportData.map((item) => (
-                                <li key={item.u_id}>
-                                  <div className="newsbox">
-                                    <div className="latest-news-date">
-                                      <p className="news-sec-datep">
-                                        {item.u_startdate}{" "}
-                                      </p>
-                                    </div>
-                                    <div className="ml-10">
-                                      <p class="news-p">
-                                        {parseInt(item.u_contenttype) === 2 && (
-                                          <Link
-                                            to={BASE_URL+ `/${item.u_file}`}
-                                            target="_blank"
-                                          >
-                                            {item.u_report_tittle}
-                                          </Link>
-                                        )}
-                                        {parseInt(item.u_contenttype) === 3 && (
-                                          <Link
-                                            to={item.u_internal_link}
-                                            style={{ textDecoration: "none" }}
-                                          >
-                                            {item.u_report_tittle}
-                                          </Link>
-                                        )}
-                                        {parseInt(item.u_contenttype) === 4 && (
-                                          <a
-                                            href={item.u_external_link}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                          >
-                                            {item.u_report_tittle}
-                                          </a>
-                                        )}
-                                        {parseInt(item.u_contenttype) === 1 && (
-                                          <Link to={`/menu/${item.u_menu_url}`}>
-                                            {item.u_report_tittle}
-                                          </Link>
-                                        )}
-                                      </p>
-                                    </div>
+                        <div
+                          className="marquee-container1 marquee1 "
+                          id="marqueeReports"
+                        >
+                          <ul className="marquee-list report-sec">
+                            {reportData.map((item) => (
+                              <li key={item.u_id}>
+                                <div className="newsbox">
+                                  <div className="latest-news-date">
+                                    <p className="news-sec-datep">
+                                      {item.u_startdate}{" "}
+                                    </p>
                                   </div>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        </TabPanel>
-                        <TabPanel value="2"className="bg-light">
-                          <div
-                            className="marquee-container1 marquee1"
-                            id="marqueeReports"
-                          >
-                            <ul className="marquee-list report-sec">
-                              {linkData.map((item) => (
-                                <li key={item.u_id}>
-                                  <div className="newsbox">
-                                    <div className="latest-news-date">
-                                      <p className="news-sec-datep">
-                                        {item.u_startdate}{" "}
-                                      </p>
-                                    </div>
-                                    <div className="ml-10">
-                                      <p class="news-p">
-                                        {parseInt(item.u_contenttype) === 2 && (
-                                          <Link
-                                            to={BASE_URL+ item.u_file}
-                                            target="_blank"
-                                          >
-                                            {item.u_news_tittle}
-                                          </Link>
-                                        )}
-                                        {parseInt(item.u_contenttype) === 3 && (
-                                          <Link
-                                            to={item.u_internal_link}
-                                            style={{ textDecoration: "none" }}
-                                          >
-                                            {item.u_news_tittle}
-                                          </Link>
-                                        )}
-                                        {parseInt(item.u_contenttype) === 4 && (
-                                          <a
-                                            href={item.u_external_link}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                          >
-                                            {item.u_link_tittle}
-                                            
-                                          </a>
-                                        )}
-                                        {parseInt(item.u_contenttype) === 1 && (
-                                          <Link to={`/menu/${item.u_menu_url}`}>
-                                            {item.u_link_tittle}
-                                          </Link>
-                                        )}
-                                      </p>
-                                    </div>
+                                  <div className="ml-10">
+                                    <p class="news-p">
+                                      {parseInt(item.u_contenttype) === 2 && (
+                                        <Link
+                                          to={BASE_URL + `/${item.u_file}`}
+                                          target="_blank"
+                                        >
+                                          {item.u_report_tittle}
+                                        </Link>
+                                      )}
+                                      {parseInt(item.u_contenttype) === 3 && (
+                                        <Link
+                                          to={item.u_internal_link}
+                                          style={{ textDecoration: "none" }}
+                                        >
+                                          {item.u_report_tittle}
+                                        </Link>
+                                      )}
+                                      {parseInt(item.u_contenttype) === 4 && (
+                                        <a
+                                          href={item.u_external_link}
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                        >
+                                          {item.u_report_tittle}
+                                        </a>
+                                      )}
+                                      {parseInt(item.u_contenttype) === 1 && (
+                                        <Link to={`/menu/${item.u_menu_url}`}>
+                                          {item.u_report_tittle}
+                                        </Link>
+                                      )}
+                                    </p>
                                   </div>
-                                </li>
-                              ))}
-                            </ul>
-                      
-                          </div>
-                        </TabPanel>
-                        <TabPanel value="3" className="bg-light">
-                          <div
-                            className="marquee-container1 marquee1"
-                            id="marqueeReports"
-                          >
-                            <ul className="marquee-list report-sec">
-                              {tenderData.map((item) => (
-                                <li key={item.u_id}>
-                                  <div className="newsbox">
-                                    <div className="latest-news-date">
-                                      <p className="news-sec-datep">
-                                        {item.u_startdate}{" "}
-                                      </p>
-                                    </div>
-                                    <div className="ml-10">
-                                      <p class="news-p">
-                                        {parseInt(item.u_contenttype) === 2 && (
-                                          <Link
-                                            to={BASE_URL+item.u_file}
-                                            target="_blank"
-                                          >
-                                            {item.u_tender_tittle}
-                                          </Link>
-                                        )}
-                                        {parseInt(item.u_contenttype) === 3 && (
-                                          <Link
-                                            to={item.u_internale_file}
-                                            style={{ textDecoration: "none" }}
-                                          >
-                                            {item.u_tender_tittle}
-                                          </Link>
-                                        )}
-                                        {parseInt(item.u_contenttype) === 4 && (
-                                          <a
-                                            href={item.u_external_file}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                          >
-                                            {item.u_tender_tittle}
-                                          </a>
-                                        )}
-                                        {parseInt(item.u_contenttype) === 1 && (
-                                          <Link to={`/menu/${item.u_menu_url}`}>
-                                            {item.u_tender_tittle}
-                                          </Link>
-                                        )}
-                                      </p>
-                                    </div>
+                                </div>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </TabPanel>
+                      <TabPanel value="2" className="bg-light">
+                        <div
+                          className="marquee-container1 marquee1"
+                          id="marqueeReports"
+                        >
+                          <ul className="marquee-list report-sec">
+                            {linkData.map((item) => (
+                              <li key={item.u_id}>
+                                <div className="newsbox">
+                                  <div className="latest-news-date">
+                                    <p className="news-sec-datep">
+                                      {item.u_startdate}{" "}
+                                    </p>
                                   </div>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        </TabPanel>
-                      </TabContext>
-                    </Box>
-                  </div>
+                                  <div className="ml-10">
+                                    <p class="news-p">
+                                      {parseInt(item.u_contenttype) === 2 && (
+                                        <Link
+                                          to={BASE_URL + item.u_file}
+                                          target="_blank"
+                                        >
+                                          {item.u_news_tittle}
+                                        </Link>
+                                      )}
+                                      {parseInt(item.u_contenttype) === 3 && (
+                                        <Link
+                                          to={item.u_internal_link}
+                                          style={{ textDecoration: "none" }}
+                                        >
+                                          {item.u_news_tittle}
+                                        </Link>
+                                      )}
+                                      {parseInt(item.u_contenttype) === 4 && (
+                                        <a
+                                          href={item.u_external_link}
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                        >
+                                          {item.u_link_tittle}
+
+                                        </a>
+                                      )}
+                                      {parseInt(item.u_contenttype) === 1 && (
+                                        <Link to={`/menu/${item.u_menu_url}`}>
+                                          {item.u_link_tittle}
+                                        </Link>
+                                      )}
+                                    </p>
+                                  </div>
+                                </div>
+                              </li>
+                            ))}
+                          </ul>
+
+                        </div>
+                      </TabPanel>
+                      <TabPanel value="3" className="bg-light">
+                        <div
+                          className="marquee-container1 marquee1"
+                          id="marqueeReports"
+                        >
+                          <ul className="marquee-list report-sec">
+                            {tenderData.map((item) => (
+                              <li key={item.u_id}>
+                                <div className="newsbox">
+                                  <div className="latest-news-date">
+                                    <p className="news-sec-datep">
+                                      {item.u_startdate}{" "}
+                                    </p>
+                                  </div>
+                                  <div className="ml-10">
+                                    <p class="news-p">
+                                      {parseInt(item.u_contenttype) === 2 && (
+                                        <Link
+                                          to={BASE_URL + item.u_file}
+                                          target="_blank"
+                                        >
+                                          {item.u_tender_tittle}
+                                        </Link>
+                                      )}
+                                      {parseInt(item.u_contenttype) === 3 && (
+                                        <Link
+                                          to={item.u_internale_file}
+                                          style={{ textDecoration: "none" }}
+                                        >
+                                          {item.u_tender_tittle}
+                                        </Link>
+                                      )}
+                                      {parseInt(item.u_contenttype) === 4 && (
+                                        <a
+                                          href={item.u_external_file}
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                        >
+                                          {item.u_tender_tittle}
+                                        </a>
+                                      )}
+                                      {parseInt(item.u_contenttype) === 1 && (
+                                        <Link to={`/menu/${item.u_menu_url}`}>
+                                          {item.u_tender_tittle}
+                                        </Link>
+                                      )}
+                                    </p>
+                                  </div>
+                                </div>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </TabPanel>
+                    </TabContext>
+                  </Box>
+                </div>
               </div>
             </div>
-        
+
           </section>
           <section class="notice-section">
             <div class="container">
@@ -395,10 +398,15 @@ export const Banner = () => {
                     <div class="marquee-container2">
                       <div class="marquee2">
                         <div class="dial">
-                          <div class="d1">
-                            <p id="test" behavior="alternate" direction="right" onmouseover="this.stop();" onmouseout="this.start();" scrollamount="3">
-                              <i class="fa-solid fa-bullhorn" ></i> &nbsp;	Shri P Dayanand, IAS, Chairman CSPC is the Chairperson of WRPC For the Year 2024-25
-                            </p>
+                          <div className="d1">
+                            {streamingdata.map((data) => (
+                              
+                              <marquee direction="right" behavior="alternate"  >
+                              <p key={data.id} className="marquee-text">
+                                <i className="fa-solid fa-bullhorn"></i> &nbsp; {data.titlename}
+                              </p>
+                              </marquee>
+                            ))}
                           </div>
                           {/* <div class="d2">
                             <p>
@@ -419,19 +427,19 @@ export const Banner = () => {
       ) : (
         <>
           <section className="city_main_banner">
-           
+
             <div className="main-banner-slider">
               <h2>slider </h2>
               <div className="row">
                 <div className="col-md-8">
-              <Slider {...settings}>
-                {menudata.map((item, index) => (
-                  <div key={index}>
-                    <figure className="overlay">
-                      <div className="video-container">
-                        <img src={BASE_URL + item.imgpath} alt={`Banner ${index + 1}`} />
-                      </div>
-                      <div className="banner_text">
+                  <Slider {...settings}>
+                    {menudata.map((item, index) => (
+                      <div key={index}>
+                        <figure className="overlay">
+                          <div className="video-container">
+                            <img src={BASE_URL + item.imgpath} alt={`Banner ${index + 1}`} />
+                          </div>
+                          {/* <div className="banner_text">
                         <div className="small_text animated">
                           पश्चिम क्षेत्रीय विद्युत् समिति में{" "}
                         </div>
@@ -454,77 +462,77 @@ export const Banner = () => {
                           </a>
                           </div>
                         </div>
+                      </div> */}
+                        </figure>
                       </div>
-                    </figure>
-                  </div>
-                ))}
-              </Slider>
-              </div>
-              <div class="col-md-4">
-                    <Box
-                      className="main-box1"
-                      sx={{ width: "100%", typography: "body1" }}
-                    >
-                      <TabContext value={value}>
-                        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                          <TabList
-                            onChange={handleChange}
-                            aria-label="lab API tabs example"
-                          >
-                            <Tab
-                              label="समाचार"
-                              value="1"
-                              className="custom-tab"
-                            />
-                            <Tab
-                              label="नवीनतम अपलोड"
-                              value="2"
-                              className="custom-tab"
-                            />
-                            <Tab
-                              label="निविदाओं"
-                              value="3"
-                              className="custom-tab"
-                            />
-                          </TabList>
-                        </Box>
-                        <TabPanel value="1" className="bg-light">
-                          <div
-                            className="marquee-container1 marquee1"
-                            id="marqueeReports"
-                          >
-                            <ul className="marquee-list report-sec">
-                              {reportData.map((item, index) =>
-                                parseInt(item.u_languagetype) ===
+                    ))}
+                  </Slider>
+                </div>
+                <div class="col-md-4">
+                  <Box
+                    className="main-box1"
+                    sx={{ width: "100%", typography: "body1" }}
+                  >
+                    <TabContext value={value}>
+                      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                        <TabList
+                          onChange={handleChange}
+                          aria-label="lab API tabs example"
+                        >
+                          <Tab
+                            label="समाचार"
+                            value="1"
+                            className="custom-tab"
+                          />
+                          <Tab
+                            label="नवीनतम अपलोड"
+                            value="2"
+                            className="custom-tab"
+                          />
+                          <Tab
+                            label="निविदाओं"
+                            value="3"
+                            className="custom-tab"
+                          />
+                        </TabList>
+                      </Box>
+                      <TabPanel value="1" className="bg-light">
+                        <div
+                          className="marquee-container1 marquee1"
+                          id="marqueeReports"
+                        >
+                          <ul className="marquee-list report-sec">
+                            {reportData.map((item, index) =>
+                              parseInt(item.u_languagetype) ===
                                 parseInt(selectedLanguage) ? (
-                                  <li key={index}>
-                                    <div className="newsbox">
-                                      <div className="latest-news-date">
-                                        <p className="news-sec-datep">
-                                          {item.u_startdate}
-                                        </p>
-                                        {/* <p className="news-sec-monthp">{item.month}</p>
+                                <li key={index}>
+                                  <div className="newsbox">
+                                    <div className="latest-news-date">
+                                      <p className="news-sec-datep">
+                                        {item.u_startdate}
+                                      </p>
+                                      {/* <p className="news-sec-monthp">{item.month}</p>
                   <p className="news-sec-yearp">{item.year}</p> */}
-                                      </div>
-                                      <div className="ml-10">
-                                        <p className="news-p">
-                                          {parseInt(item.u_contenttype) ===
-                                            2 && (
+                                    </div>
+                                    <div className="ml-10">
+                                      <p className="news-p">
+                                        {parseInt(item.u_contenttype) ===
+                                          2 && (
                                             <Link
-                                              to={BASE_URL+item.u_file}
+                                              to={BASE_URL + item.u_file}
                                               target="_blank"
                                             >
                                               {item.u_news_tittle}
                                             </Link>
                                           )}
-                                          {parseInt(item.u_contenttype) ===
-                                            3 && (
+                                        {parseInt(item.u_contenttype) ===
+                                          3 && (
                                             <Link to={item.u_internal_link}>
                                               {item.u_news_tittle}
                                             </Link>
                                           )}
-                                          {parseInt(item.u_contenttype) ===
-                                            4 && (
+                                        {parseInt(item.u_contenttype) ===
+                                          4 && (
                                             <a
                                               href={item.u_external_link}
                                               target="_blank"
@@ -533,59 +541,59 @@ export const Banner = () => {
                                               {item.u_news_tittle}
                                             </a>
                                           )}
-                                          {parseInt(item.u_contenttype) ===
-                                            1 && (
+                                        {parseInt(item.u_contenttype) ===
+                                          1 && (
                                             <Link
                                               to={`/menu/${item.u_menu_url}`}
                                             >
                                               {item.u_news_tittle}
                                             </Link>
                                           )}
-                                        </p>
-                                      </div>
+                                      </p>
                                     </div>
-                                  </li>
-                                ) : null
-                              )}
-                            </ul>
-                          </div>
-                        </TabPanel>
-                        <TabPanel value="2" className="bg-light">
-                          {/* Content for Links tab */}
-                          <div
-                            className="marquee-container1 marquee1"
-                            id="marqueeReports"
-                          >
-                            <ul className="marquee-list report-sec">
-                              {linkData.map((item, index) =>
-                                parseInt(item.u_languagetype) ===
+                                  </div>
+                                </li>
+                              ) : null
+                            )}
+                          </ul>
+                        </div>
+                      </TabPanel>
+                      <TabPanel value="2" className="bg-light">
+                        {/* Content for Links tab */}
+                        <div
+                          className="marquee-container1 marquee1"
+                          id="marqueeReports"
+                        >
+                          <ul className="marquee-list report-sec">
+                            {linkData.map((item, index) =>
+                              parseInt(item.u_languagetype) ===
                                 parseInt(selectedLanguage) ? (
-                                  <li key={index}>
-                                    <div className="newsbox">
-                                      <div className="latest-news-date">
-                                        <p className="news-sec-datep">
-                                          {item.u_startdate}
-                                        </p>
-                                      </div>
-                                      <div className="ml-10">
-                                        <p className="news-p">
-                                          {parseInt(item.u_contenttype) ===
-                                            2 && (
+                                <li key={index}>
+                                  <div className="newsbox">
+                                    <div className="latest-news-date">
+                                      <p className="news-sec-datep">
+                                        {item.u_startdate}
+                                      </p>
+                                    </div>
+                                    <div className="ml-10">
+                                      <p className="news-p">
+                                        {parseInt(item.u_contenttype) ===
+                                          2 && (
                                             <Link
-                                              to={BASE_URL+item.u_file}
+                                              to={BASE_URL + item.u_file}
                                               target="_blank"
                                             >
                                               {item.u_news_tittle}
                                             </Link>
                                           )}
-                                          {parseInt(item.u_contenttype) ===
-                                            3 && (
+                                        {parseInt(item.u_contenttype) ===
+                                          3 && (
                                             <Link to={item.u_internal_file}>
                                               {item.u_news_tittle}
                                             </Link>
                                           )}
-                                          {parseInt(item.u_contenttype) ===
-                                            4 && (
+                                        {parseInt(item.u_contenttype) ===
+                                          4 && (
                                             <a
                                               href={item.u_external_file}
                                               target="_blank"
@@ -594,59 +602,59 @@ export const Banner = () => {
                                               {item.u_news_tittle}
                                             </a>
                                           )}
-                                          {parseInt(item.u_contenttype) ===
-                                            1 && (
+                                        {parseInt(item.u_contenttype) ===
+                                          1 && (
                                             <Link
                                               to={`/menu/${item.u_menu_url}`}
                                             >
                                               {item.u_news_tittle}
                                             </Link>
                                           )}
-                                        </p>
-                                      </div>
+                                      </p>
                                     </div>
-                                  </li>
-                                ):null
-                              )}
-                            </ul>
-                          </div>
-                        </TabPanel>
-                        <TabPanel value="3" className="bg-light">
-                          {/* Content for Tenders tab */}
-                          <div
-                            className="marquee-container1 marquee1"
-                            id="marqueeReports"
-                          >
-                            <ul className="marquee-list report-sec">
-                              {tenderData.map((item, index) =>
-                                parseInt(item.u_languagetype) ===
+                                  </div>
+                                </li>
+                              ) : null
+                            )}
+                          </ul>
+                        </div>
+                      </TabPanel>
+                      <TabPanel value="3" className="bg-light">
+                        {/* Content for Tenders tab */}
+                        <div
+                          className="marquee-container1 marquee1"
+                          id="marqueeReports"
+                        >
+                          <ul className="marquee-list report-sec">
+                            {tenderData.map((item, index) =>
+                              parseInt(item.u_languagetype) ===
                                 parseInt(selectedLanguage) ? (
-                                  <li key={index}>
-                                    <div className="newsbox">
-                                      <div className="latest-news-date">
-                                        <p className="news-sec-datep">
-                                          {item.u_startdate}
-                                        </p>
-                                      </div>
-                                      <div className="ml-10">
-                                        <p className="news-p">
-                                          {parseInt(item.u_contenttype) ===
-                                            2 && (
+                                <li key={index}>
+                                  <div className="newsbox">
+                                    <div className="latest-news-date">
+                                      <p className="news-sec-datep">
+                                        {item.u_startdate}
+                                      </p>
+                                    </div>
+                                    <div className="ml-10">
+                                      <p className="news-p">
+                                        {parseInt(item.u_contenttype) ===
+                                          2 && (
                                             <Link
-                                              to={BASE_URL+ item.u_file}
+                                              to={BASE_URL + item.u_file}
                                               target="_blank"
                                             >
                                               {item.u_tender_tittl}
                                             </Link>
                                           )}
-                                          {parseInt(item.u_contenttype) ===
-                                            3 && (
+                                        {parseInt(item.u_contenttype) ===
+                                          3 && (
                                             <Link to={item.u_internal_file}>
                                               {item.u_tender_tittl}
                                             </Link>
                                           )}
-                                          {parseInt(item.u_contenttype) ===
-                                            4 && (
+                                        {parseInt(item.u_contenttype) ===
+                                          4 && (
                                             <a
                                               href={item.u_external_file}
                                               target="_blank"
@@ -655,30 +663,30 @@ export const Banner = () => {
                                               {item.u_tender_tittl}
                                             </a>
                                           )}
-                                          {parseInt(item.u_contenttype) ===
-                                            1 && (
+                                        {parseInt(item.u_contenttype) ===
+                                          1 && (
                                             <Link
                                               to={`/menu/${item.u_menu_url}`}
                                             >
                                               {item.u_tender_tittl}
                                             </Link>
                                           )}
-                                        </p>
-                                      </div>
+                                      </p>
                                     </div>
-                                  </li>
-                                ) : null
-                              )}
-                            </ul>
-                          </div>
-                        </TabPanel>
-                      </TabContext>
-                    </Box>
-                  </div>
+                                  </div>
+                                </li>
+                              ) : null
+                            )}
+                          </ul>
+                        </div>
+                      </TabPanel>
+                    </TabContext>
+                  </Box>
+                </div>
               </div>
-              </div>
-       
-            </section>
+            </div>
+
+          </section>
           <section class="notice-section">
             <div class="container">
               <div class="row pt-2">
@@ -701,11 +709,11 @@ export const Banner = () => {
                             </p>
                           </div>
                           <div class="d2">
-                            <p>
+                            {/* <p>
                               <i class="fa-solid fa-bullhorn"></i> &nbsp; पूरे
                               भारत में बिजली की शिकायतों के लिए '1912' डायल करें
                               और अधिक जानकारी के लिए 'ऊर्जा' ऐप डाउनलोड करें
-                            </p>
+                            </p> */}
                           </div>
                         </div>
                       </div>

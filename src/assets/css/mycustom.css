@@ -545,3 +545,16 @@ html {
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
     background-color: #fff;
 }
+.marquee-text {
+    display: inline-block;
+    animation: scroll 5s linear infinite;
+  }
+  .d1:hover .marquee-text {
+    animation-play-state: paused; /* Pauses on hover */
+  }
+  .d1 {
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+    padding: 10px;
+  }
