@@ -98,7 +98,8 @@ import {Form3part1} from './Website/components/Form3/obspart1.jsx';
 import Form3allpartsdata from './Website/components/websiteforms/Form3allpartstatus.jsx';
 import {Form3part3} from "./Website/components/Form3/obspart3.jsx";
 import {Form3part2} from "./Website/components/Form3/obspart2.jsx";
-import Form3part2list from "./Website/components/Form3/VIewform3part2list.jsx"
+import Form3part2list from "./Website/components/Form3/VIewform3part2list.jsx";
+import {Quicklinkmenu} from "./Website/components/Footer/Quicklinkmenu.jsx"
 
 function App() {
   const [sessionExpired, setSessionExpired] = useState(false);
@@ -212,6 +213,7 @@ function App() {
             <Route path="/menu/commerical/:id" element={<CommericalData />} />
             <Route path="/archive" element={<ArchiveComponent />} />
             {/* <Route path="/sitemap" element ={<SiteMap/>} /> */}
+            <Route path="/Quicklinkmenu" element={<Quicklinkmenu/>} />
             <Route path="/menu">
               
               <>
