@@ -201,11 +201,11 @@ export const CmsFooter = () => {
                             <div key={i.u_id}>
                               {/* {console.log(i, "hiiii")} */}
                               <p>{i.u_address}</p>
-                              <p>
+                              {/* <p>
                                 सोमवार से शनिवार सुबह 7 बजे से शाम 18 बजे तक
                                 खुला रखें या किसी विशेषज्ञ से बात करें{" "}
                                 {i.u_mobile_no} – 24/7 उपलब्ध
-                              </p>
+                              </p> */}
                             </div>
                           );
                         }

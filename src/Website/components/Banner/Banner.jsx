@@ -138,18 +138,18 @@ export const Banner = () => {
     <div>
       {parseInt(selectedLanguage) === 1 ? (
         <>
-          <section className="city_main_banner">
+          <section className="city_main_banner" >
 
             <div className="main-banner-slider">
               <h2>slider </h2>
 
-              <div className="row">
+              <div className="row" >
                 <div className="col-md-8">
                   <Slider {...settings}>
                     {menudata.map((item, index) => (
                       <div key={index}>
                         <figure className="overlay">
-                          <div className="video-container">
+                          <div className="video-container" style={{ minHeight: "500px" }}>
                             <img
                               src={BASE_URL + item.imgpath}
                               alt={`Banner ${index + 1}`}
@@ -183,11 +183,11 @@ export const Banner = () => {
                     ))}
                   </Slider>
                 </div>
-                <div class="col-md-4">
-                  <Box
+                <div class="col-md-4" >
+                  <Box  
                     className="main-box1 "
                     sx={{ width: "100%", typography: "body1" }}
-                    bgcolor={'#00000'}
+                    bgcolor={'#00000'} 
                   >
                     <TabContext value={value}>
                       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
