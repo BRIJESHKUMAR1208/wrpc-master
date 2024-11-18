@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Spinner, Alert } from "react-bootstrap";
 import apiClient from "../../../Api/ApiClient";
 import { TopHeader } from "../TopHeader/TopHeader";
+import CmsDisplay from "../Header/CmsDisplay"
 import CmsDisplayVertical from "../Header/CmsDisplayVertical";
 import { CmsFooter } from "../../components/Footer/CmsFooter";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
@@ -99,6 +100,7 @@ export const Quicklinkmenu = () => {
     <>
       <div>
         <TopHeader />
+<CmsDisplay/>
         <CmsDisplayVertical />
         <main>
         <CmsFooter />

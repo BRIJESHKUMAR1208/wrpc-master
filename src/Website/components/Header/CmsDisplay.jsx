@@ -8,7 +8,7 @@ import { Navbar, Nav, NavDropdown, Container } from "react-bootstrap";
 import apis from '../../../Api/api.json';
 
 const CmsDisplay = () => {
-  ;
+  
   const { id } = useParams();
   const [selectedLanguage, setSelectedLanguage] = useState();
   // const { fontSize } = useFontSize();

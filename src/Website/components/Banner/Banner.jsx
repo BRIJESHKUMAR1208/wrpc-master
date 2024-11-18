@@ -256,7 +256,10 @@ export const Banner = () => {
                                         </a>
                                       )}
                                       {parseInt(item.u_contenttype) === 1 && (
-                                        <Link to={`/menu/${item.u_menu_url}`}>
+                                        // <Link to={`/menu/${item.u_menu_url}`}>
+                                        //   {item.u_report_tittle}
+                                        // </Link>
+                                        <Link to={`#`}>
                                           {item.u_report_tittle}
                                         </Link>
                                       )}
@@ -311,9 +314,12 @@ export const Banner = () => {
                                         </a>
                                       )}
                                       {parseInt(item.u_contenttype) === 1 && (
-                                        <Link to={`/menu/${item.u_menu_url}`}>
-                                          {item.u_link_tittle}
-                                        </Link>
+                                        // <Link to={`/menu/${item.u_menu_url}`}>
+                                        //   {item.u_link_tittle}
+                                        // </Link>
+                                        <Link to={`#`}>
+                                        {item.u_link_tittle}
+                                      </Link>
                                       )}
                                     </p>
                                   </div>
@@ -366,9 +372,12 @@ export const Banner = () => {
                                         </a>
                                       )}
                                       {parseInt(item.u_contenttype) === 1 && (
-                                        <Link to={`/menu/${item.u_menu_url}`}>
-                                          {item.u_tender_tittle}
-                                        </Link>
+                                        // <Link to={`/menu/${item.u_menu_url}`}>
+                                        //   {item.u_tender_tittle}
+                                        // </Link>
+                                        <Link to={`#`}>
+                                        {item.u_tender_tittle}
+                                      </Link>
                                       )}
                                     </p>
                                   </div>

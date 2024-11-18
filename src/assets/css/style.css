@@ -7524,6 +7524,7 @@ nav.nav-menu .dropdown-menu a.dropdown-toggle:before {
     background-color: #8ca8c8;
     color: white;
 	border: 1px solid #333;
+	font-family: Arial, sans-serif;
 }
 
 .inner-sec table th {
@@ -7531,6 +7532,7 @@ nav.nav-menu .dropdown-menu a.dropdown-toggle:before {
     text-align: left;
 	border: 1px solid #333;
 	font-size: bolt;
+	font-family: Arial, sans-serif;
 }
 
 /* Body Cell Style */
@@ -7538,4 +7540,5 @@ nav.nav-menu .dropdown-menu a.dropdown-toggle:before {
     padding: 10px;
 	border: 1px solid #333;
 	color: #000;
+	font-family: Arial, sans-serif;
 }

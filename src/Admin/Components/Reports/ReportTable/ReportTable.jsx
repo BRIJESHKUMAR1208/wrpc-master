@@ -9,7 +9,7 @@ import {
     getReport,
     getwhatsnew,
     getMenuoptins, BASE_URL
-  } from "../../../../Api/ApiFunctions.jsx";
+} from "../../../../Api/ApiFunctions.jsx";
 //import {getReport} from "../../../Api/ApiFunctions";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Link } from 'react-router-dom';
@@ -38,17 +38,17 @@ export default function ReportTable() {
 
     const columns = [
         { field: "id", headerName: "S.No", width: 50 }
-       ,
-        { field: "u_report_tittle", headerName: "Title" ,width: 200},
-        { field: "u_startdate", headerName: "Start Date",width: 120 },
-        { field: "u_end_date", headerName: "End date",width: 120 },
-        { field: "u_file ", headerName: "File",width: 200 },
+        ,
+        { field: "u_report_tittle", headerName: "Title", width: 200 },
+        { field: "u_startdate", headerName: "Start Date", width: 120 },
+        { field: "u_end_date", headerName: "End date", width: 120 },
+        { field: "u_file ", headerName: "File", width: 200 },
         {
             field: "edit",
             headerName: "Edit",
             sortable: false,
             renderCell: (params) => (
-                <Link to={'/services/editreport/'+params.row.u_id}>
+                <Link to={'/services/editreport/' + params.row.u_id}>
                     <EditIcon style={{ cursor: 'pointer' }} />
                 </Link>
             ),
@@ -73,7 +73,7 @@ export default function ReportTable() {
 
     const handleConfirmSubmit = async () => {
         try {
-            await apiClient.delete("/api/Reports/delete/" + selectedItem.u_id);
+            await apiClient.post("/api/Reports/delete/" + selectedItem.u_id);
             setApiData((prevData) => prevData.filter((item) => item.u_id !== selectedItem.u_id));
             setIsDeleting(false);
             setModalMessage('Data deleted successfully');
@@ -91,11 +91,11 @@ export default function ReportTable() {
 
     useEffect(() => {
         async function fetchData() {
-            
+
             try {
                 const response = await apiClient.get(api.getreport);
                 //const response = await getReport();
-                const dataWithIds = response.data.map((row, index) => ({ id: index+1, ...row }));
+                const dataWithIds = response.data.map((row, index) => ({ id: index + 1, ...row }));
                 setApiData(dataWithIds);
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -106,40 +106,40 @@ export default function ReportTable() {
     }, []);
 
 
-    
+
     return (
         <div>
             <Header />
             <Sidebar />
             <main id="main" className="main">
                 <div className="pagetitle">
-                <div class="pagetitle-lft">
-                    <h1 className='maintitle'>All Report</h1>
-                    <nav>
-                        <ol className="breadcrumb">
-                            <li className="breadcrumb-item">Home</li>
-                            <li className="breadcrumb-item">Service</li>
-                            <li className="breadcrumb-item active">All Report </li>
-                        </ol>
-                    </nav>
-</div>
-<div class="pagetitle-rgt">
-      <Link to='/dashboard'>
-              <button type="button" class="btn btn-info">
-                Back
-              </button>
-            </Link>
-          </div>
+                    <div class="pagetitle-lft">
+                        <h1 className='maintitle'>All Report</h1>
+                        <nav>
+                            <ol className="breadcrumb">
+                                <li className="breadcrumb-item">Home</li>
+                                <li className="breadcrumb-item">Service</li>
+                                <li className="breadcrumb-item active">All Report </li>
+                            </ol>
+                        </nav>
+                    </div>
+                    <div class="pagetitle-rgt">
+                        <Link to='/dashboard'>
+                            <button type="button" class="btn btn-info">
+                                Back
+                            </button>
+                        </Link>
+                    </div>
                 </div>
                 <div className="header-box">
-                <div className="header-box-lft"> 
-                <h1 className="maintitle">Table</h1>
-                </div>
-                <div className="header-box-rgt">
-                    <Link to='/services/createreport'>
-                    <p><AddIcon/> New Report</p>
-                    </Link>
-                </div>
+                    <div className="header-box-lft">
+                        <h1 className="maintitle">Table</h1>
+                    </div>
+                    <div className="header-box-rgt">
+                        <Link to='/services/createreport'>
+                            <p><AddIcon /> New Report</p>
+                        </Link>
+                    </div>
                 </div>
                 <Box sx={{ height: 400, width: '100%' }}>
                     <DataGrid
@@ -159,7 +159,7 @@ export default function ReportTable() {
                     />
                 </Box>
             </main>
-            <Footer/>
+            <Footer />
             <Dialog open={confirmDialogOpen} onClose={handleCloseConfirmation}>
                 <DialogTitle>Confirm Delete</DialogTitle>
                 <DialogContent>
