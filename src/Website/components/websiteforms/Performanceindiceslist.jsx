@@ -16,101 +16,91 @@ import { DesktopDatePicker } from "@mui/x-date-pickers";
 
 export const PerformanceList = () => {
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [selectedYear, setSelectedYear] = useState(null);
   const [selectedMonth, setSelectedMonth] = useState(null);
   const [utilities, setUtilities] = useState([]);
   const [selectedUtility, setSelectedUtility] = useState(null);
 
+  // Fetch utilities when both year and month are selected
+  useEffect(() => {
+    const fetchUtilities = async () => {
+      if (selectedYear && selectedMonth) {
+        try {
+          const response = await apiClient.get(
+            `/api/PerformanceIndices/getyearmonth/${selectedYear}/${selectedMonth}`
+          );
+          const utilitiesData = response.data.map((row) => ({
+            value: row.id,
+            label: row.utilityname,
+          }));
+          setUtilities(utilitiesData);
+        } catch (error) {
+          setError("Error fetching utilities data");
+        }
+      }
+    };
+
+    // Only fetch utilities if both year and month are selected
+    if (selectedYear && selectedMonth) {
+      fetchUtilities();
+    }
+  }, [selectedYear, selectedMonth]); // Trigger when selectedYear or selectedMonth changes
+
+  // Handle Year change
   const handleYearChange = (date) => {
     if (date && date.isValid()) {
       setSelectedYear(date.year());
-      setSelectedMonth(null);
+      setSelectedMonth(null); // Reset month when year changes
+      setSelectedUtility(null); // Reset utility when year changes
     } else {
       setSelectedYear(null);
     }
   };
 
-  const minMonthDate =
-    selectedYear === "2023" ? dayjs("2023-10-01") : dayjs(`${selectedYear}-01-01`);
-    const maxMonthDate = selectedYear ? dayjs(`${selectedYear}-12-31`) : dayjs();
+  // Handle Month change
+  const handleMonthChange = (month) => {
+    if (month) {
+      setSelectedMonth(month.month() + 1); // Adjust month for API (0-based month)
+    }
+  };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await apiClient.get("/api/PerformanceIndices");
-        const utilitiesData = response.data.map((row) => ({
-          value: row.id, // Assuming utilityId is the identifier
-          label: row.utilityname, // Assuming utilityName is the name of the utility
-        }));
-        setUtilities(utilitiesData);
-      } catch (error) {
-        setError("Error fetching data");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
+  // Handle Utility change and fetch performance data
   const handleUtilityChange = async (event) => {
     const selectedUtilityId = event.target.value;
     setSelectedUtility(selectedUtilityId);
-    
-    try {
+
+    if (selectedYear && selectedMonth) {
       setLoading(true);
-      const response = await apiClient.get(`/api/PerformanceIndices/getperformance/${selectedUtilityId}`);
-      console.log(response.data); // Log the response data
-      const utilityData = response.data;
-      setData(utilityData); // Assuming the API returns the data you want to display
-    } catch (error) {
-      setError("Error fetching data for selected utility");
-    } finally {
-      setLoading(false);
+      try {
+        const response = await apiClient.get(
+          `/api/PerformanceIndices/getperformance/${selectedUtilityId}?year=${selectedYear}&month=${selectedMonth}`
+        );
+        setData(response.data); // Assuming the response data contains the correct performance data
+      } catch (error) {
+        setError("Error fetching performance data.");
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      setError("Please select both year and month before selecting a utility.");
     }
   };
-  
 
-  if (loading) return <Spinner animation="border" />;
-  if (error) return <Alert variant="danger">{error}</Alert>;
-
+  // Columns for the performance data table
   const columns = [
-    {
-      key: "ut",
-      label: "Utility",
-    },
-    {
-      key: "nc",
-      label: "Number of correct operations at internal power system faults (Nc)",
-    },
-    {
-      key: "nu",
-      label: "Number of unwanted operations (Nu)",
-    },
-    {
-      key: "nf",
-      label: "Number of failures to operate at internal power system faults (Nf)",
-    },
-    {
-      key: "ni",
-      label: "Number of incorrect operations (Ni=Nf+Nu)",
-    },
-    {
-      key: "d",
-      label: "The Dependability Index (D=Nc/(Nc+Nf))",
-    },
-    {
-      key: "s",
-      label: "The Security Index (S=Nc/(Nc+Nu))",
-    },
-    {
-      key: "r",
-      label: "The Reliability Index (R=Nc/(Nc+Ni))",
-    },
+    { key: "ut", label: "Utility" },
+    { key: "nc", label: "Number of correct operations at internal power system faults (Nc)" },
+    { key: "nu", label: "Number of unwanted operations (Nu)" },
+    { key: "nf", label: "Number of failures to operate at internal power system faults (Nf)" },
+    { key: "ni", label: "Number of incorrect operations (Ni=Nf+Nu)" },
+    { key: "d", label: "The Dependability Index (D=Nc/(Nc+Nf))" },
+    { key: "s", label: "The Security Index (S=Nc/(Nc+Nu))" },
+    { key: "r", label: "The Reliability Index (R=Nc/(Nc+Ni))" },
   ];
 
+  // Format the performance data
   const datas = data.map((item) => ({
     ut: item.utilityname,
     nc: item.correct_operation,
@@ -120,11 +110,6 @@ export const PerformanceList = () => {
     d: item.dependabilityindex,
     s: item.securityindex,
     r: item.reliabilityindex,
-    // ni: item.incorrect_operation,
-    // d: item.dependability_index,
-    // s: item.security_index,
-    // r: item.reliability_index,
-
   }));
 
   return (
@@ -149,7 +134,7 @@ export const PerformanceList = () => {
                         value={selectedYear ? dayjs(`${selectedYear}`) : null}
                         onChange={handleYearChange}
                         openTo="year"
-                       enableAccessibleFieldDOMStructure
+                        enableAccessibleFieldDOMStructure
                       />
                     </DemoContainer>
                   </LocalizationProvider>
@@ -163,10 +148,10 @@ export const PerformanceList = () => {
                       <DesktopDatePicker
                         views={["month"]}
                         label={"Month"}
-                        minDate={selectedYear === 2023 ? dayjs("2023-10-01") : minMonthDate}
-                        maxDate={maxMonthDate}
-                        value={selectedMonth ? dayjs(selectedMonth) : null}
-                        onChange={setSelectedMonth}
+                        minDate={selectedYear === 2023 ? dayjs("2023-10-01") : dayjs(`${selectedYear}-01-01`)}
+                        maxDate={dayjs(`${selectedYear}-12-31`)}
+                        value={selectedMonth ? dayjs(`${selectedYear}-${selectedMonth}-01`) : null}
+                        onChange={(date) => handleMonthChange(date)}
                         closeOnSelect={true}
                         openTo="month"
                         disabled={!selectedYear}
@@ -187,6 +172,7 @@ export const PerformanceList = () => {
                   value={selectedUtility}
                   onChange={handleUtilityChange}
                   size="normal"
+                  disabled={!selectedYear || !selectedMonth} // Disable if either year or month is not selected
                 >
                   {utilities.map((option) => (
                     <MenuItem key={option.value} value={option.value}>
@@ -197,7 +183,11 @@ export const PerformanceList = () => {
               </div>
             </div>
 
-            {selectedUtility ? (
+            {loading ? (
+              <Spinner animation="border" />
+            ) : error ? (
+              <Alert variant="danger">{error}</Alert>
+            ) : selectedUtility ? (
               <CSmartTable columns={columns} items={datas} />
             ) : (
               <p>Please select a utility to view the performance data.</p>

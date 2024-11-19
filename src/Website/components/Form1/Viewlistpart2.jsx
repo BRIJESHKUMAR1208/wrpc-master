@@ -16,12 +16,22 @@ const Form1part2list = () => {
     const fetchData = async () => {
       try {
         //const response = await fetch('${baser}/api/TrippingReport/Part1');
-        const response = await fetch(`${BASE_URL}/api/TrippingReport/Part1`);
+        //const response = await fetch(`${BASE_URL}/api/TrippingReport/Part1`);
+        const candidateId = localStorage.getItem('candidateId');
+        const response = await fetch(`${BASE_URL}/api/TrippingReport/getPart1/${candidateId}`);
         if (!response.ok) {
           throw new Error("Failed to fetch data");
         }
         const data = await response.json();
-        setTrippingData(data); // Set the API data to state
+        if (data.length === 0) {
+          // Redirect to dashboard if no data is found
+         // navigate("/dashboard");
+         alert("No record found");
+         window.location.replace("form1partsdata");
+        } else {
+          setTrippingData(data); // Set the API data to state
+        }
+        //setTrippingData(data); // Set the API data to state
       } catch (error) {
         setError(error.message);
       } finally {
