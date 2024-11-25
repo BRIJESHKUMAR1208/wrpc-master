@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Link, useParams } from 'react-router-dom';
 import JoditEditor from "jodit-react";
 import DialogActions from '@mui/material/DialogActions';
 import Alert from '@mui/material/Alert';
+import { BASE_URL } from '../../../../Api/ApiFunctions';
 import {
   Button,
   Snackbar,
@@ -33,7 +34,7 @@ export const EditMenu = () => {
   const [loading, setLoading] = useState(false);
   const [dropdownOptions, setDropdownOptions] = useState([]);
   const [formErrors, setFormErrors] = useState({});
-
+  const [filePath, setFilePath] = useState('');
 
   const config = useMemo(
     () => ({
@@ -43,7 +44,7 @@ export const EditMenu = () => {
   );
 
   const onChange = useCallback((html) => {
-   
+
     setContent(html);
   }, []);
 
@@ -62,11 +63,11 @@ export const EditMenu = () => {
     file: "",
     internal_link: "",
     external_link: "",
-    languagetype:'',
+    languagetype: '',
   });
 
   const [errors, setErrors] = useState({});
-
+  const editor = useRef(null);
   useEffect(() => {
     setFormData({
       menu_id: '',
@@ -79,7 +80,7 @@ export const EditMenu = () => {
       file: "",
       internal_link: "",
       external_link: "",
-      languagetype:'',
+      languagetype: '',
     });
   }, []);
 
@@ -116,7 +117,7 @@ export const EditMenu = () => {
         newErrors.file = 'Only PDF files are allowed';
       }
     }
-    
+
 
     // if (formData.ContentType === '1' && !html) {
     //   newErrors.html = 'HTML content is required';
@@ -130,8 +131,38 @@ export const EditMenu = () => {
   const handleImageChange = (event) => {
     const imageFile = event.target.files[0];
     setFile(imageFile);
-  };
 
+  };
+  const handleuploadpdf = async (event) => {
+    const imageFile = event.target.files[0];
+    if (imageFile && (imageFile.type === 'application/pdf' || imageFile.type === 'application/zip' || imageFile.type === 'application/x-zip-compressed')) {
+      setFile(imageFile);
+
+      const formDataToSend = new FormData();
+      formDataToSend.append('file', imageFile);
+      try {
+        const response = await apiClient.post('/api/TopMenu/uploadpdf', formDataToSend, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        const filePath = response.data.filepath;
+        setFilePath(filePath);
+        if (editor.current) {
+          const range = editor.current.selection.range;
+          editor.current.selection.insertHTML(`<a href="${filePath}">Download PDF</a>`);
+          const linkText = imageFile.type === 'application/pdf' ? 'Download PDF' : 'Open ZIP';
+          const target = imageFile.type === 'application/pdf' ? '' : 'target="_blank"';
+          editor.current.selection.insertHTML(
+            `<a href="${filePath}" ${target}>${linkText}</a>`
+          );
+
+        }
+      } catch (error) {
+        console.error('Error uploading PDF:', error);
+      }
+    }
+  };
   const handleInputChange = (event) => {
     const { name, value, type } = event.target;
 
@@ -179,12 +210,12 @@ export const EditMenu = () => {
         formDataToSend.append('html', content);
       }
 
-      const response = await apiClient.post("/api/TopMenu/put/"+ id, formDataToSend, {
+      const response = await apiClient.post("/api/TopMenu/put/" + id, formDataToSend, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
-     
+
       toast.success('Data saved successfully!');
       setModalMessage('Data saved successfully!');
       setFormData({
@@ -192,18 +223,18 @@ export const EditMenu = () => {
         ContentType: '',
         external_link: '',
         internal_link: '',
-  
+
         submenu_id: 0,
         file: '',
         html: '',
-        languagetype:'',
+        languagetype: '',
       });
       setSnackbarOpen(true);
     } catch (error) {
       if (error.response && error.response.status === 401) {
         toast.error('Unauthorized access. Please log in.');
       } else {
-      
+
         toast.error('Something Went Wrong!');
         console.error('Error saving/updating data:', error);
       }
@@ -249,26 +280,25 @@ export const EditMenu = () => {
 
 
       <div className="row justify-content-center">
-    
-        <div class="container-fluid bg-white" >
 
+        <div class="container-fluid bg-white"  >
           <div class="box-sec">
             <h1 className="text-center heading-main">Edit Data</h1>
 
             <div className="mb-3">
-                  <label className="form-label text-dark">Select a Language</label>
-                  <select
-                    className="form-select"
-                    name="languagetype"
-                    value={formData.languagetype}
-                    onChange={handleInputChange}
-                  >
-                    <option value="0">Select a Language</option>
-                    <option value="1">English</option>
-                    <option value="2">Hindi</option>
-                  </select>
-                  {errors.languagetype && <div className="text-danger">{errors.languagetype}</div>}
-                </div>
+              <label className="form-label text-dark">Select a Language</label>
+              <select
+                className="form-select"
+                name="languagetype"
+                value={formData.languagetype}
+                onChange={handleInputChange}
+              >
+                <option value="0">Select a Language</option>
+                <option value="1">English</option>
+                <option value="2">Hindi</option>
+              </select>
+              {errors.languagetype && <div className="text-danger">{errors.languagetype}</div>}
+            </div>
 
             {/* Input for Name */}
             <div className="mb-3">
@@ -280,7 +310,7 @@ export const EditMenu = () => {
                 name="menuname"
                 value={formData.menuname}
                 onChange={handleInputChange}
-         
+
               />
               {errors.MenuName && <div className="text-danger">{errors.MenuName}</div>}
             </div>
@@ -380,13 +410,37 @@ export const EditMenu = () => {
                 {errors.editorContent && <div className="text-danger">{errors.editorContent}</div>}
               </div>
             )}
+            <div className="mb-3">
+              <label className="form-label text-dark">Choose File</label>
+              <input
+                className="form-control"
+                type="file"
+                name="file"
+                accept=".pdf,.zip"
+                onChange={handleuploadpdf} // Handles both PDF and ZIP files
+              />
+              {errors.file && <div className="text-danger">{errors.file}</div>}
+            </div>
+
+            {/* Display link after file upload */}
+            {filePath && (
+              <div>
+                <a
+                  href={`${BASE_URL}${filePath}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+              {`${BASE_URL}${filePath}`}
+                </a>
+              </div>
+            )}
 
             {/* Submit Button */}
             <div className="btnsubmit">
               <button className="btn btn-primary" onClick={handleOpenConfirmation}>
                 Update
               </button>
-            
+
               <Dialog open={confirmDialogOpen} onClose={handleCloseConfirmation}>
                 <DialogTitle>Confirm Submit</DialogTitle>
                 <DialogContent>
@@ -416,10 +470,10 @@ export const EditMenu = () => {
                 onClose={() => setSnackbarOpen(false)}
               >
                 <Alert severity="success" onClose={() => setSnackbarOpen(false)}>
-                  Menu updated successfully.
+                  Data updated successfully.
                 </Alert>
               </Snackbar>
-              <ToastContainer/>
+              <ToastContainer />
             </div>
           </div>
         </div>

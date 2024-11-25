@@ -141,14 +141,16 @@ export default function CustomTable() {
                     <p><AddIcon/>New Whats New</p>
                     </Link>
                 </div> */}
+                
                 </div>
-                <Box sx={{ height: 400, width: '100%', backgroundColor: 'white' }}>
+                <Box sx={{ height: 500, width: '100%', backgroundColor: 'white' }}>
+                    
                 <div className="pagetitle-rgt">
                         <Link to='/cms/menu'>
-                        <button type="button"  class="btn btn-info" style={{color:'white', backgroundColor:'blue', marginRight:10}}>Add New</button>
+                        <button type="button"  class="btn btn-info" style={{color:'white', backgroundColor:'blue',width:100, marginRight:10,height:50}}>Add New</button>
                         </Link>
                         <Link to='/dashboard'>
-                        <button type="button"  class="btn btn-info" style={{color:'white', backgroundColor:'blue',width:90}}>Back</button>
+                        <button type="button"  class="btn btn-info" style={{color:'white', backgroundColor:'blue',width:100,height:50}}>Back</button>
                         </Link>
                     </div>
                     <DataGrid
@@ -157,11 +159,21 @@ export default function CustomTable() {
                         disableColumnFilter
                         disableColumnSelector
                         disableDensitySelector
-                        
+                        components={{
+                            Toolbar: GridToolbar,
+                        }}
+                        componentsProps={{
+                            toolbar: {
+                                showQuickFilter: true,
+                            },
+                        }}
                     />
                 </Box>
             </main>
+            <div style={{marginTop:10}}>
             <Footer/>
+            </div>
+          
             <Dialog open={confirmDialogOpen} onClose={handleCloseConfirmation}>
                 <DialogTitle>Confirm Delete</DialogTitle>
                 <DialogContent>
