@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { getContent } from "./getContent";
 import CmsDisplay from "../Header/CmsDisplay";
 import { CmsFooter } from "./CmsFooter";
-import { getMenuoptinsById } from "../../../Api/ApiFunctions";
+import { getMenuoptinsById ,getFooteroptinsById} from "../../../Api/ApiFunctions";
 import axios from "axios";
 import { TopHeader } from "../TopHeader/TopHeader";
 import { Errorfound } from "../error404/Errorfound";
@@ -23,7 +23,7 @@ import { Card, Container } from "@mui/material";
       setExtractedNumber(number);
       async function fetchMenuData() {
         try {
-          const data = await getMenuoptinsById(number);
+          const data = await getFooteroptinsById(number);
           setMenuData(data);
         } catch (error) {
           console.error('Error fetching menu data:', error);
@@ -44,9 +44,9 @@ import { Card, Container } from "@mui/material";
     <div>
       {getContent(
         Menuoptions.menu_id,
-        Menuoptions.menu_url,
-        Menuoptions.html,
-        Menuoptions.contenttype,
+        Menuoptions.u_menu_url,
+        Menuoptions.u_html,
+        Menuoptions.u_contenttype,
         Menuoptions.file,
         Menuoptions.internal_link,
         Menuoptions.external_link,
