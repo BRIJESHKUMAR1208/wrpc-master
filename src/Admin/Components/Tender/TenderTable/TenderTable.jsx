@@ -73,7 +73,7 @@ export default function TenderTable() {
     const handleConfirmSubmit = async () => {
         try {
             // await apiClient.delete(api.getwhatsnewbyid  + selectedItem.u_id);   Tenderbyid
-            await apiClient.delete("/api/Tenders/delete/"+ selectedItem.u_id);
+            await apiClient.post("/api/Tenders/delete/"+ selectedItem.u_id);
             setApiData((prevData) => prevData.filter((item) => item.u_id !== selectedItem.u_id));
             setIsDeleting(false);
             setModalMessage('Data deleted successfully');

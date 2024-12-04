@@ -192,7 +192,7 @@ const Sidebar = () => {
         <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
             <Link to='/services/allwhatsnew' >
-              <i class="bi bi-circle"></i><span>Create Latest update</span>
+              <i class="bi bi-circle"></i><span>Create Latest Uploads</span>
             </Link>
           </li>
           <li activeClassName="active">
@@ -202,12 +202,12 @@ const Sidebar = () => {
           </li>
           <li>
             <Link to='/services/allreport' >
-              <i class="bi bi-circle"></i><span>Create Report</span>
+              <i class="bi bi-circle"></i><span>Create News</span>
             </Link>
           </li>
           <li>
             <Link to='/services/alllink' >
-              <i class="bi bi-circle"></i><span>Create Links</span>
+              <i class="bi bi-circle"></i><span>Latest News</span>
             </Link>
           </li>
           <li>

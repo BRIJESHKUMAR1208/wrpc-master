@@ -146,63 +146,55 @@ const LatestNews = () => {
         <CmsDisplay selectedLanguage={selectedLanguage}/>
       <div>
         {parseInt(selectedLanguage)===1 ? (
-            <section>
-          <div>
-            <div>
-              <div>
-                <h4 className="m-4 text-center">Latest News</h4>
-                <div class="news-list marquee-container marquee h-100">
-                  <ul>
-                    {/* {console.log(whatsnewData)} */}
-                    {whatsnewData.map((item) => (
-                      // Checki both content type and language type
-
-                      <li key={item.u_id} className="border-bottom border-success p-2 m-2">
-                        <div class="newsbox">
-                          <div class="latest-news-date">
-                            <p class="news-sec-datep">{item.u_startdate}</p>
-                          </div>
-                          <div class="ml-10">
-                            <p class="news-p">
-                              {parseInt(item.u_contenttype) === 2 && (
-                                <a
-                                  href={BASE_URL + `/${item.u_file}`}
-                                  target="_blank"
-                                >
-                                  {item.u_news_tittle}
-                                </a>
-                              )}
-                              {parseInt(item.u_contenttype) === 3 && (
-                                <Link
-                                  to={item.u_internale_file}
-                                  style={{ textDecoration: "none" }}
-                                >
-                                  {item.u_news_tittle}
-                                </Link>
-                              )}
-                              {parseInt(item.u_contenttype) === 4 && (
-                                <a href={item.u_external_file} target="_blank">
-                                  {item.u_news_tittle}
-                                </a>
-                              )}
-                              {parseInt(item.u_contenttype) === 1 && (
-                                <Link to={`/menu/${item.u_menu_url}`}>
-                                  {item.u_news_tittle}
-                                </Link>
-                              )}
-                            </p>
-                          </div>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-          </section>
+           <section className="news-section-box">
+           <div>
+             <div>
+               <div>
+                 <h3 className="m-4 text-center">Latest News</h3>
+                 <div className="news-list marquee-container marquee h-100">
+                   <ul>
+                     {reportData.map((item) => (
+                       <li key={item.u_id} className="border-bottom border-success p-2 m-2">
+                         <div className="newsbox">
+                           <div className="latest-news-date">
+                             <p className="news-sec-datep">{item.u_startdate}</p>
+                           </div>
+                           <div className="ml-10">
+                             <p className="news-p">
+                               {parseInt(item.u_contenttype) === 2 && (
+                                 <a href={BASE_URL + `/${item.filepdfpath}`} target="_blank">
+                                   {item.u_report_tittle}
+                                 </a>
+                               )}
+                               {parseInt(item.u_contenttype) === 3 && (
+                                 <Link to={item.u_internale_file} style={{ textDecoration: "none" }}>
+                                   {item.u_report_tittle}
+                                 </Link>
+                               )}
+                               {parseInt(item.u_contenttype) === 4 && (
+                                 <a href={item.u_external_file} target="_blank">
+                                   {item.u_report_tittle}
+                                 </a>
+                               )}
+                               {parseInt(item.u_contenttype) === 1 && (
+                                 <Link to={`/menu/${item.u_menu_url}`}>
+                                   {item.u_report_tittle}
+                                 </Link>
+                               )}
+                             </p>
+                           </div>
+                         </div>
+                       </li>
+                     ))}
+                   </ul>
+                 </div>
+               </div>
+             </div>
+           </div>
+         </section>
+         
         ) : (
-            <section>
+            <section className="news-section-box">
           <div>
             <div>
               <h4 className="text-center m-4">ताजा खबर</h4>

@@ -306,10 +306,10 @@ export const CreateTender = () => {
                           onChange={handleInputChange}
                         >
                           <option value="">Select a content type</option>
-                          <option value="4">External</option>
-                          <option value="3">Internal</option>
+                          {/* <option value="4">External</option>
+                          <option value="3">Internal</option> */}
                           <option value="2">File</option>
-                          <option value="1">HTML</option>
+                          {/* <option value="1">HTML</option> */}
                         </select>
                         {errors.contenttype && (
                           <div className="text-danger">{errors.contenttype}</div>

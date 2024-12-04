@@ -7,7 +7,7 @@ import {
   getTender,
   getReport,
   getwhatsnew,
-  getMenuoptins, BASE_URL, getBannerImg, Getlivestreaming
+  getMenuoptins,getLatestuploads, BASE_URL, getBannerImg, Getlivestreaming
 } from "../../../Api/ApiFunctions"; // Import Bootstrap JS
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
@@ -42,10 +42,10 @@ export const Banner = () => {
       const encodedCredentials = btoa(`${username}:${password}`);
 
       try {
-        const linkData = await getLinks();
+       // const linkData = await getLinks();lastestuploads
         //const linkData = await fetch('http://localhost:5141/api/whatsnew_post', requestOptions);
 
-
+        const linkData = await getLatestuploads();
         const reportData = await getReport();
         const tenderData = await getTender();
         const whatsnewData = await getwhatsnew();
@@ -232,7 +232,7 @@ export const Banner = () => {
                                     <p class="news-p">
                                       {parseInt(item.u_contenttype) === 2 && (
                                         <Link
-                                          to={BASE_URL + `/${item.u_file}`}
+                                          to={BASE_URL + `/${item.filepdfpath}`}
                                           target="_blank"
                                         >
                                           {item.u_report_tittle}
@@ -259,7 +259,7 @@ export const Banner = () => {
                                         // <Link to={`/menu/${item.u_menu_url}`}>
                                         //   {item.u_report_tittle}
                                         // </Link>
-                                        <Link to={`#`}>
+                                        <Link  to={`/menu/${item.u_menu_url}`}>
                                           {item.u_report_tittle}
                                         </Link>
                                       )}
@@ -277,49 +277,55 @@ export const Banner = () => {
                           id="marqueeReports"
                         >
                           <ul className="marquee-list report-sec">
-                            {linkData.map((item) => (
+                            {linkData.map((item,subMenuItem) => (
                               <li key={item.u_id}>
                                 <div className="newsbox">
                                   <div className="latest-news-date">
                                     <p className="news-sec-datep">
-                                      {item.u_startdate}{" "}
+                                      {item.createddate}{" "}
                                     </p>
                                   </div>
                                   <div className="ml-10">
                                     <p class="news-p">
-                                      {parseInt(item.u_contenttype) === 2 && (
+                                      {parseInt(item.u_content_type) === 2 && (
                                         <Link
                                           to={BASE_URL + item.u_file}
                                           target="_blank"
                                         >
-                                          {item.u_news_tittle}
+                                          {item.u_menu_name}
                                         </Link>
                                       )}
-                                      {parseInt(item.u_contenttype) === 3 && (
+                                      {parseInt(item.u_content_type) === 3 && (
                                         <Link
                                           to={item.u_internal_link}
                                           style={{ textDecoration: "none" }}
                                         >
-                                          {item.u_news_tittle}
+                                          {item.u_menu_name}
                                         </Link>
                                       )}
-                                      {parseInt(item.u_contenttype) === 4 && (
+                                      {parseInt(item.u_content_type) === 4 && (
                                         <a
                                           href={item.u_external_link}
                                           target="_blank"
                                           rel="noopener noreferrer"
                                         >
-                                          {item.u_link_tittle}
+                                          {item.u_menu_name}
 
                                         </a>
                                       )}
-                                      {parseInt(item.u_contenttype) === 1 && (
+                                      {parseInt(item.u_content_type) === 1 && (
                                         // <Link to={`/menu/${item.u_menu_url}`}>
                                         //   {item.u_link_tittle}
                                         // </Link>
-                                        <Link to={`#`}>
-                                        {item.u_link_tittle}
-                                      </Link>
+                                        <Link
+                to={"/menu/" + item.u_menu_url}
+                className="dropdown-item"
+              >
+                {item.u_menu_name}
+              </Link>
+                                      //   <Link to={`#`}>
+                                      //   {item.u_menu_name}
+                                      // </Link>
                                       )}
                                     </p>
                                   </div>
@@ -348,7 +354,7 @@ export const Banner = () => {
                                     <p class="news-p">
                                       {parseInt(item.u_contenttype) === 2 && (
                                         <Link
-                                          to={BASE_URL + item.u_file}
+                                          to={BASE_URL + item.filepdfpath}
                                           target="_blank"
                                         >
                                           {item.u_tender_tittle}

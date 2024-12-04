@@ -92,6 +92,12 @@ export const getReport = async () => {
   const response = await axios.get(BASE_URL+ apis.getreport,requestOptions);
   return response.data;
 };
+
+export const getLatestuploads = async () => {
+  
+  const response = await axios.get(BASE_URL+ apis.getlatestnews);
+  return response.data;
+};
 //<==============================Get report===========================================>
 //<==============================Get report===========================================>
 export const Relaysave = async (formData) => {

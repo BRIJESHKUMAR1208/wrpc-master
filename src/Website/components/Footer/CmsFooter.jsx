@@ -99,7 +99,7 @@ export const CmsFooter = () => {
                     </div>
                   </div>
 
-                  <div class="col-md-3 col-sm-3">
+                  {/* <div class="col-md-3 col-sm-3">
                     <div class="widget_list">
                       <h4 class="widget_title">Explore</h4>
                       <div class="widget_service">
@@ -118,7 +118,7 @@ export const CmsFooter = () => {
                         </ul>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
                 {/* <div class="widget_copyright"> */}
                 <div class="row widget_copyright">

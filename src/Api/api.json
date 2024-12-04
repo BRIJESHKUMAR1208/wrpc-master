@@ -11,6 +11,7 @@
     "getlink":"/api/Link",
     "getreport":"/api/Reports",
     "gettender":"/api/Tenders",
+    "getlatestnews":"/api/TopMenu/lastestuploads",
     "getmenuSubmenu":"/api/TopMenu/MenuSubmenuList/",
     "Relaysave":"/api/Relay",
     "performance":"/api/PerformanceIndices",

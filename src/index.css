@@ -1545,3 +1545,11 @@ background-color: #2d79bd;
   justify-content: space-between;
   display: flex;
 }
+
+.news-section-box {
+  border: 2px solid black; /* Green border color */
+  border-radius: 8px; /* Rounded corners */
+  padding: 20px;
+  margin: 20px;
+  background-color: white; /* Light background */
+}

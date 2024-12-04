@@ -40,7 +40,13 @@ export default function MenuSubMenuTable() {
         { field: "u_menu_name", headerName: "Title", width: 200 },
         { field: "u_internal_link", headerName: "Internal Link", width: 120 },
         { field: "u_external_link", headerName: "External Link", width: 120 },
-        { field: "u_menu_url ", headerName: "Menu Url", width: 200 },
+        {
+            field: "menuUrl",
+            headerName: "Menu Url",
+            width: 200,
+            valueGetter: (params) => `/menu/${params.row.u_menu_url || ""}`,
+          },
+        //{ field: "u_menu_url", headerName: "Menu Url", width: 200 },
         {
             field: "edit",
             headerName: "Edit",

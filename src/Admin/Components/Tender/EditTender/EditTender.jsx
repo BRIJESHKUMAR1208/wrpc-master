@@ -43,10 +43,10 @@ export const EditTender = () => {
   const [editingItemId, setEditingItemId] = useState(null);
 
   const optionsData = [
-    { id: 4, label: 'External Link' },
-    { id: 3, label: 'Internal Link' },
+    // { id: 4, label: 'External Link' },
+    // { id: 3, label: 'Internal Link' },
     { id: 2, label: 'File' },
-    { id: 1, label: 'HTML' },  // Updated label
+   // { id: 1, label: 'HTML' },  // Updated label
   ];
   const config = useMemo(
     () => ({
