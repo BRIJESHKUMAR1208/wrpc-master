@@ -1,14 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import CmsDisplay from '../components/Header/CmsDisplay'
 import { Banner } from '../components/Banner/Banner';
-
-
 import { CmsFooter } from '../components/Footer/CmsFooter';
-
-
 import { TopHeader } from '../components/TopHeader/TopHeader';
-
-
 import { Services } from '../components/Services/Services';
 import  Slider  from '../components/Slider/Slider';
 import { Link, useNavigate } from 'react-router-dom';

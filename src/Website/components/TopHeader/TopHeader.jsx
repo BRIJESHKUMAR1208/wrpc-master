@@ -386,7 +386,7 @@ export const TopHeader = ({ selectedLanguage, handleLanguageChange }) => {
                         <img src={swatchBarath} alt="" />
                       </div> */}
                       <div class="rgt-two">
-                        <h6>Site Under Construction</h6>
+                        {/* <h6>Site Under Construction</h6> */}
                       </div>
                       <div class="rgt-three">
                         <img src={G20} alt="" />
