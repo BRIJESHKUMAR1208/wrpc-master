@@ -24,6 +24,7 @@ export const CreateTender = () => {
   const [dropdownOptions, setDropdownOptions] = useState([]);
   const [successDialogOpen, setSuccessDialogOpen] = useState(false);
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
+  const[loading,setLoading]=useState(false);
 
   const config = useMemo(
     () => ({
@@ -170,6 +171,7 @@ export const CreateTender = () => {
     // Close the confirmation dialog
     setConfirmDialogOpen(false);
     if (validateForm()) {
+      setLoading(true);
       try {
         const formDataToSend = new FormData();
         formDataToSend.append('tender_tittle', formData.tender_tittle);
@@ -211,6 +213,9 @@ export const CreateTender = () => {
       } catch (error) {
         console.error('Error saving data:', error);
         toast.error('Something went wrong');
+      }
+      finally{
+        setLoading(false);
       }
     }
   };
@@ -418,7 +423,7 @@ export const CreateTender = () => {
                         )}
                       </div>
                       <div className="btnsubmit">
-                        <button className="btn btn-primary" onClick={handleSubmit}>
+                        <button className="btn btn-primary" onClick={handleSubmit} disabled={loading}>
                           Submit
                         </button>
 

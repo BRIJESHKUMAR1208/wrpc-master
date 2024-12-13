@@ -137,7 +137,7 @@ export const EditMenu = () => {
     const imageFile = event.target.files[0];
     if (imageFile && (imageFile.type === 'application/pdf' || imageFile.type === 'application/zip' || imageFile.type === 'application/x-zip-compressed')) {
       setFile(imageFile);
-
+      setLoading(true);
       const formDataToSend = new FormData();
       formDataToSend.append('file', imageFile);
       try {
@@ -160,6 +160,9 @@ export const EditMenu = () => {
         }
       } catch (error) {
         console.error('Error uploading PDF:', error);
+      }
+      finally {
+        setLoading(false); // Stop the loader
       }
     }
   };
@@ -191,7 +194,7 @@ export const EditMenu = () => {
 
   const handleConfirmSubmit = async () => {
     handleCloseConfirmation();
-
+    setLoading(true);
     try {
       const formDataToSend = new FormData();
       formDataToSend.append('menuname', formData.menuname);
@@ -238,6 +241,9 @@ export const EditMenu = () => {
         toast.error('Something Went Wrong!');
         console.error('Error saving/updating data:', error);
       }
+    }
+    finally {
+      setLoading(false); // Stop the loader
     }
   };
   useEffect(() => {
@@ -417,7 +423,8 @@ export const EditMenu = () => {
                 type="file"
                 name="file"
                 accept=".pdf,.zip"
-                onChange={handleuploadpdf} // Handles both PDF and ZIP files
+                onChange={handleuploadpdf}
+                disabled={loading} // Handles both PDF and ZIP files
               />
               {errors.file && <div className="text-danger">{errors.file}</div>}
             </div>
@@ -437,7 +444,7 @@ export const EditMenu = () => {
 
             {/* Submit Button */}
             <div className="btnsubmit">
-              <button className="btn btn-primary" onClick={handleOpenConfirmation}>
+              <button className="btn btn-primary" onClick={handleOpenConfirmation} disabled={loading}>
                 Update
               </button>
 

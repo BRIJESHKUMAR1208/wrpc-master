@@ -30,7 +30,7 @@ export const CreateFooterDec = () => {
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   const [snackbarOpen, setSnackbarOpen] = useState(false);
-
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     tittle_name: '',
     description: '',
@@ -106,7 +106,7 @@ export const CreateFooterDec = () => {
 
   const handleConfirmSubmit = async () => {
     handleCloseConfirmation();
-
+setLoading(true);
     try {
       const formDataToSend = new FormData();
       formDataToSend.append('tittle_name', formData.tittle_name);
@@ -132,6 +132,9 @@ export const CreateFooterDec = () => {
       });
     } catch (error) {
       console.error('Error saving data:', error);
+    }
+    finally{
+      setLoading(false);
     }
   };
 
@@ -222,6 +225,7 @@ export const CreateFooterDec = () => {
             <button
               className="btn btn-primary"
               onClick={handleOpenConfirmation}
+              disabled={loading}
             >
               Submit
             </button>

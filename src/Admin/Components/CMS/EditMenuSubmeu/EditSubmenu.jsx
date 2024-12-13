@@ -143,34 +143,46 @@ export const EditSubmenu = () => {
   };
   const handleuploadpdf = async (event) => {
     const imageFile = event.target.files[0];
-    if (imageFile && (imageFile.type === 'application/pdf' || imageFile.type === 'application/zip' || imageFile.type === 'application/x-zip-compressed')) {
+    if (
+      imageFile &&
+      (imageFile.type === 'application/pdf' ||
+        imageFile.type === 'application/zip' ||
+        imageFile.type === 'application/x-zip-compressed')
+    ) {
       setFile(imageFile);
+      setLoading(true); // Start the loader
 
       const formDataToSend = new FormData();
       formDataToSend.append('file', imageFile);
+
       try {
         const response = await apiClient.post('/api/TopMenu/uploadpdf', formDataToSend, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
         });
+
         const filePath = response.data.filepath;
         setFilePath(filePath);
+
         if (editor.current) {
-          const range = editor.current.selection.range;
-          editor.current.selection.insertHTML(`<a href="${filePath}">Download PDF</a>`);
           const linkText = imageFile.type === 'application/pdf' ? 'Download PDF' : 'Open ZIP';
           const target = imageFile.type === 'application/pdf' ? '' : 'target="_blank"';
           editor.current.selection.insertHTML(
             `<a href="${filePath}" ${target}>${linkText}</a>`
           );
-
         }
       } catch (error) {
         console.error('Error uploading PDF:', error);
+        setErrors({ file: 'Error uploading file. Please try again.' });
+      } finally {
+        setLoading(false); // Stop the loader
       }
+    } else {
+      setErrors({ file: 'Invalid file type. Only PDF and ZIP files are allowed.' });
     }
   };
+
   const handleInputChange = (event) => {
     setSubMenu(event.target.value)
     setSelectedRole(event.target.value);
@@ -204,7 +216,7 @@ export const EditSubmenu = () => {
 
   const handleConfirmSubmit = async () => {
     handleCloseConfirmation();
-
+    setLoading(true);
     try {
       const formDataToSend = new FormData();
       formDataToSend.append('menuname', formData.menuname);
@@ -239,6 +251,9 @@ export const EditSubmenu = () => {
         toast.error('Something Went Wrong!');
         console.error('Error saving/updating data:', error);
       }
+    }
+    finally {
+      setLoading(false); // Stop the loader
     }
   };
   useEffect(() => {
@@ -437,35 +452,48 @@ export const EditSubmenu = () => {
                 {errors.editorContent && <div className="text-danger">{errors.editorContent}</div>}
               </div>
             )}
-            <div className="mb-3">
-              <label className="form-label text-dark">Choose File</label>
-              <input
-                className="form-control"
-                type="file"
-                name="file"
-                accept=".pdf,.zip"
-                onChange={handleuploadpdf} // Handles both PDF and ZIP files
-              />
-              {errors.file && <div className="text-danger">{errors.file}</div>}
-            </div>
-
-            {/* Display link after file upload */}
-            {filePath && (
-              <div>
-                <a
-                  href={`${BASE_URL}${filePath}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {`${BASE_URL}${filePath}`}
-                </a>
+            <div>
+              <div className="mb-3">
+                <label className="form-label text-dark">Choose File</label>
+                <input
+                  className="form-control"
+                  type="file"
+                  name="file"
+                  accept=".pdf,.zip"
+                  onChange={handleuploadpdf} // Handles both PDF and ZIP files
+                  disabled={loading} // Disable input while loading
+                />
+                {errors.file && <div className="text-danger">{errors.file}</div>}
               </div>
-            )}
+
+              {/* Show spinner while loading */}
+              {loading && (
+                <div className="d-flex align-items-center">
+                  <div className="spinner-border text-primary me-2" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                  </div>
+                  <span>Uploading, please wait...</span>
+                </div>
+              )}
+
+              {/* Display link after file upload */}
+              {filePath && (
+                <div className="mt-3">
+                  <a
+                    href={`${BASE_URL}${filePath}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {`Download File: ${BASE_URL}${filePath}`}
+                  </a>
+                </div>
+              )}
+            </div>
 
 
             {/* Submit Button */}
             <div className="btnsubmit">
-              <button className="btn btn-primary" onClick={handleOpenConfirmation}>
+              <button className="btn btn-primary" onClick={handleOpenConfirmation} disabled={loading}>
                 Submit
               </button>
               <Dialog open={confirmDialogOpen} onClose={handleCloseConfirmation}>

@@ -36,8 +36,7 @@ export default function TenderTable() {
     const [modalMessage, setModalMessage] = useState('');
 
     const columns = [
-        { field: "u_id", headerName: "S.No", width: 50 }
-       ,
+        { field: "u_id", headerName: "S.No", width: 50 },
         { field: "u_tender_tittle", headerName: "Title" ,width: 200},
         { field: "u_startdate", headerName: "Start Date",width: 120 },
         { field: "u_end_date", headerName: "End date",width: 120 },

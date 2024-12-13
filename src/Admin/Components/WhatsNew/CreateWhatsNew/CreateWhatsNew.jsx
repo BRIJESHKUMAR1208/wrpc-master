@@ -25,7 +25,7 @@ export const CreateWhatsNew = () => {
   const [prevContentType, setPrevContentType] = useState('');
   const [successDialogOpen, setSuccessDialogOpen] = useState(false);
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);        
-
+const[loading,setLoading]=useState(false);
 
   const [formData, setFormData] = useState({
     news_title: '',  // Corrected typo in the field name
@@ -205,6 +205,7 @@ export const CreateWhatsNew = () => {
 
 
     if (validateForm()) {
+      setLoading(true);
       try {
         const formDataToSend = new FormData();
         formDataToSend.append('news_title', formData.news_title);
@@ -247,6 +248,9 @@ export const CreateWhatsNew = () => {
         toast.error('Something Went Wrong!');
         console.error('Error saving/updating data:', error);
       }
+      finally{
+        setLoading(false);
+      };
     }
   };
 
@@ -442,7 +446,7 @@ export const CreateWhatsNew = () => {
                 </div>
 
                 <div className="btnsubmit">
-                  <button className="btn btn-primary" onClick={handleSubmit}>
+                  <button className="btn btn-primary" onClick={handleSubmit} disabled={loading}>
                     Update
                   </button>
                  

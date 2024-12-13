@@ -37,6 +37,7 @@ export const CreateFooterData = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [dropdownOptions, setDropdownOptions] = useState([]);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const config = useMemo(
     () => ({
       readonly: false
@@ -160,7 +161,7 @@ export const CreateFooterData = () => {
   const handleConfirmSubmit = async () => {
     handleCloseConfirmation();
     validateForm();
-
+setLoading(true);
     try {
       const formDataToSend = new FormData();
       formDataToSend.append('tittle_name', formData.tittle_name);
@@ -205,6 +206,9 @@ export const CreateFooterData = () => {
         toast.error('Something Went Wrong!');
         console.error('Error saving/updating data:', error);
       }
+    }
+    finally{
+      setLoading(false);
     }
   };
   useEffect(() => {
@@ -388,7 +392,7 @@ export const CreateFooterData = () => {
 
           {/* Submit Button */}
           <div className="btnsubmit">
-            <button className="btn btn-primary" onClick={handleOpenConfirmation}>
+            <button className="btn btn-primary" onClick={handleOpenConfirmation} disabled={loading}>
               Submit
             </button>
           

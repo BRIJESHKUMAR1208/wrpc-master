@@ -99,7 +99,7 @@ export const CreateUser=()=> {
     setConfirmDialogOpen(false);
     // Set loading state to true
     setLoading(true);
-
+    setLoading(true);
     try {
       const formDataToSend = {
         ...formData,
@@ -136,6 +136,9 @@ export const CreateUser=()=> {
       console.error('Error submitting data:', error);
       toast.error('Something went wrong');
       setLoading(false);
+    }
+    finally {
+      setLoading(false); // Stop the loader
     }
   };
 
@@ -338,6 +341,7 @@ export const CreateUser=()=> {
                                     variant="primary"
                                     type="submit"
                                     style={{ width: 100 }}
+                                    disabled={loading}
                                   >
                                     Submit
                                   </Button>

@@ -30,7 +30,7 @@ export const CreateReports = () => {
   const [dropdownOptions, setDropdownOptions] = useState([]);
   const [successDialogOpen, setSuccessDialogOpen] = useState(false);
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
-
+const[loading,setLoading]=useState(false);
   const config = useMemo(
     () => ({
       readonly: false,
@@ -184,6 +184,7 @@ export const CreateReports = () => {
   const handleDeleteConfirm = async () => {
     setConfirmDialogOpen(false);
     if (validateForm()) {
+      setLoading(true);
       try {
         const formDataToSend = new FormData();
         formDataToSend.append("report_tittle", formData.report_tittle);
@@ -225,6 +226,9 @@ export const CreateReports = () => {
       } catch (error) {
         console.error("Error saving data:", error);
         toast.error("Something Went Wrong!");
+      }
+      finally{
+        setLoading(false);
       }
     }
   };
@@ -466,6 +470,7 @@ export const CreateReports = () => {
                         <button
                           className="btn btn-primary"
                           onClick={handleSubmit}
+                          disabled={loading}
                         >
                           Submit
                         </button>

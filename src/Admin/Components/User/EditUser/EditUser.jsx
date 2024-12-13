@@ -99,7 +99,7 @@ export const EditUser=()=> {
     setConfirmDialogOpen(false);
     // Set loading state to true
     setLoading(true);
-
+setLoading(true);
     try {
       const formDataToSend = {
         ...formData,
@@ -123,6 +123,9 @@ export const EditUser=()=> {
     } catch (error) {
       console.error('Error submitting data:', error);
       toast.error('Something went wrong');
+      setLoading(false);
+    }
+    finally{
       setLoading(false);
     }
   };
@@ -267,13 +270,13 @@ export const EditUser=()=> {
                               </Form.Group>
 
                               <div id="button" className="d-flex " style={{ justifyContent: "space-between" }}>
-                                <Button variant="primary" type="submit" style={{ width: 100 }}>
+                                <Button variant="primary" type="submit" style={{ width: 100 }} disabled={loading}>
                                   Submit
                                 </Button>
                                 
                               </div>
 
-                              <Dialog className="backdrop" open={confirmDialogOpen} onClick={handleDeleteCancel}>
+                              <Dialog className="backdrop" open={confirmDialogOpen} onClick={handleDeleteCancel} >
                                 <Spinner animation="border" role="status">
                                   <span className="visually-hidden">Loading...</span>
                                 </Spinner>

@@ -29,7 +29,7 @@ export const CreateFooterAddress = () => {
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   const [snackbarOpen, setSnackbarOpen] = useState(false);
-
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     tittle_name: '',
     address: '',
@@ -44,12 +44,11 @@ export const CreateFooterAddress = () => {
   const validateForm = () => {
     const newErrors = {};
 
-    if (!formData.tittle_name) {
-      newErrors.tittle_name = 'Title is required';
-    } else if (!/^[A-Za-z\s]+$/.test(formData.title_name.trim())) {
-      newErrors.tittle_name = 'Name should contain alphabets only';
+   if (!formData.title_name) {
+        newErrors.title_name = 'Title is required';
+    } else if (typeof formData.title_name === 'string' && !/^[A-Za-z\s]+$/.test(formData.title_name.trim())) {
+        newErrors.title_name = 'Name should contain alphabets only';
     }
-
     if (!formData.mobile_no) {
       newErrors.mobile_no = "Please enter your mobile number";
     } else if (!/^(\+91|\+91\-|0)?[789]\d{9}$/.test(formData.mobile_no)) {
@@ -70,7 +69,7 @@ export const CreateFooterAddress = () => {
 };
 
   const handleOpenConfirmation = () => {
-    if (validateForm()) {
+    if (!validateForm()) {
       setConfirmDialogOpen(true);
     }
     
@@ -83,6 +82,7 @@ export const CreateFooterAddress = () => {
 
   const handleConfirmSubmit = async () => {
     handleCloseConfirmation();
+    setLoading(true);
     try {
      
         const formDataToSend = new FormData();
@@ -117,6 +117,9 @@ export const CreateFooterAddress = () => {
         toast.error('Something Went Wrong!');
         console.error('Error saving/updating data:', error);
       }
+    }
+    finally{
+      setLoading(false);
     }
   };
 
@@ -237,6 +240,7 @@ export const CreateFooterAddress = () => {
                         <button
                           className="btn btn-primary"
                           onClick={handleOpenConfirmation}
+                          disabled={loading}
                         >
                           Submit
                         </button>

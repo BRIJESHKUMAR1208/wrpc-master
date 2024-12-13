@@ -40,7 +40,7 @@ export const EditWhatsNew = () => {
   });
   const [errors, setErrors] = useState({});
   const [editingItemId, setEditingItemId] = useState(null);
-
+const[loading,setLoading]=useState(false);
   const optionsData = [
     { id: 4, label: 'External Link' },
     { id: 3, label: 'Internal Link' },
@@ -204,6 +204,7 @@ export const EditWhatsNew = () => {
 
 
     if (validateForm()) {
+      setLoading(true);
       try {
         const formDataToSend = new FormData();
         formDataToSend.append('news_title', formData.news_title);
@@ -223,7 +224,7 @@ export const EditWhatsNew = () => {
         formDataToSend.append('startdate', formData.startdate);
         formDataToSend.append('end_date', formData.end_date);
 
-        const response = await apiClient.put("/api/Whatsnew/put/"+ id, formDataToSend, {
+        const response = await apiClient.post("/api/Whatsnew/put/"+ id, formDataToSend, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
@@ -239,6 +240,9 @@ export const EditWhatsNew = () => {
           console.error('Error saving/updating data:', error);
         }
 
+      }
+      finally{
+        setLoading(false);
       }
     }
   };
@@ -435,7 +439,7 @@ export const EditWhatsNew = () => {
                     </div>
 
                     <div className="btnsubmit">
-                      <button className="btn btn-primary" onClick={handleSubmit}>
+                      <button className="btn btn-primary" onClick={handleSubmit} disabled={loading}>
                         Update
                       </button>
 

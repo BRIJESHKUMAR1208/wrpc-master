@@ -26,7 +26,7 @@ export const EditTender = () => {
   const [prevContentType, setPrevContentType] = useState('');
   const [successDialogOpen, setSuccessDialogOpen] = useState(false);
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
-
+  const [loading, setLoading]=useState(false);
 
   const [formData, setFormData] = useState({
     tender_tittle: '',  // Corrected typo in the field name
@@ -182,6 +182,7 @@ export const EditTender = () => {
   const handleDeleteConfirm = async () => {
     setConfirmDialogOpen(false);
     if (validateForm()) {
+      setLoading(true);
       try {
         const formDataToSend = new FormData();
         formDataToSend.append('tender_tittle', formData.tender_tittle);
@@ -214,6 +215,9 @@ export const EditTender = () => {
       } catch (error) {
         console.error('Error saving/updating data:', error);
         toast.error('Something went wrong');
+      }
+      finally{
+        setLoading(false);
       }
     }
   };
@@ -413,7 +417,7 @@ export const EditTender = () => {
                     </div>
 
                     <div className="btnsubmit">
-                      <button className="btn btn-primary" onClick={handleSubmit}>
+                      <button className="btn btn-primary" onClick={handleSubmit} disabled={loading}>
                         Update
                       </button>
 
