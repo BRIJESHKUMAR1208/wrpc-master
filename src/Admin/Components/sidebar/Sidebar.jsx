@@ -190,11 +190,11 @@ const Sidebar = () => {
           <i class="bi bi-bar-chart"></i><span>Services</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-        <li>
+        {/* <li>
             <Link to='/services/allwhatsnew' >
               <i class="bi bi-circle"></i><span>Create Latest Uploads</span>
             </Link>
-          </li>
+          </li> */}
           <li activeClassName="active">
             <Link to='/services/alltender' >
               <i class="bi bi-circle"></i><span>Create Tender</span>
@@ -202,14 +202,14 @@ const Sidebar = () => {
           </li>
           <li>
             <Link to='/services/allreport' >
-              <i class="bi bi-circle"></i><span>Create News</span>
+              <i class="bi bi-circle"></i><span>Create News / Latest News</span>
             </Link>
           </li>
-          <li>
+          {/* <li>
             <Link to='/services/alllink' >
               <i class="bi bi-circle"></i><span>Latest News</span>
             </Link>
-          </li>
+          </li> */}
           <li>
             <Link to='/services/commericaltable' >
               <i class="bi bi-circle"></i><span>Create Commerical</span>

@@ -21,7 +21,8 @@ export const CreateCandidate = () => {
   const [formErrors, setFormErrors] = useState({});
   const [showAdditionalCheckboxes, setShowAdditionalCheckboxes] = useState(false);
   const [successDialogOpen, setSuccessDialogOpen] = useState(false);
-  const [isChecked, setIsChecked] = useState(false)
+  const [isChecked, setIsChecked] = useState(false);
+  
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -170,9 +171,12 @@ export const CreateCandidate = () => {
         alert('Something went wrong');
       }
     } catch (error) {
-      console.error('Error submitting data:', error);
-      //toast.error('Something went wrong');
-      toast.error(error.response.data);
+    //  console.error('Error submitting data:', error);
+      alert('Something went wrong');
+    //  toast.error(error.response.data);
+      setLoading(false);
+    }
+    finally{
       setLoading(false);
     }
   };
@@ -398,6 +402,7 @@ export const CreateCandidate = () => {
                                   variant="primary"
                                   type="submit"
                                   style={{ width: 100 }}
+                                  disabled={loading}
                                 >
                                   Submit
                                 </Button>

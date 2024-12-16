@@ -290,7 +290,7 @@ export const ViewFormfour = () => {
                               className="d-flex"
                               style={{ justifyContent: "space-between" }}
                             >
-                              <Button variant="primary" type="submit" style={{ width: 100 }}>
+                              <Button variant="primary" type="submit" style={{ width: 100 }} disabled={loading}>
                                 Submit
                               </Button>
                             </div>

@@ -169,6 +169,9 @@ export const EditCanidate = () => {
       toast.error('Something went wrong');
       setLoading(false);
     }
+    finally{
+      setLoading(false);
+    }
   }
   };
 

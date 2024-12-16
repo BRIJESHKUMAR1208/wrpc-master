@@ -18,7 +18,7 @@ import BannerTable from './BannerTable';
 export const Banner = ({ id, onDelete }) => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageName, setImageName] = useState('');
-
+  const [loading, setLoading] = useState(false);
   // const handleVideoUpload = async () => {
     
   //   if (!selectedImage) return;
@@ -81,7 +81,7 @@ export const Banner = ({ id, onDelete }) => {
     const formData = new FormData();
     formData.append('imgsrc', selectedImage);
     formData.append('content', imageName);
-  
+  setLoading(true);
     try {
       const response = await apiClient.post(api.imageAdd, formData, {
         headers: {
@@ -112,6 +112,9 @@ export const Banner = ({ id, onDelete }) => {
       toast.error('Error uploading video', {
         position: toast.POSITION.TOP_CENTER,
       });
+    }
+    finally{
+      setLoading(false);
     }
   };
   
