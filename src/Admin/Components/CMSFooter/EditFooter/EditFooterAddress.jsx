@@ -13,7 +13,7 @@ export const EditFooterAddress = () => {
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   const [snackbarOpen, setSnackbarOpen] = useState(false);
-
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     tittle_name: '',
     address: '',
@@ -65,6 +65,7 @@ export const EditFooterAddress = () => {
  
 
   const handleConfirmSubmit = async () => {
+    setLoading(true);
     try {
       if (validateForm()) {
         const formDataToSend = new FormData();
@@ -98,6 +99,9 @@ export const EditFooterAddress = () => {
       }
     } catch (error) {
       console.error('Error saving data:', error);
+    }
+    finally{
+      setLoading(false);
     }
   };
 
@@ -174,7 +178,7 @@ export const EditFooterAddress = () => {
           </div>
 
           <div className="btnsubmit">
-            <button className="btn btn-primary" onClick={handleConfirmSubmit}>
+            <button className="btn btn-primary" onClick={handleConfirmSubmit} disabled={loading}>
               Submit
             </button>
             

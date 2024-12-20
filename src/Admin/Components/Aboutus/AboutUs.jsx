@@ -20,9 +20,10 @@ export const Aboutus = ({ id, onDelete }) => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageName, setImageName] = useState("");
   const [description, setDescription] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleVideoUpload = async () => {
-    ;
+    
     if (!selectedImage) return;
 
     const formData = new FormData();
@@ -30,7 +31,7 @@ export const Aboutus = ({ id, onDelete }) => {
     formData.append("content", imageName);
     formData.append("description", description);
     formData.append("languagetypes",1)
-
+setLoading(true);
     try {
       ;
       console.log("FormData content before sending:", formData);
@@ -62,6 +63,9 @@ export const Aboutus = ({ id, onDelete }) => {
       toast.error("Error uploading video", {
         position: toast.POSITION.TOP_CENTER,
       });
+    }
+    finally{
+      setLoading(false);
     }
   };
 
