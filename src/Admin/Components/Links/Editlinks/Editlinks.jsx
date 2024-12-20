@@ -28,8 +28,8 @@ export const Editlink = () => {
   const [prevContentType, setPrevContentType] = useState('');
   const [menuname , SetMenuname]=useState({})
   const [successDialogOpen, setSuccessDialogOpen] = useState(false);
-const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
-
+  const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
+  const[loading,setLoading]=useState(false);
   const [formData, setFormData] = useState({
     link_tittle: '',  // Corrected typo in the field name
     contenttype: '',
@@ -220,6 +220,7 @@ const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
   const handleDeleteConfirm = async () => {
  setConfirmDialogOpen(false);
     if (validateForm()) {
+      setLoading(true);
       try {
         const formDataToSend = new FormData();
         formDataToSend.append('link_tittle', formData.link_tittle);
@@ -251,6 +252,9 @@ const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
       } catch (error) {
         console.error('Error saving/updating data:', error);
         toast.error('Something Went Wrong!');
+      }
+      finally{
+        setLoading(false);
       }
     }
   };
@@ -457,7 +461,7 @@ const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
                 </div>
 
                 <div className="btnsubmit">
-                  <button className="btn btn-primary" onClick={handleSubmit}>
+                  <button className="btn btn-primary" onClick={handleSubmit} disabled={loading}>
                     Update
                   </button>
                  

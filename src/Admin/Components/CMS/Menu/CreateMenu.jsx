@@ -155,7 +155,7 @@ export const CreateMenu = () => {
 
   const handleConfirmSubmit = async () => {
     handleCloseConfirmation();
-
+setLoading(true);
     try {
       const formDataToSend = new FormData();
       formDataToSend.append('MenuName', formData.MenuName);
@@ -196,6 +196,9 @@ export const CreateMenu = () => {
       setSnackbarOpen(true);
     } catch (error) {
       console.error('Error saving data:', error);
+    }
+    finally{
+      setLoading(false);
     }
   };
   useEffect(() => {
@@ -374,7 +377,7 @@ export const CreateMenu = () => {
               
             {/* Submit Button */}
             <div className="btnsubmit">
-              <button className="btn btn-primary" onClick={handleOpenConfirmation}>
+              <button className="btn btn-primary" onClick={handleOpenConfirmation} disabled={loading}>
                 Submit
               </button>
              

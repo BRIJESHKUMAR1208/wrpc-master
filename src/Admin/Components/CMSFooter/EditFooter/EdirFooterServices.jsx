@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ViewListIcon from '@mui/icons-material/ViewList';
@@ -29,7 +28,7 @@ export const EditFooterServices  = () => {
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   const [snackbarOpen, setSnackbarOpen] = useState(false);
-
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     tittle_name: '',
     description: '',
@@ -121,7 +120,7 @@ export const EditFooterServices  = () => {
 
   const handleConfirmSubmit = async () => {
     handleCloseConfirmation();
-
+setLoading(true);
     try {
       const formDataToSend = new FormData();
       formDataToSend.append('tittle_name', formData.tittle_name);
@@ -149,6 +148,8 @@ export const EditFooterServices  = () => {
      
     } catch (error) {
       console.error('Error saving data:', error);
+    }finally{
+      setLoading(false);
     }
   };
 
@@ -205,7 +206,7 @@ export const EditFooterServices  = () => {
             {errors.description && <div className="text-danger">{errors.description}</div>}
           </div>
           <div className="btnsubmit">
-            <button className="btn btn-primary" onClick={handleOpenConfirmation}>
+            <button className="btn btn-primary" onClick={handleOpenConfirmation} disabled={loading}>
               Submit
             </button>
             

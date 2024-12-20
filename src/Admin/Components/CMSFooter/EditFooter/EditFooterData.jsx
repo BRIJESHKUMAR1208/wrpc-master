@@ -35,7 +35,7 @@ export const EditFooterData = () => {
   // const [snackbarOpen, setSnackbarOpen] = useState(false); // Snackbar state
   const [modalMessage, setModalMessage] = useState('');
   const [snackbarOpen, setSnackbarOpen] = useState(false);
-
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -151,7 +151,7 @@ export const EditFooterData = () => {
   const handleConfirmSubmit = async () => {
     handleCloseConfirmation();
     validateForm();
-
+setLoading(true);
     try {
       const formDataToSend = new FormData();
       formDataToSend.append('tittle_name', formData.tittle_name);
@@ -184,6 +184,9 @@ export const EditFooterData = () => {
 
     } catch (error) {
       console.error('Error saving data:', error);
+    }
+    finally{
+      setLoading(false);
     }
   };
   useEffect(() => {
@@ -336,7 +339,7 @@ export const EditFooterData = () => {
 
               {/* Submit Button */}
               <div className="btnsubmit">
-                <button className="btn btn-primary" onClick={handleOpenConfirmation}>
+                <button className="btn btn-primary" onClick={handleOpenConfirmation} disabled={loading}>
                   Submit
                 </button>
 

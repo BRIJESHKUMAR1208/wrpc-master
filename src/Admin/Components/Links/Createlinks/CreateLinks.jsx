@@ -9,7 +9,6 @@ import { Link } from 'react-router-dom';
 import JoditEditor from "jodit-react";
 import HomeIcon from '@mui/icons-material/Home';
 import Header from "../../header/Header";
-
 import Footer from "../../footer/Footer";
 import Sidebar from "../../sidebar/Sidebar";
 import { Button, Card, Col, Container, Form, Spinner } from 'react-bootstrap';
@@ -24,7 +23,7 @@ export const Createlink = () => {
   const [modalMessage, setModalMessage] = useState('');
   const [content, setContent] = useState("");
   const [dropdownOptions, setDropdownOptions] = useState([]);
-  
+  const [loading,setLoading]=useState(false);
   const [successDialogOpen, setSuccessDialogOpen] = useState(false);
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
 
@@ -171,6 +170,7 @@ export const Createlink = () => {
   const handleDeleteConfirm = async () => {
  setConfirmDialogOpen(false);
     if (validateForm()) {
+      setLoading(true);
       try {
         const formDataToSend = new FormData();
         formDataToSend.append('Link_tittle', formData.Link_tittle);
@@ -212,6 +212,9 @@ export const Createlink = () => {
       } catch (error) {
         console.error('Error saving data:', error);
         toast.error('Something went Wrong!');
+      }
+      finally{
+        setLoading(false);
       }
     }
   };
@@ -410,7 +413,7 @@ export const Createlink = () => {
               )}
             </div>
             <div className="btnsubmit">
-              <button className="btn btn-primary" onClick={handleSubmit}>
+              <button className="btn btn-primary" onClick={handleSubmit} disabled={loading}>
                 Submit
               </button>
              
