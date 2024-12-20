@@ -17,8 +17,6 @@ import { Col, Row } from 'react-bootstrap';
 import Footer from '../footer/Footer';
 import Header from '../header/Header';
 import Sidebar from '../sidebar/Sidebar';
-import { FALSE } from 'sass';
-
 
 function EAlert(props) {
   return <Alert elevation={6} variant="filled" {...props} />;
