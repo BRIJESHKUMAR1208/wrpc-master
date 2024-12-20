@@ -18,6 +18,7 @@ import Footer from '../footer/Footer';
 import Header from '../header/Header';
 import Sidebar from '../sidebar/Sidebar';
 
+
 function EAlert(props) {
   return <Alert elevation={6} variant="filled" {...props} />;
 }
@@ -151,7 +152,7 @@ export const Customepage = () => {
 
   const handleConfirmSubmit = async () => {
     handleCloseConfirmation();
-
+setLoading(true);
     try {
       const formDataToSend = new FormData();
       formDataToSend.append('MenuName', formData.MenuName);
@@ -195,6 +196,9 @@ export const Customepage = () => {
 
     } catch (error) {
       console.error('Error saving data:', error);
+    }
+    finally{
+      setLoading(false);
     }
   };
   useEffect(() => {
@@ -370,7 +374,7 @@ export const Customepage = () => {
                   </div>
                 </div>
                 <div id="button" className="d-flex " style={{ margin: '10px 10px' }}>
-                  <Button onClick={handleOpenConfirmation} type="submit" style={{ width: 100, color: 'white', backgroundColor: 'blue', width: 100, marginRight: 10 }}>
+                  <Button onClick={handleOpenConfirmation} disabled={loading} type="submit" style={{ width: 100, color: 'white', backgroundColor: 'blue', width: 100, marginRight: 10 }}>
                     Submit
                   </Button>
                   <div className="pagetitle-rgt">
