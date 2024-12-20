@@ -1,0 +1,560 @@
+section.main-sec {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    background-color: #f5f5f5;
+}
+
+.swiper-container {
+    width: 100%;
+    height: 100%
+}
+
+.swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: #fff;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center
+}
+
+.panel-body {
+    padding: 15px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.city_award_wrap {
+    background: url(../../assets/images/parlia.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    position: relative;
+    margin-bottom: 40px;
+    margin-top: 60px;
+}
+
+.city_award_wrap:before {
+    content: "";
+    background: rgba(0, 0, 0, 0.6);
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+.widget_copyright {
+    background: url(../../assets/images/carousel-bg.png);
+}
+
+.widget_wrap.overlay:before {
+    /* background: url(../../assets/images/flag2.jpg); */
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+span.yellow-txt {
+    color: #ff9933;
+}
+
+/* new css */
+.meeting h4 {
+    color: #ffffff;
+    padding: 8px 10px;
+    text-align: center;
+    background: #2d79bd;
+    margin-top: 0px;
+    font-size: 18px;
+    margin-bottom: 20px;
+    font-family: inherit;
+    font-weight: 500;
+    line-height: 1.1;
+}
+
+.meeting {
+    background: #fff;
+    width: 100%;
+    height: 345px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.regulatory {
+    border: 1px solid #2477bd;
+    background: #f7f5f5;
+    width: 100%;
+    height: 260px;
+}
+
+.general {
+    border: 1px solid #8e268c;
+    background: #f7f5f5;
+    width: 100%;
+    height: 260px;
+}
+
+.transmission {
+    border: 1px solid #ffb635;
+    background: #f7f5f5;
+    width: 100%;
+    height: 260px;
+}
+
+.meeting ul li,
+.general ul li,
+.regulatory ul li,
+.transmission ul li {
+    list-style-type: none;
+    padding: 5px 7px 5px 35px;
+    border-bottom: thin dotted #9E9E9E;
+    position: relative;
+    font-size: 12px;
+}
+
+.commercial-textLimit {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis !important;
+    width: inherit;
+    padding-right: 4px !important;
+}
+
+.regulatory h4 {
+    color: #ffffff;
+    padding: 8px 10px;
+    text-align: center;
+    background: #2477bd;
+    margin-top: 0px;
+}
+
+.general h4 {
+    color: #ffffff;
+    padding: 8px 10px;
+    text-align: center;
+    background: #8e268c;
+    margin-top: 0px;
+    font-size: 18px;
+    margin-bottom: 10px;
+    font-family: inherit;
+    font-weight: 500;
+    line-height: 1.1;
+}
+
+.transmission h4 {
+    color: #ffffff;
+    padding: 8px 10px;
+    text-align: center;
+    background: #ffb635;
+    margin-top: 0px;
+    font-size: 18px;
+    margin-bottom: 10px;
+    font-family: inherit;
+    font-weight: 500;
+    line-height: 1.1;
+}
+
+.apg-album-title {
+    line-height: 14px !important;
+    font-size: 14px !important;
+}
+
+.apg-photo-short-thumb img.attachment-150x150,
+.apg-photo-url img.attachment-150x150 {
+    max-width: 180px !important;
+    max-height: 180px !important;
+    width: 180px !important;
+    height: 180px !important;
+    border-radius: 12px;
+}
+
+.homePageHeading {
+    margin-top: 8px;
+    margin-bottom: 10px;
+    font-size: 24px;
+    letter-spacing: -.3px;
+    font-weight: 600;
+    color: #002e6d;
+    line-height: 1.1;
+}
+
+.rowN {
+    padding: 60px 0px;
+}
+
+/*--------------------------------------------------------------
+# Scroll Top Button
+--------------------------------------------------------------*/
+.scroll-top {
+    position: fixed;
+    visibility: hidden;
+    opacity: 0;
+    right: 15px;
+    bottom: 15px;
+    z-index: 99999;
+    background-color: #f93;
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+    transition: all 0.4s;
+}
+
+.scroll-top i {
+    font-size: 24px;
+    color: #ffffff;
+    line-height: 0;
+    top: 20px;
+    position: absolute;
+    right: 12px;
+}
+
+.scroll-top:hover {
+    background-color: #f93;
+    color: #ffffff;
+}
+
+.scroll-top.active {
+    visibility: visible;
+    opacity: 1;
+}
+
+
+/* new css end */
+.top-bar-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 5px 0px;
+}
+
+.top-bar-lft {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.top-bar-rgt {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.bar4 ul li {
+    display: inline-block;
+}
+
+.bar5 ul li {
+    display: inline-block;
+}
+
+.top-b-section {
+    background-color: #f93;
+}
+
+.bar-c {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+/* news section css start */
+section.news-section {
+    padding: 60px 0px;
+}
+
+.panel-default>.panel-heading {
+    color: #fff;
+    background-color: #32b447;
+    border-color: #ddd;
+}
+
+.nav-tabs>li.active>a {
+    background-color: #fff;
+    border-top-right-radius: 7px;
+    border-top-left-radius: 7px;
+    color: #000;
+}
+
+.nav-tabs>li>a {
+    color: #fff;
+}
+
+/* marquee list new css */
+/* Style for the container */
+.marquee-container {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Style for the list items */
+.marquee-list {
+    padding: 12px !important;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    animation: marquee 60s linear infinite;
+}
+
+.marquee-list1 {
+    padding: 12px !important;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+}
+
+/* Keyframe animation for marquee effect */
+@keyframes marquee {
+    0% {
+        top: 0;
+    }
+
+    100% {
+        top: -400px;
+    }
+}
+
+/* Style for the pagination */
+.pagination {
+    text-align: center;
+    margin-top: 10px;
+}
+
+/* Style for the pagination buttons */
+.pagination button {
+    margin: 5px;
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.marquee:hover ul {
+    animation-play-state: paused;
+}
+
+ul.marquee-list li {
+    padding: 12px 0px;
+    border-bottom: thin dotted #9E9E9E;
+}
+
+.news-list {
+    height: 265px;
+}
+
+.photo-box {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    grid-gap: 12px;
+}
+
+.photo-box img {
+    width: 230px;
+    height: auto;
+}
+
+.latest-news-date {
+    background: #2d79bd !important;
+    padding: 5px 10px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 46px;
+    height: 50px;
+}
+
+.latest-news-date p {
+    color: #fff;
+    font-size: 12px;
+    line-height: 14px;
+    margin-bottom: 0px;
+}
+
+.newsbox {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    grid-gap: 10px;
+}
+
+p.news-p a {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 0px;
+}
+
+p.news-p {
+    margin-bottom: 0px;
+    line-height: 18px;
+}
+
+.language-box select {
+    width: 88px;
+    height: 28px;
+    color: #3d3d3d;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 300;
+    padding: 3px 10px;
+    display: inline-block;
+    border: 1px solid #d2d2d2;
+}
+
+.bar-c p {
+    margin-bottom: 0px;
+}
+
+.report-sec .latest-news-date {
+    background-color: #3c763d !important;
+}
+
+.report-sec p.news-p:hover a {
+    color: #3c763d !important;
+    font-weight: 500;
+}
+
+.main-sec2 {
+    padding-top: 45px;
+    padding-bottom: 25px;
+    background: url(../../assets/images/carousel-bg.png);
+}
+
+/* notice marquee css start */
+section.notice-section {
+    background-color: #2d79bd;
+    padding: 10px 0px;
+    /* margin-bottom: 60px; */
+}
+
+.city_main_banner {
+    position: relative;
+    background-color: #163c56;
+}
+
+section.notice-section p {
+    margin-bottom: 0px;
+    color: #fff;
+}
+
+.notice-lft p {
+    border-right: 2px solid white;
+}
+
+.marquee2 {
+    white-space: nowrap;
+    position: relative;
+    animation: marquee3 25s linear infinite;
+}
+
+@keyframes marquee3 {
+    0% {
+        transform: translateX(100%);
+    }
+
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+.marquee-container2 {
+    width: 100%;
+    overflow: hidden;
+}
+
+.dial {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.d2 {
+    margin-left: 50px;
+}
+
+.row {
+    clear: both;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+#marquee:hover {
+    animation-play-state: paused;
+}
+
+.nav>li>a {
+    position: relative;
+    display: block;
+    padding: 10px 15px !important;
+}
+
+.panel-heading {
+    padding: 10px 15px !important;
+}
+
+.city_award_text {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.widget_logo {
+    text-align: center;
+}
+
+.bar5.bar-c ul li button {
+    background-color: transparent;
+    color: #fff;
+}
+
+/* .marquee-container1{
+    background-color: #8e268c;
+} */
+.bg-light {
+    height: 400px;
+}
+
+.date-sec {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap:3rem;
+    margin-bottom: 20px;
+    padding: 12px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    background-color: #fff;
+}
+.marquee-text {
+    display: inline-block;
+    animation: scroll 5s linear infinite;
+  }
+  .d1:hover .marquee-text {
+    animation-play-state: paused; /* Pauses on hover */
+  }
+  .d1 {
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+    padding: 10px;
+  }

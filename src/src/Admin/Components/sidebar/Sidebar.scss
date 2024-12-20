@@ -1,0 +1,11 @@
+.icon-bar {
+    position: relative;
+}
+.icon-bar i.bi.bi-list.toggle-sidebar-btn {
+    position: fixed;
+    top: 9px;
+    z-index: 999;
+    left: 250px;
+    font-size: 32px;
+    cursor: pointer;
+}

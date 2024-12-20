@@ -1,0 +1,111 @@
+@media(max-width: 1800px){
+    .container-fluid.con-nav {
+        width: 85%;
+    }   
+}
+@media(max-width: 1700px){
+}
+@media(max-width: 1660px){
+
+}
+@media(max-width: 1500px){
+    .medium_text {
+        font-size: 32px;
+        color: #fff;
+        line-height: 40px;
+        margin-bottom: 4px;
+        font-weight: 600;
+    }
+    .section_heading h2 {
+        font-size: 34px;
+    }
+}
+@media(max-width: 1400px){
+    .nav-con {
+        max-width: 95% !important;
+    }
+}
+@media(max-width: 1399px){
+   
+}
+@media(max-width: 1280px){
+    .container-fluid.con-nav {
+        width: 85%;
+    }
+}
+@media(max-width: 1199px){
+    .top-container {
+        width: 1160px;
+    } 
+    p.bdr-rgt {
+        font-size: 12px;
+        font-weight: 500;
+        padding-left: 7px;
+        padding-right: 7px;
+        margin-bottom: 0px;
+    }
+    p#btn {
+        font-size: 12px;
+        margin-bottom: 0px;
+        font-weight: 500;
+    }
+    .container-nav.container {
+        max-width: 99% !important;
+    }
+    .top-bar-section {
+        justify-content: center !important;
+    }
+    .container-fluid.con-nav {
+        width: 90%;
+    }
+   
+    
+}
+@media(max-width: 1080px){
+    
+}
+@media(max-width: 1024px) {
+    .navbar-nav a.nav-link {
+        margin-right: 15px !important;
+        margin-left: 15px !important;
+        padding-top: 12px;
+        padding-bottom: 12px;
+    }    
+}
+@media(max-width: 991px){
+    .city_about_text p{
+		display:none;
+	}
+    .city_about_wrap {
+        padding: 45px 0px 30px;
+    }
+    .logo a span {
+        display: block;
+        font-weight: 900;
+        font-size: 86%;
+    }
+    .foot-main {
+        padding-right: 41px;
+    }
+    .nav-con {
+        max-width: 98% !important;
+    }
+
+}
+@media(max-width: 768px){
+    .nav-con {
+        justify-content: space-between !important;
+    }
+    .mobile-nav-toggle{
+        display: block !important;
+        font-size: 21px;
+	color: #fff;
+    }
+}
+@media(max-width: 480px){
+
+
+}
+@media(max-width: 360px){
+
+}
