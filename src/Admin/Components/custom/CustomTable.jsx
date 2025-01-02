@@ -146,7 +146,7 @@ export default function CustomTable() {
                 <Box sx={{ height: 500, width: '100%', backgroundColor: 'white' }}>
                     
                 <div className="pagetitle-rgt">
-                        <Link to='/cms/menu'>
+                        <Link to='/custom/custom'>
                         <button type="button"  class="btn btn-info" style={{color:'white', backgroundColor:'blue',width:100, marginRight:10,height:50}}>Add New</button>
                         </Link>
                         <Link to='/dashboard'>
