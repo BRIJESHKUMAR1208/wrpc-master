@@ -70,6 +70,7 @@ import { ViewFormthree } from "./Admin/Components/Form/ViewFormthree.jsx";
 import { ViewFormfour } from "./Admin/Components/Form/ViewFormfour.jsx";
 import { ViewFormfive } from "./Admin/Components/Form/ViewFormfive.jsx";
 import { Performanceindices } from "./Website/components/websiteforms/PerformanceIndices.jsx"
+import { Weeklyaccount } from "./Website/components/websiteforms/Weeklyaccount.jsx";
 import { AboutUsEdit } from "./Admin/Components/Aboutus/AboutUsEdit.jsx";
 import ForgetPassword from "./Admin/Components/pages/changepassword/ForgetPassword.jsx";
 import Newpassword from "./Admin/Components/pages/changepassword/Newpassword.jsx";
@@ -237,6 +238,8 @@ function App() {
                 <Route path="form3" element={<Formthree />} />
                 <Route path="form4" element={<Formfour />} />
                 <Route path="performance" element={<Performanceindices />} />
+                <Route path= "weeklyaccount" element={< Weeklyaccount/>}/>
+                
                 
               </>
               <Route path="login" element={<LoginCandidate />} />
