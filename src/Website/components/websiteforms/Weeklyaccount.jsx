@@ -27,6 +27,25 @@ export const Weeklyaccount = () => {
     const [successDialogOpen, setSuccessDialogOpen] = useState(false);
     const [getuser, setuser] = useState('');
 
+    const [options, setOptions] = useState([]); // To store API data
+    const [selectedEntity, setSelectedEntity] = useState(""); // To store selected value
+
+    // Function to fetch data
+    const fetchOptions = async () => {
+        try {
+            debugger;
+            const response = await axios.get("http://localhost:5141/api/ECRsubmission/Entitylist");
+            setOptions(response.data); // Assuming response.data is an array
+        } catch (error) {
+            console.error("Error fetching dropdown data:", error);
+        }
+    };
+
+     // Fetch data on component mount
+     useEffect(() => {
+        fetchOptions();
+    }, []);
+
     const [formData, setFormData] = useState({
 
 
@@ -49,6 +68,8 @@ export const Weeklyaccount = () => {
     const handleRoleChange = (event) => {
         setSelectedRole(event.target.value);
     };
+
+     
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -236,7 +257,27 @@ export const Weeklyaccount = () => {
                                                         <div class="form-group row">
                                                             <label class="col-sm-2 col-form-label">Name of Pool Entity<span
                                                             ><b>*</b></span>:</label>
-                                                            <div class="col-sm-2">
+                                                              <div className="col-sm-2">
+                                                              <span style={{ color: "red" }}>{formErrors.name_of_pool_Entity}</span>
+
+
+                                                            <select
+                                                             className="form-control"
+                                                              id="dropdown"
+                                                               name="name_of_pool_Entity"
+                                                               value={formData.name_of_pool_Entity}
+                                                               isInvalid={!!formErrors.name_of_pool_Entity}
+                                                                      onChange={handleChange}
+                                                              >
+                                                             <option value="">Select</option> {/* Default option */}
+                                                                {options.map((option) => (
+                                                              <option key={option.id} value={option.id}>
+                                                                    {option.entityname}
+                                                             </option>
+                                                                ))}
+                                                            </select>
+                                                            </div>
+                                                            {/* <div class="col-sm-2">
                                                                 <span style={{ color: "red" }}>{formErrors.name_of_pool_Entity}</span>
                                                                 <input class="form-control"
                                                                     name="name_of_pool_Entity"
@@ -246,19 +287,31 @@ export const Weeklyaccount = () => {
                                                                     onChange={handleChange}
                                                                     isInvalid={!!formErrors.name_of_pool_Entity}
                                                                 /><small class="invalid-feedback">
-                                                                </small></div>
+                                                                </small></div> */}
                                                             <label class="col-sm-2 col-form-label">Weekly Account<span
                                                             ><b>*</b></span>:</label>
                                                             <div class="col-sm-2">
                                                                 <span style={{ color: "red" }}>{formErrors.Weekly_Account}</span>
-                                                                <input class="form-control"
-                                                                    name="Weekly_Account"
-                                                                    placeholder="Enter Account"
-                                                                    maxlength="50"
-                                                                    value={formData.Weekly_Account}
-                                                                    onChange={handleChange}
-                                                                    isInvalid={!!formErrors.Weekly_Account}
-                                                                /><small class="invalid-feedback">
+
+                                                                <select
+        className="form-control"
+        name="Weekly_Account"
+        value={formData.Weekly_Account}
+        onChange={handleChange}
+        isInvalid={!!formErrors.Weekly_Account}
+    >
+        <option value="">Select</option> {/* Default placeholder */}
+        <option value="DSM">DSM        </option>
+        <option value="REC">REC        </option>
+        <option value="TRAS">TRAS</option>
+        <option value="SRAS">SRAS </option>
+        <option value="SCUC">SCUC      </option>
+        <option value="Congestion">Congestion
+        </option>
+      
+    </select>
+
+                                                               <small class="invalid-feedback">
                                                                 </small></div>
                                                             <label
                                                                 class="col-sm-2 col-form-label">Account Period Start Week Date<span

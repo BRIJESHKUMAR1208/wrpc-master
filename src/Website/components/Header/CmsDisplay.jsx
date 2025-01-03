@@ -193,6 +193,13 @@ const CmsDisplay = () => {
                   </Link>
                 </li>
               )}
+               {user1.can_frmwky === 1 && (
+                <li>
+                  <Link to="/candidate/weeklyaccount" className="dropdown-item">
+                    Weekly Account
+                  </Link>
+                </li>
+              )}
 
             </ul>
           </li>
