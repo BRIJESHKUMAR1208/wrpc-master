@@ -9,6 +9,7 @@ import { Formone } from "./Website/components/websiteforms/Formone.jsx";
 import { Formtwo } from "./Website/components/websiteforms/Formtwo.jsx";
 import { Formthree } from "./Website/components/websiteforms/Formthree.jsx";
 import { Formfour } from "./Website/components/websiteforms/Formfour.jsx";
+import{EcrsubmissionForm} from "./Website/components/websiteforms/EcrsubmissionForm.jsx";
 // import SiteMap from "./Website/components/SiteMap/SiteMap";
 import ArchiveComponent from "./Website/components/Services/ArchiveComponent";
 import { LoginCandidate } from "./Website/components/Candidate/LoginCandidate";
@@ -18,7 +19,7 @@ import { Customepage } from "./Admin/Components/custom/custom.jsx";
 import CustomDetail from "./Website/components/Header/CustomDetail.jsx";
 import CustomTable from "./Admin/Components/custom/CustomTable.jsx";
 import {Livestreaming} from "./Admin/Components/Banner/Livestreaming.jsx";
-import LivestreamingTable from "./Admin/Components/Banner/Livestreamingtable.jsx"
+import LivestreamingTable from "./Admin/Components/Banner/Livestreamingtable.jsx";
 //===================================================== admin==============================================================================
 import { CreateUser } from "./Admin/Components/User/CreateUser/CreateUser";
 import { Banner } from "./Admin/Components/Banner/Banner";
@@ -237,6 +238,7 @@ function App() {
                 <Route path="form3" element={<Formthree />} />
                 <Route path="form4" element={<Formfour />} />
                 <Route path="performance" element={<Performanceindices />} />
+                <Route path="ecrsubmissionform" element={<EcrsubmissionForm />} />
                 
               </>
               <Route path="login" element={<LoginCandidate />} />

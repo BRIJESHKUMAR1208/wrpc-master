@@ -85,7 +85,7 @@ function TabPanel(props) {
         </div>
       </div>
     
-      <Box sx={{ bgcolor: 'background.paper', width: 1000 }}>
+      <Box sx={{ bgcolor: 'background.paper', width: "100%" }}>
       <AppBar position="static">
         <Tabs
           value={value}
@@ -100,6 +100,7 @@ function TabPanel(props) {
           <Tab label="TPPA OBSERVATION" {...a11yProps(2)} />
           <Tab label="RELAY SETTINGS DATA" {...a11yProps(3)} />
           <Tab label="PERFORMANCE DATA" {...a11yProps(4)} />
+          <Tab label="ECR SUBMISSION DATA" {...a11yProps(5)} />
         </Tabs>
       </AppBar>
       <SwipeableViews
@@ -121,6 +122,9 @@ function TabPanel(props) {
         </TabPanel>  
 
         <TabPanel value={value} index={4} dir={theme.direction}>
+       <FormDataFive/>
+        </TabPanel> 
+        <TabPanel value={value} index={5} dir={theme.direction}>
        <FormDataFive/>
         </TabPanel> 
       </SwipeableViews>

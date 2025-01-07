@@ -99,9 +99,9 @@ export const Formfour = () => {
         if (!selectedFile) {
             errors.selectedFile = "Input your values";
         }
-        if (!formData.Remarks) {
-            errors.Remarks = "Please enter remarks";
-        }
+        // if (!formData.Remarks) {
+        //     errors.Remarks = "Please enter remarks";
+        // }
 
         if (!selectedRole) {
             errors.selectedRole = "Role is required";
@@ -295,7 +295,8 @@ export const Formfour = () => {
                                                                     placeholder="Enter kV Level"
                                                                     onChange={handleChange}
                                                                     isInvalid={!!formErrors.kV_Level}
-                                                                    maxlength="50" value={formData.kV_Level} /><small class="invalid-feedback"></small>
+                                                                    maxlength="50" value={formData.kV_Level} />
+                                                                    <small class="invalid-feedback"></small>
                                                                     </div>
                                                                    
                                                         </div>
@@ -371,7 +372,7 @@ export const Formfour = () => {
                                                             <div class="col-sm-2">
                                                                 <span style={{ color: "red" }}>{formErrors.Remarks}</span>
                                                                 <input class="form-control" name="Remarks" placeholder="Enter"
-                                                                    maxlength="50" value={formData.Remarks}
+                                                                    maxlength="500" value={formData.Remarks}
                                                                     onChange={handleChange}
                                                                     isInvalid={!!formErrors.Remarks} /><small class="invalid-feedback"></small></div>
                                                         </div>

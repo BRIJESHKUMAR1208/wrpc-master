@@ -129,9 +129,9 @@ export const Form3part1 = () => {
         if (!selectedFilee1) {
             errors.selectedFilee1 = "Required";
         }
-        if (!formData.Remarks) {
-            errors.Remarks = "Required";
-        }
+        // if (!formData.Remarks) {
+        //     errors.Remarks = "Required";
+        // }
         if (!formData.CAT_A_deficiencies) {
             errors.CAT_A_deficiencies = "Required";
         }
@@ -401,9 +401,10 @@ export const Form3part1 = () => {
 
                                                                     type='file'
                                                                     onChange={handleFileChange2}
-                                                                    isInvalid={!!formErrors.selectedFilee1} /><small class="invalid-feedback"></small></div><label
+                                                                    isInvalid={!!formErrors.selectedFilee1} /><small class="invalid-feedback"></small></div>
+                                                                    <label
                                                                         class="col-sm-2 col-form-label">Remarks<span
-                                                                        ><b>*</b></span>:</label>
+                                                                        ><b></b></span>:</label>
                                                             <div class="col-sm-2">
                                                                 <span style={{ color: "red" }}>{formErrors.Remarks}</span>
                                                                 <input class="form-control" name="Remarks" placeholder='Remarks'

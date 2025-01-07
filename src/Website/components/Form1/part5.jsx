@@ -115,9 +115,9 @@ export const Formonepart5 = () => {
     if (!formData.Analysis) {
       errors.Analysis = "Required";
     }
-    if (!formData.Remarks) {
-      errors.Remarks = "Required";
-    }
+    // if (!formData.Remarks) {
+    //   errors.Remarks = "Required";
+    // }
     if (!formData.FinalReport) {
       errors.FinalReport = "Required";
     }
@@ -320,7 +320,7 @@ export const Formonepart5 = () => {
                               <label class="col-sm-2 col-form-label">
                                 Remarks
                                 <span>
-                                  <b>*</b>
+                                  <b></b>
                                 </span>
                                 :
                               </label>

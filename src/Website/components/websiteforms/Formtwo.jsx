@@ -170,7 +170,7 @@ export const Formtwo = () => {
         setLoading(true);
 
         try {
-            ;
+            
             let candidateId = 0;
             if (localStorage.getItem("candidateId")) {
                 candidateId = localStorage.getItem("candidateId");
@@ -286,7 +286,8 @@ export const Formtwo = () => {
                                                                 /></div>
                                                             <label
                                                                 class="col-sm-2 col-form-label">kV Level<span
-                                                                ><b>*</b></span>:</label>
+                                                                ><b>*</b></span>:
+                                                            </label>
                                                             <div class="col-sm-2">
                                                                 <span style={{ color: "red" }}>{formErrors.kVLevel}</span>
                                                                 <input class="form-control"
@@ -346,14 +347,15 @@ export const Formtwo = () => {
                                                                 <input class="form-control" name="AuditTeamMembers" placeholder="Enter audit team members"
                                                                     value={formData.AuditTeamMembers}
                                                                     onChange={handleChange}
-                                                                    isInvalid={!!formErrors.AuditTeamMembers} /><small class="invalid-feedback"></small></div><label
+                                                                    isInvalid={!!formErrors.AuditTeamMembers} /><small class="invalid-feedback"></small></div>
+                                                                    <label
                                                                         class="col-sm-2 col-form-label">Remark<span
                                                                         ><b>*</b></span>:</label>
                                                             <div class="col-sm-2">
                                                                 <span style={{ color: "red" }}>{formErrors.Report}</span>
                                                                 <input class="form-control" name="Report" type="file"
                                                                     // value={selectedFile}
-                                                                    required
+                                                                    
                                                                     onChange={handleFileChange}
                                                                     isInvalid={!!formErrors.Report} /><small class="invalid-feedback"></small><small class="invalid-feedback"></small></div>
                                                         </div>

@@ -8,7 +8,6 @@ import axios from "axios";
 import { TopHeader } from "../TopHeader/TopHeader";
 import { Errorfound } from "../error404/Errorfound";
 import { Card, Container } from "@mui/material";
-;
 
  export const FooterDetails = () => {
   const [Menuoptions, setMenuData] = useState(null); // Initialize as null or an empty object
