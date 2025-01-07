@@ -101,7 +101,8 @@ import Form3allpartsdata from './Website/components/websiteforms/Form3allpartsta
 import {Form3part3} from "./Website/components/Form3/obspart3.jsx";
 import {Form3part2} from "./Website/components/Form3/obspart2.jsx";
 import Form3part2list from "./Website/components/Form3/VIewform3part2list.jsx";
-import {Quicklinkmenu} from "./Website/components/Footer/Quicklinkmenu.jsx"
+import {Quicklinkmenu} from "./Website/components/Footer/Quicklinkmenu.jsx";
+import {Getecrdatabyid} from "./Admin/Components/Form/GetECRdatabyid.jsx";
 
 function App() {
   const [sessionExpired, setSessionExpired] = useState(false);
@@ -365,6 +366,7 @@ function App() {
                         <Route path="formthree/:id" element={<ViewFormthree />} />
                         <Route path="formfour/:id" element={<ViewFormfour />} />
                         <Route path="formfive/:id" element={<ViewFormfive />} />
+                        <Route path="formsix/:id" element={<Getecrdatabyid />} />
                       </>
                       <Route path="login" element={<LoginCandidate />} />
                     </Route>

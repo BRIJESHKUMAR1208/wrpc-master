@@ -368,7 +368,7 @@ export const Formfour = () => {
 
                                                                 <small class="invalid-feedback"></small></div><label
                                                                     class="col-sm-2 col-form-label">Remarks<span
-                                                                    ><b>*</b></span>:</label>
+                                                                    ><b></b></span>:</label>
                                                             <div class="col-sm-2">
                                                                 <span style={{ color: "red" }}>{formErrors.Remarks}</span>
                                                                 <input class="form-control" name="Remarks" placeholder="Enter"

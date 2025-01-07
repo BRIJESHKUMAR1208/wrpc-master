@@ -7,7 +7,6 @@ import api from "../../../Api/api.json";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { BASE_URL } from '../../../Api/ApiFunctions';
-
 import {
   Dialog,
   DialogTitle,
@@ -21,7 +20,7 @@ import Header from "../header/Header";
 import Footer from "../footer/Footer";
 import DescriptionIcon from '@mui/icons-material/Description';
 
-export const ViewFormfive = () => {
+export const Getecrdatabyid = () => {
   const { id } = useParams()
   const [dropdownOptions, setDropdownOptions] = useState([]);
   const [selectedRole, setSelectedRole] = useState("");
@@ -29,14 +28,21 @@ export const ViewFormfive = () => {
   const [formErrors, setFormErrors] = useState({});
   const [successDialogOpen, setSuccessDialogOpen] = useState(false);
   const [getuser, setuser] = useState("");
-
   const [formData, setFormData] = useState({
     id: "",
-    utilityname: "",
-    correct_operation: "",
-    unwanted_operation: "",
-    incorrect_operation: "",
-    failures_operate: "",
+    entityname: "",   
+    installedcapacity : "",
+    beneficiary   : "",
+    ppa_quantum :"", 
+    ppa_rate : "",  
+    type   : "",
+    approvalnumber  : "", 
+    fromdate  : "", 
+    todate  : "", 
+    ecrdata : "",  
+    copyofdata  : "",
+    ecrdatapdfpath:"",
+    copyofdatapath:""
   });
 
   // New state variables for confirmation dialog and loading
@@ -88,10 +94,6 @@ export const ViewFormfive = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    if (!validateForm()) {
-      return;
-    }
 
     setConfirmDialogOpen(true);
   };
@@ -152,7 +154,7 @@ export const ViewFormfive = () => {
       try {
 
         //const response = await apiClient.get(`/api/Relay/${id}`);
-        const response = await apiClient.get(`/api/PerformanceIndices/${id}`);
+        const response = await apiClient.get(`/api/ECRsubmission/${id}`);
         setFormData(response.data);
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -169,12 +171,12 @@ export const ViewFormfive = () => {
         <main id="main" class="main">
           <div class="pagetitle">
             <div className="pagetitle-lft">
-              <h1>Performance Data </h1>
+              <h1>ECR SUBMISSION Data </h1>
               <nav>
                 <ol class="breadcrumb">
                   <li class="breadcrumb-item">Dashboard</li>
-                  <li class="breadcrumb-item ">Form two </li>
-                  <li class="breadcrumb-item active"> Relay settings data </li>
+                  <li class="breadcrumb-item "> </li>
+                  <li class="breadcrumb-item active"> EcrsubmissionForm data </li>
                 </ol>
               </nav>
             </div>
@@ -196,7 +198,7 @@ export const ViewFormfive = () => {
                       <Card.Body>
                         <div className="mb-3 mt-md-4">
                           <h2 className="fw-bold mb-4 text-center text-uppercase">
-                            Performance data
+                            ECR SUBMISSION data
                           </h2>
                           <div className="mb-3">
                             <Form onSubmit={handleSubmit}>
@@ -212,132 +214,142 @@ export const ViewFormfive = () => {
                                         value={formData.id} disabled
                                       />
                                     </td>
-                                  </tr>
-                                  <tr>
-                                    <td className="ui header" style={{ paddingLeft: "20px" }}>Year</td>
-                                    <td>
-                                      <input
-                                        className="form-control"
-                                        type="text"
-                                        placeholder="Year"
-                                        value={formData.year} disabled
-                                      />
-                                    </td>
                                     <td style={{ paddingLeft: "50px" }}>
 
                                     </td>
-                                    <td className="ui header" style={{ paddingLeft: "20px" }}>Month</td>
+                                    <td className="ui header" style={{ paddingLeft: "20px" }}>Copy Of Data</td>
+                                    
                                     <td>
-                                      <input
-                                        className="form-control"
-                                        type="text"
-                                        placeholder="Month"
-                                        value={formData.month} disabled
-                                      />
-                                    </td>
-                                  </tr>
-
-                                  <tr>
-                                    <td className="ui header">Utility Name</td>
-                                    <td>
-                                      <input
-                                        className="form-control"
-                                        type="text"
-                                        placeholder="Utility Name"
-                                        value={formData.utilityname} disabled
-                                      />
-                                    </td>
-
-                                    <td style={{ paddingLeft: "50px" }}>
-
-                                    </td>
-                                    <td className="ui header" style={{ paddingLeft: "20px" }}>Incorrect Operations</td>
-                                    <td>
-                                      <input
-                                        className="form-control"
-                                        type="text"
-                                        placeholder="Incorrect Operations"
-                                        value={formData.incorrectoperations_ni} disabled
-                                      />
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <td className="ui header">Correct Opration</td>
-                                    <td>
-                                      <input
-                                        className="form-control"
-                                        type="text"
-                                        placeholder="Correct Opration"
-                                        value={formData.correct_operation} disabled
-                                      />
-                                    </td>
-                                    <td style={{ paddingLeft: "50px" }}>
-
-                                    </td>
-                                    <td className="ui header" style={{ paddingLeft: "20px" }}>Dependability Index</td>
-                                    <td>
-                                      <input
-                                        className="form-control"
-                                        type="text"
-                                        placeholder="Dependability Index"
-                                        value={formData.dependabilityindex} disabled
-                                      />
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <td className="ui header">Unwanted Opration</td>
-                                    <td>
-                                      <input
-                                        className="form-control"
-                                        type="text"
-                                        placeholder="Unwanted Opration"
-                                        value={formData.unwanted_operation} disabled
-                                      />
-                                    </td>
-                                    <td style={{ paddingLeft: "50px" }}>
-
-                                    </td>
-                                    <td className="ui header" style={{ paddingLeft: "20px" }}>Security Index</td>
-                                    <td>
-                                      <input
-                                        className="form-control"
-                                        type="text"
-                                        placeholder="Security Index"
-                                        value={formData.securityindex} disabled
-                                      />
-                                    </td>
-                                  </tr>
-
-                                  <tr>
-                                    <td className="ui header">Failures Operate</td>
-                                    <td>
-                                      <input
-                                        className="form-control"
-                                        type="text"
-                                        placeholder="Unwanted Opration"
-                                        value={formData.failures_operate} disabled
-                                      />
-                                    </td>
-                                    <td style={{ paddingLeft: "50px" }}>
-
-                                    </td>
-                                    <td className="ui header" style={{ paddingLeft: "20px" }}>Reliability index</td>
-                                    <td>
-                                      <input
-                                        className="form-control"
-                                        type="text"
-                                        placeholder="Reliability index"
-                                        value={formData.reliabilityindex} disabled
-                                      />
-                                    </td>
-                                  </tr>
-                                  {/* <tr>
-                                    <td className="ui header">Incorrect Opration</td>
-                                    <td>
-                                        <Link className="form-control" to={`${BASE_URL+formData.incorrect_operation}`} ><DescriptionIcon/></Link>
+                                        <Link className="form-control" to={`${BASE_URL+formData.copyofdatapath}`} ><DescriptionIcon/></Link>
                                         
                                     </td>
-                                  </tr> */}
+                                   
+                                  </tr>
+                                  <tr>
+                                    <td className="ui header" style={{ paddingLeft: "20px" }}>Entity Name</td>
+                                    <td>
+                                      <input
+                                        className="form-control"
+                                        type="text"
+                                        placeholder="Entity Name"
+                                        value={formData.entityname} disabled
+                                      />
+                                    </td>
+                                    <td style={{ paddingLeft: "50px" }}>
+
+                                    </td>
+                                    <td className="ui header" style={{ paddingLeft: "20px" }}>Installed Capacity</td>
+                                    <td>
+                                      <input
+                                        className="form-control"
+                                        type="text"
+                                        placeholder="installedcapacity"
+                                        value={formData.installedcapacity} disabled
+                                      />
+                                    </td>
+                                  </tr>
+
+                                  <tr>
+                                    <td className="ui header">Beneficiary </td>
+                                    <td>
+                                      <input
+                                        className="form-control"
+                                        type="text"
+                                        placeholder="Beneficiary"
+                                        value={formData.beneficiary} disabled
+                                      />
+                                    </td>
+
+                                    <td style={{ paddingLeft: "50px" }}>
+
+                                    </td>
+                                    <td className="ui header" style={{ paddingLeft: "20px" }}>PPA Qunatum</td>
+                                    <td>
+                                      <input
+                                        className="form-control"
+                                        type="text"
+                                        placeholder="ppa_quantum"
+                                        value={formData.ppa_quantum} disabled
+                                      />
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td className="ui header">PPA Rate</td>
+                                    <td>
+                                      <input
+                                        className="form-control"
+                                        type="text"
+                                        placeholder="ppa_rate"
+                                        value={formData.ppa_rate} disabled
+                                      />
+                                    </td>
+                                    <td style={{ paddingLeft: "50px" }}>
+
+                                    </td>
+                                    <td className="ui header" style={{ paddingLeft: "20px" }}>Type</td>
+                                    <td>
+                                      <input
+                                        className="form-control"
+                                        type="text"
+                                        placeholder="Type"
+                                        value={formData.type} disabled
+                                      />
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td className="ui header">Approval Number</td>
+                                    <td>
+                                      <input
+                                        className="form-control"
+                                        type="text"
+                                        placeholder="Approval Number"
+                                        value={formData.approvalnumber} disabled
+                                      />
+                                    </td>
+                                    <td style={{ paddingLeft: "50px" }}>
+
+                                    </td>
+                                    <td className="ui header" style={{ paddingLeft: "20px" }}>From Date</td>
+                                    <td>
+                                      <input
+                                        className="form-control"
+                                        type="text"
+                                        placeholder="From Date"
+                                        value={formData.fromdate} disabled
+                                      />
+                                    </td>
+                                  </tr>
+
+                                  <tr>
+                                    <td className="ui header">To Date</td>
+                                    <td>
+                                      <input
+                                        className="form-control"
+                                        type="text"
+                                        placeholder="To Date"
+                                        value={formData.todate} disabled
+                                      />
+                                    </td>
+                                    <td style={{ paddingLeft: "50px" }}>
+
+                                    </td>
+                                    <td className="ui header" style={{ paddingLeft: "20px" }}>ECr Data</td>
+                                    <td>
+                                      <input
+                                        className="form-control"
+                                        type="text"
+                                        placeholder="ECr Data"
+                                        value={formData.ecrdata} disabled
+                                      />
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td className="ui header">ECR DATA</td>
+                                    <td>
+                                        <Link className="form-control" to={`${BASE_URL+formData.ecrdatapdfpath}`} ><DescriptionIcon/></Link>
+                                        
+                                    </td>
+                                  </tr>
 
                                 </tbody>
                               </form>

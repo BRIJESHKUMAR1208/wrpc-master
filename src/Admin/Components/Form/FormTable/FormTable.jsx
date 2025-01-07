@@ -15,6 +15,7 @@ import FormDataOne from '../CandidateTable/FormDataOne';
 import FormDataTwo from '../CandidateTable/FormDataTwo';
 import FormDataThree from '../CandidateTable/FormDataThree';
 import FormDataFour from '../CandidateTable/FormDataFour';
+import Ecrsubmissionlist from '../CandidateTable/ViewEcrsubmissiondata';
 import FormDataFive from '../CandidateTable/FormDataFive';
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -125,7 +126,7 @@ function TabPanel(props) {
        <FormDataFive/>
         </TabPanel> 
         <TabPanel value={value} index={5} dir={theme.direction}>
-       <FormDataFive/>
+       <Ecrsubmissionlist/>
         </TabPanel> 
       </SwipeableViews>
     </Box>

@@ -156,7 +156,7 @@ export const EcrsubmissionForm = () => {
 
             // };
             const formDataToSend = new FormData();
-           // formDataToSend.append('user_id', candidateId);
+           formDataToSend.append('user_id', candidateId);
            formDataToSend.append('entityname', formData.entityname);
            formDataToSend.append('installedcapacity', formData.installedcapacity);
            formDataToSend.append('beneficiary', formData.beneficiary);
@@ -180,16 +180,17 @@ export const EcrsubmissionForm = () => {
                     setSuccessDialogOpen(true);
 
                     setFormData({
-                        SNo: '',
-                        Substation: '',
-                        kV_Level: '',
-                        Owner: '',
-                        NameElement: '',
-                        Protection: '',
-                        MakeOfRelay: '',
-                        SrNoOfRelay: '',
-                        Uploadfile: '',
-                        Remarks: ''
+                        entityname: '',   
+                        installedcapacity : '',
+                        beneficiary   : '',
+                        ppa_quantum : '', 
+                        ppa_rate : '',  
+                        type   : '',
+                        approvalnumber  : '', 
+                        fromdate  : '', 
+                        todate  : '', 
+                        ecrdata : '',  
+                        copyofdata  : ''
                     });
                     setSelectedRole('');
                 }, 1000);

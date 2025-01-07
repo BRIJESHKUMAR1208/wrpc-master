@@ -12,18 +12,18 @@ export default function Ecrsubmissionlist() {
 
 
     const columns = [
-        { field: "id1", headerName: "S.No", width: 50 },
-        { field: "name", headerName: " Candidate Name",width: 150 },
-        { field: "email", headerName: "Candidate Email",width: 200 },
-        { field: "address", headerName: "Candidate Address",width: 200 },
-        { field: "mobile_no", headerName: "Candidate  Mobile No." ,width: 150},
-        {
+      { field: "id", headerName: "S.No", width: 50 },
+      { field: "candidate_name", headerName: " Candidate Name",width:200 },
+      { field: "candidate_email", headerName: "Candidate Email",width: 200 },
+      { field: "candidate_address", headerName: "Candidate Address",width: 200 },
+      { field: "candidate_mobile_no", headerName: "Candidate  Mobile No.",width: 200 },
+      {
             field: "View form data",
             headerName: "View Form Data",
             sortable: false,
             width: 200,
             renderCell: (params) => (
-                <Link to={'/feedback/formfive/'+params.row.id}>
+                <Link to={'/feedback/formsix/'+params.row.id}>
                 <InsertDriveFileIcon style={{ cursor: 'pointer' }} />
             </Link>
             ),
@@ -35,7 +35,7 @@ export default function Ecrsubmissionlist() {
     useEffect(() => {
         async function fetchData() {
             try {
-                const response = await apiClient.get('/api/FormReports/PerformanceIndices');
+                const response = await apiClient.get('/api/FormReports/ECRsubmissiondata');
                 const dataWithIds = response.data.map((row, index) => ({ id1: index+1, ...row }));
                 setApiData(dataWithIds);
               
@@ -50,7 +50,7 @@ export default function Ecrsubmissionlist() {
 
     return (
         <div>
-           <h1>PERFORMANCE DATA</h1>
+           <h1>ECRsubmission DATA</h1>
           <Box sx={{ height: 400, width: "100%" }}>
             <DataGrid
               rows={apiData}
