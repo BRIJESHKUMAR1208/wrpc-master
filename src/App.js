@@ -239,12 +239,9 @@ function App() {
                 <Route path="form3" element={<Formthree />} />
                 <Route path="form4" element={<Formfour />} />
                 <Route path="performance" element={<Performanceindices />} />
-<<<<<<< HEAD
                 <Route path="ecrsubmissionform" element={<EcrsubmissionForm />} />
-=======
                 <Route path= "weeklyaccount" element={< Weeklyaccount/>}/>
                 
->>>>>>> 890f62a4a1f3ea3f504260dfbb5ad4634483aeea
                 
               </>
               <Route path="login" element={<LoginCandidate />} />
