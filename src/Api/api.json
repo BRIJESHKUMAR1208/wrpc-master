@@ -14,6 +14,7 @@
     "getlatestnews":"/api/TopMenu/lastestuploads",
     "getmenuSubmenu":"/api/TopMenu/MenuSubmenuList/",
     "Relaysave":"/api/Relay",
+    "Weeklyaccontsave":"/api/Weeklyaccount",
     "performance":"/api/PerformanceIndices",
     "Tppapost": "/api/TPPA_Obs/PostTTPOBS_data",
     "Tppaobspart1": "/api/TPPAObservations/Part1",

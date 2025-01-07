@@ -137,6 +137,7 @@ export const LoginCandidate = () => {
 
       if (response && response.data) {
         if (response.status === 200) {
+          debugger;
           let dt = response.data;
           let user = dt.user;
           var candidateId = response.data.user.cands_id;
