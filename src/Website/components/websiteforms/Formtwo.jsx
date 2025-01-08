@@ -96,9 +96,9 @@ export const Formtwo = () => {
         //   if (!formData.Issuesobserved) {
         //     errors.Issuesobserved = 'Required';
         //   }
-        if (!formData.Remarks) {
-            errors.Remarks = 'Required';
-        }
+        // if (!formData.Remarks) {
+        //     errors.Remarks = 'Required';
+        // }
         if (!formData.CategoryS) {
             errors.CategoryS = 'Required';
         }
@@ -350,7 +350,7 @@ export const Formtwo = () => {
                                                                     isInvalid={!!formErrors.AuditTeamMembers} /><small class="invalid-feedback"></small></div>
                                                                     <label
                                                                         class="col-sm-2 col-form-label">Remark<span
-                                                                        ><b>*</b></span>:</label>
+                                                                        ><b></b></span>:</label>
                                                             <div class="col-sm-2">
                                                                 <span style={{ color: "red" }}>{formErrors.Report}</span>
                                                                 <input class="form-control" name="Report" type="file"
