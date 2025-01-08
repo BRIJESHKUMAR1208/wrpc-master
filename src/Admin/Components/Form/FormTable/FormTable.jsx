@@ -15,6 +15,7 @@ import FormDataOne from '../CandidateTable/FormDataOne';
 import FormDataTwo from '../CandidateTable/FormDataTwo';
 import FormDataThree from '../CandidateTable/FormDataThree';
 import FormDataFour from '../CandidateTable/FormDataFour';
+import Ecrsubmissionlist from '../CandidateTable/ViewEcrsubmissiondata';
 import FormDataFive from '../CandidateTable/FormDataFive';
 import FormWeekly from '../CandidateTable/FormWeekly';
 function TabPanel(props) {
@@ -127,7 +128,7 @@ function TabPanel(props) {
        <FormDataFive/>
         </TabPanel> 
         <TabPanel value={value} index={5} dir={theme.direction}>
-       <FormDataFive/>
+       <Ecrsubmissionlist/>
         </TabPanel> 
         <TabPanel value={value} index={6} dir={theme.direction}>
        <FormWeekly/>
