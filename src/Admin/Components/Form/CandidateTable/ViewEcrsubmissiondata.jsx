@@ -3,13 +3,11 @@ import Box from '@mui/material/Box';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import apiClient from '../../../../Api/ApiClient';
 import apis from '../../../../Api/api.json';
-
 import { Link } from 'react-router-dom';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 
 export default function Ecrsubmissionlist() {
     const [apiData, setApiData] = useState([]);
-
 
     const columns = [
       { field: "id", headerName: "S.No", width: 50 },
@@ -25,16 +23,15 @@ export default function Ecrsubmissionlist() {
             renderCell: (params) => (
                 <Link to={'/feedback/formsix/'+params.row.id}>
                 <InsertDriveFileIcon style={{ cursor: 'pointer' }} />
-            </Link>
+                </Link>
             ),
-        }
+      }
     ];
-
-
 
     useEffect(() => {
         async function fetchData() {
-            try {
+            try 
+            {
                 const response = await apiClient.get('/api/FormReports/ECRsubmissiondata');
                 const dataWithIds = response.data.map((row, index) => ({ id1: index+1, ...row }));
                 setApiData(dataWithIds);
