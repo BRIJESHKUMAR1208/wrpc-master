@@ -16,6 +16,7 @@ import FormDataTwo from '../CandidateTable/FormDataTwo';
 import FormDataThree from '../CandidateTable/FormDataThree';
 import FormDataFour from '../CandidateTable/FormDataFour';
 import FormDataFive from '../CandidateTable/FormDataFive';
+import FormWeekly from '../CandidateTable/FormWeekly';
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
   
@@ -101,6 +102,7 @@ function TabPanel(props) {
           <Tab label="RELAY SETTINGS DATA" {...a11yProps(3)} />
           <Tab label="PERFORMANCE DATA" {...a11yProps(4)} />
           <Tab label="ECR SUBMISSION DATA" {...a11yProps(5)} />
+          <Tab label="WEEKLY DATA" {...a11yProps(6)} />
         </Tabs>
       </AppBar>
       <SwipeableViews
@@ -126,6 +128,9 @@ function TabPanel(props) {
         </TabPanel> 
         <TabPanel value={value} index={5} dir={theme.direction}>
        <FormDataFive/>
+        </TabPanel> 
+        <TabPanel value={value} index={6} dir={theme.direction}>
+       <FormWeekly/>
         </TabPanel> 
       </SwipeableViews>
     </Box>

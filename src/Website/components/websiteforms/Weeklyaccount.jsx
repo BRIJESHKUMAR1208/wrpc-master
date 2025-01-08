@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 // import { TopHeader } from '../../components/TopHeader/TopHeader';
 import apiclient from '../../../Api/ApiClient';
 
+
 import { Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material'; // Import Material-UI components
 import { Link } from 'react-router-dom';
 import { Row } from 'react-bootstrap/esm';
@@ -34,7 +35,8 @@ export const Weeklyaccount = () => {
     const fetchOptions = async () => {
         try {
             debugger;
-            const response = await axios.get("http://localhost:5141/api/ECRsubmission/Entitylist");
+            //const response = await axios.get("http://localhost:5141/api/ECRsubmission/Entitylist");
+            const response = await apiclient.get('/api/ECRsubmission/Entitylist');
             setOptions(response.data); // Assuming response.data is an array
         } catch (error) {
             console.error("Error fetching dropdown data:", error);
@@ -57,8 +59,8 @@ export const Weeklyaccount = () => {
         Discrepancy_Period_Date: '',
         Discrepancy_Period_Blocks: '',
         Discrepancy_Reason: '',
-        IsResolved: '',
-        Reasons: ''
+        // IsResolved: '',
+        // Reasons: ''
     });
 
     // New state variables for confirmation dialog and loading
@@ -119,12 +121,12 @@ export const Weeklyaccount = () => {
             errors.Discrepancy_Reason = "Input your values";
         }
         
-        if (!formData.IsResolved) {
-            errors.IsResolved = "Please enter IsResolved";
-        }
-        if (!formData.Reasons) {
-            errors.Reasons = "Please enter Reasons";
-        }
+        // if (!formData.IsResolved) {
+        //     errors.IsResolved = "Please enter IsResolved";
+        // }
+        // if (!formData.Reasons) {
+        //     errors.Reasons = "Please enter Reasons";
+        // }
 
        
         setFormErrors(errors);
@@ -169,7 +171,7 @@ export const Weeklyaccount = () => {
 
             // };
             const formDataToSend = new FormData();
-            //formDataToSend.append('user_id', candidateId);
+            formDataToSend.append('user_id', candidateId);
             formDataToSend.append('name_of_pool_Entity', formData.name_of_pool_Entity);
             formDataToSend.append('Weekly_Account', formData.Weekly_Account);
             formDataToSend.append('Account_Period_Start_Week_Date', formData.Account_Period_Start_Week_Date);
@@ -177,8 +179,8 @@ export const Weeklyaccount = () => {
             formDataToSend.append('Discrepancy_Period_Date', formData.Discrepancy_Period_Date);
             formDataToSend.append('Discrepancy_Period_Blocks', formData.Discrepancy_Period_Blocks);
             formDataToSend.append('Discrepancy_Reason', formData.Discrepancy_Reason);
-            formDataToSend.append('IsResolved', formData.IsResolved);
-            formDataToSend.append('Reasons', formData.Reasons);
+            // formDataToSend.append('IsResolved', formData.IsResolved);
+            // formDataToSend.append('Reasons', formData.Reasons);
             //formDataToSend.append('languagetype', 1);
             ;
             const response = await apiclient.post(apis.Weeklyaccontsave, formDataToSend)
@@ -200,8 +202,8 @@ export const Weeklyaccount = () => {
                         Discrepancy_Period_Date: '',
                         Discrepancy_Period_Blocks: '',
                         Discrepancy_Reason: '',
-                        IsResolved: '',
-                        Reasons: ''
+                        // IsResolved: '',
+                        // Reasons: ''
                     });
                     setSelectedRole('');
                 }, 1000);
@@ -371,9 +373,9 @@ export const Weeklyaccount = () => {
                                                                     maxlength="50" value={formData.Discrepancy_Reason}
                                                                     onChange={handleChange}
                                                                     isInvalid={!!formErrors.Discrepancy_Reason} /><small class="invalid-feedback"></small></div>
-                                                            <label class="col-sm-2 col-form-label">IsResolved<span
+                                                            {/* <label class="col-sm-2 col-form-label">IsResolved<span
                                                         ><b>*</b></span>:</label>
-                                                            <div className="col-sm-2">
+                                                            <div className="col-sm-2"> 
     <span style={{ color: "red" }}>{formErrors.IsResolved}</span>
     <select
         className="form-control"
@@ -382,12 +384,13 @@ export const Weeklyaccount = () => {
         onChange={handleChange}
         isInvalid={!!formErrors.IsResolved}
     >
-        <option value="">Select</option> {/* Default placeholder */}
+        <option value="">Select</option> 
         <option value="Yes">Yes</option>
         <option value="No">No</option>
     </select>
-    <small className="invalid-feedback"></small>
-</div><label
+    <small className="invalid-feedback"></small>*/}
+</div>
+{/* <label
                                                                     class="col-sm-2 col-form-label">Reason<span
                                                                     ><b>*</b></span>:</label>
                                                             <div class="col-sm-2">
@@ -396,7 +399,7 @@ export const Weeklyaccount = () => {
                                                                     maxlength="50" value={formData.Reasons}
                                                                     onChange={handleChange}
                                                                     isInvalid={!!formErrors.Reasons} /><small class="invalid-feedback"></small></div>
-                                                        </div>
+                                                        </div> */}
 
                                                     </div>
                                                 </div>
