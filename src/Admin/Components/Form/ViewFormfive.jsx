@@ -14,7 +14,7 @@ import {
   DialogContent,
   DialogActions,
 } from "@mui/material"; // Import Material-UI components
-import { json, Link ,useParams} from "react-router-dom";
+import { json, Link, useParams } from "react-router-dom";
 import { Row } from "react-bootstrap/esm";
 import Sidebar from "../sidebar/Sidebar";
 import Header from "../header/Header";
@@ -22,21 +22,21 @@ import Footer from "../footer/Footer";
 import DescriptionIcon from '@mui/icons-material/Description';
 
 export const ViewFormfive = () => {
-  const {id}= useParams()
+  const { id } = useParams()
   const [dropdownOptions, setDropdownOptions] = useState([]);
   const [selectedRole, setSelectedRole] = useState("");
   const [selectedFile, setSelectedFile] = useState({});
   const [formErrors, setFormErrors] = useState({});
   const [successDialogOpen, setSuccessDialogOpen] = useState(false);
   const [getuser, setuser] = useState("");
-  
+
   const [formData, setFormData] = useState({
     id: "",
-    utilityname :"",
+    utilityname: "",
     correct_operation: "",
     unwanted_operation: "",
     incorrect_operation: "",
-    failures_operate:"",
+    failures_operate: "",
   });
 
   // New state variables for confirmation dialog and loading
@@ -58,33 +58,33 @@ export const ViewFormfive = () => {
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file && (file.type === 'application/vnd.ms-excel' || file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')) {
-        setSelectedFile(file);
+      setSelectedFile(file);
     } else {
-        alert('Please upload a valid Excel file.');
-        setSelectedFile(null);
+      alert('Please upload a valid Excel file.');
+      setSelectedFile(null);
     }
-};
- 
-    const validateForm = () => {
-        const errors = {};
-        if (!formData.utilityname) {
-            errors.utilityname = "Please enter utilityname";
-        }
-        if (!formData.correct_operation) {
-            errors.correct_operation = "Please enter correct_operation";
-        }
-        if (!formData.unwanted_operation) {
-            errors.unwanted_operation = "Please enter unwanted_operation";
-        }
-        if (!formData.failures_operate) {
-            errors.failures_operate = "Please enter failures_operate";
-        }
-        if (!selectedFile) {
-            errors.incorrect_operation = "Please upload an Excel file";
-        }
-        setFormErrors(errors);
-        return Object.keys(errors).length === 0;
-    };
+  };
+
+  const validateForm = () => {
+    const errors = {};
+    if (!formData.utilityname) {
+      errors.utilityname = "Please enter utilityname";
+    }
+    if (!formData.correct_operation) {
+      errors.correct_operation = "Please enter correct_operation";
+    }
+    if (!formData.unwanted_operation) {
+      errors.unwanted_operation = "Please enter unwanted_operation";
+    }
+    if (!formData.failures_operate) {
+      errors.failures_operate = "Please enter failures_operate";
+    }
+    if (!selectedFile) {
+      errors.incorrect_operation = "Please upload an Excel file";
+    }
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -108,7 +108,7 @@ export const ViewFormfive = () => {
     setLoading(true);
 
     try {
-         ;
+      ;
       const formDataToSend = {
         ...formData,
         usertype: parseInt(selectedRole, 10),
@@ -116,7 +116,7 @@ export const ViewFormfive = () => {
 
       const response = await apiClient.post(api.editPerformance, id);
       if (response.status === 200) {
-        
+
         // Simulate a 3-second delay
         setTimeout(() => {
           // Set loading state back to false after the delay
@@ -126,11 +126,11 @@ export const ViewFormfive = () => {
 
           setFormData({
             id: "",
-            utilityname :"",
+            utilityname: "",
             correct_operation: "",
             unwanted_operation: "",
             incorrect_operation: "",
-            failures_operate:""
+            failures_operate: ""
           });
           setSelectedRole("");
         }, 1000);
@@ -146,7 +146,7 @@ export const ViewFormfive = () => {
     }
   };
 
- 
+
   useEffect(() => {
     async function fetchData2() {
       try {
@@ -236,7 +236,7 @@ export const ViewFormfive = () => {
                                       />
                                     </td>
                                   </tr>
-                                  
+
                                   <tr>
                                     <td className="ui header">Utility Name</td>
                                     <td>
@@ -250,16 +250,16 @@ export const ViewFormfive = () => {
 
                                     <td style={{ paddingLeft: "50px" }}>
 
-</td>
-<td className="ui header" style={{ paddingLeft: "20px" }}>Incorrect Operations</td>
-<td>
-  <input
-    className="form-control"
-    type="text"
-    placeholder="Incorrect Operations"
-    value={formData.incorrectoperations_ni} disabled
-  />
-</td>
+                                    </td>
+                                    <td className="ui header" style={{ paddingLeft: "20px" }}>Incorrect Operations</td>
+                                    <td>
+                                      <input
+                                        className="form-control"
+                                        type="text"
+                                        placeholder="Incorrect Operations"
+                                        value={formData.incorrectoperations_ni} disabled
+                                      />
+                                    </td>
                                   </tr>
                                   <tr>
                                     <td className="ui header">Correct Opration</td>
@@ -273,16 +273,16 @@ export const ViewFormfive = () => {
                                     </td>
                                     <td style={{ paddingLeft: "50px" }}>
 
-</td>
-<td className="ui header" style={{ paddingLeft: "20px" }}>Dependability Index</td>
-<td>
-  <input
-    className="form-control"
-    type="text"
-    placeholder="Dependability Index"
-    value={formData.dependabilityindex} disabled
-  />
-</td>
+                                    </td>
+                                    <td className="ui header" style={{ paddingLeft: "20px" }}>Dependability Index</td>
+                                    <td>
+                                      <input
+                                        className="form-control"
+                                        type="text"
+                                        placeholder="Dependability Index"
+                                        value={formData.dependabilityindex} disabled
+                                      />
+                                    </td>
                                   </tr>
                                   <tr>
                                     <td className="ui header">Unwanted Opration</td>
@@ -296,18 +296,18 @@ export const ViewFormfive = () => {
                                     </td>
                                     <td style={{ paddingLeft: "50px" }}>
 
-</td>
-<td className="ui header" style={{ paddingLeft: "20px" }}>Security Index</td>
-<td>
-  <input
-    className="form-control"
-    type="text"
-    placeholder="Security Index"
-    value={formData.securityindex} disabled
-  />
-</td>
+                                    </td>
+                                    <td className="ui header" style={{ paddingLeft: "20px" }}>Security Index</td>
+                                    <td>
+                                      <input
+                                        className="form-control"
+                                        type="text"
+                                        placeholder="Security Index"
+                                        value={formData.securityindex} disabled
+                                      />
+                                    </td>
                                   </tr>
-                                
+
                                   <tr>
                                     <td className="ui header">Failures Operate</td>
                                     <td>
@@ -320,16 +320,16 @@ export const ViewFormfive = () => {
                                     </td>
                                     <td style={{ paddingLeft: "50px" }}>
 
-</td>
-<td className="ui header" style={{ paddingLeft: "20px" }}>Reliability index</td>
-<td>
-  <input
-    className="form-control"
-    type="text"
-    placeholder="Reliability index"
-    value={formData.reliabilityindex} disabled
-  />
-</td>
+                                    </td>
+                                    <td className="ui header" style={{ paddingLeft: "20px" }}>Reliability index</td>
+                                    <td>
+                                      <input
+                                        className="form-control"
+                                        type="text"
+                                        placeholder="Reliability index"
+                                        value={formData.reliabilityindex} disabled
+                                      />
+                                    </td>
                                   </tr>
                                   {/* <tr>
                                     <td className="ui header">Incorrect Opration</td>
@@ -338,7 +338,7 @@ export const ViewFormfive = () => {
                                         
                                     </td>
                                   </tr> */}
-                                 
+
                                 </tbody>
                               </form>
 
