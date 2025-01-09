@@ -33,7 +33,10 @@ export const EditCanidate = () => {
     formtype1_2: 0,
     formtype1_3: 0,
     formtype1_4: 0,
-    formtype5: 0
+    formtype5: 0,
+    formtype6: 0,
+    formtype7: 0,
+    formtype8: 0
   });
 
   // New state variables for confirmation dialog and loading
@@ -388,6 +391,25 @@ export const EditCanidate = () => {
                                       checked={formData.formtype5}
                                       onChange={handleCheckboxChange}
                                       id="flexCheckChecked" />
+
+<label>ECR submission data for sellers</label>
+                                  <input type='checkbox'
+                                    name="formtype6"
+                                    checked={formData.formtype6}
+                                    onChange={handleCheckboxChange}
+                                    id="flexCheckChecked" />
+                                  <label>Weekly Account Discrepancies </label>
+                                  <input type='checkbox'
+                                    name="formtype7"
+                                    checked={formData.formtype7}
+                                    onChange={handleCheckboxChange}
+                                    id="flexCheckChecked" />
+                                  <label>Monthly Account Discrepancies </label>
+                                  <input type='checkbox'
+                                    name="formtype8"
+                                    checked={formData.formtype8}
+                                    onChange={handleCheckboxChange}
+                                    id="flexCheckChecked" />
                                       </div>
 
                                   <Form.Control.Feedback type="invalid">

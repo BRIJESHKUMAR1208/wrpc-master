@@ -8,7 +8,7 @@ import { Navbar, Nav, NavDropdown, Container } from "react-bootstrap";
 import apis from '../../../Api/api.json';
 
 const CmsDisplay = () => {
-  
+
   const { id } = useParams();
   const [selectedLanguage, setSelectedLanguage] = useState();
   // const { fontSize } = useFontSize();
@@ -193,16 +193,30 @@ const CmsDisplay = () => {
                   </Link>
                 </li>
               )}
-               {user1.can_frmwky === 1 && (
-                
+              {user1.can_ft6 === 1 && (
+
                 <li>
-                  <Link to="/candidate/weeklyaccount" className="dropdown-item">
-                    Weekly Account
+                  <Link to="/candidate/ecrsubmissionform" className="dropdown-item">
+                    ECR submission data 
                   </Link>
                 </li>
-              )} 
-              
+              )}
+              {user1.can_ft7 === 1 && (
 
+                <li>
+                  <Link to="/candidate/weeklyaccount" className="dropdown-item">
+                    Weekly  Discrepancies
+                  </Link>
+                </li>
+              )}
+              {user1.can_ft8 === 1 && (
+
+                <li>
+                  <Link to="/candidate/weeklyaccount" className="dropdown-item">
+                    Monthly  Discrepancies
+                  </Link>
+                </li>
+              )}
             </ul>
           </li>
         )}
@@ -248,7 +262,7 @@ const CmsDisplay = () => {
               <Link to={"/latestnews"} style={{ color: 'white' }}>Latest News</Link>
             </div>
             <div class="collapse navbar-collapse" id="navbar1">
-             
+
               {/* <Link to={"/form3all_list"} style={{ color: 'white' }}>Formdata</Link> */}
             </div>
           </div>

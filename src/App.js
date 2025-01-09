@@ -372,6 +372,7 @@ function App() {
                         <Route path="formfive/:id" element={<ViewFormfive />} />
                         <Route path="formweekly/:id" element={<ViewFormweekly />} />
                         <Route path="formmonthly/:id" element={<ViewFormmonthly />} />
+                        <Route path="formsix/:id" element={<Getecrdatabyid />} />
                       </>
                       <Route path="login" element={<LoginCandidate />} />
                     </Route>
