@@ -71,8 +71,10 @@ import { ViewFormthree } from "./Admin/Components/Form/ViewFormthree.jsx";
 import { ViewFormfour } from "./Admin/Components/Form/ViewFormfour.jsx";
 import { ViewFormfive } from "./Admin/Components/Form/ViewFormfive.jsx";
 import { ViewFormweekly } from "./Admin/Components/Form/ViewFormweekly.jsx";
+import { ViewFormmonthly } from "./Admin/Components/Form/ViewFormmonthly.jsx";
 import { Performanceindices } from "./Website/components/websiteforms/PerformanceIndices.jsx"
 import { Weeklyaccount } from "./Website/components/websiteforms/Weeklyaccount.jsx";
+import { Monthlyaccount } from "./Website/components/websiteforms/Monthlyaccount.jsx";
 import { AboutUsEdit } from "./Admin/Components/Aboutus/AboutUsEdit.jsx";
 import ForgetPassword from "./Admin/Components/pages/changepassword/ForgetPassword.jsx";
 import Newpassword from "./Admin/Components/pages/changepassword/Newpassword.jsx";
@@ -243,6 +245,7 @@ function App() {
                 <Route path="performance" element={<Performanceindices />} />
                 <Route path="ecrsubmissionform" element={<EcrsubmissionForm />} />
                 <Route path= "weeklyaccount" element={< Weeklyaccount/>}/>
+                 <Route path= "Monthlyaccount" element={< Monthlyaccount/>}/> 
                 
                 
               </>
@@ -368,6 +371,7 @@ function App() {
                         <Route path="formfour/:id" element={<ViewFormfour />} />
                         <Route path="formfive/:id" element={<ViewFormfive />} />
                         <Route path="formweekly/:id" element={<ViewFormweekly />} />
+                        <Route path="formmonthly/:id" element={<ViewFormmonthly />} />
                       </>
                       <Route path="login" element={<LoginCandidate />} />
                     </Route>

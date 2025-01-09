@@ -51,7 +51,7 @@ export default function FormWeekly() {
 
     return (
         <div>
-           <h1>PERFORMANCE DATA</h1>
+           <h1> WEEKLY ACCOUNT DATA</h1>
           <Box sx={{ height: 400, width: "100%" }}>
             <DataGrid
               rows={apiData}
