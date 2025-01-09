@@ -217,12 +217,12 @@ export const ViewFormmonthly = () => {
                 <main id="main" class="main">
                     <div class="pagetitle">
                         <div className="pagetitle-lft">
-                            <h1>Weekly Account list </h1>
+                            <h1>Monthly Account list </h1>
                             <nav>
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item">Dashboard</li>
-                                    <li class="breadcrumb-item ">Form Weekly </li>
-                                    <li class="breadcrumb-item active"> Weekly Account list  </li>
+                                    <li class="breadcrumb-item ">Form Monthly </li>
+                                    <li class="breadcrumb-item active"> Monthly Account list  </li>
                                 </ol>
                             </nav>
                         </div>
