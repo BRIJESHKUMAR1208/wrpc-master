@@ -22,7 +22,7 @@ export const CreateCandidate = () => {
   const [showAdditionalCheckboxes, setShowAdditionalCheckboxes] = useState(false);
   const [successDialogOpen, setSuccessDialogOpen] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
-  
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -36,7 +36,10 @@ export const CreateCandidate = () => {
     formtype1_1: 0,
     formtype1_2: 0,
     formtype1_3: 0,
-    formtype1_4: 0
+    formtype1_4: 0,
+    formtype6: 0,
+    formtype7: 0,
+    formtype8: 0
 
   });
 
@@ -57,12 +60,12 @@ export const CreateCandidate = () => {
   };
   const handleCheckboxChange = (event) => {
     const { name, checked } = event.target;
-    
+
     if (name === 'formtype1') {
       setShowAdditionalCheckboxes(checked);
       setFormData(prevFormData => ({
         ...prevFormData,
-        [name]: checked ? 1 : 0, 
+        [name]: checked ? 1 : 0,
         formtype1_1: checked ? prevFormData.formtype1_1 : 0,
         formtype1_2: checked ? prevFormData.formtype1_2 : 0,
         formtype1_3: checked ? prevFormData.formtype1_3 : 0,
@@ -71,16 +74,16 @@ export const CreateCandidate = () => {
     } else {
       // For other checkboxes, update their values directly
       setFormData
-      
-      ({
-        ...formData,
-        [name]: checked ? 1 : 0,
-      });
+
+        ({
+          ...formData,
+          [name]: checked ? 1 : 0,
+        });
     }
   };
-  
-  
-  
+
+
+
   const validateForm = () => {
     const errors = {};
 
@@ -135,7 +138,7 @@ export const CreateCandidate = () => {
     setLoading(true);
 
     try {
-     
+
       const response = await apiClient.post(api.candidate, formData);
       if (response.status === 200) {
         setTimeout(() => {
@@ -157,8 +160,10 @@ export const CreateCandidate = () => {
             formtype2: 0,
             formtype3: 0,
             formtype4: 0,
-            formtype5: 0
-
+            formtype5: 0,
+            formtype6: 0,
+            formtype7: 0,
+            formtype8: 0
           });
 
         }, 1000);
@@ -171,12 +176,12 @@ export const CreateCandidate = () => {
         alert('Something went wrong');
       }
     } catch (error) {
-    //  console.error('Error submitting data:', error);
+      //  console.error('Error submitting data:', error);
       alert('Something went wrong');
-    //  toast.error(error.response.data);
+      //  toast.error(error.response.data);
       setLoading(false);
     }
-    finally{
+    finally {
       setLoading(false);
     }
   };
@@ -383,10 +388,28 @@ export const CreateCandidate = () => {
                                     checked={formData.formtype4}
                                     onChange={handleCheckboxChange}
                                     id="flexCheckChecked" />
- <label>Performance Indices</label>
+                                  <label>Performance Indices</label>
                                   <input type='checkbox'
                                     name="formtype5"
                                     checked={formData.formtype5}
+                                    onChange={handleCheckboxChange}
+                                    id="flexCheckChecked" />
+                                  <label>ECR submission data for sellers</label>
+                                  <input type='checkbox'
+                                    name="formtype6"
+                                    checked={formData.formtype6}
+                                    onChange={handleCheckboxChange}
+                                    id="flexCheckChecked" />
+                                  <label>Weekly Account Discrepancies </label>
+                                  <input type='checkbox'
+                                    name="formtype7"
+                                    checked={formData.formtype7}
+                                    onChange={handleCheckboxChange}
+                                    id="flexCheckChecked" />
+                                  <label>Monthly Account Discrepancies </label>
+                                  <input type='checkbox'
+                                    name="formtype8"
+                                    checked={formData.formtype8}
                                     onChange={handleCheckboxChange}
                                     id="flexCheckChecked" /></div>
                                 <Form.Control.Feedback type="invalid">
