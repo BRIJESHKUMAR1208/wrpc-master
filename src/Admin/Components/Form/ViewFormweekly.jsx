@@ -29,15 +29,15 @@ export const ViewFormweekly = () => {
     const [selectedFile, setSelectedFile] = useState(null);
     const [formData, setFormData] = useState({
         SNo: '',
-                        name_of_pool_Entity: '',
-                        Weekly_Account: '',
-                        Account_Period_Start_Week_Date: '',
-                        Account_Period_End_Week_Date: '',
-                        Discrepancy_Period_Date: '',
-                        Discrepancy_Period_Blocks: '',
-                        Discrepancy_Reason: '',
-                        IsResolved: '',
-                        Reasons: ''
+                        name_of_pool_entity: '',
+                        weekly_account: '',
+                        account_period_start_week_date: '',
+                        account_period_end_week_date: '',
+                        discrepancy_period_date: '',
+                        discrepancy_period_blocks: '',
+                        discrepancy_reason: '',
+                        isresolved: '',
+                        reasons: ''
 
     });
 
@@ -78,18 +78,18 @@ export const ViewFormweekly = () => {
             errors.discrepancy_period_date = 'Required';
         }
        
-        if (!formData.Discrepancy_Period_Blocks) {
-            errors.Discrepancy_Period_Blocks = 'Required';
+        if (!formData.discrepancy_period_blocks) {
+            errors.discrepancy_period_blocks = 'Required';
         }
-        if (!formData.Discrepancy_Reason) {
-            errors.Discrepancy_Reason = 'Required';
+        if (!formData.discrepancy_reason) {
+            errors.discrepancy_reason = 'Required';
         }
-        if (!formData.IsResolved) {
-            errors.IsResolved = 'Required';
+        if (!formData.isresolved) {
+            errors.isresolved = 'Required';
         }
-        if (!formData.Reasons) {
-            errors.Reasons = 'Required';
-        }
+        // if (!formData.reasons) {
+        //     errors.reasons = 'Required';
+        // }
        
 
 
@@ -106,26 +106,26 @@ export const ViewFormweekly = () => {
         return Object.keys(errors).length === 0;
     };
 
-    const handleFileChange = (event) => {
-        const file = event.target.files[0];
+    // const handleFileChange = (event) => {
+    //     const file = event.target.files[0];
 
-        if (file && file.type === 'application/pdf') {
-            // File is a PDF
-            setSelectedFile(file);
+    //     if (file && file.type === 'application/pdf') {
+    //         // File is a PDF
+    //         setSelectedFile(file);
 
-            // You can perform additional actions here if needed
-        } else {
-            // File is not a PDF
-            alert('Please upload a PDF file.');
-        }
-    };
+    //         // You can perform additional actions here if needed
+    //     } else {
+    //         // File is not a PDF
+    //         alert('Please upload a PDF file.');
+    //     }
+    // };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        // if (!validateForm()) {
-        //     return;
-        // }
+        if (!validateForm()) {
+            return;
+        }
 
         // Open the confirmation dialog when the user clicks "Submit"
         setConfirmDialogOpen(true);
@@ -158,9 +158,9 @@ export const ViewFormweekly = () => {
             // Set loading state to true
             setLoading(true);
             const formDataToSend = new FormData();
-            formDataToSend.append("SNo", formData.sno);  // Append SNo
-            formDataToSend.append("IsResolved", formData.IsResolved);  // Append admin_remark
-            formDataToSend.append("Reasons", formData.Reasons);
+            formDataToSend.append("SNo", id);  // Append SNo
+            formDataToSend.append("isresolved", formData.isresolved);  // Append admin_remark
+            formDataToSend.append("reasons", formData.reasons);
             // Send JSON request
         const response = await apiClient.post(api.updateweekly, formDataToSend, {
             headers: {
@@ -179,15 +179,15 @@ export const ViewFormweekly = () => {
 
                     setFormData({
                         SNo: '',
-                        name_of_pool_Entity: '',
-                        Weekly_Account: '',
-                        Account_Period_Start_Week_Date: '',
-                        Account_Period_End_Week_Date: '',
-                        Discrepancy_Period_Date: '',
-                        Discrepancy_Period_Blocks: '',
-                        Discrepancy_Reason: '',
-                        IsResolved: '',
-                        Reasons: ''
+                        name_of_pool_entity: '',
+                        weekly_account: '',
+                        account_period_start_week_date: '',
+                        account_period_end_week_date: '',
+                        discrepancy_period_date: '',
+                        discrepancy_period_blocks: '',
+                        discrepancy_reason: '',
+                        isresolved: '',
+                        reasons: ''
                     });
                     setSelectedRole('');
                   
@@ -299,7 +299,7 @@ export const ViewFormweekly = () => {
                                                                             type="text"
                                                                             placeholder="Account period start week date"
                                                                             name='account_period_start_week_date'
-                                                                            value={formData.account_period_start_week_date} disabled
+                                                                            value={formData.account_period_start_week_date} disabled  
                                                                             onChange={handleChange}
                                                                             isInvalid={!!formErrors.account_period_start_week_date}
 
@@ -343,7 +343,7 @@ export const ViewFormweekly = () => {
                                                                     <td className="ui header">Discrepancy period blocks</td>
                                                                     <td>
                                                                         <input
-                                                                            className="form-control"
+                                                                            className={`form-control ${formErrors.discrepancy_period_blocks ? 'is-invalid' : ''}`}
                                                                             type="text"
                                                                             placeholder="Discrepancy period blocks"
                                                                             name="discrepancy_period_blocks"  // Correct binding
@@ -356,7 +356,7 @@ export const ViewFormweekly = () => {
                                                                     <td className="ui header">Discrepancy Reason</td>
                                                                     <td>
                                                                         <input
-                                                                            className="form-control"
+                                                                           className={`form-control ${formErrors.discrepancy_reason ? 'is-invalid' : ''}`}
                                                                             type="text"
                                                                             placeholder="Discrepancy Reason"
                                                                             name="discrepancy_reason"  // Correct binding
@@ -370,11 +370,12 @@ export const ViewFormweekly = () => {
                                                                     <td>
 
                                                                     <select
-        className="form-control"
-        name="IsResolved"
-        value={formData.IsResolved}
+          className={`form-control ${formErrors.isresolved ? 'is-invalid' : ''}`}
+        name="isresolved"
+        value={formData.isresolved}
         onChange={handleChange}
-        isInvalid={!!formErrors.IsResolved}
+        
+        
     >
         <option value="">Select</option> {/* Default placeholder */}
         <option value="Yes">Yes</option>
@@ -387,12 +388,13 @@ export const ViewFormweekly = () => {
                                                                     <td className="ui header">Reasons</td>
                                                                     <td>
                                                                         <input
-                                                                            className="form-control"
+                                                                           className={`form-control ${formErrors.reasons ? 'is-invalid' : ''}`}
                                                                             type="text"
-                                                                            placeholder="Reasons"
-                                                                            name="Reasons"  // Correct binding
-                                                                            value={formData.Reasons} 
+                                                                            placeholder="reasons"
+                                                                            name="reasons"  // Correct binding
+                                                                            value={formData.reasons} 
                                                                             onChange={handleChange}  // Bind the change handler
+                                                                           
                                                                         />
                                                                     </td>
                                                                 </tr>

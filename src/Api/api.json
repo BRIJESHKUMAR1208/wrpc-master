@@ -42,6 +42,7 @@
     "newuser":"/api/user",  
     "updateplanmonitorning":"/api/TPPA_Plan_Monitoring/put/",
     "updateweekly":"/api/Weeklyaccount/put/",
+    "updatemonthly":"/api/Monthlyaccount/put/",
     "Relaadmindata":"/api/Relay/relayadminremakr/",
     "getforgototp":"/api/ManageCandidatepassword/",
     "getverifyotp":"/api/ManageCandidatepassword/verifyotp",
