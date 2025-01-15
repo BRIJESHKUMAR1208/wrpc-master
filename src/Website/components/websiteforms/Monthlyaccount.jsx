@@ -247,7 +247,7 @@ debugger;
                             <div class="InnerSection">
                                 <div class="InnerSectionBox">
                                     <form class="forms-sample" onSubmit={handleSubmit}>
-                                        <h4>Weekly Account Form </h4>
+                                        <h4>Monthly Account Form </h4>
                                         <div class="row">
                                             <div class="col-md-12 grid-margin stretch-card">
                                                 <div class="card">

@@ -83,9 +83,9 @@ export const ViewFormmonthly = () => {
             errors.discrepancyreason = "Input your values";
         }
 
-        if (!formData.reason) {
-            errors.reason = "Input your values";
-        }
+        // if (!formData.reason) {
+        //     errors.reason = "Input your values";
+        // }
         if (!formData.remark) {
             errors.remark = "Input your values";
         }
@@ -122,9 +122,9 @@ export const ViewFormmonthly = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        // if (!validateForm()) {
-        //     return;
-        // }
+        if (!validateForm()) {
+            return;
+        }
 
         // Open the confirmation dialog when the user clicks "Submit"
         setConfirmDialogOpen(true);
@@ -157,11 +157,11 @@ export const ViewFormmonthly = () => {
             // Set loading state to true
             setLoading(true);
             const formDataToSend = new FormData();
-            formDataToSend.append("id", formData.id);  // Append SNo
+            formDataToSend.append("id", id);  // Append SNo
             formDataToSend.append("remark", formData.remark);  // Append admin_remark
-            formDataToSend.append("reasons", formData.reason);
+            formDataToSend.append("reason", formData.reason);
             // Send JSON request
-        const response = await apiClient.post(api.updateweekly, formDataToSend, {
+        const response = await apiClient.post(`${api.updatemonthly}${id}` , formDataToSend, {
             headers: {
                 "Content-Type": "application/json",
             },
@@ -217,12 +217,12 @@ export const ViewFormmonthly = () => {
                 <main id="main" class="main">
                     <div class="pagetitle">
                         <div className="pagetitle-lft">
-                            <h1>Weekly Account list </h1>
+                            <h1>Monthly Account list </h1>
                             <nav>
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item">Dashboard</li>
-                                    <li class="breadcrumb-item ">Form Weekly </li>
-                                    <li class="breadcrumb-item active"> Weekly Account list  </li>
+                                    <li class="breadcrumb-item ">Form Monthly </li>
+                                    <li class="breadcrumb-item active"> Monthly Account list  </li>
                                 </ol>
                             </nav>
                         </div>
@@ -342,7 +342,7 @@ export const ViewFormmonthly = () => {
                                                                     <td className="ui header">Discrepancy Reason</td>
                                                                     <td>
                                                                         <input
-                                                                            className="form-control"
+                                                                            className={`form-control ${formErrors.discrepancyreason ? 'is-invalid' : ''}`}
                                                                             type="text"
                                                                             placeholder="Discrepancy Reason"
                                                                             name="discrepancyreason"  // Correct binding
@@ -357,7 +357,7 @@ export const ViewFormmonthly = () => {
                                                                     <td>
 
                                                                     <select
-        className="form-control"
+       className={`form-control ${formErrors.remark ? 'is-invalid' : ''}`}
         name="remark"
         value={formData.remark}
         onChange={handleChange}
@@ -374,7 +374,8 @@ export const ViewFormmonthly = () => {
                                                                     <td className="ui header">Reasons</td>
                                                                     <td>
                                                                         <input
-                                                                            className="form-control"
+                                                                            
+                                                                              className="form-control"
                                                                             type="text"
                                                                             placeholder="Reasons"
                                                                             name="reason"  // Correct binding
@@ -389,13 +390,13 @@ export const ViewFormmonthly = () => {
                                                                 className="d-flex "
                                                                 style={{ justifyContent: "space-between" }}
                                                             >
-                                                                {/* <Button
+                                                                <Button
                                                                     variant="primary"
                                                                     type="submit"
                                                                     style={{ width: 100 }}
                                                                 >
                                                                     Submit
-                                                                </Button> */}
+                                                                </Button>
                                                             </div>
                                                         </form>
 
