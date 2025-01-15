@@ -407,7 +407,7 @@ p.news-p {
 }
 
 .language-box select {
-    width: 88px;
+    width:10;
     height: 28px;
     color: #3d3d3d;
     cursor: pointer;

@@ -66,6 +66,26 @@ export const TopHeader = ({ selectedLanguage, handleLanguageChange }) => {
       navigate('/candidate/login');
     }
   };
+  const handleSelectCandidate = (event) => {
+    const selectedValue = event.target.value;
+
+    if (selectedValue === '1') {
+      //navigate('/login');
+      const currentLanguage = selectedLanguageA;
+    const languageType = localStorage.getItem("languagetype"); // Save the languagetype value
+
+    localStorage.clear();
+    if (languageType) {
+      localStorage.setItem("languagetype", languageType);
+    }
+
+    setSelectedLanguageA(currentLanguage);
+      //localStorage.clear();
+      window.location.reload("/");
+    } else if (selectedValue === '2') {
+      navigate('/candchangepassword');
+    }
+  };
   useEffect(() => {
     const updateDateTime = () => {
       const now = new Date();
@@ -290,8 +310,12 @@ export const TopHeader = ({ selectedLanguage, handleLanguageChange }) => {
                             </button>
                           ) : storedUserString1 ? (
                             <div className="language-box">
-
-                              <button
+                              <select name="languagetype" className="dash_link_nt" onChange={handleSelectCandidate}>
+                                  <option value="" > Welcome, {cand_name}</option>
+                                  <option value="1" >Candidate Logout</option>
+                                  <option value="2" >Change Password</option>
+                                </select>
+                              {/* <button
                                 className="primary-button "
                                 onClick={() => setShowDropdown(!showDropdown)}
                               >
@@ -306,7 +330,7 @@ export const TopHeader = ({ selectedLanguage, handleLanguageChange }) => {
                                   <div> <button onClick={handleChangePassword} className="dropdown-button">Change Password</button></div>
 
                                 </div>
-                              )}
+                              )} */}
                             </div>
                           ) : (
                             // <button>

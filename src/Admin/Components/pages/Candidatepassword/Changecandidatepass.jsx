@@ -9,8 +9,27 @@ import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 const ChangecandidatePassword = () => {
     const storedUserString = localStorage.getItem("user1");
-    const user = JSON.parse(storedUserString);
-    const email = user.cand_email;
+
+    let email = ""; // Default value for email
+
+    try {
+        // Parse the stored string only if it's not null or undefined
+        const user = storedUserString ? JSON.parse(storedUserString) : null;
+
+        // Use optional chaining to safely access properties
+        email = user?.cand_email || "";
+      
+      
+        // Log for debugging (optional)
+        console.log("Candidate Email:", email);
+    } catch (error) {
+        navigate('/');
+        console.error("Error parsing 'user1' from localStorage or accessing cand_email:", error);
+    }
+
+    // Ensure email is always a valid string
+    console.log(email);
+
     const [oldPassword, setOldPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
