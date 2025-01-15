@@ -39,7 +39,7 @@ export default function CustomTable() {
         { field: "u_menu_name", headerName: "Title" ,width: 200},
         // { field: "u_internal_link", headerName: "Internal Link",width: 120 },
         // { field: "u_external_link", headerName: "External Link",width: 120 },
-        { field: "menu_url", headerName: "Menu Url",width: 200 },
+        { field: "menu_url", headerName: "Menu Url",width: 400 },
         {
             field: "edit",
             headerName: "Edit",

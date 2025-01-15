@@ -215,6 +215,7 @@ export const Getecrdatabyid = () => {
                                     </td>
                                     <td style={{ paddingLeft: "50px" }}>
 
+
                                     </td>
                                     <td className="ui header" style={{ paddingLeft: "20px" }}>Copy Of Data</td>
                                     

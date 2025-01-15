@@ -137,45 +137,45 @@ export const EditCanidate = () => {
     setConfirmDialogOpen(false);
     // Set loading state to true
     setLoading(true);
-    if (validateForm()){
-    try {
-      const formDataToSend = new FormData();
-      formDataToSend.append('name', formData.name);
-      formDataToSend.append('email', formData.email);
-      formDataToSend.append('mobile_no', formData.mobile_no);
-      formDataToSend.append('address', formData.address);
-      formDataToSend.append('formtype1', formData.formtype1);
-      formDataToSend.append('formtype2', formData.formtype2);
-      formDataToSend.append('formtype3', formData.formtype3);
-      formDataToSend.append('formtype4', formData.formtype4);
-      formDataToSend.append('formtype1_1', formData.formtype1_1);
-      formDataToSend.append('formtype1_2', formData.formtype1_2);
-      formDataToSend.append('formtype1_3', formData.formtype1_3);
-      formDataToSend.append('formtype1_4', formData.formtype1_4);
-      formDataToSend.append('formtype5', formData.formtype5);
-      const response = await apiClient.post("/api/Candidate/put/" + id, formData);
+    if (validateForm()) {
+      try {
+        const formDataToSend = new FormData();
+        formDataToSend.append('name', formData.name);
+        formDataToSend.append('email', formData.email);
+        formDataToSend.append('mobile_no', formData.mobile_no);
+        formDataToSend.append('address', formData.address);
+        formDataToSend.append('formtype1', formData.formtype1);
+        formDataToSend.append('formtype2', formData.formtype2);
+        formDataToSend.append('formtype3', formData.formtype3);
+        formDataToSend.append('formtype4', formData.formtype4);
+        formDataToSend.append('formtype1_1', formData.formtype1_1);
+        formDataToSend.append('formtype1_2', formData.formtype1_2);
+        formDataToSend.append('formtype1_3', formData.formtype1_3);
+        formDataToSend.append('formtype1_4', formData.formtype1_4);
+        formDataToSend.append('formtype5', formData.formtype5);
+        const response = await apiClient.post("/api/Candidate/put/" + id, formData);
 
-      if (response.status === 200) {
+        if (response.status === 200) {
 
-        // Simulate a 3-second delay
-        setTimeout(() => {
-          // Set loading state back to false after the delay
-          setLoading(false);
-          // Show the success dialog
-          setSuccessDialogOpen(true);
-        }, 1000);
-      } else {
+          // Simulate a 3-second delay
+          setTimeout(() => {
+            // Set loading state back to false after the delay
+            setLoading(false);
+            // Show the success dialog
+            setSuccessDialogOpen(true);
+          }, 1000);
+        } else {
+          toast.error('Something went wrong');
+        }
+      } catch (error) {
+        console.error('Error submitting data:', error);
         toast.error('Something went wrong');
+        setLoading(false);
       }
-    } catch (error) {
-      console.error('Error submitting data:', error);
-      toast.error('Something went wrong');
-      setLoading(false);
+      finally {
+        setLoading(false);
+      }
     }
-    finally{
-      setLoading(false);
-    }
-  }
   };
 
 
@@ -323,13 +323,13 @@ export const EditCanidate = () => {
                                   </Form.Label>
                                   <div>
                                     <label>TRIPPING COMPLIANCE OF PCM DISCUSSIONS</label>
-                                    
+
                                     <input type='checkbox'
                                       name="formtype1"
                                       checked={formData.formtype1}
                                       onChange={handleCheckboxChange}
                                       id="flexCheckChecked" />
-                               
+
                                     {/* {formData.formtype1 && (
                                       <>
                                         <label>Form 1</label>
@@ -385,32 +385,32 @@ export const EditCanidate = () => {
                                       checked={formData.formtype4}
                                       onChange={handleCheckboxChange}
                                       id="flexCheckChecked" />
-<label> Performance Indices</label>
+                                    <label> Performance Indices</label>
                                     <input type='checkbox'
                                       name="formtype5"
                                       checked={formData.formtype5}
                                       onChange={handleCheckboxChange}
                                       id="flexCheckChecked" />
 
-<label>ECR submission data for sellers</label>
-                                  <input type='checkbox'
-                                    name="formtype6"
-                                    checked={formData.formtype6}
-                                    onChange={handleCheckboxChange}
-                                    id="flexCheckChecked" />
-                                  <label>Weekly Account Discrepancies </label>
-                                  <input type='checkbox'
-                                    name="formtype7"
-                                    checked={formData.formtype7}
-                                    onChange={handleCheckboxChange}
-                                    id="flexCheckChecked" />
-                                  <label>Monthly Account Discrepancies </label>
-                                  <input type='checkbox'
-                                    name="formtype8"
-                                    checked={formData.formtype8}
-                                    onChange={handleCheckboxChange}
-                                    id="flexCheckChecked" />
-                                      </div>
+                                    <label>ECR submission data for sellers</label>
+                                    <input type='checkbox'
+                                      name="formtype6"
+                                      checked={formData.formtype6}
+                                      onChange={handleCheckboxChange}
+                                      id="flexCheckChecked" />
+                                    <label>Weekly Account Discrepancies </label>
+                                    <input type='checkbox'
+                                      name="formtype7"
+                                      checked={formData.formtype7}
+                                      onChange={handleCheckboxChange}
+                                      id="flexCheckChecked" />
+                                    <label>Monthly Account Discrepancies </label>
+                                    <input type='checkbox'
+                                      name="formtype8"
+                                      checked={formData.formtype8}
+                                      onChange={handleCheckboxChange}
+                                      id="flexCheckChecked" />
+                                  </div>
 
                                   <Form.Control.Feedback type="invalid">
                                     {formErrors.address}

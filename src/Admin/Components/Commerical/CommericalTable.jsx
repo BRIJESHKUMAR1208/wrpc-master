@@ -31,9 +31,9 @@ export default function CommericalTable() {
 
     const columns = [
         { field: "id", headerName: "S.No", width: 50 },
-        { field: "name", headerName: "NAME " },
-        { field: "start_date", headerName: "Start Date" },
-        { field: "end_date", headerName: "End Date" },
+        { field: "name", headerName: "NAME " ,width: 400},
+        { field: "start_date", headerName: "Start Date",width: 200 },
+        { field: "end_date", headerName: "End Date",width: 200 },
         {
             field: "edit",
             headerName: "Edit",

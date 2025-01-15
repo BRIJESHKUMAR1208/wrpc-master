@@ -193,7 +193,7 @@ const CmsDisplay = () => {
                   </Link>
                 </li>
               )}
-              {user1.can_ft6 === 1 && (
+              {/* {user1.can_ft6 === 1 && (
 
                 <li>
                   <Link to="/candidate/ecrsubmissionform" className="dropdown-item">
@@ -216,7 +216,7 @@ const CmsDisplay = () => {
                     Monthly  Discrepancies
                   </Link>
                 </li>
-              )}
+              )} */}
             </ul>
           </li>
         )}

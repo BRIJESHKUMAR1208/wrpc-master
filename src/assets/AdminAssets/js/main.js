@@ -19,7 +19,7 @@
       return document.querySelector(el)
     }
   }
-  console.log('hello123')
+  //console.log('hello123')
   /**
    * Easy event listener function
    */
