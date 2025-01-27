@@ -20,6 +20,7 @@ import CustomDetail from "./Website/components/Header/CustomDetail.jsx";
 import CustomTable from "./Admin/Components/custom/CustomTable.jsx";
 import {Livestreaming} from "./Admin/Components/Banner/Livestreaming.jsx";
 import LivestreamingTable from "./Admin/Components/Banner/Livestreamingtable.jsx";
+import {AddGallery} from "./Admin/Components/Gallery/Addgallery.jsx";
 //===================================================== admin==============================================================================
 import { CreateUser } from "./Admin/Components/User/CreateUser/CreateUser";
 import { Banner } from "./Admin/Components/Banner/Banner";
@@ -74,6 +75,8 @@ import { ViewFormweekly } from "./Admin/Components/Form/ViewFormweekly.jsx";
 import { ViewFormmonthly } from "./Admin/Components/Form/ViewFormmonthly.jsx";
 import { Performanceindices } from "./Website/components/websiteforms/PerformanceIndices.jsx"
 import { Weeklyaccount } from "./Website/components/websiteforms/Weeklyaccount.jsx";
+import {Weeklyaccountlist}  from "./Website/components/websiteforms/Weeklyaccountlist.jsx";
+import { Monthlyaccountlist } from "./Website/components/websiteforms/Monthlyaccountlist.jsx";
 import { Monthlyaccount } from "./Website/components/websiteforms/Monthlyaccount.jsx";
 import { AboutUsEdit } from "./Admin/Components/Aboutus/AboutUsEdit.jsx";
 import ForgetPassword from "./Admin/Components/pages/changepassword/ForgetPassword.jsx";
@@ -245,6 +248,8 @@ function App() {
                 <Route path="performance" element={<Performanceindices />} />
                 <Route path="ecrsubmissionform" element={<EcrsubmissionForm />} />
                 <Route path= "weeklyaccount" element={< Weeklyaccount/>}/>
+                <Route path= "weeklyaccountlist" element={< Weeklyaccountlist/>}/>
+                <Route path= "Monthlyaccountlist" element={< Monthlyaccountlist/>}/>
                  <Route path= "Monthlyaccount" element={< Monthlyaccount/>}/> 
                 
                 
@@ -263,6 +268,7 @@ function App() {
                     <Route path="/livestreaming" element={<Livestreaming />} />
                     <Route path="/streamingtable" element={<LivestreamingTable />} />
                     <Route path="/slider" element={<Slider />} />
+                    <Route path="/gallery" element={<AddGallery />} />
                     <Route path="/sitemap" element={<SiteMap />} />
                     <Route path="/dashboard" element={<HomeNew />} />
                     <Route path="alltender" element={<TenderTable />} />

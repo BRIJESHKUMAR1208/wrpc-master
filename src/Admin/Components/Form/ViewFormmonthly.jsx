@@ -60,7 +60,7 @@ export const ViewFormmonthly = () => {
     const validateForm = () => {
         const errors = {};
 
-        
+
         if (!formData.poolmember) {
             errors.poolmember = "Please enter poolmember";
         }
@@ -75,7 +75,7 @@ export const ViewFormmonthly = () => {
         if (!formData.discrepancydate) {
             errors.discrepancydate = "Please enter discrepancydate";
         }
-        
+
         if (!formData.summarysheet) {
             errors.summarysheet = "Input your values";
         }
@@ -89,7 +89,7 @@ export const ViewFormmonthly = () => {
         if (!formData.remark) {
             errors.remark = "Input your values";
         }
-       
+
 
 
         setFormErrors(errors);
@@ -133,7 +133,7 @@ export const ViewFormmonthly = () => {
     useEffect(() => {
         async function fetchData2() {
             try {
-                       
+
                 const response = await apiClient.get(`/api/Monthlyaccount/${id}`);
                 setFormData(response.data);
             } catch (error) {
@@ -150,7 +150,7 @@ export const ViewFormmonthly = () => {
 
     const handleDeleteConfirm = async () => {
         // Close the confirmation dialog
-       
+
         try {
             setConfirmDialogOpen(false);
             debugger;
@@ -161,11 +161,11 @@ export const ViewFormmonthly = () => {
             formDataToSend.append("remark", formData.remark);  // Append admin_remark
             formDataToSend.append("reason", formData.reason);
             // Send JSON request
-        const response = await apiClient.post(`${api.updatemonthly}${id}` , formDataToSend, {
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
+            const response = await apiClient.post(`${api.updatemonthly}${id}`, formDataToSend, {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
 
             //const response = await apiClient.post(api.updateweekly, formDataToSend);
             if (response.status === 200) {
@@ -178,19 +178,19 @@ export const ViewFormmonthly = () => {
 
                     setFormData({
                         Id: '',
-        poolmember: '',
-        monthly_account: '',
-        discrepancymonth: '',
-        discrepancydate: '',
-        summarysheet: '',
-        discrepancyreason: '',
-        remark: '',
-        reason: '',
-        //user_id: ''
+                        poolmember: '',
+                        monthly_account: '',
+                        discrepancymonth: '',
+                        discrepancydate: '',
+                        summarysheet: '',
+                        discrepancyreason: '',
+                        remark: '',
+                        reason: '',
+                        //user_id: ''
                     });
                     setSelectedRole('');
-                  
-                 // window.location.pathname = "/form/FormData";
+
+                    // window.location.pathname = "/form/FormData";
                 }, 1000);
             } else if (response.status === 500) {
                 alert("User already exists");
@@ -244,7 +244,7 @@ export const ViewFormmonthly = () => {
                                             <Card.Body>
                                                 <div className="mb-3 mt-md-4">
                                                     <h2 className="fw-bold mb-4 text-center text-uppercase">
-                                                    Monthly Account list
+                                                        Monthly Account list
                                                     </h2>
                                                     <div className="mb-3">
 
@@ -288,7 +288,7 @@ export const ViewFormmonthly = () => {
                                                                         />
                                                                     </td>
                                                                 </tr>
-                                                                  
+
                                                                 <tr>
                                                                     <td className="ui header">Discrepancy Month</td>
                                                                     <td>
@@ -337,7 +337,7 @@ export const ViewFormmonthly = () => {
                                                                         />
                                                                     </td>
                                                                 </tr>
-                                                               
+
                                                                 <tr>
                                                                     <td className="ui header">Discrepancy Reason</td>
                                                                     <td>
@@ -351,35 +351,35 @@ export const ViewFormmonthly = () => {
                                                                         />
                                                                     </td>
                                                                 </tr>
-                                                               
+
                                                                 <tr>
-                                                                    <td className="ui header">Remark</td>
+                                                                    <td className="ui header">Is resolved</td>
                                                                     <td>
 
-                                                                    <select
-       className={`form-control ${formErrors.remark ? 'is-invalid' : ''}`}
-        name="remark"
-        value={formData.remark}
-        onChange={handleChange}
-        isInvalid={!!formErrors.remark}
-    >
-        <option value="">Select</option> {/* Default placeholder */}
-        <option value="Yes">Yes</option>
-        <option value="No">No</option>
-    </select>
-                                                                       
+                                                                        <select
+                                                                            className={`form-control ${formErrors.remark ? 'is-invalid' : ''}`}
+                                                                            name="remark"
+                                                                            value={formData.remark}
+                                                                            onChange={handleChange}
+                                                                            isInvalid={!!formErrors.remark}
+                                                                        >
+                                                                            <option value="">Select</option> {/* Default placeholder */}
+                                                                            <option value="Yes">Yes</option>
+                                                                            <option value="No">No</option>
+                                                                        </select>
+
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td className="ui header">Reasons</td>
                                                                     <td>
                                                                         <input
-                                                                            
-                                                                              className="form-control"
+
+                                                                            className="form-control"
                                                                             type="text"
                                                                             placeholder="Reasons"
                                                                             name="reason"  // Correct binding
-                                                                            value={formData.reason} 
+                                                                            value={formData.reason}
                                                                             onChange={handleChange}  // Bind the change handler
                                                                         />
                                                                     </td>

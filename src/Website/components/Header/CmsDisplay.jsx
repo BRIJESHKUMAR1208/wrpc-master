@@ -193,7 +193,7 @@ const CmsDisplay = () => {
                   </Link>
                 </li>
               )}
-              {/* {user1.can_ft6 === 1 && (
+              {user1.can_ft6 === 1 && (
 
                 <li>
                   <Link to="/candidate/ecrsubmissionform" className="dropdown-item">
@@ -204,7 +204,7 @@ const CmsDisplay = () => {
               {user1.can_ft7 === 1 && (
 
                 <li>
-                  <Link to="/candidate/weeklyaccount" className="dropdown-item">
+                  <Link to="/candidate/weeklyaccountlist" className="dropdown-item">
                     Weekly  Discrepancies
                   </Link>
                 </li>
@@ -212,11 +212,11 @@ const CmsDisplay = () => {
               {user1.can_ft8 === 1 && (
 
                 <li>
-                  <Link to="/candidate/weeklyaccount" className="dropdown-item">
+                  <Link to="/candidate/Monthlyaccountlist" className="dropdown-item">
                     Monthly  Discrepancies
                   </Link>
                 </li>
-              )} */}
+              )}
             </ul>
           </li>
         )}

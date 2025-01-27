@@ -35,7 +35,7 @@ export default function FormWeekly() {
     useEffect(() => {
         async function fetchData() {
             try {
-                debugger;
+              
                 const response = await apiClient.get('/api/FormReports/WeeklyCandidatedata');
                 const dataWithIds = response.data.map((row, index) => ({ id: index+1, ...row }));
                 setApiData(dataWithIds);

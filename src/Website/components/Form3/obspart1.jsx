@@ -315,7 +315,7 @@ export const Form3part1 = () => {
                                                                 <input class="form-control"
                                                                     name="StationName"
                                                                     placeholder="Enter Station Name"
-                                                                    maxlength="50"
+                                                                   
                                                                     value={formData.StationName}
                                                                     onChange={handleChange}
                                                                     isInvalid={!!formErrors.StationName}
@@ -331,7 +331,7 @@ export const Form3part1 = () => {
                                                                     placeholder="Enter kV Level"
                                                                     onChange={handleChange}
                                                                     isInvalid={!!formErrors.kVLevel}
-                                                                    maxlength="50" value={formData.kVLevel} /><small class="invalid-feedback"></small></div><label
+                                                                    value={formData.kVLevel} /><small class="invalid-feedback"></small></div><label
                                                                         class="col-sm-2 col-form-label">Owner<span
                                                                         ><b>*</b></span>:</label>
                                                             <div class="col-sm-2">
@@ -339,14 +339,14 @@ export const Form3part1 = () => {
                                                                 <input class="form-control" name="Owner" placeholder="Owner"
                                                                     onChange={handleChange}
                                                                     isInvalid={!!formErrors.Owner}
-                                                                    maxlength="50" value={formData.Owner} /><small class="invalid-feedback"></small></div>
+                                                                     value={formData.Owner} /><small class="invalid-feedback"></small></div>
                                                         </div>
                                                         <div class="form-group row"><label class="col-sm-2 col-form-label">Location<span
                                                         ><b>*</b></span>:</label>
                                                             <div class="col-sm-2">
                                                                 <span style={{ color: "red" }}>{formErrors.Location}</span>
                                                                 <input class="form-control" name="Location" placeholder="Enter Location"
-                                                                    maxlength="50" value={formData.Location}
+                                                                     value={formData.Location}
                                                                     onChange={handleChange}
                                                                     isInvalid={!!formErrors.Location} /><small class="invalid-feedback"></small></div><label
                                                                         class="col-sm-2 col-form-label">Planned date of Audit<span
@@ -373,7 +373,7 @@ export const Form3part1 = () => {
                                                             <div class="col-sm-2">
                                                                 <span style={{ color: "red" }}>{formErrors.AuditEntity}</span>
                                                                 <input class="form-control" name="AuditEntity" placeholder="Enter Audit Entity"
-                                                                    maxlength="50" value={formData.AuditEntity}
+                                                                     value={formData.AuditEntity}
                                                                     onChange={handleChange}
                                                                     isInvalid={!!formErrors.AuditEntity} /><small class="invalid-feedback"></small></div><label
                                                                         class="col-sm-2 col-form-label">Report<span
@@ -418,7 +418,7 @@ export const Form3part1 = () => {
                                                                 <div class="col-sm-2">
                                                                     <span style={{ color: "red" }}>{formErrors.CAT_A_deficiencies}</span>
                                                                     <input class="form-control" name="CAT_A_deficiencies" placeholder="Enter CAT A deficiences"
-                                                                        maxlength="50" value={formData.CAT_A_deficiencies}
+                                                                        value={formData.CAT_A_deficiencies}
                                                                         onChange={handleChange}
                                                                         isInvalid={!!formErrors.CAT_A_deficiencies} />
                                                                         <small class="invalid-feedback"></small>
@@ -428,7 +428,7 @@ export const Form3part1 = () => {
                                                                 <div class="col-sm-2">
                                                                 <span style={{ color: "red" }}>{formErrors.CAT_B_deficiencies}</span>
                                                                 <input class="form-control" name="CAT_B_deficiencies" placeholder="Enter CAT B deficiences"
-                                                                    maxlength="50"
+                                                                   
                                                                     value={formData.CAT_B_deficiencies}
                                                                     onChange={handleChange}
                                                                     isInvalid={!!formErrors.CAT_B_deficiencies} /><small class="invalid-feedback"></small>

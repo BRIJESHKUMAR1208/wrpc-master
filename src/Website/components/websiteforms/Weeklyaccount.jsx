@@ -7,8 +7,6 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 // import { TopHeader } from '../../components/TopHeader/TopHeader';
 import apiclient from '../../../Api/ApiClient';
-
-
 import { Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material'; // Import Material-UI components
 import { Link } from 'react-router-dom';
 import { Row } from 'react-bootstrap/esm';
@@ -34,7 +32,7 @@ export const Weeklyaccount = () => {
     // Function to fetch data
     const fetchOptions = async () => {
         try {
-            debugger;
+        
             //const response = await axios.get("http://localhost:5141/api/ECRsubmission/Entitylist");
             const response = await apiclient.get('/api/ECRsubmission/Entitylist');
             setOptions(response.data); // Assuming response.data is an array
