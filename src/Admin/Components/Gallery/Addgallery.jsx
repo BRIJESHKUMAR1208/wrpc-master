@@ -19,7 +19,7 @@ export const AddGallery = () => {
     const [isChecked, setIsChecked] = useState(false);
     const [formData, setFormData] = useState({
         titlename: '',
-        titlefiles: [],  // Changed to an array to store multiple files
+        lstImagePaths: [],  // Changed to an array to store multiple files
     });
 
     const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
@@ -40,7 +40,7 @@ export const AddGallery = () => {
 
         setFormData((prevFormData) => ({
             ...prevFormData,
-            titlefiles: [...prevFormData.titlefiles, ...newFiles],  // Append new files to the existing ones
+            lstImagePaths: [...prevFormData.lstImagePaths, ...newFiles],  // Append new files to the existing ones
         }));
     };
 
@@ -79,8 +79,8 @@ export const AddGallery = () => {
             const dataToSubmit = new FormData();
             dataToSubmit.append("titlename", formData.titlename);
     
-            formData.titlefiles.forEach((file) => {
-                dataToSubmit.append("titlefiles", file);  // Ensure consistent key for multiple files
+            formData.lstImagePaths.forEach((file) => {
+                dataToSubmit.append("lstImagePaths", file);  // Ensure consistent key for multiple files
             });
     
             // Debugging output
@@ -97,7 +97,7 @@ export const AddGallery = () => {
                     setSuccessDialogOpen(true);
                     setFormData({
                         titlename: '',
-                        titlefiles: [],  // Reset files after success
+                        lstImagePaths: [],  // Reset files after success
                     });
                 }, 1000);
             } else {
@@ -169,9 +169,9 @@ export const AddGallery = () => {
 
                                                 {/* Preview selected images */}
                                                 <div>
-                                                    {formData.titlefiles.length > 0 && (
+                                                    {formData.lstImagePaths.length > 0 && (
                                                         <div className="image-previews">
-                                                            {formData.titlefiles.map((file, index) => (
+                                                            {formData.lstImagePaths.map((file, index) => (
                                                                 <div key={index} className="image-preview">
                                                                     <img
                                                                         src={URL.createObjectURL(file)}
