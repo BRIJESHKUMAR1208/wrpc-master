@@ -266,6 +266,11 @@ const Sidebar = () => {
               <i class="bi bi-circle"></i><span>Add New Gallery</span>
             </Link>
           </li>
+          <li activeClassName="active">
+            <Link to='/gallerylist' >
+              <i class="bi bi-circle"></i><span>Gallery List</span>
+            </Link>
+          </li>
           
          
         </ul>

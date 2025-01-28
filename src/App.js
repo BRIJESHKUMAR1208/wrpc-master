@@ -21,6 +21,8 @@ import CustomTable from "./Admin/Components/custom/CustomTable.jsx";
 import {Livestreaming} from "./Admin/Components/Banner/Livestreaming.jsx";
 import LivestreamingTable from "./Admin/Components/Banner/Livestreamingtable.jsx";
 import {AddGallery} from "./Admin/Components/Gallery/Addgallery.jsx";
+import Gallerylist from "./Admin/Components/Gallery/Gallerylist.jsx";
+import Gallerydetail from "./Admin/Components/Gallery/Gallerydetail.jsx";
 //===================================================== admin==============================================================================
 import { CreateUser } from "./Admin/Components/User/CreateUser/CreateUser";
 import { Banner } from "./Admin/Components/Banner/Banner";
@@ -269,6 +271,8 @@ function App() {
                     <Route path="/streamingtable" element={<LivestreamingTable />} />
                     <Route path="/slider" element={<Slider />} />
                     <Route path="/gallery" element={<AddGallery />} />
+                    <Route path="/gallerylist" element={<Gallerylist />} />  Gallerydetail
+                    <Route path="/gallerydetail/:id" element={<Gallerydetail />} /> 
                     <Route path="/sitemap" element={<SiteMap />} />
                     <Route path="/dashboard" element={<HomeNew />} />
                     <Route path="alltender" element={<TenderTable />} />

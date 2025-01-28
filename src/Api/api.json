@@ -96,6 +96,7 @@
    "new_password": "/api/ChangePassword/Generate_newpassword",
    "Trippingcomplianceform1list":"/api/Tripping_compliance_pcm_discussions/form1list",
    "Getentitylist":"/api/ECRsubmission/Entitylist",
-   "PostEcrsubmission":"/api/ECRsubmission"
+   "PostEcrsubmission":"/api/ECRsubmission",
+   "Gallarylist":"/api/Gallery/getlist"
     
 }
