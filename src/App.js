@@ -90,7 +90,8 @@ import Form1part1list from './Website/components/Form1/Viewlistpart1.jsx';
 import Form1part2list from "./Website/components/Form1/Viewlistpart2.jsx";
 import Form1part3list from "./Website/components/Form1/Viewlistpart3.jsx";
 import Form1part5list from "./Website/components/Form1/Viewlistpart5.jsx";
-import Form3part1list from "./Website/components/Form3/viewpart1form3list.jsx"
+import Form3part1list from "./Website/components/Form3/viewpart1form3list.jsx";
+import GalleryDetail from "./Website/components/Header/Galleryimages.jsx";
 //=====================================import apiclient===============================>
 import apiClient from './Api/ApiClient';
 import LatestNews from "./Website/components/Latest_News/LatestNews.jsx";
@@ -199,6 +200,8 @@ function App() {
             <Route path="/menu/:id" element={<MenuDetail />} />
             <Route path="/custom/:id" element={<CustomDetail />} />
             <Route path="/footer/:id" element={<FooterDetails />} />
+            <Route path="/gallery/:id" element={<GalleryDetail />} />
+            
             <Route path="*" element={<Errorfound />} />
             <Route path="/latestnews" element={<LatestNews/>} />
             <Route path="/form3part3/:id" element={<Form3part3/>} /> 
