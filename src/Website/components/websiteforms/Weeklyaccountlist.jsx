@@ -65,7 +65,7 @@ export const Weeklyaccountlist = () => {
                     <Table striped bordered hover responsive>
                         <thead>
                             <tr>
-                                <th>#</th>
+                                <th>Sr.no</th>
                                 <th>Name of Pool Entity</th>
                                 <th>Weekly Account</th>
                                 <th>Account Start Date</th>

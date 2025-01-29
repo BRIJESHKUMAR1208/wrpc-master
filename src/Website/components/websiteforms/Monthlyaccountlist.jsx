@@ -65,7 +65,7 @@ export const Monthlyaccountlist = () => {
                     <Table striped bordered hover responsive>
                         <thead>
                             <tr>
-                                <th>#</th>
+                                <th>Sr.no</th>
                                 <th>Name of the Pool member/Entity</th>
                                 <th>Monthly Account</th>
                                 <th>Discrepancy Month</th>
