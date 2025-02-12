@@ -76,8 +76,9 @@ const MenuDetail = () => {
                         handleLanguageChange={handleLanguageChange} />
       <CmsDisplay />
       <div >
-      <div className="container inner-sec">
-        <h2>{Menuoptions.menuname}</h2>
+      <div className="container inner-sec main-sec">
+        <div className="box-sec">
+           <h2>{Menuoptions.menuname}</h2>
   
         {getContent(
           Menuoptions.menu_id,
@@ -89,6 +90,7 @@ const MenuDetail = () => {
           Menuoptions.external_link
         )}
         
+      </div>
       </div>
       </div>
       <CmsFooter />

@@ -175,7 +175,7 @@ setLoading(true);
       });
       if (response.status == 200) {
        // console.log('Data saved:', response.data);
-        toast.success('Data saved successfully!');
+       // toast.success('Data saved successfully!');
         setModalMessage('Data saved successfully.');
         setSnackbarOpen(true);
         setContent('')

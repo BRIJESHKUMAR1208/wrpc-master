@@ -58,6 +58,7 @@
     .container-fluid.con-nav {
         width: 90%;
     }
+    
    
     
 }
@@ -90,6 +91,7 @@
     .nav-con {
         max-width: 98% !important;
     }
+    
 
 }
 @media(max-width: 768px){
@@ -100,6 +102,27 @@
         display: block !important;
         font-size: 21px;
 	color: #fff;
+    }
+    .head-logo {
+        text-align: center;
+    }
+    .head-right {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    a#logo {
+        grid-gap: 15px;
+    }
+    .widget_logo {
+        display: flex;
+        justify-content: center;
+        width: 100% !important;
+        float:none !important;
+    }
+    .responsivetable {
+        overflow-x: scroll;
+        white-space: inherit;
     }
 }
 @media(max-width: 480px){

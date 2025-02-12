@@ -34,7 +34,7 @@ export const CmsFooter = () => {
         <div>
           <footer>
             <div class="widget_wrap overlay">
-              <div class="container">
+            <div class="container-fluid footer-con">
                 <div class="row">
                   <div class="col-md-6 col-sm-6">
                     <div class="widget_list">

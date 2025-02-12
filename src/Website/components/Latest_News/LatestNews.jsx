@@ -144,7 +144,8 @@ const LatestNews = () => {
         <TopHeader  selectedLanguage={selectedLanguage}
                         handleLanguageChange={handleLanguageChange} />
         <CmsDisplay selectedLanguage={selectedLanguage}/>
-      <div>
+      <div class="container main-sec">
+
         {parseInt(selectedLanguage)===1 ? (
            <section className="news-section-box">
            <div>
