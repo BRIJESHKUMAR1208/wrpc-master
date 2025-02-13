@@ -7180,7 +7180,14 @@ p.bdr-rgt {
 	padding-right: 10px;
 	margin-bottom: 0px;
 }
-
+h6.bdr-rgt12 {
+	color: #fff;
+	font-size: 13px;
+	font-weight: 600;
+	padding-left: 10px;
+	padding-right: 10px;
+	margin-bottom: 0px;
+}
 .inner-sec {
 	padding: 45px 0px;
 

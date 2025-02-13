@@ -151,31 +151,38 @@ export const CmsFooter = () => {
                   <div class="col-md-3">
                     <div class="city_top_social">
                       <ul>
-                        <li>
-                          <a href="#">
-                            <i class="fa-brands fa-facebook"></i>
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#">
-                            <i class="fa-brands fa-twitter"></i>
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#">
-                            <i class="fa-brands fa-linkedin-in"></i>
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#">
-                            <i class="fa-brands fa-youtube"></i>
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#">
-                            <i class="fa-brands fa-google"></i>
-                          </a>
-                        </li>
+                      <li>
+                            <a href="#">
+                              <i class="fa-brands fa-facebook"></i>                              
+                              <span class="visually-hidden">Facebook</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <i class="fa-brands fa-twitter"></i>
+                              
+                              <span class="visually-hidden">Twitter</span>
+                            </a>
+                          </li>
+
+                          <li>
+                            <a href="#">
+                              <i class="fa-brands fa-linkedin-in"></i>
+                              <span class="visually-hidden">Linkedin</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <i class="fa-brands fa-youtube"></i>
+                              <span class="visually-hidden">Youtube</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <i class="fa-brands fa-google"></i>
+                              <span class="visually-hidden">Google</span>
+                            </a>
+                          </li>
                       </ul>
                     </div>
                   </div>
@@ -301,7 +308,7 @@ export const CmsFooter = () => {
                           सर्वाधिकार सुरक्षित। | इस साइट को सबसे अच्छी तरह से
                           देखा जा सकता है: 800x600 रिज़ॉल्यूशन।{" "}
                         </p>
-                        (वेबसाइट अंतिम अद्यतन तिथि: 14-जनवरी-2019)
+                        (वेबसाइट अंतिम अद्यतन तिथि: 14-जनवरी-2025)
                       </div>
                       
                     </div>
@@ -309,28 +316,35 @@ export const CmsFooter = () => {
                       <div class="city_top_social">
                         <ul>
                           <li>
-                            <a href="#">
-                              <i class="fa-brands fa-facebook"></i>
+                            <a href="https://www.facebook.com/">
+                              <i class="fa-brands fa-facebook"></i>                              
+                              <span class="visually-hidden">Facebook</span>
                             </a>
                           </li>
                           <li>
-                            <a href="#">
+                            <a href="https://x.com/">
                               <i class="fa-brands fa-twitter"></i>
+                              
+                              <span class="visually-hidden">Twitter</span>
                             </a>
                           </li>
+
                           <li>
-                            <a href="#">
+                            <a href="https://www.linkedin.com/">
                               <i class="fa-brands fa-linkedin-in"></i>
+                              <span class="visually-hidden">Linkedin</span>
                             </a>
                           </li>
                           <li>
-                            <a href="#">
+                            <a href="https://www.youtube.com/">
                               <i class="fa-brands fa-youtube"></i>
+                              <span class="visually-hidden">Youtube</span>
                             </a>
                           </li>
                           <li>
-                            <a href="#">
+                            <a href="https://www.google.com/">
                               <i class="fa-brands fa-google"></i>
+                              <span class="visually-hidden">Google</span>
                             </a>
                           </li>
                         </ul>
