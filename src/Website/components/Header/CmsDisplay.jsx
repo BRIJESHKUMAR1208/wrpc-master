@@ -10,7 +10,7 @@ import apis from '../../../Api/api.json';
 const CmsDisplay = () => {
 
   const { id } = useParams();
-  const [selectedLanguage, setSelectedLanguage] = useState();
+  const [selectedLanguage, setSelectedLanguage] = useState(1);
   // const { fontSize } = useFontSize();
   const [menudata, setMenuData] = useState([]);
   const [galleryList, setGalleryList] = useState([]);
@@ -283,20 +283,21 @@ const CmsDisplay = () => {
 
 
 
-        <nav class="navbar navbar-expand-lg cus-nav navbar-light bg-blue">
-          <div class="container-fluid con-nav">
-            <Link to={"/"}>
-              <i style={{ color: "white" }} className="fa fa-home"></i>
-            </Link>
+        <nav className="navbar navbar-expand-lg cus-nav navbar-light bg-blue">
+          <div className="container-fluid con-nav">
+          <Link to={"/"} aria-label="Go to homepage" style={{ padding: "10px", display: "inline-block" }}>
+  <i style={{ color: "white", fontSize: "24px" }} className="fa fa-home"></i>
+</Link>
+
             <button
-              class="navbar-toggler navbar-toggler-right"
+              className="navbar-toggler navbar-toggler-right"
               type="button"
               data-bs-toggle="collapse"
               data-bs-target="#navbar1"
             >
-              <span class="navbar-toggler-icon"></span>
+              <span className="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbar1">
+            <div className="collapse navbar-collapse" id="navbar1">
               <ul className="navbar-nav">
                 {renderMenuItems(menudata)}
                 <li
@@ -328,7 +329,7 @@ const CmsDisplay = () => {
 
               </ul>
             </div>
-            <div class="collapse navbar-collapse" id="navbar1">
+            <div className="collapse navbar-collapse" id="navbar1">
 
               {/* <Link to={"/form3all_list"} style={{ color: 'white' }}>Formdata</Link> */}
             </div>

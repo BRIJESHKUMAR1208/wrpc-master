@@ -409,16 +409,18 @@ p.news-p {
 }
 
 .language-box select {
-    width:10;
+    width: 100px; /* Adjusted width with a valid unit */
     height: 28px;
-    color: #3d3d3d;
+    color: black; /* Ensures text color is black */
     cursor: pointer;
     font-size: 12px;
-    font-weight: 300;
+    font-weight: 400; /* Improved readability */
     padding: 3px 10px;
     display: inline-block;
     border: 1px solid #d2d2d2;
+    background-color: #ffffff; /* Ensures background stays white */
 }
+
 
 .bar-c p {
     margin-bottom: 0px;
@@ -526,7 +528,7 @@ html {
 
 .bar5.bar-c ul li button {
     background-color: transparent;
-    color: #fff;
+    color: black;
 }
 
 /* .marquee-container1{

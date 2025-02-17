@@ -7,7 +7,7 @@ import {
   getTender,
   getReport,
   getwhatsnew,
-  getMenuoptins,getLatestuploads, BASE_URL, getBannerImg, Getlivestreaming
+  getMenuoptins, getLatestuploads, BASE_URL, getBannerImg, Getlivestreaming
 } from "../../../Api/ApiFunctions"; // Import Bootstrap JS
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
@@ -42,7 +42,7 @@ export const Banner = () => {
       const encodedCredentials = btoa(`${username}:${password}`);
 
       try {
-       // const linkData = await getLinks();lastestuploads
+        // const linkData = await getLinks();lastestuploads
         //const linkData = await fetch('http://localhost:5141/api/whatsnew_post', requestOptions);
 
         const linkData = await getLatestuploads();
@@ -147,7 +147,7 @@ export const Banner = () => {
                 <div className="col-md-8">
                   <Slider {...settings}>
                     {menudata.map((item, index) => (
-                      <div key={index}>
+                      <div key={`${item.u_id || item.imgpath}-${index}`}>
                         <figure className="overlay">
                           <div className="video-container" style={{ minHeight: "500px" }}>
                             <img
@@ -155,39 +155,17 @@ export const Banner = () => {
                               alt={`Banner ${index + 1}`}
                             />
                           </div>
-                          {/* <div className="banner_text">
-                            <div className="small_text animated">
-                              Welcome to
-                            </div>
-                            <div className="medium_text animated">
-                              Western Regional Power Committee
-                            </div>
-                            <div className="large_text animated">
-                              {item.u_content}
-                            </div>
-                            <div className="banner_btn row">
-                              <div className="col-md-6">
-                              <a className="theam_btn animated" href="#">
-                                Read More
-                              </a>
-                              </div>
-                              <div className="col-md-6">
-                              <a className="theam_btn animated" href="#">
-                                Explore Now
-                              </a>
-                              </div>
-                            </div>
-                          </div> */}
+
                         </figure>
                       </div>
                     ))}
                   </Slider>
                 </div>
-                <div class="col-md-4" >
-                  <Box  
+                <div className="col-md-4" >
+                  <Box
                     className="main-box1 "
                     sx={{ width: "100%", typography: "body1" }}
-                    bgcolor={'#00000'} 
+                    bgcolor={'#00000'}
                   >
                     <TabContext value={value}>
                       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
@@ -229,7 +207,7 @@ export const Banner = () => {
                                     </p>
                                   </div>
                                   <div className="ml-10">
-                                    <p class="news-p">
+                                    <p className="news-p">
                                       {parseInt(item.u_contenttype) === 2 && (
                                         <Link
                                           to={BASE_URL + `/${item.filepdfpath}`}
@@ -259,7 +237,7 @@ export const Banner = () => {
                                         // <Link to={`/menu/${item.u_menu_url}`}>
                                         //   {item.u_report_tittle}
                                         // </Link>
-                                        <Link  to={`/menu/${item.u_menu_url}`}>
+                                        <Link to={`/menu/${item.u_menu_url}`}>
                                           {item.u_report_tittle}
                                         </Link>
                                       )}
@@ -277,7 +255,7 @@ export const Banner = () => {
                           id="marqueeReports"
                         >
                           <ul className="marquee-list report-sec">
-                            {linkData.map((item,subMenuItem) => (
+                            {linkData.map((item, subMenuItem) => (
                               <li key={item.u_id}>
                                 <div className="newsbox">
                                   <div className="latest-news-date">
@@ -286,7 +264,7 @@ export const Banner = () => {
                                     </p>
                                   </div>
                                   <div className="ml-10">
-                                    <p class="news-p">
+                                    <p className="news-p">
                                       {parseInt(item.u_content_type) === 2 && (
                                         <Link
                                           to={BASE_URL + item.u_file}
@@ -318,14 +296,14 @@ export const Banner = () => {
                                         //   {item.u_link_tittle}
                                         // </Link>
                                         <Link
-                to={"/menu/" + item.u_menu_url}
-                className="dropdown-item"
-              >
-                {item.u_menu_name}
-              </Link>
-                                      //   <Link to={`#`}>
-                                      //   {item.u_menu_name}
-                                      // </Link>
+                                          to={"/menu/" + item.u_menu_url}
+                                          className="dropdown-item"
+                                        >
+                                          {item.u_menu_name}
+                                        </Link>
+                                        //   <Link to={`#`}>
+                                        //   {item.u_menu_name}
+                                        // </Link>
                                       )}
                                     </p>
                                   </div>
@@ -351,7 +329,7 @@ export const Banner = () => {
                                     </p>
                                   </div>
                                   <div className="ml-10">
-                                    <p class="news-p">
+                                    <p className="news-p">
                                       {parseInt(item.u_contenttype) === 2 && (
                                         <Link
                                           to={BASE_URL + item.filepdfpath}
@@ -382,8 +360,8 @@ export const Banner = () => {
                                         //   {item.u_tender_tittle}
                                         // </Link>
                                         <Link to={`#`}>
-                                        {item.u_tender_tittle}
-                                      </Link>
+                                          {item.u_tender_tittle}
+                                        </Link>
                                       )}
                                     </p>
                                   </div>
@@ -400,27 +378,29 @@ export const Banner = () => {
             </div>
 
           </section>
-          <section class="notice-section">
-            <div class="container">
-              <div class="row pt-2">
-                <div class="col-md-2">
-                  <div class="notice-lft">
+          <section className="notice-section">
+            <div className="container">
+              <div className="row pt-2">
+                <div className="col-md-2">
+                  <div className="notice-lft">
                     <p>Live Streaming</p>
                   </div>
                 </div>
-                <div class="col-md-10">
-                  <div class="notice-rgt">
-                    <div class="marquee-container2">
-                      <div class="marquee2">
-                        <div class="dial">
+                <div className="col-md-10">
+                  <div className="notice-rgt">
+                    <div className="marquee-container2">
+                      <div className="marquee2">
+                        <div className="dial">
                           <div className="d1">
                             {streamingdata.map((data) => (
-                              
-                              <marquee direction="right" behavior="alternate"  >
-                              <p key={data.id} className="marquee-text">
-                                <i className="fa-solid fa-bullhorn"></i> &nbsp; {data.titlename}
-                              </p>
-                              </marquee>
+
+                              <div key={data.id} className="marquee-item">
+                                <marquee direction="right" behavior="alternate">
+                                  <p className="marquee-text">
+                                    <i className="fa-solid fa-bullhorn"></i> &nbsp; {data.titlename}
+                                  </p>
+                                </marquee>
+                              </div>
                             ))}
                           </div>
                           {/* <div class="d2">
@@ -449,7 +429,7 @@ export const Banner = () => {
                 <div className="col-md-8">
                   <Slider {...settings}>
                     {menudata.map((item, index) => (
-                      <div key={index}>
+                      <div key={item.id ? `banner-${item.id}` : `banner-index-${index}`}>
                         <figure className="overlay">
                           <div className="video-container">
                             <img src={BASE_URL + item.imgpath} alt={`Banner ${index + 1}`} />
@@ -520,7 +500,7 @@ export const Banner = () => {
                             {reportData.map((item, index) =>
                               parseInt(item.u_languagetype) ===
                                 parseInt(selectedLanguage) ? (
-                                <li key={index}>
+                                <li key={item.id ? `report-${item.id}` : `report-index-${index}`}>
                                   <div className="newsbox">
                                     <div className="latest-news-date">
                                       <p className="news-sec-datep">
@@ -583,7 +563,7 @@ export const Banner = () => {
                             {linkData.map((item, index) =>
                               parseInt(item.u_languagetype) ===
                                 parseInt(selectedLanguage) ? (
-                                <li key={index}>
+                                <li key={item.id ? `news-${item.id}` : `news-index-${index}`}>
                                   <div className="newsbox">
                                     <div className="latest-news-date">
                                       <p className="news-sec-datep">
@@ -644,7 +624,7 @@ export const Banner = () => {
                             {tenderData.map((item, index) =>
                               parseInt(item.u_languagetype) ===
                                 parseInt(selectedLanguage) ? (
-                                <li key={index}>
+                                <li key={item.id ? `tender-${item.id}` : `tender-index-${index}`}>
                                   <div className="newsbox">
                                     <div className="latest-news-date">
                                       <p className="news-sec-datep">
@@ -702,28 +682,28 @@ export const Banner = () => {
             </div>
 
           </section>
-          <section class="notice-section">
-            <div class="container">
-              <div class="row pt-2">
-                <div class="col-md-2">
-                  <div class="notice-lft">
+          <section className="notice-section">
+            <div className="container">
+              <div className="row pt-2">
+                <div className="col-md-2">
+                  <div className="notice-lft">
                     <p>अद्यतन समाचार</p>
                   </div>
                 </div>
-                <div class="col-md-10">
-                  <div class="notice-rgt">
-                    <div class="marquee-container2">
-                      <div class="marquee2">
-                        <div class="dial">
-                          <div class="d1">
+                <div className="col-md-10">
+                  <div className="notice-rgt">
+                    <div className="marquee-container2">
+                      <div className="marquee2">
+                        <div className="dial">
+                          <div className="d1">
                             <p>
-                              <i class="fa-solid fa-bullhorn"></i> &nbsp;
+                              <i className="fa-solid fa-bullhorn"></i> &nbsp;
                               सौभाग्य के तहत घरेलू विद्युतीकरण पर सभी प्रश्नों
                               और शिकायतों के लिए टोल-फ्री हेल्पलाइन नंबर
                               1800-121-5555 डायल करें।
                             </p>
                           </div>
-                          <div class="d2">
+                          <div className="d2">
                             {/* <p>
                               <i class="fa-solid fa-bullhorn"></i> &nbsp; पूरे
                               भारत में बिजली की शिकायतों के लिए '1912' डायल करें

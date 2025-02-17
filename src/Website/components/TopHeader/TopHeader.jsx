@@ -27,7 +27,7 @@ export const TopHeader = ({ selectedLanguage, handleLanguageChange }) => {
     cand_name = user1?.cand_name || '';  // Safely access cand_name or set it to an empty string if not found
   } else {
     // Handle the case when storedUserString1 is null
-    console.log('No user data found in localStorage');
+    //console.log('No user data found in localStorage');
   }
 
   const startReading = () => {
@@ -72,14 +72,14 @@ export const TopHeader = ({ selectedLanguage, handleLanguageChange }) => {
     if (selectedValue === '1') {
       //navigate('/login');
       const currentLanguage = selectedLanguageA;
-    const languageType = localStorage.getItem("languagetype"); // Save the languagetype value
+      const languageType = localStorage.getItem("languagetype"); // Save the languagetype value
 
-    localStorage.clear();
-    if (languageType) {
-      localStorage.setItem("languagetype", languageType);
-    }
+      localStorage.clear();
+      if (languageType) {
+        localStorage.setItem("languagetype", languageType);
+      }
 
-    setSelectedLanguageA(currentLanguage);
+      setSelectedLanguageA(currentLanguage);
       //localStorage.clear();
       window.location.reload("/");
     } else if (selectedValue === '2') {
@@ -156,16 +156,28 @@ export const TopHeader = ({ selectedLanguage, handleLanguageChange }) => {
         <div>
           <div>
             <div>
-              <section class="top-b-section">
-                <div class="container-fluid nav-con">
-                  <div class="top-bar-section">
-                    <div class="top-bar-lft">
-                      <p className="bdr-rgt">{currentDate}</p>
-                      <p className="bdr-rgt">{currentTime}</p>
+              <section className="top-b-section">
+                <div className="container-fluid nav-con">
+                  <div className="top-bar-section">
+                    <div className="top-bar-lft">
+                      <span className="bdr-rgt">{currentDate}</span>
+                      <span className="bdr-rgt">{currentTime}</span>
                     </div>
-                    <div class="top-bar-rgt">
-                      <div class="bar1 bar-c">
-                        <form id="search-form" action="/" method="get">
+
+                    {/* <div className="top-bar-lft">
+  <time className="bdr-rgt12" dateTime={currentDate} aria-label={`Current Date: ${currentDate}`}>
+    <span role="text"> {currentDate}</span>
+  </time>
+  <time className="bdr-rgt12" dateTime={currentTime} aria-label={`Current Time: ${currentTime}`}>
+    <span role="text"> {currentTime}</span>
+  </time>
+</div> */}
+
+
+
+                    <div className="top-bar-rgt">
+                      <div className="bar1 bar-c">
+                        {/* <form id="search-form" action="/" method="get">
                           <div class="search-box">
                             <input
                               id="myInputhidden"
@@ -192,17 +204,18 @@ export const TopHeader = ({ selectedLanguage, handleLanguageChange }) => {
                               <i class="fa fa-search " aria-hidden="true"></i>
                             </button>
                           </div>
-                        </form>
+                        </form> */}
                       </div>
                       {/* <div class="bar2 bar-c">
                                                 <p><a href="#">Screen Reader Access</a></p>
                                             </div> */}
-                      <div class="bar3 bar-c">
+                      <div className="bar3 bar-c">
                         <p>
-                          <a href="#demos">Skip to main content</a>
+                          <Link href="#">Skip to main content</Link>
+
                         </p>
                       </div>
-                      <div class="bar3 bar-c">
+                      <div className="bar3 bar-c">
 
                         <div>
                           {isReading ? (
@@ -214,36 +227,32 @@ export const TopHeader = ({ selectedLanguage, handleLanguageChange }) => {
                           )}
                         </div>
                       </div>
-                      <div class="bar4 bar-c">
+                      <div className="bar4 bar-c">
                         <ul>
                           <li>
                             <a
                               href="#"
-                              className={`white-contrast dash_link_nt ${theme === "dark" ? "active" : ""
-                                }`}
+                              className={`white-contrast dash_link_nt ${theme === "dark" ? "active" : ""}`}
                               onClick={() => toggleTheme("dark")}
-                              title="Black"
+                              title="Switch to dark theme"
                               role="button"
+                              aria-label="Switch to dark theme"
+                              tabIndex="0"
                             >
-                              <i
-                                className="fa fa-square"
-                                aria-hidden="true"
-                              ></i>
+                              <i className="fa fa-square" aria-hidden="true"></i>
                             </a>
                           </li>
                           <li>
                             <a
                               href="#"
-                              className={`black-contrast dash_link_nt ${theme === "color" ? "active" : ""
-                                }`}
+                              className={`black-contrast dash_link_nt ${theme === "color" ? "active" : ""}`}
                               onClick={() => toggleTheme("color")}
-                              title="White"
+                              title="Switch to light theme"
                               role="button"
+                              aria-label="Switch to light theme"
+                              tabIndex="0"
                             >
-                              <i
-                                className="fa fa-square"
-                                aria-hidden="true"
-                              ></i>
+                              <i className="fa fa-square" aria-hidden="true"></i>
                             </a>
                           </li>
                         </ul>
@@ -261,6 +270,7 @@ export const TopHeader = ({ selectedLanguage, handleLanguageChange }) => {
                             <button
                               onClick={decreaseFontSize}
                               className="dash_link_nt"
+                              aria-label="Decrease font size"
                             >
                               A<sup className="topbar-sup-txt">-</sup>
                             </button>
@@ -277,15 +287,17 @@ export const TopHeader = ({ selectedLanguage, handleLanguageChange }) => {
                             <button
                               onClick={increaseFontSize}
                               className="dash_link_nt"
+                              aria-label="Decrease font size"
                             >
                               A<sup className="topbar-sup-txt">+</sup>
                             </button>
                           </li>
                         </ul>
                       </div>
-                      <div class="bar6 bar-c">
-                        <div class="language-box">
+                      <div className="bar6 bar-c">
+                        <div className="language-box">
                           <select
+                            aria-label="languagetype"
                             id="languageDropdown"
                             value={selectedLanguage}
                             onChange={handleLanguageChange}
@@ -299,67 +311,64 @@ export const TopHeader = ({ selectedLanguage, handleLanguageChange }) => {
 
                         </div>
                       </div>
-                      <div class="bar6 bar-c">
+                      <div className="bar6 bar-c">
 
 
 
-                        <div class="language-box">
+                        <div className="language-box">
                           {storedUserString ? (
-                            <button onClick={handleLogout}>
-                              <Link to="/">Logout</Link>
+                            // Logout Button
+                            <button onClick={handleLogout} className="logout-button">
+                              Logout
                             </button>
                           ) : storedUserString1 ? (
+                            // Candidate Menu (Logout & Change Password)
                             <div className="language-box">
-                              <select name="languagetype" className="dash_link_nt" onChange={handleSelectCandidate}>
-                                  <option value="" > Welcome, {cand_name}</option>
-                                  <option value="1" >Candidate Logout</option>
-                                  <option value="2" >Change Password</option>
-                                </select>
-                              {/* <button
-                                className="primary-button "
-                                onClick={() => setShowDropdown(!showDropdown)}
+                              <label htmlFor="candidateActions" className="visually-hidden">
+                                Candidate Actions
+                              </label>
+                              <select
+                                id="candidateActions"
+                                name="languagetype"
+                                className="dash_link_nt"
+                                onChange={handleSelectCandidate}
+                                aria-label="Candidate Actions"
                               >
-                                Welcome, {cand_name}
-                              </button>
-                              {showDropdown && (
-                                <div className="language-box">
-                                  <div>
-                                    <button onClick={handleLogout} className="dropdown-button" > Candidate Logout</button>
-
-                                  </div>
-                                  <div> <button onClick={handleChangePassword} className="dropdown-button">Change Password</button></div>
-
-                                </div>
-                              )} */}
+                                <option value="">Welcome, {cand_name}</option>
+                                <option value="1">Candidate Logout</option>
+                                <option value="2">Change Password</option>
+                              </select>
                             </div>
                           ) : (
-                            // <button>
-                            //   <Link to="/login">Login</Link>
-                            // </button>
-                            <>
-                            <div >
-
-                           
-                              {parseInt(selectedLanguage) === 1 ? (
-                                <select name="languagetype" className="dash_link_nt" onChange={handleSelectChange}>
-                                  <option value="" >  ---Login --- </option>
-                                  <option value="1" >Admin Login</option>
-                                  <option value="2" >Candidate Login</option>
-                                </select>
-
-                              ) : (
-
-                                <select name="languagetype" className="dash_link_nt" onChange={handleSelectChange}>
-                                  <option value="" >  --- लॉग इन --- </option>
-                                  <option value="1" >व्यवस्थापक लॉगिन</option>
-                                  <option value="2" >अभ्यर्थी लॉगिन</option>
-                                </select>
-                              )}
-                               </div>
-                            </>
+                            // Language Selection & Login Options
+                            <div>
+                              <label htmlFor="loginType" className="visually-hidden">
+                                Select Login Type
+                              </label>
+                              <select
+                                id="loginType"
+                                name="languagetype"
+                                className="dash_link_nt"
+                                aria-label="Select login type"
+                                onChange={handleSelectChange}
+                              >
+                                {parseInt(selectedLanguage) === 1 ? (
+                                  <>
+                                    <option value="">--- Login ---</option>
+                                    <option value="1">Admin Login</option>
+                                    <option value="2">Candidate Login</option>
+                                  </>
+                                ) : (
+                                  <>
+                                    <option value="">--- लॉग इन ---</option>
+                                    <option value="1">व्यवस्थापक लॉगिन</option>
+                                    <option value="2">अभ्यर्थी लॉगिन</option>
+                                  </>
+                                )}
+                              </select>
+                            </div>
                           )}
                         </div>
-
 
 
                         {/* <button><Link to='/candidate/login'>Login</Link></button> */}
@@ -370,28 +379,35 @@ export const TopHeader = ({ selectedLanguage, handleLanguageChange }) => {
                 </div>
               </section>
             </div>
-            <div class="top-header-sec">
-              <div class="container">
-                <div class="row">
-                  <div class="col-md-8 col-sm-6">
-                    <div class="head-logo h-100">
-                      <h2 class="logo w-100">
+            <div className="top-header-sec">
+              <div className="container">
+                <div className="row">
+                  <div className="col-md-8 col-sm-6">
+                    <div className="head-logo h-100">
+                      <h2 className="logo w-100">
                         <a
                           href="/"
                           title="Home"
                           rel="home"
-                          class="header__logo row w-100"
+                          className="header__logo row w-100"
                           id="logo"
                         >
                           <div className="col-md-3">
                             <div className="custom-logo">
-                              <img
+                              {/* <img
                                 class="national_emblem "
                                 // src={Logo}
 
                                 src={footerLogo}
                                 alt="national emblem"
+                              /> */}
+                              <img
+                                className="national_emblem"
+                                src={footerLogo}
+                                alt="National Emblem"
+                                style={{ maxWidth: "100%", height: "auto", objectFit: "contain" }}
                               />
+
                             </div>
                           </div>
                           <div className="col-md-9 d-flex align-items-center justify-content-end">
@@ -404,16 +420,16 @@ export const TopHeader = ({ selectedLanguage, handleLanguageChange }) => {
                       </h2>
                     </div>
                   </div>
-                  <div class="col-md-4 col-sm-6">
-                    <div class="head-right">
+                  <div className="col-md-4 col-sm-6">
+                    <div className="head-right">
                       {/* <div class="rgt-one">
                         <img src={swatchBarath} alt="" />
                       </div> */}
-                      <div class="rgt-two">
+                      <div className="rgt-two">
                         {/* <h6>Site Under Construction</h6> */}
                       </div>
-                      <div class="rgt-three">
-                        <img src={G20} alt="" />
+                      <div className="rgt-three">
+                        <img src={G20} alt="image" />
                       </div>
 
 
@@ -428,23 +444,23 @@ export const TopHeader = ({ selectedLanguage, handleLanguageChange }) => {
         <div>
           <div>
             <div>
-              <section class="top-b-section">
-                <div class="container-fluid nav-con">
-                  <div class="top-bar-section">
-                    <div class="top-bar-lft">
+              <section className="top-b-section">
+                <div className="container-fluid nav-con">
+                  <div className="top-bar-section">
+                    <div className="top-bar-lft">
                       <p className="bdr-rgt">{currentDate}</p>
                       <p className="bdr-rgt">{currentTime}</p>
                     </div>
-                    <div class="top-bar-rgt">
-                      <div class="bar1 bar-c">
+                    <div className="top-bar-rgt">
+                      <div className="bar1 bar-c">
                         <form id="search-form" action="/" method="get">
-                          <div class="search-box">
+                          <div className="search-box">
                             <input
                               id="myInputhidden"
                               type="hidden"
                               name="lang"
                               placeholder="Search...."
-                              class="round"
+                              className="round"
                               value="en"
                             />
                             <input
@@ -453,27 +469,27 @@ export const TopHeader = ({ selectedLanguage, handleLanguageChange }) => {
                               name="s"
                               placeholder="
 खोज...."
-                              class="round"
+className="round"
                             />
 
                             <button
                               type="submit"
-                              class="corner"
+                              className="corner"
                               aria-label="Search...."
                               title="
 खोज...."
                             >
-                              <i class="fa fa-search " aria-hidden="true"></i>
+                              <i className="fa fa-search " aria-hidden="true"></i>
                             </button>
                           </div>
                         </form>
                       </div>
-                      <div class="bar2 bar-c">
+                      <div className="bar2 bar-c">
                         <p>
                           <a href="#">स्क्रीन रीडर एक्सेस</a>
                         </p>
                       </div>
-                      <div class="bar3 bar-c">
+                      <div className="bar3 bar-c">
                         <p>
                           <a
                             href="#rgt-three"
@@ -483,7 +499,7 @@ export const TopHeader = ({ selectedLanguage, handleLanguageChange }) => {
                           </a>
                         </p>
                       </div>
-                      <div class="bar4 bar-c">
+                      <div className="bar4 bar-c">
                         {/* <ul>
                                                     <li>
                                                         <a href="#" class="white-contrast dash_link_nt" id="dark-mode-button"
@@ -533,6 +549,18 @@ export const TopHeader = ({ selectedLanguage, handleLanguageChange }) => {
                       </div>
                       <div className="bar5 bar-c">
                         <ul>
+                          <li className="ftsz-70p ml-10">
+                            <button className="dash_link_nt" aria-label="Decrease font size">A<sup className="topbar-sup-txt">-</sup></button>
+                          </li>
+                          <li className="ftsz-90p">
+                            <button className="dash_link_nt" aria-label="Reset font size">A</button>
+                          </li>
+                          <li className="ftsz-110p">
+                            <button className="dash_link_nt" aria-label="Increase font size">A<sup className="topbar-sup-txt">+</sup></button>
+                          </li>
+                        </ul>
+
+                        {/* <ul>
                           <li>
                             <a href="#" className="topbar-icon" title="Sitemap">
                               <i
@@ -546,6 +574,7 @@ export const TopHeader = ({ selectedLanguage, handleLanguageChange }) => {
                             <button
                               onClick={decreaseFontSize}
                               className="dash_link_nt"
+                              aria-label="Decrease font size"
                             >
                               A<sup className="topbar-sup-txt">-</sup>
                             </button>
@@ -554,6 +583,7 @@ export const TopHeader = ({ selectedLanguage, handleLanguageChange }) => {
                             <button
                               className="dash_link_nt"
                               onClick={resetFontSize}
+                              aria-label="Decrease font size"
                             >
                               A
                             </button>
@@ -562,18 +592,20 @@ export const TopHeader = ({ selectedLanguage, handleLanguageChange }) => {
                             <button
                               onClick={increaseFontSize}
                               className="dash_link_nt"
+                              aria-label="Decrease font size"
                             >
                               A<sup className="topbar-sup-txt">+</sup>
                             </button>
                           </li>
-                        </ul>
+                        </ul> */}
                       </div>
-                      <div class="bar6 bar-c">
-                        <div class="language-box">
+                      <div className="bar6 bar-c">
+                        <div className="language-box">
                           <select
                             id="languageDropdown"
                             value={selectedLanguage}
                             onChange={handleLanguageChange}
+                            aria-label="select language"
                           >
                             {Object.keys(languages).map((langCode) => (
                               <option key={langCode} value={langCode}>
@@ -584,36 +616,41 @@ export const TopHeader = ({ selectedLanguage, handleLanguageChange }) => {
                         </div>
                       </div>
 
-                      <div class="bar6 bar-c">
-                        <div class="language-box">
+                      <div className="bar6 bar-c">
+                        <div className="language-box">
                           {storedUserString ? (
-                            <button >
-                              <Link to="/">Logout</Link>
-                            </button>
+                            <Link to="/" className="logout-button">Logout</Link>
                           ) : (
-                            // <button>
-                            //   <Link to="/candidate/login">Login</Link>
-                            // </button>
                             <>
-                              {parseInt(selectedLanguage) === 1 ? (
-                                <select name="languagetype" className="dash_link_nt" onChange={handleSelectChange}>
-                                  <option value="" >  ---Login --- </option>
-                                  <option value="1" >Admin Login</option>
-                                  <option value="2" >Candidate Login</option>
-                                </select>
-
-                              ) : (
-
-                                <select name="languagetype" className="dash_link_nt" onChange={handleSelectChange}>
-                                  <option value="" >  --- लॉग इन --- </option>
-                                  <option value="1" >व्यवस्थापक लॉगिन</option>
-                                  <option value="2" >अभ्यर्थी लॉगिन</option>
-                                </select>
-                              )}</>
+                              <label htmlFor="loginType" className="visually-hidden">
+                                Select Login Type
+                              </label>
+                              <select
+                                id="loginType"
+                                name="languagetype"
+                                className="dash_link_nt"
+                                aria-label="Select login type"
+                                onChange={handleSelectChange}
+                              >
+                                {parseInt(selectedLanguage) === 1 ? (
+                                  <>
+                                    <option value="">--- Login ---</option>
+                                    <option value="1">Admin Login</option>
+                                    <option value="2">Candidate Login</option>
+                                  </>
+                                ) : (
+                                  <>
+                                    <option value="">--- लॉग इन ---</option>
+                                    <option value="1">व्यवस्थापक लॉगिन</option>
+                                    <option value="2">अभ्यर्थी लॉगिन</option>
+                                  </>
+                                )}
+                              </select>
+                            </>
                           )}
                         </div>
-                        {/* <button><Link to='/candidate/login'>Login</Link></button> */}
                       </div>
+
 
 
                     </div>
@@ -621,23 +658,23 @@ export const TopHeader = ({ selectedLanguage, handleLanguageChange }) => {
                 </div>
               </section>
             </div>
-            <div class="top-header-sec">
-              <div class="container">
-                <div class="row">
-                  <div class="col-md-8 col-sm-6">
-                    <div class="head-logo h-100">
-                      <h2 class="logo w-100">
+            <div className="top-header-sec">
+              <div className="container">
+                <div className="row">
+                  <div className="col-md-8 col-sm-6">
+                    <div className="head-logo h-100">
+                      <h2 className="logo w-100">
                         <a
                           href="/"
                           title="Home"
                           rel="home"
-                          class="header__logo row w-100"
+                          className="header__logo row w-100"
                           id="logo"
                         >
                           <div className="col-md-3">
                             <div className="custom-logo">
                               <img
-                                class="national_emblem w-50"
+                                className="national_emblem w-50"
                                 // src={Logo}
                                 src={footerLogo}
                                 alt="national emblem"
@@ -655,17 +692,17 @@ export const TopHeader = ({ selectedLanguage, handleLanguageChange }) => {
                       </h2>
                     </div>
                   </div>
-                  <div class="col-md-4 col-sm-6">
-                    <div class="head-right d-flex flex-end">
+                  <div className="col-md-4 col-sm-6">
+                    <div className="head-right d-flex flex-end">
                       {/* <div class="rgt-one">
                         <img src={swatchBarath} alt="" />
                       </div> */}
-                      <div class="rgt-two">
+                      <div className="rgt-two">
                         {/* <img src={G20} alt="" /> */}
                         <h2 className="h6" style={{ marginLeft: '50%' }}>Site Under Construction</h2>
                       </div>
-                      <div class="rgt-three">
-                        <img src={G20} alt="" />
+                      <div className="rgt-three">
+                        <img src={G20} alt="image" />
                       </div>
 
                     </div>

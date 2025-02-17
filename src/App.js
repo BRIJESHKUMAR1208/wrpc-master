@@ -117,8 +117,8 @@ function App() {
   const [sessionExpired, setSessionExpired] = useState(false);
   const storedUserString = localStorage.getItem("user");
   const token = localStorage.getItem("token")
-  console.log(token);
-  console.log(storedUserString)
+  // console.log(token);
+  // console.log(storedUserString)
 
   const resetSessionTimeout = () => {
     const expirationTime = new Date().getTime() + 600000; // Extend session by 1 minute
@@ -157,7 +157,7 @@ function App() {
           }
 
         } catch (error) {
-          console.log('Error:', error);
+         // console.log('Error:', error);
         }
       }
 
@@ -196,7 +196,8 @@ function App() {
         <Router>
           <Routes>
             {/* <Route exact path="/" element={<CmsDisplay/>} /> */}
-            <Route exact path="/" element={<Home />} />
+            {/* <Route exact path="/" element={<Home />} /> */}
+            <Route path="/" element={<Home />} />
             <Route path="/menu/:id" element={<MenuDetail />} />
             <Route path="/custom/:id" element={<CustomDetail />} />
             <Route path="/footer/:id" element={<FooterDetails />} />

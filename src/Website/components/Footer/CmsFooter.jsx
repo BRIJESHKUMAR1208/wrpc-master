@@ -33,12 +33,12 @@ export const CmsFooter = () => {
       {parseInt(selectedLanguage) === 1 ? (
         <div>
           <footer>
-            <div class="widget_wrap overlay">
-            <div class="container-fluid footer-con">
-                <div class="row">
-                  <div class="col-md-6 col-sm-6">
-                    <div class="widget_list">
-                      <h4 class="widget_title">Contact Us</h4>
+            <div className="widget_wrap overlay">
+            <div className="container-fluid footer-con">
+                <div className="row">
+                  <div className="col-md-6 col-sm-6">
+                  <section className="widget_list" aria-labelledby="contact-title">
+                 <h4 id="contact-title" className="widget_title">Contact Us</h4>
 
                       {menudata.map((i) => {
                         if (i.u_footertype === 3) {
@@ -54,13 +54,13 @@ export const CmsFooter = () => {
                           );
                         }
                       })}
-                    </div>
+                    </section>
                   </div>
 
-                  <div class="col-md-3 col-sm-3">
-                    <div class="widget_list">
-                      <h4 class="widget_title">Quick Links</h4>
-                      <div class="widget_service">
+                  <div className="col-md-3 col-sm-3">
+                    <div className="widget_list">
+                      <h4 className="widget_title">Quick Links</h4>
+                      <div className="widget_service">
                         <ul>
                           {menudata.map((item) => (
                             <li key={item.u_id}>
@@ -121,21 +121,21 @@ export const CmsFooter = () => {
                   </div> */}
                 </div>
                 {/* <div class="widget_copyright"> */}
-                <div class="row widget_copyright">
-                  <div class="col-md-3">
-                    <div class="widget_logo">
+                <div className="row widget_copyright">
+                  <div className="col-md-3">
+                    <div className="widget_logo">
                       {/* <a href="#"><img src={footerLogo} alt="" /></a>
                   </div> */}
                       <img
-                        class="footer_emblem"
+                        className="footer_emblem"
                         src={Logo}
                         // src={footerLogo}
                         alt="national emblem"
                       />
                     </div>
                   </div>
-                  <div class="col-md-6">
-                    <div class="copyright_text">
+                  <div className="col-md-6">
+                    <div className="copyright_text">
                       <p>
                         <span>
                           Copyright © 2006 Western Regional Power Committee
@@ -148,39 +148,39 @@ export const CmsFooter = () => {
                   {/* (Website
                   Last Updated on: 14-Jan-2019) */}
 
-                  <div class="col-md-3">
-                    <div class="city_top_social">
+                  <div className="col-md-3">
+                    <div className="city_top_social">
                       <ul>
                       <li>
                             <a href="#">
-                              <i class="fa-brands fa-facebook"></i>                              
-                              <span class="visually-hidden">Facebook</span>
+                              <i className="fa-brands fa-facebook"></i>                              
+                              <span className="visually-hidden">Facebook</span>
                             </a>
                           </li>
                           <li>
                             <a href="#">
-                              <i class="fa-brands fa-twitter"></i>
+                              <i className="fa-brands fa-twitter"></i>
                               
-                              <span class="visually-hidden">Twitter</span>
+                              <span className="visually-hidden">Twitter</span>
                             </a>
                           </li>
 
                           <li>
                             <a href="#">
-                              <i class="fa-brands fa-linkedin-in"></i>
-                              <span class="visually-hidden">Linkedin</span>
+                              <i className="fa-brands fa-linkedin-in"></i>
+                              <span className="visually-hidden">Linkedin</span>
                             </a>
                           </li>
                           <li>
                             <a href="#">
-                              <i class="fa-brands fa-youtube"></i>
-                              <span class="visually-hidden">Youtube</span>
+                              <i className="fa-brands fa-youtube"></i>
+                              <span className="visually-hidden">Youtube</span>
                             </a>
                           </li>
                           <li>
                             <a href="#">
-                              <i class="fa-brands fa-google"></i>
-                              <span class="visually-hidden">Google</span>
+                              <i className="fa-brands fa-google"></i>
+                              <span className="visually-hidden">Google</span>
                             </a>
                           </li>
                       </ul>
@@ -195,12 +195,12 @@ export const CmsFooter = () => {
       ) : (
         <div>
           <footer>
-            <div class="widget_wrap overlay">
-              <div class="container">
-                <div class="row">
-                  <div class="col-md-6 col-sm-6">
-                    <div class="widget_list">
-                      <h4 class="widget_title">संपर्क करें</h4>
+            <div className="widget_wrap overlay">
+              <div className="container">
+                <div className="row">
+                  <div className="col-md-6 col-sm-6">
+                    <div className="widget_list">
+                      <h4 className="widget_title">संपर्क करें</h4>
 
                       {menudata.map((i) => {
                         if (i.u_footertype === 3) {
@@ -220,10 +220,10 @@ export const CmsFooter = () => {
                     </div>
                   </div>
 
-                  <div class="col-md-3 col-sm-3">
-                    <div class="widget_list">
-                      <h4 class="widget_title">त्वरित संपर्क</h4>
-                      <div class="widget_service">
+                  <div className="col-md-3 col-sm-3">
+                    <div className="widget_list">
+                      <h4 className="widget_title">त्वरित संपर्क</h4>
+                      <div className="widget_service">
                         <ul>
                           {menudata.map((item) => (
                             <li key={item.u_id}>
@@ -261,10 +261,10 @@ export const CmsFooter = () => {
                     </div>
                   </div>
 
-                  <div class="col-md-3 col-sm-3">
-                    <div class="widget_list">
-                      <h4 class="widget_title">खोज</h4>
-                      <div class="widget_service">
+                  <div className="col-md-3 col-sm-3">
+                    <div className="widget_list">
+                      <h4 className="widget_title">खोज</h4>
+                      <div className="widget_service">
                         <ul>
                           {menudata.map((item) => (
                             <>
@@ -286,10 +286,10 @@ export const CmsFooter = () => {
                     </div>
                   </div>
                 </div>
-                <div class="widget_copyright">
-                  <div class="row">
-                    <div class="col-md-3">
-                      <div class="d-flex justify-content-center">
+                <div className="widget_copyright">
+                  <div className="row">
+                    <div className="col-md-3">
+                      <div className="d-flex justify-content-center">
                         <a href="#">
                           <img
                             // src={footerLogo}
@@ -299,8 +299,8 @@ export const CmsFooter = () => {
                         </a>
                       </div>
                     </div>
-                    <div class="col-md-6">
-                      <div class="copyright_text">
+                    <div className="col-md-6">
+                      <div className="copyright_text">
                         <p>
                           <span>
                             कॉपीराइट © 2006 पश्चिमी क्षेत्रीय विद्युत समिति
@@ -312,39 +312,39 @@ export const CmsFooter = () => {
                       </div>
                       
                     </div>
-                    <div class="col-md-3">
-                      <div class="city_top_social">
+                    <div className="col-md-3">
+                      <div className="city_top_social">
                         <ul>
                           <li>
                             <a href="https://www.facebook.com/">
-                              <i class="fa-brands fa-facebook"></i>                              
-                              <span class="visually-hidden">Facebook</span>
+                              <i className="fa-brands fa-facebook"></i>                              
+                              <span className="visually-hidden">Facebook</span>
                             </a>
                           </li>
                           <li>
                             <a href="https://x.com/">
-                              <i class="fa-brands fa-twitter"></i>
+                              <i className="fa-brands fa-twitter"></i>
                               
-                              <span class="visually-hidden">Twitter</span>
+                              <span className="visually-hidden">Twitter</span>
                             </a>
                           </li>
 
                           <li>
                             <a href="https://www.linkedin.com/">
-                              <i class="fa-brands fa-linkedin-in"></i>
-                              <span class="visually-hidden">Linkedin</span>
+                              <i className="fa-brands fa-linkedin-in"></i>
+                              <span className="visually-hidden">Linkedin</span>
                             </a>
                           </li>
                           <li>
                             <a href="https://www.youtube.com/">
-                              <i class="fa-brands fa-youtube"></i>
-                              <span class="visually-hidden">Youtube</span>
+                              <i className="fa-brands fa-youtube"></i>
+                              <span className="visually-hidden">Youtube</span>
                             </a>
                           </li>
                           <li>
                             <a href="https://www.google.com/">
-                              <i class="fa-brands fa-google"></i>
-                              <span class="visually-hidden">Google</span>
+                              <i className="fa-brands fa-google"></i>
+                              <span className="visually-hidden">Google</span>
                             </a>
                           </li>
                         </ul>
