@@ -217,10 +217,10 @@ export const Getecrdatabyid = () => {
 
 
                                     </td>
-                                    <td className="ui header" style={{ paddingLeft: "20px" }}>Copy Of Data</td>
+                                    <td className="ui header" style={{ paddingLeft: "20px" }}>Signed copy of AS format</td>
                                     
                                     <td>
-                                        <Link className="form-control" to={`${BASE_URL+formData.copyofdatapath}`} ><DescriptionIcon/></Link>
+                                        <Link className="form-control" to={`${BASE_URL+formData.copyofdatapath}`} target="_blank" ><DescriptionIcon/></Link>
                                         
                                     </td>
                                    
@@ -333,7 +333,7 @@ export const Getecrdatabyid = () => {
                                     <td style={{ paddingLeft: "50px" }}>
 
                                     </td>
-                                    <td className="ui header" style={{ paddingLeft: "20px" }}>ECr Data</td>
+                                    {/* <td className="ui header" style={{ paddingLeft: "20px" }}>ECr Data</td>
                                     <td>
                                       <input
                                         className="form-control"
@@ -341,12 +341,12 @@ export const Getecrdatabyid = () => {
                                         placeholder="ECr Data"
                                         value={formData.ecrdata} disabled
                                       />
-                                    </td>
+                                    </td> */}
                                   </tr>
                                   <tr>
                                     <td className="ui header">ECR DATA</td>
                                     <td>
-                                        <Link className="form-control" to={`${BASE_URL+formData.ecrdatapdfpath}`} ><DescriptionIcon/></Link>
+                                        <Link className="form-control" to={`${BASE_URL+formData.ecrdatapdfpath}`} target="_blank" ><DescriptionIcon/></Link>
                                         
                                     </td>
                                   </tr>

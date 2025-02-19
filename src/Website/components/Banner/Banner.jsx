@@ -89,8 +89,6 @@ export const Banner = () => {
         setReportData(reportData);
         setTenderData(tenderData);
         setWhatsNewData(whatsnewData);
-
-        // Set archived data
         setArchivedLinkData(archivedLinkData);
         setArchivedReportData(archivedReportData);
         setArchivedTenderData(archivedTenderData);

@@ -319,14 +319,37 @@ export const EcrsubmissionForm = () => {
                                                                     onChange={handleChange}
                                                                     isInvalid={!!formErrors.ppa_quantum}
                                                                     maxlength="50" value={formData.ppa_quantum} /><small class="invalid-feedback"></small></div>
-                                                            <label class="col-sm-2 col-form-label">PPA_rate<span
-                                                            ><b>*</b></span>:</label>
-                                                            <div class="col-sm-2">
-                                                                <span style={{ color: "red" }}>{formErrors.ppa_rate}</span>
-                                                                <input class="form-control" name="ppa_rate" placeholder="Enter ppa_rate"
-                                                                    maxlength="500" value={formData.ppa_rate}
-                                                                    onChange={handleChange}
-                                                                    isInvalid={!!formErrors.ppa_rate} /><small class="invalid-feedback"></small></div>
+                                                            <label className="col-sm-2 col-form-label">
+    PPA_rate<span><b>*</b></span>:
+</label>
+<div className="col-sm-2">
+    <span style={{ color: "red" }}>{formErrors.ppa_rate}</span>
+    <input
+        className={`form-control ${formErrors.ppa_rate ? 'is-invalid' : ''}`}
+        name="ppa_rate"
+        placeholder="Enter PPA rate"
+        maxLength="10"
+        value={formData.ppa_rate}
+        onChange={handleChange}
+        onInput={(e) => {
+            e.target.value = e.target.value.replace(/[^0-9.]/g, ''); // Allow only numbers and decimal
+
+            // Prevent multiple decimal points
+            if ((e.target.value.match(/\./g) || []).length > 1) {
+                e.target.value = e.target.value.slice(0, -1);
+            }
+
+            // Limit to 3 decimal places
+            if (e.target.value.includes('.') && e.target.value.split('.')[1].length > 3) {
+                e.target.value = e.target.value.slice(0, -1); // Allow only 3 decimal places
+            }
+
+            setFormData({ ...formData, [e.target.name]: e.target.value });
+        }}
+    />
+    <small className="invalid-feedback">{formErrors.ppa_rate}</small>
+</div>
+
                                                             <label class="col-sm-2 col-form-label">Type (GNA/TGNA)<span><b>*</b></span>:</label>
                                                             <div class="col-sm-2">
                                                                 <span style={{ color: "red" }}>{formErrors.type}</span>
