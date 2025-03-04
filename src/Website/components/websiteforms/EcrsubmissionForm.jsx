@@ -10,6 +10,7 @@ import { Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material
 import apis from '../../../Api/api.json'
 import { TopHeader } from '../TopHeader/TopHeader';
 import CmsDisplay from '../Header/CmsDisplay';
+import { useNavigate } from 'react-router-dom';
 
 export const EcrsubmissionForm = () => {
     const recommondationRef = useRef();
@@ -23,23 +24,34 @@ export const EcrsubmissionForm = () => {
     const [entities, setEntities] = useState([]);
     const [formData, setFormData] = useState({
 
-        entityname: '',   
-        installedcapacity : '',
-        beneficiary   : '',
-        ppa_quantum : '', 
-        ppa_rate : '',  
-        type   : '',
-        approvalnumber  : '', 
-        fromdate  : '', 
-        todate  : '', 
-        ecrdata : '',  
-        copyofdata  : ''
+        entityname: '',
+        installedcapacity: '',
+        beneficiary: '',
+        ppa_quantum: '',
+        ppa_rate: '',
+        type: '',
+        approvalnumber: '',
+        fromdate: '',
+        todate: '',
+        ecrdata: '',
+        copyofdata: '',
+        formblock:'',
+        toblock:''
     });
 
     // New state variables for confirmation dialog and loading
     const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [entityname, setEntityName] = useState("");
+    const navigate = useNavigate();
+    useEffect(() => {
+        const storedEntityName = localStorage.getItem("entityname");
+        if (storedEntityName) {
+            setEntityName(storedEntityName);
+        }
+    }, []);
 
+   
     const handleRoleChange = (event) => {
         setSelectedRole(event.target.value);
     };
@@ -137,6 +149,7 @@ export const EcrsubmissionForm = () => {
 
     const handleDeleteConfirm = async () => {
         // Close the confirmation dialog
+       
         setConfirmDialogOpen(false);
         // Set loading state to true
         setLoading(true);
@@ -156,44 +169,51 @@ export const EcrsubmissionForm = () => {
 
             // };
             const formDataToSend = new FormData();
-           formDataToSend.append('user_id', candidateId);
-           formDataToSend.append('entityname', formData.entityname);
-           formDataToSend.append('installedcapacity', formData.installedcapacity);
-           formDataToSend.append('beneficiary', formData.beneficiary);
-           formDataToSend.append('ppa_quantum', formData.ppa_quantum);
-           formDataToSend.append('ppa_rate', formData.ppa_rate);
-           formDataToSend.append('type', formData.type);
-           formDataToSend.append('approvalnumber', formData.approvalnumber);
-           formDataToSend.append('fromdate', formData.fromdate);
-           formDataToSend.append('todate', formData.todate);
-           formDataToSend.append('ecrdata', selectedFile2);
-           formDataToSend.append('copyofdata',selectedFile1);
-          
+            formDataToSend.append('user_id', candidateId);
+            formDataToSend.append('entityname', entityname);
+            formDataToSend.append('installedcapacity', formData.installedcapacity);
+            formDataToSend.append('beneficiary', formData.beneficiary);
+            formDataToSend.append('ppa_quantum', formData.ppa_quantum);
+            formDataToSend.append('ppa_rate', formData.ppa_rate);
+            formDataToSend.append('type', formData.type);
+            formDataToSend.append('approvalnumber', formData.approvalnumber);
+            formDataToSend.append('fromdate', formData.fromdate);
+            formDataToSend.append('todate', formData.todate);
+            formDataToSend.append('ecrdata', selectedFile2);
+            formDataToSend.append('copyofdata', selectedFile1);
+            formDataToSend.append('fromblock', formData.formblock);
+            formDataToSend.append('toblock', formData.toblock);
+
             const response = await apiclient.post(apis.PostEcrsubmission, formDataToSend)
             if (response.status === 200) {
-                console.log("user" + response.data)
-                // Simulate a 3-second delay
+               
                 setTimeout(() => {
                     // Set loading state back to false after the delay
                     setLoading(false);
                     // Show the success dialog
                     setSuccessDialogOpen(true);
-
+                    setSelectedFile1(null);  // Clears the file input for copyofdata
+                    setSelectedFile2(null);  // Clears the file input for ecrdata
+                    
                     setFormData({
-                        entityname: '',   
-                        installedcapacity : '',
-                        beneficiary   : '',
-                        ppa_quantum : '', 
-                        ppa_rate : '',  
-                        type   : '',
-                        approvalnumber  : '', 
-                        fromdate  : '', 
-                        todate  : '', 
-                        ecrdata : '',  
-                        copyofdata  : ''
+                        entityname: '',
+                        installedcapacity: '',
+                        ppa_quantum: '',
+                        beneficiary: formData.beneficiary,
+                        ppa_rate: '',
+                        type: '',
+                        approvalnumber: '',
+                        fromdate: '',
+                        todate: '',
+                        ecrdata: '',
+                        copyofdata: '',
+                        formblock:'',
+                        toblock:''
                     });
                     setSelectedRole('');
                 }, 1000);
+                navigate('/candidate/ecrsubmissionform'); 
+                
             } else if (response.status === 500) {
                 alert("Form already exists");
 
@@ -213,12 +233,11 @@ export const EcrsubmissionForm = () => {
         const relaysave = async () => {
             try {
                 const response = await apiclient.get(apis.Getentitylist);
-                if (response.status === 200) 
-                    { 
-                        setEntities(response.data);
+                if (response.status === 200) {
+                    setEntities(response.data);
 
-                    }
-               
+                }
+
             } catch (error) {
                 console.error('Error fetching roles:', error);
             }
@@ -261,24 +280,17 @@ export const EcrsubmissionForm = () => {
                                                     <div class="card-body registrationCard">
 
                                                         <div class="form-group row">
-                                                            <label class="col-sm-2 col-form-label">Entity Name<span
+                                                            <label class="col-sm-2 col-form-label">Entities<span
                                                             ><b>*</b></span>:</label>
                                                             <div class="col-sm-2">
                                                                 <span style={{ color: "red" }}>{formErrors.entityname}</span>
-                                                                <select
-                                                                    className="form-control"
-                                                                    name="entityname"
-                                                                    value={formData.entityname}
+
+                                                                <input
+                                                                name="entityname"
+                                                                    type="text"
+                                                                    value={entityname}
                                                                     onChange={handleChange}
-                                                                    isInvalid={!!formErrors.entityname}
-                                                                >
-                                                                    <option value="">Select Entity</option>
-                                                                    {entities.map((entity) => (
-                                                                        <option key={entity.id} value={entity.entityname}>
-                                                                            {entity.entityname}
-                                                                        </option>
-                                                                    ))}
-                                                                </select><small class="invalid-feedback">
+                                                                /><small class="invalid-feedback">
                                                                 </small></div>
                                                             <label class="col-sm-2 col-form-label">Installed Capacity<span
                                                             ><b>*</b></span>:</label>
@@ -287,7 +299,7 @@ export const EcrsubmissionForm = () => {
                                                                 <input class="form-control"
                                                                     name="installedcapacity"
                                                                     placeholder="Enter installedcapacity"
-                                                                    maxlength="50"
+                                                                  
                                                                     value={formData.installedcapacity}
                                                                     onChange={handleChange}
                                                                     isInvalid={!!formErrors.installedcapacity}
@@ -320,35 +332,35 @@ export const EcrsubmissionForm = () => {
                                                                     isInvalid={!!formErrors.ppa_quantum}
                                                                     maxlength="50" value={formData.ppa_quantum} /><small class="invalid-feedback"></small></div>
                                                             <label className="col-sm-2 col-form-label">
-    PPA_rate<span><b>*</b></span>:
-</label>
-<div className="col-sm-2">
-    <span style={{ color: "red" }}>{formErrors.ppa_rate}</span>
-    <input
-        className={`form-control ${formErrors.ppa_rate ? 'is-invalid' : ''}`}
-        name="ppa_rate"
-        placeholder="Enter PPA rate"
-        maxLength="10"
-        value={formData.ppa_rate}
-        onChange={handleChange}
-        onInput={(e) => {
-            e.target.value = e.target.value.replace(/[^0-9.]/g, ''); // Allow only numbers and decimal
+                                                                PPA_rate<span><b>*</b></span>:
+                                                            </label>
+                                                            <div className="col-sm-2">
+                                                                <span style={{ color: "red" }}>{formErrors.ppa_rate}</span>
+                                                                <input
+                                                                    className={`form-control ${formErrors.ppa_rate ? 'is-invalid' : ''}`}
+                                                                    name="ppa_rate"
+                                                                    placeholder="Enter PPA rate"
+                                                                    maxLength="10"
+                                                                    value={formData.ppa_rate}
+                                                                    onChange={handleChange}
+                                                                    onInput={(e) => {
+                                                                        e.target.value = e.target.value.replace(/[^0-9.]/g, ''); // Allow only numbers and decimal
 
-            // Prevent multiple decimal points
-            if ((e.target.value.match(/\./g) || []).length > 1) {
-                e.target.value = e.target.value.slice(0, -1);
-            }
+                                                                        // Prevent multiple decimal points
+                                                                        if ((e.target.value.match(/\./g) || []).length > 1) {
+                                                                            e.target.value = e.target.value.slice(0, -1);
+                                                                        }
 
-            // Limit to 3 decimal places
-            if (e.target.value.includes('.') && e.target.value.split('.')[1].length > 3) {
-                e.target.value = e.target.value.slice(0, -1); // Allow only 3 decimal places
-            }
+                                                                        // Limit to 3 decimal places
+                                                                        if (e.target.value.includes('.') && e.target.value.split('.')[1].length > 3) {
+                                                                            e.target.value = e.target.value.slice(0, -1); // Allow only 3 decimal places
+                                                                        }
 
-            setFormData({ ...formData, [e.target.name]: e.target.value });
-        }}
-    />
-    <small className="invalid-feedback">{formErrors.ppa_rate}</small>
-</div>
+                                                                        setFormData({ ...formData, [e.target.name]: e.target.value });
+                                                                    }}
+                                                                />
+                                                                <small className="invalid-feedback">{formErrors.ppa_rate}</small>
+                                                            </div>
 
                                                             <label class="col-sm-2 col-form-label">Type (GNA/TGNA)<span><b>*</b></span>:</label>
                                                             <div class="col-sm-2">
@@ -373,13 +385,13 @@ export const EcrsubmissionForm = () => {
                                                             <label
                                                                 class="col-sm-2 col-form-label">Approval number as per WRLDC<span ><b>*</b></span>:</label>
                                                             <div class="col-sm-2">
-                                                                  <span style={{ color: "red" }}>{formErrors.approvalnumber}</span>
-                                                                   <input class="form-control" name="approvalnumber" placeholder="Enter"
+                                                                <span style={{ color: "red" }}>{formErrors.approvalnumber}</span>
+                                                                <input class="form-control" name="approvalnumber" placeholder="Enter"
                                                                     maxlength="500" value={formData.approvalnumber}
                                                                     onChange={handleChange}
                                                                     isInvalid={!!formErrors.approvalnumber} />
-                                                                    <small class="invalid-feedback"></small>
-                                                           </div>
+                                                                <small class="invalid-feedback"></small>
+                                                            </div>
                                                             <label class="col-sm-2 col-form-label">From _date<span><b>*</b></span>:</label>
                                                             <div class="col-sm-2">
                                                                 <span style={{ color: "red" }}>{formErrors.fromdate}</span>
@@ -430,9 +442,40 @@ export const EcrsubmissionForm = () => {
 
                                                                     onChange={handleFileChange1}
                                                                 />
-                                                                <small class="invalid-feedback"></small></div><label
-                                                                    class="col-sm-2 col-form-label">Upload ECR data<span
-                                                                    ><b>*</b></span>:</label>
+                                                                <small class="invalid-feedback"></small></div>
+                                                            <label class="col-sm-2 col-form-label">From Block<span><b>*</b></span>:</label>
+                                                            <div class="col-sm-2">
+                                                                <span style={{ color: "red" }}>{formErrors.formblock}</span>
+                                                                <input
+                                                                    type="date"
+                                                                    class="form-control"
+                                                                    name="formblock"
+                                                                    placeholder="Enter fromdate"
+                                                                    maxlength="50"
+                                                                    value={formData.formblock}
+                                                                    onChange={handleChange}
+                                                                    isInvalid={!!formErrors.formblock}
+                                                                />
+                                                                <small class="invalid-feedback"></small>
+                                                            </div>
+                                                            <label class="col-sm-2 col-form-label">To Block<span><b>*</b></span>:</label>
+                                                            <div class="col-sm-2">
+                                                                <span style={{ color: "red" }}>{formErrors.toblock}</span>
+                                                                <input
+                                                                    type="date"
+                                                                    class="form-control"
+                                                                    name="toblock"
+                                                                    placeholder="Enter fromdate"
+                                                                    maxlength="50"
+                                                                    value={formData.toblock}
+                                                                    onChange={handleChange}
+                                                                    isInvalid={!!formErrors.toblock}
+                                                                />
+                                                                <small class="invalid-feedback"></small>
+                                                            </div>
+                                                            <label
+                                                                class="col-sm-2 col-form-label">Upload ECR data<span
+                                                                ><b>*</b></span>:</label>
                                                             <div class="col-sm-2">
                                                                 {/* <input class="form-control" name="Protection" type='file'
                                                     maxlength="50" value={formData.Uploadfile}

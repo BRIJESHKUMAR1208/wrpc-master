@@ -30,7 +30,14 @@ export const Monthlyaccount = () => {
 
     const [options, setOptions] = useState([]); // To store API data
     const [selectedEntity, setSelectedEntity] = useState(""); // To store selected value
+    const [entityname, setEntityName] = useState("");
 
+    useEffect(() => {
+        const storedEntityName = localStorage.getItem("entityname");
+        if (storedEntityName) {
+            setEntityName(storedEntityName);
+        }
+    }, []);
     // Function to fetch data
     const fetchOptions = async () => {
         try {
@@ -43,8 +50,8 @@ export const Monthlyaccount = () => {
         }
     };
 
-     // Fetch data on component mount
-     useEffect(() => {
+    // Fetch data on component mount
+    useEffect(() => {
         fetchOptions();
     }, []);
 
@@ -61,8 +68,9 @@ export const Monthlyaccount = () => {
         // remark: '',
         // reason: '',
         user_id: ''
-       
+
     });
+    const [summarysheetFile, setSummarysheetFile] = useState(null);
 
     // New state variables for confirmation dialog and loading
     const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
@@ -72,7 +80,7 @@ export const Monthlyaccount = () => {
         setSelectedRole(event.target.value);
     };
 
-     
+
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -95,12 +103,16 @@ export const Monthlyaccount = () => {
             alert('Please upload a  file.');
         }
     };
+ 
+      const handleFileChange1 = (e) => {
+          setSummarysheetFile(e.target.files[0]);  // Store the file object
+      };
     const validateForm = () => {
         const errors = {};
 
-        if (!formData.poolmember) {
-            errors.poolmember = "Please enter poolmember";
-        }
+        // if (!formData.poolmember) {
+        //     errors.poolmember = "Please enter poolmember";
+        // }
 
         if (!formData.monthly_account) {
             errors.monthly_account = "Please enter monthly account";
@@ -112,10 +124,10 @@ export const Monthlyaccount = () => {
         if (!formData.discrepancydate) {
             errors.discrepancydate = "Please enter discrepancydate";
         }
-        
-        if (!formData.summarysheet) {
-            errors.summarysheet = "Input your values";
-        }
+
+        // if (!formData.summarysheet) {
+        //     errors.summarysheet = "Input your values";
+        // }
         if (!formData.discrepancyreason) {
             errors.discrepancyreason = "Input your values";
         }
@@ -126,7 +138,7 @@ export const Monthlyaccount = () => {
         //     errors.reason = "Please enter Reasons";
         // }
 
-       
+
         setFormErrors(errors);
         return Object.keys(errors).length === 0;
     };
@@ -155,7 +167,7 @@ export const Monthlyaccount = () => {
 
         try {
 
-debugger;
+            debugger;
             let candidateId = 0;
             if (localStorage.getItem("candidateId")) {
                 candidateId = localStorage.getItem("candidateId");
@@ -165,11 +177,11 @@ debugger;
             }
             const formDataToSend = new FormData();
             formDataToSend.append('user_id', candidateId);
-            formDataToSend.append('poolmember', formData.poolmember);
+            formDataToSend.append('poolmember', entityname);
             formDataToSend.append('monthly_account', formData.monthly_account);
             formDataToSend.append('discrepancymonth', formData.discrepancymonth);
             formDataToSend.append('discrepancydate', formData.discrepancydate);
-            formDataToSend.append('summarysheet', formData.summarysheet);
+            formDataToSend.append('summarysheet', summarysheetFile);
             formDataToSend.append('discrepancyreason', formData.discrepancyreason);
             // formDataToSend.append('remark', formData.remark);
             // formDataToSend.append('reason', formData.reason);
@@ -177,11 +189,12 @@ debugger;
             ;
             const response = await apiclient.post(apis.Monthlyaccontsave, formDataToSend, {
                 headers: {
-                    'Content-Type': 'application/json',
+                  'Content-Type': 'multipart/form-data'
+
                 },
             });
             if (response.status === 200) {
-                console.log("Monthly data" + response.data)
+               // console.log("Monthly data" + response.data)
                 // Simulate a 3-second delay
                 setTimeout(() => {
                     // Set loading state back to false after the delay
@@ -197,10 +210,10 @@ debugger;
                         discrepancydate: '',
                         summarysheet: '',
                         discrepancyreason: '',
-                    //    remark : '',
-                    //     reason: '',
+                        //    remark : '',
+                        //     reason: '',
                         user_id: ''
-                       
+
                     });
                     setSelectedRole('');
                 }, 1000);
@@ -219,7 +232,7 @@ debugger;
         }
     };
 
-   
+
 
     return (
         <>
@@ -256,11 +269,16 @@ debugger;
                                                         <div class="form-group row">
                                                             <label class="col-sm-2 col-form-label">Pool Member<span
                                                             ><b>*</b></span>:</label>
-                                                              <div className="col-sm-2">
-                                                              <span style={{ color: "red" }}>{formErrors.poolmember}</span>
+                                                            <div className="col-sm-2">
+                                                                <span style={{ color: "red" }}>{formErrors.poolmember}</span>
+                                                                <input
+                                                                    name="entityname"
+                                                                    type="text"
+                                                                    value={entityname}
+                                                                    onChange={handleChange}
+                                                                />
 
-
-                                                            <select
+                                                                {/* <select
                                                              className="form-control"
                                                               id="dropdown"
                                                                name="poolmember"
@@ -268,47 +286,48 @@ debugger;
                                                                isInvalid={!!formErrors.poolmember}
                                                                       onChange={handleChange}
                                                               >
-                                                             <option value="">Select</option> {/* Default option */}
+                                                             <option value="">Select</option> 
                                                                 {options.map((option) => (
                                                               <option key={option.id} value={option.id}>
                                                                     {option.entityname}
                                                              </option>
                                                                 ))}
-                                                            </select>
+                                                            </select> */}
                                                             </div>
-                                                           
+
                                                             <label class="col-sm-2 col-form-label">Monthly Account<span
                                                             ><b>*</b></span>:</label>
                                                             <div class="col-sm-2">
                                                                 <span style={{ color: "red" }}>{formErrors.monthly_account}</span>
 
                                                                 <select
-        className="form-control"
-        name="monthly_account"
-        value={formData.monthly_account}
-        onChange={handleChange}
-        isInvalid={!!formErrors.monthly_account}
-    >
-        <option value="">Select</option> {/* Default placeholder */}
-        <option value="REA">REA        </option>
-        <option value="RTA">RTA        </option>
-        <option value="RTDA">RTDA</option>
-        <option value="Compensation">Compensation</option>
-        <option value="Ramping">Ramping
-        </option>
-       
-    </select>
+                                                                    className="form-control"
+                                                                    name="monthly_account"
+                                                                    value={formData.monthly_account}
+                                                                    onChange={handleChange}
+                                                                    isInvalid={!!formErrors.monthly_account}
+                                                                >
+                                                                    <option value="">Select</option> {/* Default placeholder */}
+                                                                    <option value="REA">REA        </option>
+                                                                    <option value="RTA">RTA        </option>
+                                                                    <option value="RTDA">RTDA</option>
+                                                                    <option value="Compensation">Compensation</option>
+                                                                    <option value="Ramping">Ramping
+                                                                    </option>
+                                                                    <option value="SCED">SCED
+                                                                    </option>
+                                                                </select>
 
-                                                               <small class="invalid-feedback">
+                                                                <small class="invalid-feedback">
                                                                 </small></div>
                                                             <label
                                                                 class="col-sm-2 col-form-label">DiscrepancyMonth<span
                                                                 ><b>*</b></span>:</label>
-                                                                 <div class="col-sm-2">
+                                                            <div class="col-sm-2">
                                                                 <span style={{ color: "red" }}>{formErrors.discrepancymonth}</span>
                                                                 <input class="form-control"
-                                                                    className="form-control" 
-                                                                    name="discrepancymonth" 
+                                                                    className="form-control"
+                                                                    name="discrepancymonth"
                                                                     placeholder="Enter discrepancymonth"
                                                                     value={formData.discrepancymonth}
                                                                     onChange={handleChange}
@@ -316,41 +335,47 @@ debugger;
                                                         </div>
 
                                                         <div class="form-group row">
-                                                            
-                                                        <label
-                                                                        class="col-sm-2 col-form-label">Discrepancy Date<span
-                                                                        ><b>*</b></span>:</label>
-                                                           <div class="col-sm-2">
+
+                                                            <label
+                                                                class="col-sm-2 col-form-label">Discrepancy Date<span
+                                                                ><b>*</b></span>:</label>
+                                                            <div class="col-sm-2">
                                                                 <span style={{ color: "red" }}>{formErrors.discrepancydate}</span>
                                                                 <input class="form-control"
-                                                                    className="form-control" 
+                                                                    className="form-control"
                                                                     name="discrepancydate" type="date"
                                                                     placeholder="Enter End Week Date"
                                                                     value={formData.discrepancydate}
                                                                     onChange={handleChange}
                                                                     isInvalid={!!formErrors.discrepancydate} /><small class="invalid-feedback"></small></div>
-                                                            <label class="col-sm-2 col-form-label">Summary Sheet<span
-                                                        ><b>*</b></span>:</label>
-                                                            <div class="col-sm-2">
+                                                            <label className="col-sm-2 col-form-label">
+                                                                Upload Discrepancy Pages<span><b>*</b></span>:
+                                                            </label>
+                                                            <div className="col-sm-2">
                                                                 <span style={{ color: "red" }}>{formErrors.summarysheet}</span>
-                                                                <input class="form-control"
-                                                                    className="form-control" 
-                                                                    name="summarysheet" 
-                                                                    placeholder="Enter summarysheet"
-                                                                    value={formData.summarysheet}
-                                                                    onChange={handleChange}
-                                                                    isInvalid={!!formErrors.summarysheet} /><small class="invalid-feedback"></small></div><label
-                                                                        class="col-sm-2 col-form-label">Discrepancy Reason<span
-                                                                        ><b>*</b></span>:</label>
+
+                                                                <input
+                                                                    type="file"
+                                                                    className="form-control"
+                                                                    name="summarysheet"
+                                                                    accept="application/pdf"  // To restrict to PDF
+                                                                    onChange={handleFileChange1}
+                                                                />
+                                                                <small className="invalid-feedback"></small>
+                                                            </div>
+
+                                                            <label
+                                                                class="col-sm-2 col-form-label">Discrepancy Reason<span
+                                                                ><b>*</b></span>:</label>
                                                             <div class="col-sm-2">
                                                                 <span style={{ color: "red" }}>{formErrors.discrepancyreason}</span>
                                                                 <input class="form-control" name="discrepancyreason" placeholder="Enter Discrepancy Reason"
                                                                     maxlength="50" value={formData.discrepancyreason}
                                                                     onChange={handleChange}
                                                                     isInvalid={!!formErrors.discrepancyreason} /><small class="invalid-feedback"></small></div>
-                                                                    
+
                                                         </div>
-                                                       
+
 
                                                     </div>
                                                 </div>

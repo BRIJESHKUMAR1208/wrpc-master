@@ -1,4 +1,4 @@
-import React, { useState } from 'react'; 
+import React, { useState,useEffect } from 'react'; 
 import { Button, Card, Col, Container, Form, Spinner } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -34,7 +34,14 @@ export const Performanceindices = () => {
     const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
     const [loading, setLoading] = useState(false);
     const [selectedFile, setSelectedFile] = useState(null);
+const [utility, setutilityName] = useState("");
 
+    useEffect(() => {
+        const storedEntityName = localStorage.getItem("utilityname");
+        if (storedEntityName) {
+            setutilityName(storedEntityName);
+        }
+    }, []);
     const handleChange = (event) => {
         const { name, value } = event.target;
         setFormData((prevFormData) => ({
@@ -85,9 +92,9 @@ export const Performanceindices = () => {
 
     const validateForm = () => {
         const errors = {};
-        if (!formData.utilityname) {
-            errors.utilityname = "Please enter utility name";
-        }
+        // if (!formData.utilityname) {
+        //     errors.utilityname = "Please enter utility name";
+        // }
         if (!formData.correct_operation) {
             errors.correct_operation = "Please enter correct operations";
         }
@@ -121,7 +128,7 @@ export const Performanceindices = () => {
             formDataToSend.append('user_id', candidateId);
             formDataToSend.append('year', formData.year);
             formDataToSend.append('month', formData.month);
-            formDataToSend.append('utilityname', formData.utilityname);
+            formDataToSend.append('utilityname', utility);
             formDataToSend.append('correct_operation', formData.correct_operation);
             formDataToSend.append('unwanted_operation', formData.unwanted_operation);
             formDataToSend.append('failures_operate', formData.failures_operate);
@@ -217,12 +224,10 @@ export const Performanceindices = () => {
                                                         <Form.Group>
                                                             <Form.Label>Utility Name <span>*</span></Form.Label>
                                                             <Form.Control
-                                                                name="utilityname"
-                                                                placeholder="Enter utility name"
-                                                                maxLength="50"
-                                                                value={formData.utilityname}
+                                                                name="utility"
+                                                                type="text"
+                                                                value={utility}
                                                                 onChange={handleChange}
-                                                                isInvalid={!!formErrors.utilityname}
                                                             />
                                                             <Form.Control.Feedback type="invalid">
                                                                 {formErrors.utilityname}

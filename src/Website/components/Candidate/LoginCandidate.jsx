@@ -141,7 +141,11 @@ export const LoginCandidate = () => {
           let dt = response.data;
           let user = dt.user;
           var candidateId = response.data.user.cands_id;
+          var utilityname = response.data.user.utilityname;
+          var entityname = response.data.user.entityname;
           localStorage.setItem("candidateId", candidateId);
+          localStorage.setItem("utilityname", utilityname);
+          localStorage.setItem("entityname", entityname);
           localStorage.setItem("user1", JSON.stringify(user));
           if (dt) {
             // localStorage.setItem("user", JSON.stringify(dt));

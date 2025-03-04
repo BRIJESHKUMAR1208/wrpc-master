@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Button, Card, Col, Container, Form, Spinner } from 'react-bootstrap';
-
-// import 'bootstrap/dist/css/bootstrap.css';
 import { CmsFooter } from '../../components/Footer/CmsFooter';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -28,11 +26,19 @@ export const Weeklyaccount = () => {
 
     const [options, setOptions] = useState([]); // To store API data
     const [selectedEntity, setSelectedEntity] = useState(""); // To store selected value
+    const [entityname, setEntityName] = useState("");
+
+    useEffect(() => {
+        const storedEntityName = localStorage.getItem("entityname");
+        if (storedEntityName) {
+            setEntityName(storedEntityName);
+        }
+    }, []);
 
     // Function to fetch data
     const fetchOptions = async () => {
         try {
-        
+
             //const response = await axios.get("http://localhost:5141/api/ECRsubmission/Entitylist");
             const response = await apiclient.get('/api/ECRsubmission/Entitylist');
             setOptions(response.data); // Assuming response.data is an array
@@ -41,8 +47,8 @@ export const Weeklyaccount = () => {
         }
     };
 
-     // Fetch data on component mount
-     useEffect(() => {
+    // Fetch data on component mount
+    useEffect(() => {
         fetchOptions();
     }, []);
 
@@ -50,13 +56,15 @@ export const Weeklyaccount = () => {
 
 
         SNo: '',
-        name_of_pool_Entity: '',
+        entityname: '',
         Weekly_Account: '',
         Account_Period_Start_Week_Date: '',
         Account_Period_End_Week_Date: '',
         Discrepancy_Period_Date: '',
         Discrepancy_Period_Blocks: '',
         Discrepancy_Reason: '',
+        Discrepancy_toDate: '',
+        Discrepancy_toBlocks: '',
         // IsResolved: '',
         // Reasons: ''
     });
@@ -69,7 +77,7 @@ export const Weeklyaccount = () => {
         setSelectedRole(event.target.value);
     };
 
-     
+
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -95,9 +103,9 @@ export const Weeklyaccount = () => {
     const validateForm = () => {
         const errors = {};
 
-        if (!formData.name_of_pool_Entity) {
-            errors.name_of_pool_Entity = "Please enter Entity";
-        }
+        // if (!formData.entityname) {
+        //     errors.entityname = "Please enter Entity";
+        // }
 
         if (!formData.Weekly_Account) {
             errors.Weekly_Account = "Please enter Account";
@@ -118,7 +126,7 @@ export const Weeklyaccount = () => {
         if (!formData.Discrepancy_Reason) {
             errors.Discrepancy_Reason = "Input your values";
         }
-        
+
         // if (!formData.IsResolved) {
         //     errors.IsResolved = "Please enter IsResolved";
         // }
@@ -126,7 +134,7 @@ export const Weeklyaccount = () => {
         //     errors.Reasons = "Please enter Reasons";
         // }
 
-       
+
         setFormErrors(errors);
         return Object.keys(errors).length === 0;
     };
@@ -170,12 +178,14 @@ export const Weeklyaccount = () => {
             // };
             const formDataToSend = new FormData();
             formDataToSend.append('user_id', candidateId);
-            formDataToSend.append('name_of_pool_Entity', formData.name_of_pool_Entity);
+            formDataToSend.append('name_of_pool_Entity', entityname);
             formDataToSend.append('Weekly_Account', formData.Weekly_Account);
             formDataToSend.append('Account_Period_Start_Week_Date', formData.Account_Period_Start_Week_Date);
             formDataToSend.append('Account_Period_End_Week_Date', formData.Account_Period_End_Week_Date);
             formDataToSend.append('Discrepancy_Period_Date', formData.Discrepancy_Period_Date);
             formDataToSend.append('Discrepancy_Period_Blocks', formData.Discrepancy_Period_Blocks);
+            formDataToSend.append('Discrepancy_toDate', formData.Discrepancy_toDate);
+            formDataToSend.append('Discrepancy_toBlocks', formData.Discrepancy_toBlocks);
             formDataToSend.append('Discrepancy_Reason', formData.Discrepancy_Reason);
             // formDataToSend.append('IsResolved', formData.IsResolved);
             // formDataToSend.append('Reasons', formData.Reasons);
@@ -199,6 +209,8 @@ export const Weeklyaccount = () => {
                         Account_Period_End_Week_Date: '',
                         Discrepancy_Period_Date: '',
                         Discrepancy_Period_Blocks: '',
+                        Discrepancy_toDate: '',
+                        Discrepancy_toBlocks: '',
                         Discrepancy_Reason: '',
                         // IsResolved: '',
                         // Reasons: ''
@@ -220,7 +232,7 @@ export const Weeklyaccount = () => {
         }
     };
 
-   
+
 
     return (
         <>
@@ -257,11 +269,16 @@ export const Weeklyaccount = () => {
                                                         <div class="form-group row">
                                                             <label class="col-sm-2 col-form-label">Name of Pool Entity<span
                                                             ><b>*</b></span>:</label>
-                                                              <div className="col-sm-2">
-                                                              <span style={{ color: "red" }}>{formErrors.name_of_pool_Entity}</span>
+                                                            <div className="col-sm-2">
+                                                                <span style={{ color: "red" }}>{formErrors.name_of_pool_Entity}</span>
 
-
-                                                            <select
+                                                                <input
+                                                                    name="entityname"
+                                                                    type="text"
+                                                                    value={entityname}
+                                                                    onChange={handleChange}
+                                                                />
+                                                                {/* <select
                                                              className="form-control"
                                                               id="dropdown"
                                                                name="name_of_pool_Entity"
@@ -269,13 +286,13 @@ export const Weeklyaccount = () => {
                                                                isInvalid={!!formErrors.name_of_pool_Entity}
                                                                       onChange={handleChange}
                                                               >
-                                                             <option value="">Select</option> {/* Default option */}
+                                                             <option value="">Select</option>
                                                                 {options.map((option) => (
                                                               <option key={option.id} value={option.id}>
                                                                     {option.entityname}
                                                              </option>
                                                                 ))}
-                                                            </select>
+                                                            </select> */}
                                                             </div>
                                                             {/* <div class="col-sm-2">
                                                                 <span style={{ color: "red" }}>{formErrors.name_of_pool_Entity}</span>
@@ -294,32 +311,32 @@ export const Weeklyaccount = () => {
                                                                 <span style={{ color: "red" }}>{formErrors.Weekly_Account}</span>
 
                                                                 <select
-        className="form-control"
-        name="Weekly_Account"
-        value={formData.Weekly_Account}
-        onChange={handleChange}
-        isInvalid={!!formErrors.Weekly_Account}
-    >
-        <option value="">Select</option> {/* Default placeholder */}
-        <option value="DSM">DSM        </option>
-        <option value="REC">REC        </option>
-        <option value="TRAS">TRAS</option>
-        <option value="SRAS">SRAS </option>
-        <option value="SCUC">SCUC      </option>
-        <option value="Congestion">Congestion
-        </option>
-      
-    </select>
+                                                                    className="form-control"
+                                                                    name="Weekly_Account"
+                                                                    value={formData.Weekly_Account}
+                                                                    onChange={handleChange}
+                                                                    isInvalid={!!formErrors.Weekly_Account}
+                                                                >
+                                                                    <option value="">Select</option> {/* Default placeholder */}
+                                                                    <option value="DSM">DSM        </option>
+                                                                    <option value="REC">REC        </option>
+                                                                    <option value="TRAS">TRAS</option>
+                                                                    <option value="SRAS">SRAS </option>
+                                                                    <option value="SCUC">SCUC      </option>
+                                                                    <option value="Congestion">Congestion
+                                                                    </option>
 
-                                                               <small class="invalid-feedback">
+                                                                </select>
+
+                                                                <small class="invalid-feedback">
                                                                 </small></div>
                                                             <label
                                                                 class="col-sm-2 col-form-label">Account Period Start Week Date<span
                                                                 ><b>*</b></span>:</label>
-                                                                 <div class="col-sm-2">
+                                                            <div class="col-sm-2">
                                                                 <span style={{ color: "red" }}>{formErrors.Account_Period_Start_Week_Date}</span>
                                                                 <input class="form-control"
-                                                                    className="form-control" 
+                                                                    className="form-control"
                                                                     name="Account_Period_Start_Week_Date" type="date"
                                                                     placeholder="Enter Start Week Date"
                                                                     value={formData.Account_Period_Start_Week_Date}
@@ -328,76 +345,81 @@ export const Weeklyaccount = () => {
                                                         </div>
 
                                                         <div class="form-group row">
-                                                            
-                                                        <label
-                                                                        class="col-sm-2 col-form-label">Account Period End Week Date<span
-                                                                        ><b>*</b></span>:</label>
-                                                           <div class="col-sm-2">
+
+                                                            <label
+                                                                class="col-sm-2 col-form-label">Account Period End Week Date<span
+                                                                ><b>*</b></span>:</label>
+                                                            <div class="col-sm-2">
                                                                 <span style={{ color: "red" }}>{formErrors.Account_Period_End_Week_Date}</span>
                                                                 <input class="form-control"
-                                                                    className="form-control" 
+                                                                    className="form-control"
                                                                     name="Account_Period_End_Week_Date" type="date"
                                                                     placeholder="Enter End Week Date"
                                                                     value={formData.Account_Period_End_Week_Date}
                                                                     onChange={handleChange}
-                                                                    isInvalid={!!formErrors.Account_Period_End_Week_Date} /><small class="invalid-feedback"></small></div>
-                                                            <label class="col-sm-2 col-form-label">Discrepancy Period Date<span
-                                                        ><b>*</b></span>:</label>
+                                                                    isInvalid={!!formErrors.Account_Period_End_Week_Date} /><small class="invalid-feedback"></small>
+                                                            </div>
+                                                            <label class="col-sm-2 col-form-label">Discrepancy From Date<span
+                                                            ><b>*</b></span>:</label>
                                                             <div class="col-sm-2">
                                                                 <span style={{ color: "red" }}>{formErrors.Discrepancy_Period_Date}</span>
                                                                 <input class="form-control"
-                                                                    className="form-control" 
+                                                                    className="form-control"
                                                                     name="Discrepancy_Period_Date" type="date"
                                                                     placeholder="Enter Discrepancy Period Date"
                                                                     value={formData.Discrepancy_Period_Date}
                                                                     onChange={handleChange}
-                                                                    isInvalid={!!formErrors.Discrepancy_Period_Date} /><small class="invalid-feedback"></small></div><label
-                                                                        class="col-sm-2 col-form-label">Discrepancy Period Blocks<span
+                                                                    isInvalid={!!formErrors.Discrepancy_Period_Date} /><small class="invalid-feedback"></small>
+                                                                    
+                                                            </div>
+                                                                    <label
+                                                                        class="col-sm-2 col-form-label">Discrepancy From Blocks<span
                                                                         ><b>*</b></span>:</label>
                                                             <div class="col-sm-2">
                                                                 <span style={{ color: "red" }}>{formErrors.Discrepancy_Period_Blocks}</span>
                                                                 <input class="form-control" name="Discrepancy_Period_Blocks" placeholder="Enter Blocks"
                                                                     maxlength="50" value={formData.Discrepancy_Period_Blocks}
                                                                     onChange={handleChange}
-                                                                    isInvalid={!!formErrors.Discrepancy_Period_Blocks} /><small class="invalid-feedback"></small></div>
-                                                                    
+                                                                    isInvalid={!!formErrors.Discrepancy_Period_Blocks} /><small class="invalid-feedback"></small>
+                                                            </div>
+
                                                         </div>
                                                         <div class="form-group row">
-                                                        <label
-                                                                        class="col-sm-2 col-form-label">Discrepancy Reason<span ><b>*</b></span>:</label>
+                                                            <label
+                                                                class="col-sm-2 col-form-label">Discrepancy Details<span ><b>*</b></span>:</label>
                                                             <div class="col-sm-2">
                                                                 <span style={{ color: "red" }}>{formErrors.Discrepancy_Reason}</span>
                                                                 <input class="form-control" name="Discrepancy_Reason" placeholder="Enter"
                                                                     maxlength="50" value={formData.Discrepancy_Reason}
                                                                     onChange={handleChange}
-                                                                    isInvalid={!!formErrors.Discrepancy_Reason} /><small class="invalid-feedback"></small></div>
-                                                            {/* <label class="col-sm-2 col-form-label">IsResolved<span
-                                                        ><b>*</b></span>:</label>
-                                                            <div className="col-sm-2"> 
-    <span style={{ color: "red" }}>{formErrors.IsResolved}</span>
-    <select
-        className="form-control"
-        name="IsResolved"
-        value={formData.IsResolved}
-        onChange={handleChange}
-        isInvalid={!!formErrors.IsResolved}
-    >
-        <option value="">Select</option> 
-        <option value="Yes">Yes</option>
-        <option value="No">No</option>
-    </select>
-    <small className="invalid-feedback"></small>*/}
-</div>
-{/* <label
-                                                                    class="col-sm-2 col-form-label">Reason<span
-                                                                    ><b>*</b></span>:</label>
+                                                                    isInvalid={!!formErrors.Discrepancy_Reason} /><small class="invalid-feedback">
+                                                                        
+                                                             </small>
+                                                            </div>
+                                                            <label class="col-sm-2 col-form-label">Discrepancy To Date<span
+                                                            ><b>*</b></span>:</label>
                                                             <div class="col-sm-2">
-                                                                <span style={{ color: "red" }}>{formErrors.Reasons}</span>
-                                                                <input class="form-control" name="Reasons" placeholder="Enter"
-                                                                    maxlength="50" value={formData.Reasons}
+                                                                <span style={{ color: "red" }}>{formErrors.Discrepancy_toDate}</span>
+                                                                <input class="form-control"
+                                                                    className="form-control"
+                                                                    name="Discrepancy_toDate" type="date"
+                                                                    placeholder="Enter Discrepancy To Date"
+                                                                    value={formData.Discrepancy_toDate}
                                                                     onChange={handleChange}
-                                                                    isInvalid={!!formErrors.Reasons} /><small class="invalid-feedback"></small></div>
-                                                        </div> */}
+                                                                    isInvalid={!!formErrors.Discrepancy_toDate} /><small class="invalid-feedback"></small>
+                                                                    
+                                                            </div>
+                                                                    <label
+                                                                        class="col-sm-2 col-form-label">Discrepancy To Blocks<span
+                                                                        ><b>*</b></span>:</label>
+                                                            <div class="col-sm-2">
+                                                                <span style={{ color: "red" }}>{formErrors.Discrepancy_toBlocks}</span>
+                                                                <input class="form-control" name="Discrepancy_toBlocks" placeholder="Enter Blocks"
+                                                                    maxlength="50" value={formData.Discrepancy_toBlocks}
+                                                                    onChange={handleChange}
+                                                                    isInvalid={!!formErrors.Discrepancy_toBlocks} /><small class="invalid-feedback"></small>
+                                                            </div>
+                                                        </div>
 
                                                     </div>
                                                 </div>

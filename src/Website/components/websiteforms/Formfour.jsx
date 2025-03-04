@@ -26,7 +26,14 @@ export const Formfour = () => {
     const [formErrors, setFormErrors] = useState({});
     const [successDialogOpen, setSuccessDialogOpen] = useState(false);
     const [getuser, setuser] = useState('');
+  const [utility, setutilityName] = useState("");
 
+    useEffect(() => {
+        const storedEntityName = localStorage.getItem("utilityname");
+        if (storedEntityName) {
+            setutilityName(storedEntityName);
+        }
+    }, []);
     const [formData, setFormData] = useState({
 
         Substation: '',
@@ -159,9 +166,8 @@ export const Formfour = () => {
             formDataToSend.append('Sr_No_of_Relay', formData.SrNoOfRelay);
             formDataToSend.append('Upload_File_input', selectedFile);
             formDataToSend.append('Remarks', formData.Remarks);
-            formDataToSend.append('utility', formData.utility);
+            formDataToSend.append('utility', utility);
             formDataToSend.append('languagetype', 1);
-            ;
             const response = await apiclient.post(apis.Relaysave, formDataToSend)
             if (response.status === 200) {
                 console.log("user" + response.data)
@@ -276,13 +282,11 @@ export const Formfour = () => {
                                                             ><b>*</b></span>:</label>
                                                             <div class="col-sm-2">
                                                                 <span style={{ color: "red" }}>{formErrors.utility}</span>
-                                                                <input class="form-control"
+                                                                <input
                                                                     name="utility"
-                                                                    placeholder="Enter Utility"
-                                                                    maxlength="50"
-                                                                    value={formData.utility}
+                                                                    type="text"
+                                                                    value={utility}
                                                                     onChange={handleChange}
-                                                                    isInvalid={!!formErrors.utility}
                                                                 /><small class="invalid-feedback">
                                                                 </small></div>
                                                             <label

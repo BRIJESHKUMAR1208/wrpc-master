@@ -22,12 +22,15 @@ export const CreateCandidate = () => {
   const [showAdditionalCheckboxes, setShowAdditionalCheckboxes] = useState(false);
   const [successDialogOpen, setSuccessDialogOpen] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
-
+  const [entities, setEntities] = useState([]);
+  const [utilities, setutility] = useState([]);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     mobile_no: '',
     address: '',
+    utilityname :'',
+    entityname:'',
     formtype1: 0,
     formtype2: 0,
     formtype3: 0,
@@ -46,8 +49,42 @@ export const CreateCandidate = () => {
   // New state variables for confirmation dialog and loading
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+  useEffect(() => {
+    const utilitysave = async () => {
+      try {
+        const response1 = await apiClient.get(api.Getutilitylist);
+        if (response1.status === 200) {
+          setutility(response1.data);
 
+        }
 
+      } catch (error) {
+        console.error('Error fetching roles:', error);
+      }
+    };
+    utilitysave();
+  }, []);
+  useEffect(() => {
+    const relaysave = async () => {
+      try {
+        const response = await apiClient.get(api.Getentitylist);
+        if (response.status === 200) {
+          setEntities(response.data);
+
+        }
+
+      } catch (error) {
+        console.error('Error fetching roles:', error);
+      }
+    };
+    relaysave();
+  }, []);
+
+ 
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -313,15 +350,10 @@ export const CreateCandidate = () => {
                                 </Form.Control.Feedback>
                               </Form.Group>
                               <Form.Group>
-                                <Form.Label
+                                <Form.Label style={{ color: "black" }}>Feedback Form</Form.Label>
 
-                                  style={{ color: "black" }}
-                                >
-                                  Feedback Form
-                                </Form.Label>
                                 <div>
-
-
+                                  {/* TRIPPING COMPLIANCE OF PCM DISCUSSIONS */}
                                   <label>TRIPPING COMPLIANCE OF PCM DISCUSSIONS</label>
                                   <input
                                     type='checkbox'
@@ -330,44 +362,6 @@ export const CreateCandidate = () => {
                                     onChange={handleCheckboxChange}
                                     id="flexCheckChecked"
                                   />
-                                  {/* {showAdditionalCheckboxes && (
-                                    <>
-                                      <label>Form 1</label>
-                                      <input
-                                        type='checkbox'
-                                        name="formtype1_1"
-                                        checked={formData.formtype1_1}
-                                        onChange={handleCheckboxChange}
-                                        id="flexCheckChecked"
-                                      />
-                                      <label>Form 2</label>
-                                      <input
-                                        type='checkbox'
-                                        name="formtype1_2"
-                                        checked={formData.formtype1_2}
-                                        onChange={handleCheckboxChange}
-                                        id="flexCheckChecked"
-                                      />
-                                      <label>Form 3</label>
-                                      <input
-                                        type='checkbox'
-                                        name="formtype1_3"
-                                        checked={formData.formtype1_3}
-                                        onChange={handleCheckboxChange}
-                                        id="flexCheckChecked"
-                                      />
-                                      <label>Form 4</label>
-                                      <input
-                                        type='checkbox'
-                                        name="formtype1_4"
-                                        checked={formData.formtype1_4}
-                                        onChange={handleCheckboxChange}
-                                        id="flexCheckChecked"
-                                      />
-                                    </>
-                                  )} */}
-
-
 
                                   <label>TPPA PLAN & MONITORING</label>
                                   <input type='checkbox'
@@ -376,46 +370,103 @@ export const CreateCandidate = () => {
                                     onChange={handleCheckboxChange}
                                     id="flexCheckChecked"
                                   />
+
                                   <label>TPPA OBSERVATION</label>
                                   <input type='checkbox'
                                     name="formtype3"
                                     checked={formData.formtype3}
                                     onChange={handleCheckboxChange}
-                                    id="flexCheckChecked" />
+                                    id="flexCheckChecked"
+                                  />
+
                                   <label>RELAY SETTINGS DATA</label>
                                   <input type='checkbox'
                                     name="formtype4"
                                     checked={formData.formtype4}
                                     onChange={handleCheckboxChange}
-                                    id="flexCheckChecked" />
+                                    id="flexCheckChecked"
+                                  />
+
                                   <label>Performance Indices</label>
                                   <input type='checkbox'
                                     name="formtype5"
                                     checked={formData.formtype5}
                                     onChange={handleCheckboxChange}
-                                    id="flexCheckChecked" />
+                                    id="flexCheckChecked"
+                                  />
+
+                                  {/* Utility Dropdown for Form 1-5 */}
+                                  {(formData.formtype1 || formData.formtype2 || formData.formtype3 || formData.formtype4 || formData.formtype5) && (
+                                    <div>
+                                      <label><b>Select Utility Name For Form(1-5)</b></label>
+                                      <select
+                                        className="form-control"
+                                        name="utilityname"
+                                        value={formData.utilityname}
+                                        onChange={handleChange}
+                                        isInvalid={!!formErrors.utilityname}
+                                      >
+                                        <option value="">Select Utility</option>
+                                        {utilities.map((utility1) => (
+                                          <option key={utility1.id} value={utility1.utilityname}>
+                                            {utility1.utilityname}
+                                          </option>
+                                        ))}
+                                      </select>
+                                    </div>
+                                  )}
+
                                   <label>ECR submission data for sellers</label>
                                   <input type='checkbox'
                                     name="formtype6"
                                     checked={formData.formtype6}
                                     onChange={handleCheckboxChange}
-                                    id="flexCheckChecked" />
-                                  <label>Weekly Account Discrepancies </label>
+                                    id="flexCheckChecked"
+                                  />
+
+                                  <label>Weekly Account Discrepancies</label>
                                   <input type='checkbox'
                                     name="formtype7"
                                     checked={formData.formtype7}
                                     onChange={handleCheckboxChange}
-                                    id="flexCheckChecked" />
-                                  <label>Monthly Account Discrepancies </label>
+                                    id="flexCheckChecked"
+                                  />
+
+                                  <label>Monthly Account Discrepancies</label>
                                   <input type='checkbox'
                                     name="formtype8"
                                     checked={formData.formtype8}
                                     onChange={handleCheckboxChange}
-                                    id="flexCheckChecked" /></div>
+                                    id="flexCheckChecked"
+                                  />
+
+                                  {/* Entity Dropdown for Form 6-8 */}
+                                  {(formData.formtype6 || formData.formtype7 || formData.formtype8) && (
+                                    <div>
+                                      <label><b>Select Entity Name For Form(6-8)</b></label>
+                                      <select
+                                        className="form-control"
+                                        name="entityname"
+                                        value={formData.entityname}
+                                        onChange={handleChange}
+                                        isInvalid={!!formErrors.entityname}
+                                      >
+                                        <option value="">Select Entity</option>
+                                        {entities.map((entity) => (
+                                          <option key={entity.id} value={entity.entityname}>
+                                            {entity.entityname}
+                                          </option>
+                                        ))}
+                                      </select>
+                                    </div>
+                                  )}
+                                </div>
+
                                 <Form.Control.Feedback type="invalid">
                                   {formErrors.address}
                                 </Form.Control.Feedback>
                               </Form.Group>
+
                               <div
                                 id="button"
                                 className="d-flex "

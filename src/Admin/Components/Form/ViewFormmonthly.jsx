@@ -323,7 +323,7 @@ export const ViewFormmonthly = () => {
                                                                 <tr>
                                                                     <td className="ui header">Summary Sheet</td>
                                                                     <td>
-                                                                        <Form.Control
+                                                                        {/* <Form.Control
                                                                             ref={recommondationRef}
                                                                             className={`form-control ${formErrors.summarysheet ? 'is-invalid' : ''}`}
                                                                             type="text"
@@ -333,7 +333,9 @@ export const ViewFormmonthly = () => {
                                                                             onChange={handleChange}
                                                                             isInvalid={!!formErrors.summarysheet}
 
-                                                                        />
+                                                                        /> */}
+                                                                          <Link className="form-control" to={`${BASE_URL+formData.summarypath}`} target="_blank" >View Form Data </Link>
+                                       
                                                                     </td>
                                                                 </tr>
 

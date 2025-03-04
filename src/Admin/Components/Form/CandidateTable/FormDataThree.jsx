@@ -39,8 +39,6 @@ export default function FormDataThree() {
       
     ];
 
-
-
     useEffect(() => {
         async function fetchData() {
             try {
