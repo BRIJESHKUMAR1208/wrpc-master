@@ -21,7 +21,14 @@ const PlanMonitoring = () => {
       try {
         const response = await fetch(`${BASE_URL}/api/TPPA_Plan_Monitoring`);
         const result = await response.json();
-        setStations(result); // Assuming result is an array of station objects
+
+        const uniqueStations = Array.from(new Set(result.map(station => station.station_name)))
+          .map(station_name => ({
+            station_name
+          }));
+
+        // Add "All" option at the beginning
+        setStations([{ station_name: "All" }, ...uniqueStations]);
       } catch (error) {
         console.error("Error fetching station names:", error);
       }
@@ -29,21 +36,34 @@ const PlanMonitoring = () => {
     fetchStations();
   }, []);
 
+
   const handleStation = async (event) => {
     const selectedStation = event.target.value;
     setStation(selectedStation);
     setKvLevel(null); // Reset kvLevel when station changes
     setData([]); // Clear data when station changes
 
-    // Fetch kv levels based on the selected station
-    try {
-      const response = await fetch(`${BASE_URL}/api/TPPA_Plan_Monitoring/kvlevel/${selectedStation}`);
-      const result = await response.json();
-      setKvLevels(result); // Assuming result is an array of kv level objects
-    } catch (error) {
-      console.error("Error fetching kv levels:", error);
+    if (selectedStation === "All") {
+      try {
+        const response = await fetch(`${BASE_URL}/api/TPPA_Plan_Monitoring`);
+        const result = await response.json();
+        setKvLevels(result);
+      } catch (error) {
+        console.error("Error fetching station names:", error);
+      }
+    
+    } else {
+        // Fetch kv levels for specific station
+        try {
+            const response = await fetch(`${BASE_URL}/api/TPPA_Plan_Monitoring/kvlevel/${selectedStation}`);
+            const result = await response.json();
+            setKvLevels(result);
+        } catch (error) {
+            console.error("Error fetching kv levels:", error);
+        }
     }
-  };
+};
+
 
   const handleKvLevel = (event) => {
     const selectedKvLevel = event.target.value;
@@ -57,7 +77,7 @@ const PlanMonitoring = () => {
       const response = await fetch(
         `${BASE_URL}/api/TPPA_Plan_Monitoring/GetkvlevelStation?stationname=${station}&kvlevel=${kvLevel}`
       );
-     // const response = await fetch(`${BASE_URL}/api/TPPA_Plan_Monitoring/data/${station}/${kvLevel}`);
+      // const response = await fetch(`${BASE_URL}/api/TPPA_Plan_Monitoring/data/${station}/${kvLevel}`);
       const result = await response.json();
       setData(result); // Assuming the response is an array of data
     } catch (error) {
@@ -71,7 +91,7 @@ const PlanMonitoring = () => {
         <TopHeader />
         <CmsDisplay />
         <main>
-          <div className="container mt-4 vh-100">
+          <div className="container mt-4 vh-80">
             <h3>TPPA Plan & Monitoring </h3>
             <div className="date-sec row">
               <div className="col-md-5">
@@ -100,7 +120,7 @@ const PlanMonitoring = () => {
                   size="normal"
                   value={kvLevel}
                   onChange={handleKvLevel}
-                  disabled={!station} 
+                  disabled={!station}
                 >
                   {kvLevels.map((option) => (
                     <MenuItem key={option.sr_no} value={option.kv_level}>
@@ -118,7 +138,7 @@ const PlanMonitoring = () => {
                   <Table>
                     <TableHead>
                       <TableRow>
-                      
+
                         <TableCell style={{ fontWeight: 'bold' }}>Station Name</TableCell>
                         <TableCell style={{ fontWeight: 'bold' }}>kV Level</TableCell>
                         <TableCell style={{ fontWeight: 'bold' }}>Planned date of Audit</TableCell>
@@ -129,7 +149,7 @@ const PlanMonitoring = () => {
                     <TableBody>
                       {data.map((item) => (
                         <TableRow key={item.sr_no}>
-                        
+
                           <TableCell>{item.station_name}</TableCell>
                           <TableCell>{item.kv_level}</TableCell>
                           <TableCell>{item.planned_date_of_audit}</TableCell>

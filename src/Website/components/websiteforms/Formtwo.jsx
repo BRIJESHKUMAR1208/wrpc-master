@@ -46,7 +46,14 @@ export const Formtwo = () => {
     // New state variables for confirmation dialog and loading
     const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
     const [loading, setLoading] = useState(false);
-
+const [utility, setutilityName] = useState("");
+   
+    useEffect(() => {
+        const storedEntityName = localStorage.getItem("utilityname");
+        if (storedEntityName) {
+            setutilityName(storedEntityName);
+        }
+    }, []);
     const handleRoleChange = (event) => {
         setSelectedRole(event.target.value);
     };
@@ -183,7 +190,7 @@ export const Formtwo = () => {
             formDataToSend.append('user_id', candidateId);
             formDataToSend.append('Station_Name', formData.StationName);
             formDataToSend.append('kV_Level', formData.kVLevel);
-            formDataToSend.append('Owner', formData.Owner);
+            formDataToSend.append('Owner', utility);
             formDataToSend.append('Location', formData.Location);
             formDataToSend.append('Planned_Date_of_Audit', formData.PlannedDateAudit);
             formDataToSend.append('Date_of_Audit', formData.DateAudit);
@@ -295,15 +302,20 @@ export const Formtwo = () => {
                                                                     placeholder="Enter kV Level"
                                                                     onChange={handleChange}
                                                                     isInvalid={!!formErrors.kVLevel}
-                                                                    maxlength="50" value={formData.kVLevel} /><small class="invalid-feedback"></small></div><label
-                                                                        class="col-sm-2 col-form-label">Owner<span
+                                                                    maxlength="50" value={formData.kVLevel} /><small class="invalid-feedback">
+
+                                                                    </small>                                                                    
+                                                                    </div>
+                                                                    <label
+                                                                        class="col-sm-2 col-form-label">Utility<span
                                                                         ><b>*</b></span>:</label>
                                                             <div class="col-sm-2">
-                                                                <span style={{ color: "red" }}>{formErrors.Owner}</span>
-                                                                <input class="form-control" name="Owner" placeholder="Owner"
-                                                                    onChange={handleChange}
-                                                                    isInvalid={!!formErrors.Owner}
-                                                                    maxlength="50" value={formData.Owner} /><small class="invalid-feedback"></small></div>
+                                                                <span style={{ color: "red" }}>{formErrors.utility}</span>
+                                                                <input class="form-control"  placeholder="Utility"
+                                                                    name="utility"
+                                                                    type="text"
+                                                                    value={utility}
+                                                                    onChange={handleChange} /><small class="invalid-feedback"></small></div>
                                                         </div>
                                                         <div class="form-group row"><label class="col-sm-2 col-form-label">Location<span
                                                         ><b>*</b></span>:</label>

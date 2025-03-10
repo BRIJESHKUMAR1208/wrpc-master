@@ -19,31 +19,53 @@ const PCMRecommendations = () => {
   useEffect(() => {
     const fetchUtilities = async () => {
       try {
-        const response = await fetch(`${BASE_URL}/api/Tripping_compliance_pcm_discussions`);
-        const result = await response.json();
-        setUtilities(result); // Assuming result is an array of utility objects
+          const response = await fetch(`${BASE_URL}/api/Tripping_compliance_pcm_discussions`);
+          const result = await response.json();
+  
+          // Remove duplicates based on pcm_number
+          const uniqueUtilities = Array.from(
+              new Map(result.map((item) => [item.pcm_number, item])).values()
+          );
+  
+          // Add "All" option at the top
+          setUtilities([{ pcm_number: "All" }, ...uniqueUtilities]);
       } catch (error) {
-        console.error("Error fetching utilities:", error);
+          console.error("Error fetching utilities:", error);
       }
-    };
+  };
+  
+
     fetchUtilities();
   }, []);
+
 
   const handleUtility = async (event) => {
     const selectedUtility = event.target.value;
     setUtility(selectedUtility);
-    setSubstation(null); // Reset substation when utility changes
-    setData([]); // Clear data when utility changes
+    setSubstation(null); // Reset substation
+    setData([]); // Clear table data
 
-    // Fetch substations based on the selected utility
-    try {
-      const  response = await fetch(`${BASE_URL}/api/Tripping_compliance_pcm_discussions/Form1listBypcmno/${selectedUtility}`);
-      const result = await response.json();
-      setSubstations(result); // Assuming result is an array of substation objects
-    } catch (error) {
-      console.error("Error fetching substations:", error);
+    if (selectedUtility === "All") {
+        // Fetch all substations (if your backend has a dedicated endpoint, use it, or just fetch everything)
+        try {
+            const response = await fetch(`${BASE_URL}/api/Tripping_compliance_pcm_discussions`);
+            const result = await response.json();
+            setSubstations(result); // Show all substations
+        } catch (error) {
+            console.error("Error fetching substations:", error);
+        }
+    } else {
+        // Fetch substations for selected PCM
+        try {
+            const response = await fetch(`${BASE_URL}/api/Tripping_compliance_pcm_discussions/Form1listBypcmno/${selectedUtility}`);
+            const result = await response.json();
+            setSubstations(result);
+        } catch (error) {
+            console.error("Error fetching substations:", error);
+        }
     }
-  };
+};
+
 
   const handleSubstation = (event) => {
     const selectedSubstation = event.target.value;
@@ -57,8 +79,8 @@ const PCMRecommendations = () => {
       const response = await fetch(
         `${BASE_URL}/api/Tripping_compliance_pcm_discussions/form1list?pcmno=${utility}&utility=${substation}`
       );
-     // const response = await fetch(`http://localhost:5141/api/Tripping_compliance_pcm_discussions/form1list/${utility}/${substation}`);
-        const result = await response.json();
+      // const response = await fetch(`http://localhost:5141/api/Tripping_compliance_pcm_discussions/form1list/${utility}/${substation}`);
+      const result = await response.json();
       setData(result); // Assuming the response is an array of data
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -71,7 +93,7 @@ const PCMRecommendations = () => {
         <TopHeader />
         <CmsDisplay />
         <main>
-          <div className="container mt-4 vh-100">
+          <div className="container mt-4 vh-90">
             <h1>Tripping Form Data</h1>
             <div className="date-sec row">
               <div className="col-md-5">
@@ -89,6 +111,7 @@ const PCMRecommendations = () => {
                       {option.pcm_number}
                     </MenuItem>
                   ))}
+
                 </TextField>
               </div>
               <div className="col-md-5">
@@ -118,12 +141,12 @@ const PCMRecommendations = () => {
                   <Table>
                     <TableHead>
                       <TableRow>
-                        
+
                         <TableCell style={{ fontWeight: 'bold' }}>PCM Number</TableCell>
                         <TableCell style={{ fontWeight: 'bold' }} >PCM Date</TableCell>
                         <TableCell style={{ fontWeight: 'bold' }}>Item No(Heading)</TableCell>
                         <TableCell style={{ fontWeight: 'bold' }}>Recommondation of PCM</TableCell>
-                        <TableCell style={{ fontWeight: 'bold' }}>Utility Responsible 
+                        <TableCell style={{ fontWeight: 'bold' }}>Utility Responsible
                           For Attending</TableCell>
                         <TableCell style={{ fontWeight: 'bold' }}>Action taken by utility to allow complition</TableCell>
                         <TableCell style={{ fontWeight: 'bold' }}>Date on which attended</TableCell>

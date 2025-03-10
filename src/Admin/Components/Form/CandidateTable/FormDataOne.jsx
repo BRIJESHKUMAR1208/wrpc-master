@@ -6,7 +6,6 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
 import apiClient from '../../../../Api/ApiClient';
 import apis from '../../../../Api/api.json';
 import { Link } from 'react-router-dom';
@@ -22,10 +21,10 @@ export default function FormDataOne() {
 
     const columns = [
         { field: "idd", headerName: "S.No", width: 50 },
-        { field: "candidate_name", headerName: " Candidate Name" },
-        { field: "candidate_email", headerName: "Candidate Email" },
-        { field: "candidate_address", headerName: "Candidate Address" },
-        { field: "candidate_mobile_no", headerName: "Candidate  Mobile No." },
+        { field: "candidate_name", headerName: " Candidate Name" ,width: 200},
+        { field: "candidate_email", headerName: "Candidate Email" ,width: 200},
+        { field: "candidate_address", headerName: "Candidate Address" ,width: 200},
+        { field: "candidate_mobile_no", headerName: "Candidate  Mobile No." ,width: 200},
         
         {
             field: "edit",
@@ -66,7 +65,7 @@ export default function FormDataOne() {
       const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
       const data = new Blob([excelBuffer], { type: fileType });
       FileSaver.saveAs(data, fileName + fileExtension);
-  };
+   };
   
 
     return (

@@ -39,7 +39,14 @@ export const Form3part1 = () => {
         CAT_A_deficiencies: '',
         CAT_B_deficiencies:''
     });
-
+const [utility, setutilityName] = useState("");
+   
+    useEffect(() => {
+        const storedEntityName = localStorage.getItem("utilityname");
+        if (storedEntityName) {
+            setutilityName(storedEntityName);
+        }
+    }, []);
     // New state variables for confirmation dialog and loading
     const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -308,7 +315,32 @@ export const Form3part1 = () => {
                                                 <div class="card">
                                                     <div class="card-body registrationCard">
 
-                                                        <div class="form-group row"><label class="col-sm-2 col-form-label">Station Name<span
+                                                        <div class="form-group row">
+                                                            
+                                                        <label
+                                                                        class="col-sm-2 col-form-label">Utility<span
+                                                                        ><b>*</b></span>:</label>
+                                                            <div class="col-sm-2">
+                                                                <span style={{ color: "red" }}>{formErrors.utility}</span>
+                                                                <input class="form-control"   placeholder="Utility"
+                                                                    name="utility"
+                                                                    type="text"
+                                                                    value={utility}
+                                                                    onChange={handleChange} /><small class="invalid-feedback"></small></div>
+                                                            
+                                                            
+                                                            <label
+                                                                class="col-sm-2 col-form-label">kV Level<span
+                                                                ><b>*</b></span>:</label>
+                                                            <div class="col-sm-2">
+                                                                <span style={{ color: "red" }}>{formErrors.kVLevel}</span>
+                                                                <input class="form-control"
+                                                                    name="kVLevel"
+                                                                    placeholder="Enter kV Level"
+                                                                    onChange={handleChange}
+                                                                    isInvalid={!!formErrors.kVLevel}
+                                                                    value={formData.kVLevel} /><small class="invalid-feedback"></small></div>
+                                                                    <label class="col-sm-2 col-form-label">Station Name<span
                                                         ><b>*</b></span>:</label>
                                                             <div class="col-sm-2">
                                                                 <span style={{ color: "red" }}>{formErrors.StationName}</span>
@@ -321,25 +353,6 @@ export const Form3part1 = () => {
                                                                     isInvalid={!!formErrors.StationName}
                                                                 /><small class="invalid-feedback">
                                                                 </small></div>
-                                                            <label
-                                                                class="col-sm-2 col-form-label">kV Level<span
-                                                                ><b>*</b></span>:</label>
-                                                            <div class="col-sm-2">
-                                                                <span style={{ color: "red" }}>{formErrors.kVLevel}</span>
-                                                                <input class="form-control"
-                                                                    name="kVLevel"
-                                                                    placeholder="Enter kV Level"
-                                                                    onChange={handleChange}
-                                                                    isInvalid={!!formErrors.kVLevel}
-                                                                    value={formData.kVLevel} /><small class="invalid-feedback"></small></div><label
-                                                                        class="col-sm-2 col-form-label">Owner<span
-                                                                        ><b>*</b></span>:</label>
-                                                            <div class="col-sm-2">
-                                                                <span style={{ color: "red" }}>{formErrors.Owner}</span>
-                                                                <input class="form-control" name="Owner" placeholder="Owner"
-                                                                    onChange={handleChange}
-                                                                    isInvalid={!!formErrors.Owner}
-                                                                     value={formData.Owner} /><small class="invalid-feedback"></small></div>
                                                         </div>
                                                         <div class="form-group row"><label class="col-sm-2 col-form-label">Location<span
                                                         ><b>*</b></span>:</label>

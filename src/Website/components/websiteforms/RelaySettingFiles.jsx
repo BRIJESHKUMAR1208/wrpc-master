@@ -67,7 +67,7 @@ const RelaySettingFiles = () => {
         <TopHeader />
         <CmsDisplay />
         <main>
-          <div className="container mt-4 vh-100">
+          <div className="container mt-4 vh-90">
             <h1>Relay Setting Files</h1>
             <div className="date-sec row">
               <div className="col-md-5">
@@ -116,7 +116,7 @@ const RelaySettingFiles = () => {
                       <TableRow>
                         <TableCell style={{ fontWeight: 'bold' }}>S. No.</TableCell>
                         <TableCell style={{ fontWeight: 'bold' }}>Substation</TableCell>
-                        <TableCell style={{ fontWeight: 'bold' }} >Utility</TableCell>
+                        <TableCell style={{ fontWeight: 'bold' }}>Utility</TableCell>
                         <TableCell style={{ fontWeight: 'bold' }}>kV Level</TableCell>
                         <TableCell style={{ fontWeight: 'bold' }}>Name of Element</TableCell>
                         <TableCell style={{ fontWeight: 'bold' }}>Protection (M1/M2/Backup)</TableCell>

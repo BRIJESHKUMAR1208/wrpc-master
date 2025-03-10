@@ -29,10 +29,10 @@ export default function FormDataTwo() {
 
     const columns = [
         { field: "id", headerName: "S.No", width: 50 },
-        { field: "candidate_name", headerName: " Candidate Name" },
-        { field: "candidate_email", headerName: "Candidate Email" },
-        { field: "candidate_address", headerName: "Candidate Address" },
-        { field: "candidate_mobile_no", headerName: "Candidate  Mobile No." },
+        { field: "candidate_name", headerName: " Candidate Name" ,width: 200},
+        { field: "candidate_email", headerName: "Candidate Email" ,width: 200},
+        { field: "candidate_address", headerName: "Candidate Address" ,width: 200},
+        { field: "candidate_mobile_no", headerName: "Candidate  Mobile No.",width: 200 },
         
         {
             field: "edit",

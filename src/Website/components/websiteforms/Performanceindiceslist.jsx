@@ -22,7 +22,7 @@ export const PerformanceList = () => {
   const [selectedMonth, setSelectedMonth] = useState(null);
   const [utilities, setUtilities] = useState([]);
   const [selectedUtility, setSelectedUtility] = useState(null);
-
+  const [itemsPerPage, setItemsPerPage] = useState(10);
   // Fetch utilities when both year and month are selected
   useEffect(() => {
     const fetchUtilities = async () => {
@@ -35,7 +35,8 @@ export const PerformanceList = () => {
             value: row.id,
             label: row.utilityname,
           }));
-          setUtilities(utilitiesData);
+          const allOption = { value: 'All', label: 'All Utilities' };
+          setUtilities([allOption, ...utilitiesData]);
         } catch (error) {
           setError("Error fetching utilities data");
         }
@@ -74,10 +75,20 @@ export const PerformanceList = () => {
     if (selectedYear && selectedMonth) {
       setLoading(true);
       try {
-        const response = await apiClient.get(
-          `/api/PerformanceIndices/getperformance/${selectedUtilityId}?year=${selectedYear}&month=${selectedMonth}`
-        );
-        setData(response.data); // Assuming the response data contains the correct performance data
+        let response;
+        if (selectedUtilityId === "All") {
+          // Call the API that fetches data for all utilities
+          response = await apiClient.get(
+            `/api/PerformanceIndices/getyearmonth/${selectedYear}/${selectedMonth}`
+          );
+        } else {
+          // Call the API for a specific utility
+          response = await apiClient.get(
+            `/api/PerformanceIndices/getperformance/${selectedUtilityId}?year=${selectedYear}&month=${selectedMonth}`
+          );
+        }
+        setData(response.data); // Assuming response data contains performance data
+        setError(""); // Clear any previous errors
       } catch (error) {
         setError("Error fetching performance data.");
       } finally {
@@ -118,13 +129,13 @@ export const PerformanceList = () => {
         <TopHeader />
         <CmsDisplay />
         <main>
-          <div className="container mt-4 vh-100">
+          <div className="container mt-4 vh-80">
             <h4>Performance Indices List</h4>
             <div className="date-sec row">
               <div className="col-md-2">
                 <div className="date-main">
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DemoContainer components={["YearCalendar","YearCalendar","YearCalendar"]}>
+                    <DemoContainer components={["YearCalendar", "YearCalendar", "YearCalendar"]}>
                       <DatePicker
                         label={"Year"}
                         views={["year"]}
@@ -157,6 +168,7 @@ export const PerformanceList = () => {
                         disabled={!selectedYear}
                         disableFuture={true}
                         enableAccessibleFieldDOMStructure
+
                       />
                     </DemoContainer>
                   </LocalizationProvider>
@@ -188,7 +200,13 @@ export const PerformanceList = () => {
             ) : error ? (
               <Alert variant="danger">{error}</Alert>
             ) : selectedUtility ? (
-              <CSmartTable columns={columns} items={datas} />
+              // <CSmartTable columns={columns} items={datas} />
+              <CSmartTable
+                columns={columns}
+                items={datas}
+                itemsPerPage={itemsPerPage}
+                pagination
+              />
             ) : (
               <p>Please select a utility to view the performance data.</p>
             )}
