@@ -18,31 +18,43 @@ const RelaySettingFiles = () => {
   useEffect(() => {
     const fetchUtilities = async () => {
       try {
-        const response = await fetch(`${BASE_URL}/api/Relay/utility`);
+        const response = await fetch(`${BASE_URL}/api/Relay`);
         const result = await response.json();
-        setUtilities(result); // Assuming result is an array of utility objects
+        setUtilities([{ utility: "All" }, ...result]); // Add "All" and keep the fetched data
       } catch (error) {
         console.error("Error fetching utilities:", error);
       }
     };
     fetchUtilities();
   }, []);
-
+  
   const handleUtility = async (event) => {
     const selectedUtility = event.target.value;
     setUtility(selectedUtility);
     setSubstation(null); // Reset substation when utility changes
-    setData([]); // Clear data when utility changes
-
-    // Fetch substations based on the selected utility
+    setData([]); // Clear previous data
+  
     try {
-      const  response = await fetch(`${BASE_URL}/api/Relay/substation/${selectedUtility}`);
+      let url = `${BASE_URL}/api/Relay`; // Fetch all substations by default
+  
+      if (selectedUtility !== "All") {
+        url = `${BASE_URL}/api/Relay/substation/${selectedUtility}`; // Fetch by selected utility
+      }
+  
+      const response = await fetch(url);
       const result = await response.json();
-      setSubstations(result); // Assuming result is an array of substation objects
+  
+      console.log("Fetched Substations:", result); // Debugging
+  
+      // Ensure substations is always an array
+      setSubstations(Array.isArray(result) ? result : []);
     } catch (error) {
       console.error("Error fetching substations:", error);
+      setSubstations([]); // Prevents crashes
     }
   };
+  
+  
 
   const handleSubstation = (event) => {
     const selectedSubstation = event.target.value;
