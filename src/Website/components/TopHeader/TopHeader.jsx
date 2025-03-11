@@ -209,12 +209,12 @@ export const TopHeader = ({ selectedLanguage, handleLanguageChange }) => {
                       {/* <div class="bar2 bar-c">
                                                 <p><a href="#">Screen Reader Access</a></p>
                                             </div> */}
-                      <div className="bar3 bar-c">
+                      {/* <div className="bar3 bar-c">
                         <p>
                           <Link href="#">Skip to main content</Link>
 
                         </p>
-                      </div>
+                      </div> */}
                       <div className="bar3 bar-c">
 
                         <div>

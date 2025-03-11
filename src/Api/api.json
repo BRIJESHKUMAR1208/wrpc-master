@@ -20,6 +20,7 @@
     "performance":"/api/PerformanceIndices",
     "Tppapost": "/api/TPPA_Obs/PostTTPOBS_data",
     "Tppaobspart1": "/api/TPPAObservations/Part1",
+    "observateforma":"/api/TPPA_Obs/PostTTPOBS_data",
      "Tppaobseditpart1":"/api/TPPAObservations/EditPart1",
     "Tppaobspart2post":"/api/TPPAObservations/UpdatedPart2",
     "Tppaobspart3": "/api/TPPAObservations/Part3",

@@ -36,11 +36,15 @@ export const Form3part1 = () => {
         Compliances: '',
         Issuesobserved: '',
         Remarks: '',
-        CAT_A_deficiencies: '',
-        CAT_B_deficiencies:''
+        CAT_A_deficiencies: "",
+        CAT_B_deficiencies: "",
+        AAttendedY_N: '',
+        ADate_Attended: '',
+        BAttendedY_N: '',
+        BDate_Attended: ''
     });
-const [utility, setutilityName] = useState("");
-   
+    const [utility, setutilityName] = useState("");
+
     useEffect(() => {
         const storedEntityName = localStorage.getItem("utilityname");
         if (storedEntityName) {
@@ -54,7 +58,26 @@ const [utility, setutilityName] = useState("");
     const handleRoleChange = (event) => {
         setSelectedRole(event.target.value);
     };
+    const [catAList, setCatAList] = useState([]); // Stores multiple CAT A values
+    const [catBList, setCatBList] = useState([]); // Stores multiple CAT B values
 
+
+
+    // Add CAT A Deficiency to the List
+    const handleAddCatA = () => {
+        if (formData.CAT_A_deficiencies.trim() !== "") {
+            setCatAList([...catAList, formData.CAT_A_deficiencies]);
+            setFormData({ ...formData, CAT_A_deficiencies: "" }); // Clear input field
+        }
+    };
+
+    // Add CAT B Deficiency to the List
+    const handleAddCatB = () => {
+        if (formData.CAT_B_deficiencies.trim() !== "") {
+            setCatBList([...catBList, formData.CAT_B_deficiencies]);
+            setFormData({ ...formData, CAT_B_deficiencies: "" }); // Clear input field
+        }
+    };
     const handleChange = (event) => {
         const { name, value } = event.target;
         setSelectedRole(event.target.value);
@@ -187,11 +210,7 @@ const [utility, setutilityName] = useState("");
         setLoading(true);
 
         try {
-            //     const formDataToSend = {
-            //         ...formData,
-            //         usertype: parseInt(selectedRole, 10),
-            //     };
-            ;
+
 
             let candidateId = 0;
             if (localStorage.getItem("candidateId")) {
@@ -206,7 +225,7 @@ const [utility, setutilityName] = useState("");
             formDataToSend.append('user_id', candidateId);
             formDataToSend.append('Station_Name', formData.StationName);
             formDataToSend.append('kV_Level', formData.kVLevel);
-            formDataToSend.append('Owner', formData.Owner);
+            formDataToSend.append('Owner', utility);
             formDataToSend.append('Location', formData.Location);
             formDataToSend.append('Planned_Date_of_Audit', formData.PlannedDateAudit);
             formDataToSend.append('Date_of_Audit', formData.DateAudit);
@@ -215,10 +234,15 @@ const [utility, setutilityName] = useState("");
             formDataToSend.append('Compliances', selectedFilee);
             formDataToSend.append('Issues_Observed', selectedFilee1);
             formDataToSend.append('Remarks', formData.Remarks);
-            formDataToSend.append('CAT_A_Deficiencies', formData.CAT_A_deficiencies);
-            formDataToSend.append('CAT_B_deficiencies', formData.CAT_B_deficiencies);
-            const response = await apiclient.post(apis.Tppaobspart1, formDataToSend)
+            formDataToSend.append('CAT_A_Deficiencies', catAList.join(", "));
+            formDataToSend.append('CAT_B_Deficiencies', catBList.join(", "));
+            formDataToSend.append('Attended_CAT_A', formData.AAttendedY_N);
+            formDataToSend.append('Date_Attended_CAT_A', formData.ADate_Attended);
+            formDataToSend.append('Attended_CAT_B', formData.BAttendedY_N);
+            formDataToSend.append('Date_Attended_CAT_B', formData.BDate_Attended);
 
+            //  const response = await apiclient.post(apis.Tppaobspart1, formDataToSend)
+            const response = await apiclient.post(apis.observateforma, formDataToSend)
             if (response.status === 200) {
                 console.log("user" + response.data)
                 // Simulate a 3-second delay
@@ -260,28 +284,7 @@ const [utility, setutilityName] = useState("");
         }
     };
 
-    //   useEffect(() => {
-    //     const fetchRoles = async () => {
-    //       try {
-    //         const response = await apiClient.get(api.getUserType);
-    //         setDropdownOptions(response.data);
-    //       } catch (error) {
-    //         console.error('Error fetching roles:', error);
-    //       }
-    //     };
-    //     fetchRoles();
-    //   }, []);
-    //   useEffect(() => {
-    //     const fetchRoles = async () => {
-    //       try {
-    //         const response = await apiClient.get(api.newuser);
-    //         setuser(response.data);
-    //       } catch (error) {
-    //         console.error('Error fetching roles:', error);
-    //       }
-    //     };
-    //     fetchRoles();
-    //   }, []);
+
 
     return (
         <>
@@ -316,19 +319,19 @@ const [utility, setutilityName] = useState("");
                                                     <div class="card-body registrationCard">
 
                                                         <div class="form-group row">
-                                                            
-                                                        <label
-                                                                        class="col-sm-2 col-form-label">Utility<span
-                                                                        ><b>*</b></span>:</label>
+
+                                                            <label
+                                                                class="col-sm-2 col-form-label">Utility<span
+                                                                ><b>*</b></span>:</label>
                                                             <div class="col-sm-2">
                                                                 <span style={{ color: "red" }}>{formErrors.utility}</span>
-                                                                <input class="form-control"   placeholder="Utility"
+                                                                <input class="form-control" placeholder="Utility"
                                                                     name="utility"
                                                                     type="text"
                                                                     value={utility}
                                                                     onChange={handleChange} /><small class="invalid-feedback"></small></div>
-                                                            
-                                                            
+
+
                                                             <label
                                                                 class="col-sm-2 col-form-label">kV Level<span
                                                                 ><b>*</b></span>:</label>
@@ -340,14 +343,14 @@ const [utility, setutilityName] = useState("");
                                                                     onChange={handleChange}
                                                                     isInvalid={!!formErrors.kVLevel}
                                                                     value={formData.kVLevel} /><small class="invalid-feedback"></small></div>
-                                                                    <label class="col-sm-2 col-form-label">Station Name<span
-                                                        ><b>*</b></span>:</label>
+                                                            <label class="col-sm-2 col-form-label">Station Name<span
+                                                            ><b>*</b></span>:</label>
                                                             <div class="col-sm-2">
                                                                 <span style={{ color: "red" }}>{formErrors.StationName}</span>
                                                                 <input class="form-control"
                                                                     name="StationName"
                                                                     placeholder="Enter Station Name"
-                                                                   
+
                                                                     value={formData.StationName}
                                                                     onChange={handleChange}
                                                                     isInvalid={!!formErrors.StationName}
@@ -359,7 +362,7 @@ const [utility, setutilityName] = useState("");
                                                             <div class="col-sm-2">
                                                                 <span style={{ color: "red" }}>{formErrors.Location}</span>
                                                                 <input class="form-control" name="Location" placeholder="Enter Location"
-                                                                     value={formData.Location}
+                                                                    value={formData.Location}
                                                                     onChange={handleChange}
                                                                     isInvalid={!!formErrors.Location} /><small class="invalid-feedback"></small></div><label
                                                                         class="col-sm-2 col-form-label">Planned date of Audit<span
@@ -386,7 +389,7 @@ const [utility, setutilityName] = useState("");
                                                             <div class="col-sm-2">
                                                                 <span style={{ color: "red" }}>{formErrors.AuditEntity}</span>
                                                                 <input class="form-control" name="AuditEntity" placeholder="Enter Audit Entity"
-                                                                     value={formData.AuditEntity}
+                                                                    value={formData.AuditEntity}
                                                                     onChange={handleChange}
                                                                     isInvalid={!!formErrors.AuditEntity} /><small class="invalid-feedback"></small></div><label
                                                                         class="col-sm-2 col-form-label">Report<span
@@ -415,9 +418,9 @@ const [utility, setutilityName] = useState("");
                                                                     type='file'
                                                                     onChange={handleFileChange2}
                                                                     isInvalid={!!formErrors.selectedFilee1} /><small class="invalid-feedback"></small></div>
-                                                                    <label
-                                                                        class="col-sm-2 col-form-label">Remarks<span
-                                                                        ><b></b></span>:</label>
+                                                            <label
+                                                                class="col-sm-2 col-form-label">Remarks<span
+                                                                ><b></b></span>:</label>
                                                             <div class="col-sm-2">
                                                                 <span style={{ color: "red" }}>{formErrors.Remarks}</span>
                                                                 <input class="form-control" name="Remarks" placeholder='Remarks'
@@ -426,27 +429,175 @@ const [utility, setutilityName] = useState("");
                                                                     isInvalid={!!formErrors.Remarks} /><small class="invalid-feedback"></small>
                                                             </div>
 
-                                                            <div class="form-group row"><label class="col-sm-2 col-form-label">CAT A deficiences<span
-                                                            ><b>*</b></span>:</label>
-                                                                <div class="col-sm-2">
+                                                            <div className="form-group row">
+                                                                {/* CAT A Input */}
+                                                                <label className="col-sm-2 col-form-label">
+                                                                    CAT A Deficiencies<span><b>*</b></span>:
+                                                                </label>
+                                                                <div className="col-sm-2">
                                                                     <span style={{ color: "red" }}>{formErrors.CAT_A_deficiencies}</span>
-                                                                    <input class="form-control" name="CAT_A_deficiencies" placeholder="Enter CAT A deficiences"
+                                                                    <input
+                                                                        className="form-control"
+                                                                        name="CAT_A_deficiencies"
+                                                                        placeholder="Enter CAT A deficiencies"
                                                                         value={formData.CAT_A_deficiencies}
                                                                         onChange={handleChange}
-                                                                        isInvalid={!!formErrors.CAT_A_deficiencies} />
-                                                                        <small class="invalid-feedback"></small>
+                                                                    />
+                                                                    <small className="invalid-feedback"></small>
+                                                                </div><label className="col-sm-2 col-form-label">
+                                                                    AttendedY_N<span><b>*</b></span>:
+                                                                </label>
+                                                                <div className="col-sm-2">
+                                                                    <span style={{ color: "red" }}>{formErrors.CAT_A_deficiencies}</span>
+                                                                    <select
+                                                                        className="form-control"
+                                                                        name="AAttendedY_N"
+                                                                        value={formData.AAttendedY_N}
+                                                                        onChange={handleChange}
+                                                                    >
+                                                                        <option value=""> --Select-- </option>
+                                                                        <option value="1">Yes</option>
+                                                                        <option value="2">No</option>
+                                                                    </select>
                                                                 </div>
-                                                                <label class="col-sm-2 col-form-label">CAT B deficiences<span
-                                                        ><b>*</b></span>:</label>
-                                                                <div class="col-sm-2">
-                                                                <span style={{ color: "red" }}>{formErrors.CAT_B_deficiencies}</span>
-                                                                <input class="form-control" name="CAT_B_deficiencies" placeholder="Enter CAT B deficiences"
-                                                                   
-                                                                    value={formData.CAT_B_deficiencies}
-                                                                    onChange={handleChange}
-                                                                    isInvalid={!!formErrors.CAT_B_deficiencies} /><small class="invalid-feedback"></small>
+
+                                                                {/* Conditional Rendering */}
+                                                                {formData.AAttendedY_N === "1" ? (
+                                                                    <>
+                                                                        <label className="col-sm-2 col-form-label">
+                                                                            Cat A Date Attended<span><b>*</b></span>:
+                                                                        </label>
+                                                                        <div className="col-sm-2">
+                                                                            <span style={{ color: "red" }}>{formErrors.ADate_Attended}</span>
+                                                                            <input
+                                                                                type="date"
+                                                                                className="form-control"
+                                                                                name="ADate_Attended"
+                                                                                value={formData.ADate_Attended}
+                                                                                onChange={handleChange}
+                                                                            />
+                                                                        </div>
+                                                                    </>
+                                                                ) : formData.AAttendedY_N === "2" ? (
+                                                                    <div className="col-sm-4">
+                                                                        <b className="text-danger">Cat A Date Attended is not required.</b>
                                                                     </div>
+                                                                ) : (
+                                                                    <div className="col-sm-4"></div> // Empty div to maintain alignment when no option is selected
+                                                                )}
+
+                                                                <div className="col-sm-2">
+
+                                                                </div>
+                                                                <div className="col-sm-2">
+                                                                    <button
+                                                                        type="button"
+                                                                        className="btn-primary"
+                                                                        style={{ backgroundColor: "#007bff", borderColor: "#007bff", color: "white" }}
+                                                                        onClick={handleAddCatA}
+                                                                    >
+                                                                        Add New CAT A
+                                                                    </button>
+
+                                                                </div>
                                                             </div>
+
+                                                            {/* Display CAT A Deficiencies */}
+                                                            {catAList.length > 0 && (
+                                                                <div className="mt-2">
+                                                                    <strong>CAT A List:</strong>
+                                                                    <div className="list-group">
+                                                                        {catAList.map((item, index) => (
+                                                                            <div key={index} className="list-group-item">
+                                                                                {item}
+                                                                            </div>
+                                                                        ))}
+                                                                    </div>
+                                                                </div>
+                                                            )}
+
+                                                            <hr />
+                                                            {/* CAT B Input */}
+                                                            <div className="form-group row">
+                                                                <label className="col-sm-2 col-form-label">
+                                                                    CAT B Deficiencies<span><b>*</b></span>:
+                                                                </label>
+                                                                <div className="col-sm-2">
+                                                                    <span style={{ color: "red" }}>{formErrors.CAT_B_deficiencies}</span>
+                                                                    <input
+                                                                        className="form-control"
+                                                                        name="CAT_B_deficiencies"
+                                                                        placeholder="Enter CAT B deficiencies"
+                                                                        value={formData.CAT_B_deficiencies}
+                                                                        onChange={handleChange}
+                                                                    />
+                                                                    <small className="invalid-feedback"></small>
+                                                                </div>
+                                                                <label className="col-sm-2 col-form-label">
+                                                                    AttendedY_N<span><b>*</b></span>:
+                                                                </label>
+                                                                <div className="col-sm-2">
+                                                                    <span style={{ color: "red" }}>{formErrors.CAT_A_deficiencies}</span>
+                                                                    <select
+                                                                        className="form-control"
+                                                                        name="BAttendedY_N"
+                                                                        value={formData.BAttendedY_N}
+                                                                        onChange={handleChange}
+                                                                    >
+                                                                        <option value=""> --Select-- </option>
+                                                                        <option value="1">Yes</option>
+                                                                        <option value="2">No</option>
+                                                                    </select>
+                                                                </div>
+
+                                                                {/* Conditionally display the "Cat B Date Attended" field */}
+                                                                {formData.BAttendedY_N === "1" ? (
+                                                                    <>
+                                                                        <label className="col-sm-2 col-form-label">
+                                                                            Cat B Date Attended<span><b>*</b></span>:
+                                                                        </label>
+                                                                        <div className="col-sm-2">
+                                                                            <span style={{ color: "red" }}>{formErrors.BDate_Attended}</span>
+                                                                            <input
+                                                                                className="form-control"
+                                                                                type="date"
+                                                                                name="BDate_Attended"
+                                                                                value={formData.BDate_Attended}
+                                                                                onChange={handleChange}
+                                                                            />
+                                                                        </div>
+                                                                    </>
+                                                                ) : formData.BAttendedY_N === "2" ? (
+                                                                    <div className="col-sm-4">
+                                                                        <b className="text-danger">Cat B Date Attended is not required.</b>
+                                                                    </div>
+                                                                ) : (
+                                                                    <div className="col-sm-4"></div> // Empty div when no option is selected
+                                                                )}
+                                                                <div className="col-sm-2">
+
+                                                                </div>
+                                                                <div className="col-sm-2">
+                                                                    <button type="button" className=" btn-primary" onClick={handleAddCatB} style={{ backgroundColor: "#007bff", borderColor: "#007bff", color: "white" }}
+                                                                    >
+                                                                        Add New CAT B
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+
+                                                            {/* Display CAT B Deficiencies */}
+                                                            {catBList.length > 0 && (
+                                                                <div className="mt-2">
+                                                                    <strong>CAT B List:</strong>
+                                                                    <div className="list-group">
+                                                                        {catBList.map((item, index) => (
+                                                                            <div key={index} className="list-group-item">
+                                                                                {item}
+                                                                            </div>
+                                                                        ))}
+                                                                    </div>
+                                                                </div>
+                                                            )}
 
                                                         </div>
 

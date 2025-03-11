@@ -27,12 +27,12 @@ export const ViewFormthree = () => {
     const [selectedFile, setSelectedFile] = useState({});
     const [formData, setFormData] = useState({
         SNo: '',
-        pcmreview_cata: '',
-        pcmnumber_catb: '',
-        pcmreview_catb: '',
-        pcmnumber_catb: '',
+        pcmreview_cata: [],
+        pcmnumber_catb: [],
+        pcmreview_catb: [],
+        pcmnumber_catb: [],
         part3: '',
-        admin_remark:''
+        admin_remark: ''
     });
 
     // New state variables for confirmation dialog and loading
@@ -68,50 +68,59 @@ export const ViewFormthree = () => {
             setConfirmDialogOpen(false);
             setLoading(true);
             const formDataToSend = new FormData();
-           
-            if(formData.part3===1){
+
+            if (formData.part3 === 1) {
                 formDataToSend.append("id", id);
                 formDataToSend.append('admin_remark', formData.admin_remark);
                 const response = await apiclient.post(apis.Tppaobspart4, formDataToSend)
                 if (response.status === 200) {
-    
+
                     // Simulate a 3-second delay
                     setTimeout(() => {
                         // Set loading state back to false after the delay
                         setLoading(false);
                         // Show the success dialog
                         setSuccessDialogOpen(true);
-    
+
                         setFormData({
                             SNo: '',
-    admin_remark:''
+                            admin_remark: ''
                         });
                         setSelectedRole('');
                     }, 1000);
                 } else if (response.status === 500) {
                     alert("User already exists");
-    
+
                 }
             }
-            else{
+            else {
                 formDataToSend.append("id", id);
-                formDataToSend.append('pcmreview_catA', formData.pcmreview_cata);
-                formDataToSend.append('pcmnumber_catA', formData.pcmnumber_cata);
-                formDataToSend.append('pcmreview_catB', formData.pcmreview_catb);
-                formDataToSend.append('pcmnumber_catB', formData.pcmnumber_catb);
+
+                // Handle Category A
+                formData.cat_a_deficiencies?.split(',').forEach((item, index) => {
+                    formDataToSend.append("pcmnumber_catA", formData[`pcm_number_cata_${index}`] || "");
+                    formDataToSend.append("pcmreview_catA", formData[`pcm_review_cata_${index}`] || "");
+                });
+
+                // Handle Category B
+                formData.cat_b_deficiencies?.split(',').forEach((item, index) => {
+                    formDataToSend.append("pcmnumber_catB", formData[`pcm_number_catb_${index}`] || "");
+                    formDataToSend.append("pcmreview_catB", formData[`pcm_review_catb_${index}`] || "");
+                });
+
                 const response = await apiclient.post(apis.Tppaobspart2post, formDataToSend);
                 if (response.status === 200) {
-    
+
                     // Simulate a 3-second delay
                     setTimeout(() => {
                         // Set loading state back to false after the delay
                         setLoading(false);
                         // Show the success dialog
                         setSuccessDialogOpen(true);
-    
+
                         setFormData({
                             SNo: '',
-    
+
                             attended_cat_a: '',
                             date_attended_cat_a: '',
                             cat_b_deficiencies: '',
@@ -122,10 +131,10 @@ export const ViewFormthree = () => {
                     }, 1000);
                 } else if (response.status === 500) {
                     alert("User already exists");
-    
+
                 }
             }
-            
+
 
         } catch (error) {
             console.error('Error submitting data:', error);
@@ -188,7 +197,7 @@ export const ViewFormthree = () => {
                                             <Card.Body>
                                                 <div className="mb-3 mt-md-4">
                                                     <h2 className="fw-bold mb-4 text-center text-uppercase">
-                                                        TPPA Observation
+                                                        TPPA Observation/descripancies
                                                     </h2>
                                                     <div className="mb-3">
                                                         <Form className="ui form" onSubmit={handleSubmit}>
@@ -213,7 +222,7 @@ export const ViewFormthree = () => {
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td className="ui header">Owner</td>
+                                                                    <td className="ui header">Utility</td>
                                                                     <td>
                                                                         <input className="form-control" type="text" placeholder="Owner" value={formData.owner} disabled />
                                                                     </td>
@@ -269,43 +278,116 @@ export const ViewFormthree = () => {
                                                                 </tr>
                                                                 <tr>
                                                                     <td className="ui header">CAT A Deficiencies</td>
-                                                                    <td>
-                                                                        <input className="form-control" type="text" placeholder="CAT A Deficiencies" value={formData.cat_a_deficiencies} disabled />
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td className="ui header">CAT B Deficiencies</td>
-                                                                    <td>
-                                                                        <input className="form-control" type="text" placeholder="CAT B Deficiencies" value={formData.cat_b_deficiencies} disabled />
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td className="ui header">PCM Review for Cat-A</td>
-                                                                    <td>
-                                                                        <input className="form-control" type="text" placeholder="PCM Review for Cat-a" value={formData.pcmreview_cata}
-                                                                            name="pcmreview_cata" onChange={handleChange}
-                                                                            disabled={formData.part3 === 1} />
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td className="ui header">PCM number for Cat-A</td>
-                                                                    <td>
-                                                                        <input className="form-control" type="text" placeholder="PCM number for Cat-A" value={formData.pcmnumber_cata} name="pcmnumber_cata" onChange={handleChange} disabled={formData.part3 === 1} />
+                                                                    <td colSpan="3">
+                                                                        <ul className="list-group" >
+                                                                            {formData.cat_a_deficiencies?.split(',').map((item, index) => (
+                                                                                <li key={index} className="list-group-item d-flex align-items-center">
+                                                                                    {/* Read-Only Deficiency Name */}
+                                                                                    <span style={{ flex: 1 }}>{item.trim()}</span>
+
+                                                                                    {/* PCM Number Input (Editable by Admin) */}
+                                                                                    <input
+                                                                                        className="form-control mx-2"
+                                                                                        type="text"
+                                                                                        placeholder="PCM Number"
+                                                                                        value={formData[`pcm_number_cata_${index}`] || ""}
+                                                                                        name={`pcm_number_cata_${index}`}
+                                                                                        onChange={handleChange}
+                                                                                        style={{ width: "120px" }}
+                                                                                    />
+
+                                                                                    {/* PCM Review Input (Editable by Admin) */}
+                                                                                    <input
+                                                                                        className="form-control"
+                                                                                        type="text"
+                                                                                        placeholder="PCM Review"
+                                                                                        value={formData[`pcm_review_cata_${index}`] || ""}
+                                                                                        name={`pcm_review_cata_${index}`}
+                                                                                        onChange={handleChange}
+                                                                                        style={{ width: "200px" }}
+                                                                                    />
+                                                                                </li>
+                                                                            ))}
+                                                                        </ul>
                                                                     </td>
                                                                 </tr>
 
                                                                 <tr>
-                                                                    <td className="ui header">PCM Review for Cat-B</td>
+                                                                    <td className="ui header" >Attended Y/N</td>
                                                                     <td>
-                                                                        <input className="form-control" type="text" placeholder="PCM Review for Cat-b" value={formData.pcmreview_catb} name="pcmreview_catb" onChange={handleChange} disabled={formData.part3 === 1} />
+                                                                        <input
+                                                                            className="form-control"
+                                                                            type="text"
+                                                                            placeholder="Audit Entity"
+                                                                            value={formData.attended_cat_a == "1" ? "Yes" : formData.attended_cat_a == "2" ? "No" : ""}
+                                                                            disabled
+                                                                        />
+                                                                    </td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td className="ui header">Date Attended</td>
+                                                                    <td>
+                                                                        <input className="form-control" type="text" placeholder="Audit Entity" value={formData.date_attended_cat_a} disabled />
+                                                                    </td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td className="ui header">CAT B Deficiencies</td>
+                                                                    <td colSpan="3">
+                                                                        <ul className="list-group">
+                                                                            {formData.cat_b_deficiencies?.split(',').map((item, index) => (
+                                                                                <li key={index} className="list-group-item d-flex align-items-center">
+                                                                                    {/* Read-Only Deficiency Name */}
+                                                                                    <span style={{ flex: 1 }}>{item.trim()}</span>
+
+                                                                                    {/* PCM Number Input (Editable by Admin) */}
+                                                                                    <input
+                                                                                        className="form-control"
+                                                                                        type="text"
+                                                                                        placeholder="PCM Number"
+                                                                                        value={formData[`pcm_number_catb_${index}`] || ""}
+                                                                                        name={`pcm_number_catb_${index}`}
+                                                                                        onChange={handleChange}
+                                                                                        style={{ width: "150px", marginLeft: "10px" }}
+                                                                                    />
+
+                                                                                    {/* PCM Review Input (Editable by Admin) */}
+                                                                                    <input
+                                                                                        className="form-control"
+                                                                                        type="text"
+                                                                                        placeholder="PCM Review"
+                                                                                        value={formData[`pcm_review_catb_${index}`] || ""}
+                                                                                        name={`pcm_review_catb_${index}`}
+                                                                                        onChange={handleChange}
+                                                                                        style={{ width: "200px", marginLeft: "10px" }}
+                                                                                    />
+                                                                                </li>
+                                                                            ))}
+                                                                        </ul>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td className="ui header">PCM NUMBER for Cat-B</td>
+                                                                    <td className="ui header">Attended Y/N Cat B</td>
                                                                     <td>
-                                                                        <input className="form-control" type="text" placeholder="PCM NUMBER for Cat-B" value={formData.pcmnumber_catB} name="pcmnumber_catB" onChange={handleChange} disabled={formData.part3 === 1} />
+                                                                        <input
+                                                                            className="form-control"
+                                                                            type="text"
+                                                                            placeholder="Audit Entity"
+                                                                            value={formData.attended_cat_a == "1" ? "Yes" : formData.attended_cat_b == "2" ? "No" : ""}
+                                                                            disabled
+                                                                        />
                                                                     </td>
                                                                 </tr>
+
+                                                                <tr>
+                                                                    <td className="ui header">Date Attended Cat B</td>
+                                                                    <td>
+                                                                        <input className="form-control" type="text" placeholder="Audit Entity" value={formData.date_attended_cat_b} disabled />
+                                                                    </td>
+                                                                </tr>
+
+
                                                                 <tr>
                                                                     <td className="ui header" hidden={formData.part3 != 1}>Admin Remark</td>
                                                                     <td>
