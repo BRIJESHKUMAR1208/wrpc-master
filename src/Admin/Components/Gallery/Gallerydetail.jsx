@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid';
+import { Button } from '@mui/material';
 import axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
 import Header from '../header/Header';
@@ -12,20 +13,20 @@ import MuiAlert from '@mui/material/Alert';
 import apiClient from '../../../Api/ApiClient';
 
 export default function GalleryDetail() {
-  const { id } = useParams(); // Get the gallery ID from the URL
+  const { id } = useParams();
   const galleryId = parseInt(id, 10);
   const [galleryData, setGalleryData] = useState([]);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('success');
+  const [selectedFiles, setSelectedFiles] = useState([]); // Store selected files
 
   useEffect(() => {
-    // Fetch gallery data from the server using the gallery ID
     const fetchGalleryData = async () => {
       try {
+        debugger;
         const response = await apiClient.get(`/api/Gallery/GetGallery/${galleryId}`);
-        const data = response.data;
-        setGalleryData(data);
+        setGalleryData(response.data);
       } catch (error) {
         console.error('Error fetching gallery data:', error);
       }
@@ -38,32 +39,100 @@ export default function GalleryDetail() {
 
   const handleDelete = async (imagePath) => {
     try {
-       // Update the state to remove the deleted image
-       const updatedImages = galleryData.ImagePaths.filter((image) => image !== imagePath);
+      const updatedImages = galleryData.ImagePaths.filter((image) => image !== imagePath);
+      const formData = new FormData();
+      formData.append('id', galleryId);
+      formData.append('ImagePaths', updatedImages);
+      formData.append('titlename', galleryData.title);
 
-        const formData = new FormData();
-        formData.append('id', galleryId);
-        formData.append('ImagePaths', updatedImages);
-        formData.append('titlename', galleryData.title);
-    
-
-      // Call the API to delete the image
-      //await apiClient.delete(`/api/Gallery/DeleteImage`, { data: { imagePath, galleryId } });
-      const response = await apiClient.post(`/api/Gallery/Delete`, formData, {
+      
+      const  response = await apiClient.post(`/api/Gallery/Delete`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
 
-      debugger;   
-   
-      setGalleryData({ ...galleryData, ImagePaths: updatedImages });
+     
 
-      setSnackbarMessage('Image deleted successfully.');
-      setSnackbarSeverity('success');
+      if (response.status === 200) {
+        setGalleryData({ ...galleryData, ImagePaths: updatedImages });
+        setSnackbarMessage('Image deleted successfully.');
+        setSnackbarSeverity('success');
+        // Refresh the page
+        window.location.reload();
+      } else {
+        setSnackbarMessage('Failed to add images.');
+        setSnackbarSeverity('error');
+      }
     } catch (error) {
       console.error('Error deleting image:', error);
       setSnackbarMessage('Failed to delete image.');
+      setSnackbarSeverity('error');
+    } finally {
+      setSnackbarOpen(true);
+    }
+  };
+
+  // Handle file selection
+  const handleFileSelect = (event) => {
+    const files = Array.from(event.target.files);
+    setSelectedFiles(files); // Store selected files in state
+    
+  };
+  // const handleFileSelect = (event) => {
+  //   const files = Array.from(event.target.files);
+  //   const lstImagePaths = files.map((file) => URL.createObjectURL(file)); // Create temporary preview URLs
+  
+  //   setSelectedFiles((prevFiles) => [...prevFiles, ...files]); // Store actual files
+  //   setGalleryData((prevData) => ({
+  //     ...prevData,
+  //     lstImagePaths: [...(prevData.lstImagePaths || []), ...lstImagePaths], // Show selected images in the list
+  //   }));
+  // };
+  
+
+  // Upload selected images
+  const handleUploadImages = async () => {
+    debugger;
+    if (selectedFiles.length === 0) {
+      setSnackbarMessage('Please select at least one image.');
+      setSnackbarSeverity('warning');
+      setSnackbarOpen(true);
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('id', galleryId);
+    formData.append('titlename', galleryData.title);
+    formData.append('ImagePaths', galleryData.ImagePaths);
+    //setSelectedFiles(...selectedFiles,  updatedImages)
+    selectedFiles.forEach((file) => {
+      formData.append('lstImagePaths', file); // Append each file
+    });
+      
+   // setGalleryData({ ...galleryData, ImagePaths: updatedImages });
+
+    try {
+      const response = await apiClient.post(`/api/Gallery/UpdateGallery`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      
+      if (response.status === 200) {
+        setSnackbarMessage('Images added successfully.');
+        setSnackbarSeverity('success');
+        setSelectedFiles([]); // Clear selected files
+  
+        // Refresh the page
+        window.location.reload();
+      } else {
+        setSnackbarMessage('Failed to add images.');
+        setSnackbarSeverity('error');
+      }
+    } catch (error) {
+      console.error('Error adding images:', error);
+      setSnackbarMessage('Failed to add images.');
       setSnackbarSeverity('error');
     } finally {
       setSnackbarOpen(true);
@@ -78,7 +147,7 @@ export default function GalleryDetail() {
           alt={`image-${params.row.id}`}
           style={{ width: '100px', height: '100px' }}
         />
-      ) 
+      )
     },
     { field: 'imagePath', headerName: 'Path', flex: 2 },
     {
@@ -122,14 +191,33 @@ export default function GalleryDetail() {
           </div>
           <div className="pagetitle-rgt">
             <Link to="/dashboard">
-              <button type="button" className="btn btn-info">
-                Back
-              </button>
+              <button type="button" className="btn btn-info">Back</button>
             </Link>
           </div>
         </div>
+
         <div>
           <h2>{galleryData.title}</h2>
+
+          {/* File Input */}
+          <input
+            type="file"
+            name="file"
+            multiple
+            accept="image/jpeg, image/jpg, image/png"
+            onChange={handleFileSelect}
+            style={{ marginBottom: '10px' }}
+          />
+
+          {/* Add Gallery Button */}
+          <button
+            type="button"
+            className="btn btn-primary ms-2"
+            onClick={handleUploadImages}
+          >
+            Add Gallery
+          </button>
+
           {galleryData.ImagePaths && galleryData.ImagePaths.length > 0 ? (
             <Box sx={{ height: 400, width: '100%' }}>
               <DataGrid
@@ -147,7 +235,7 @@ export default function GalleryDetail() {
       </main>
       <Footer />
 
-      {/* Snackbar for feedback */}
+      {/* Snackbar */}
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={3000}

@@ -5,7 +5,7 @@ import api from '../../../Api/api.json';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material'; // Import Material-UI components
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 import { Row } from 'react-bootstrap/esm';
 import Sidebar from '../sidebar/Sidebar';
 import Header from '../header/Header';
@@ -24,6 +24,7 @@ export const AddGallery = () => {
 
     const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate(); // Initialize the navigate function
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -78,6 +79,7 @@ export const AddGallery = () => {
         try {
             const dataToSubmit = new FormData();
             dataToSubmit.append("titlename", formData.titlename);
+           
     
             formData.lstImagePaths.forEach((file) => {
                 dataToSubmit.append("lstImagePaths", file);  // Ensure consistent key for multiple files
@@ -100,6 +102,7 @@ export const AddGallery = () => {
                         lstImagePaths: [],  // Reset files after success
                     });
                 }, 1000);
+                navigate('/gallerylist');
             } else {
                 toast.error('Something went wrong');
             }
