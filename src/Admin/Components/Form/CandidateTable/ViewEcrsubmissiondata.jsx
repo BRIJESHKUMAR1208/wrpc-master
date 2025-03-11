@@ -83,7 +83,7 @@ export default function Ecrsubmissionlist() {
     return (
         <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
-                <h1>ECR Submission Data</h1>
+                <h4>ECR Submission Data</h4>
                 <CSVLink
                     data={exportData}
                     headers={headers}

@@ -22,9 +22,12 @@ import { Link } from 'react-router-dom';
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
+import { format } from 'date-fns';
+import { CSVLink } from 'react-csv';
 
 export default function FormDataTwo() {
     const [apiData, setApiData] = useState([]);
+    const [exportData, setExportData] = useState([]); // For data export
 
 
     const columns = [
@@ -62,8 +65,46 @@ export default function FormDataTwo() {
             }
         }
 
+         // Fetch data for export 
+                 async function fetchExportData() {
+                  try {
+                      const response = await apiClient.get(`/api/TPPA_Plan_Monitoring`); // API call
+                      const formattedData = response.data.map(item => ({
+                          'Station name': item.station_name,
+                          'Kv level': item.kv_level,
+                          'Owner': item.owner,
+                          'Location': item.location,
+                          'Planned date of audit': `\u200B${format(new Date(item.planned_date_of_audit), "yyyy-MM-dd")}`,
+                          'Date of audit': `\u200B${format(new Date(item.date_of_audit), "yyyy-MM-dd")}`,
+                          'Audit team state': item.audit_team_state,
+                          'audit_team_members': item.audit_team_members,
+                          'Remarks': item.remarks,
+                         
+                      }));
+                      setExportData(formattedData);
+                  } catch (error) {
+                      console.error('Error fetching export data:', error);
+                  }
+              }
+
         fetchData();
+        fetchExportData();
     }, []);
+
+
+    const headers = [
+     
+      { label: 'Station name', key: 'Station name' },
+      { label: 'Kv level', key: 'Kv level' },
+      { label: 'Owner', key: 'Owner' },
+      { label: 'Location', key: 'Location' },
+      { label: 'Planned date of audit (\'yyyy-mm-dd\')', key: 'Planned date of audit' },
+      { label: 'Date of audit (\'yyyy-mm-dd\')', key: 'Date of audit' },
+      { label: 'Audit team state', key: 'Audit team state' },
+      { label: 'Audit team members', key: 'Audit team members' },
+      { label: 'Remarks', key: 'Remarks' },     
+  ];
+
     const exportToExcel = () => {
         const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
         const fileExtension = '.xlsx';
@@ -81,7 +122,37 @@ export default function FormDataTwo() {
 
     return (
         <div>
-           <h1>TPPA PLAN & MONITORING</h1>
+           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+           <h4>TPPA PLAN & MONITORING</h4>
+                                    <CSVLink
+                                        data={exportData}
+                                        headers={headers}
+                                        filename={"Plan&Monitoring.csv"}
+                                        target="_blank"
+                                        style={{
+                                            textDecoration: 'none'
+                                        }}
+                                    >
+                                        <button
+                                            style={{
+                                                backgroundColor: '#007bff',
+                                                color: 'white',
+                                                padding: '10px 20px',
+                                                border: 'none',
+                                                borderRadius: '5px',
+                                                cursor: 'pointer',
+                                                fontSize: '16px',
+                                                fontWeight: 'bold',
+                                                transition: 'background 0.3s ease'
+                                            }}
+                                            onMouseOver={(e) => e.target.style.backgroundColor = '#0056b3'}
+                                            onMouseOut={(e) => e.target.style.backgroundColor = '#007bff'}
+                                        >
+                                            📥 Download Plan & Monitoring 
+                                        </button>
+                                    </CSVLink>
+                                </div>
+          
           <Box sx={{ height: 400, width: "100%" }}>
           <button onClick={exportToExcel}>Export to Excel</button>
             <DataGrid
