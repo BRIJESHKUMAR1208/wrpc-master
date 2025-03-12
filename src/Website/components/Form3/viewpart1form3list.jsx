@@ -48,8 +48,18 @@ const Form3part1list = () => {
       <TopHeader /> {/* Top Header */}
       <CmsDisplay /> {/* CMS Display */}
       <main>
-        <div className="container mt-4 vh-100">
+        <div className="container mt-4 vh-90">
           <h2>TPPA Observations/Discrepancies</h2>
+          <div className="col-md-2">
+                          <Link to="/form3part1">
+                            <Button
+                              variant="contained"
+                              color="primary"
+                            >
+                              Add New Record
+                            </Button>
+                          </Link>
+                        </div>
           <div className="row mt-4"></div>
 
           {/* Display loading or error */}
@@ -99,17 +109,22 @@ const Form3part1list = () => {
                       </TableCell>
                       <TableCell>{item.remarks}</TableCell>
                       <TableCell>
-                        {item.part2 === 1 ? (
-                          <Button variant="contained" color="primary" disabled>
-                            Edit Part1
-                          </Button>
-                        ) : (
-                          <Link to={`/editform3part1/${item.id}`} style={{ textDecoration: "none" }}>
+                      <Link to={`/editform3data/${item.id}`} style={{ textDecoration: "none" }}>
                             <Button variant="contained" color="primary">
-                              Edit Part1
+                              Edit Data 
                             </Button>
                           </Link>
-                        )}
+                        {/* {item.part2 === 1 ? (
+                          <Button variant="contained" color="primary" disabled>
+                             Edit Data 
+                          </Button>
+                        ) : (
+                          <Link to={`/editform3data/${item.id}`} style={{ textDecoration: "none" }}>
+                            <Button variant="contained" color="primary">
+                              Edit Data 
+                            </Button>
+                          </Link>
+                        )} */}
                       </TableCell>
                     </TableRow>
                   ))}

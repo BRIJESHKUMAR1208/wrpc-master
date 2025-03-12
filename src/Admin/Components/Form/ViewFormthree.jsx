@@ -318,7 +318,7 @@ export const ViewFormthree = () => {
                                                                         <input
                                                                             className="form-control"
                                                                             type="text"
-                                                                            placeholder="Audit Entity"
+                                                                            placeholder="Attended Y/N"
                                                                             value={formData.attended_cat_a == "1" ? "Yes" : formData.attended_cat_a == "2" ? "No" : ""}
                                                                             disabled
                                                                         />
@@ -328,7 +328,7 @@ export const ViewFormthree = () => {
                                                                 <tr>
                                                                     <td className="ui header">Date Attended</td>
                                                                     <td>
-                                                                        <input className="form-control" type="text" placeholder="Audit Entity" value={formData.date_attended_cat_a} disabled />
+                                                                        <input className="form-control" type="text" placeholder="Date Attended" value={formData.date_attended_cat_a} disabled />
                                                                     </td>
                                                                 </tr>
 
@@ -373,7 +373,7 @@ export const ViewFormthree = () => {
                                                                         <input
                                                                             className="form-control"
                                                                             type="text"
-                                                                            placeholder="Audit Entity"
+                                                                            placeholder="Attended Y/N Cat B"
                                                                             value={formData.attended_cat_a == "1" ? "Yes" : formData.attended_cat_b == "2" ? "No" : ""}
                                                                             disabled
                                                                         />
@@ -383,16 +383,16 @@ export const ViewFormthree = () => {
                                                                 <tr>
                                                                     <td className="ui header">Date Attended Cat B</td>
                                                                     <td>
-                                                                        <input className="form-control" type="text" placeholder="Audit Entity" value={formData.date_attended_cat_b} disabled />
+                                                                        <input className="form-control" type="text" placeholder="Date Attended Cat B" value={formData.date_attended_cat_b} disabled />
                                                                     </td>
                                                                 </tr>
 
 
                                                                 <tr>
-                                                                    <td className="ui header" hidden={formData.part3 != 1}>Admin Remark</td>
+                                                                    {/* <td className="ui header" hidden={formData.part3 != 1}>Admin Remark</td>
                                                                     <td>
                                                                         <input className="form-control" type="text" placeholder="Admin Remark" value={formData.admin_remark} name="admin_remark" onChange={handleChange} hidden={formData.part3 != 1} />
-                                                                    </td>
+                                                                    </td> */}
                                                                 </tr>
                                                             </tbody>
 

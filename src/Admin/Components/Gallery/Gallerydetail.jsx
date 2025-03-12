@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import {  Card, Col, Container, Form, Spinner } from 'react-bootstrap';
 import Box from '@mui/material/Box';
 import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid';
 import { Button } from '@mui/material';
 import axios from 'axios';
+import { Row } from 'react-bootstrap/esm';
 import { Link, useParams } from 'react-router-dom';
 import Header from '../header/Header';
 import Sidebar from '../sidebar/Sidebar';
@@ -196,7 +198,9 @@ export default function GalleryDetail() {
           </div>
         </div>
 
-        <div>
+        <div><Col md={10} lg={12} xs={12}>
+                                    <Card>
+                                        <Card.Body>
           <h2>{galleryData.title}</h2>
 
           {/* File Input */}
@@ -217,7 +221,10 @@ export default function GalleryDetail() {
           >
             Add Gallery
           </button>
-
+          </Card.Body>
+                                    </Card>
+                                </Col>
+                           
           {galleryData.ImagePaths && galleryData.ImagePaths.length > 0 ? (
             <Box sx={{ height: 400, width: '100%' }}>
               <DataGrid

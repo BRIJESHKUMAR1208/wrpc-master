@@ -112,7 +112,7 @@ import {Form3part2} from "./Website/components/Form3/obspart2.jsx";
 import Form3part2list from "./Website/components/Form3/VIewform3part2list.jsx";
 import {Quicklinkmenu} from "./Website/components/Footer/Quicklinkmenu.jsx";
 import {Getecrdatabyid} from "./Admin/Components/Form/GetECRdatabyid.jsx";
-
+import {Editform3data} from "./Website/components/websiteforms/Editform3data.jsx"
 function App() {
   const [sessionExpired, setSessionExpired] = useState(false);
   const storedUserString = localStorage.getItem("user");
@@ -202,7 +202,7 @@ function App() {
             <Route path="/custom/:id" element={<CustomDetail />} />
             <Route path="/footer/:id" element={<FooterDetails />} />
             <Route path="/gallery/:id" element={<GalleryDetail />} />
-            
+            <Route path="/editform3data/:id" element={<Editform3data />} />
             <Route path="*" element={<Errorfound />} />
             <Route path="/latestnews" element={<LatestNews/>} />
             <Route path="/form3part3/:id" element={<Form3part3/>} /> 
