@@ -699,7 +699,7 @@ className="round"
                       </div> */}
                       <div className="rgt-two">
                         {/* <img src={G20} alt="" /> */}
-                        <h2 className="h6" style={{ marginLeft: '50%' }}>Site Under Construction</h2>
+                        {/* <h2 className="h6" style={{ marginLeft: '50%' }}>Site Under Construction</h2> */}
                       </div>
                       <div className="rgt-three">
                         <img src={G20} alt="image" />

@@ -78,12 +78,8 @@ const MenuDetail = () => {
       <div >
       <div className="container inner-sec main-sec">
         <div className="box-sec">
-        <h2>
-  {Array.isArray(Menuoptions.menuname)
-    ? Menuoptions.menuname.find(item => item.languagetype === selectedLanguage)?.name
-    : Menuoptions.menuname}
-</h2>
-
+           <h2>{Menuoptions.menuname}</h2>
+  
         {getContent(
           Menuoptions.menu_id,
           Menuoptions.menu_url,
