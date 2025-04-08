@@ -447,7 +447,7 @@ export const EcrsubmissionForm = () => {
                                                             <div class="col-sm-2">
                                                                 <span style={{ color: "red" }}>{formErrors.formblock}</span>
                                                                 <input
-                                                                    type="date"
+                                                                    type="text"
                                                                     class="form-control"
                                                                     name="formblock"
                                                                     placeholder="Enter fromdate"
@@ -462,7 +462,7 @@ export const EcrsubmissionForm = () => {
                                                             <div class="col-sm-2">
                                                                 <span style={{ color: "red" }}>{formErrors.toblock}</span>
                                                                 <input
-                                                                    type="date"
+                                                                    type="text"
                                                                     class="form-control"
                                                                     name="toblock"
                                                                     placeholder="Enter fromdate"

@@ -17,7 +17,10 @@ const CmsDisplay = () => {
   const [isGalleryHovered, setIsGalleryHovered] = useState(false);
   const storedUserData = localStorage.getItem("user1");
   var user1 = JSON.parse(storedUserData);
-
+const languageLabels = {
+    1: { gallery: "Gallery", news: "Latest News" },
+    2: { gallery: "गैलरी", news: "ताजा खबर" }
+  };
   const dateOptions = [
     { id: 1, name: "DSMUI Account" },
     { id: 2, name: "REGIONAL ENERGY ACCOUNTS" },
@@ -33,14 +36,10 @@ const CmsDisplay = () => {
     { id: 12, name: "REA through New Software" },
     { id: 13, name: "New Software Sharing of Transmission Charges" },
   ];
-
   useEffect(() => {
-    const newSelectedLanguage = localStorage.getItem("selectedLanguage");
-    if (newSelectedLanguage) {
-      setSelectedLanguage(newSelectedLanguage);
-    }
-  }, []); // Empty dependency array to run only once when the component mounts
-
+    const lang = localStorage.getItem("selectedLanguage") || 1;
+    setSelectedLanguage(Number(lang));
+  }, []);
   useEffect(() => {
     async function fetchMenuData() {
 
@@ -74,10 +73,7 @@ const CmsDisplay = () => {
       }
     }
     fetchMenuData();
-    fetchMenuData();
     fetchGalleryData();
-    const newSelectedLanguage = localStorage.getItem("selectedLanguage");
-    setSelectedLanguage(newSelectedLanguage ? parseInt(newSelectedLanguage) : 1);
   }, [selectedLanguage]);
   const handleGalleryHover = () => {
     setIsGalleryHovered(true);
@@ -87,16 +83,21 @@ const CmsDisplay = () => {
     setIsGalleryHovered(false);
   };
   const renderGalleryList = () => {
+    // Filter gallery items based on selected language
+    const filteredGallery = galleryList.filter(item => 
+      item.language_id == selectedLanguage || !item.language_id
+    );
+
     return (
       <NavDropdown
-        title="Gallery"
+        title={selectedLanguage == 1 ? "Gallery" : "गैलरी"}
         id="navbar-gallery-dropdown"
         className="nav-link"
         style={{ color: 'white', marginLeft: '30px' }}
-        onMouseEnter={() => setIsGalleryHovered(true)} // Set hover state to true
-        onMouseLeave={() => setIsGalleryHovered(false)} // Set hover state to false
+        onMouseEnter={() => setIsGalleryHovered(true)}
+        onMouseLeave={() => setIsGalleryHovered(false)}
       >
-        {isGalleryHovered && galleryList.map((item) => (
+        {isGalleryHovered && filteredGallery.map((item) => (
           <NavDropdown.Item key={item.u_id} as={Link} to={`/gallery/${item.u_id}`}>
             {item.u_title}
           </NavDropdown.Item>
@@ -104,27 +105,7 @@ const CmsDisplay = () => {
       </NavDropdown>
     );
   };
-  // const renderSubMenu = (submenuList) => {
-  //   return (
-  //     <ul>
-  //       {submenuList.map((subMenuItem) => (
-  //         <li key={subMenuItem.menu_id}>
-  //            {subMenuItem.submenuList && subMenuItem.submenuList.length > 0 ? (
-  //           <a className="menu_list">{subMenuItem.menuname}</a>
-  //         ) : (
-  //           <Link to={"/menu/" + subMenuItem.menuurl}>
-  //           {subMenuItem.menuname}
-  //         </Link>
-  //         )}
-
-  //           {subMenuItem.submenuList && subMenuItem.submenuList.length > 0 &&
-  //             renderSubMenu(subMenuItem.submenuList)
-  //           }
-  //         </li>
-  //       ))}
-  //     </ul>
-  //   );
-  // };
+  
 
   const renderSubMenu = (submenuList) => {
     return (
@@ -268,22 +249,6 @@ const CmsDisplay = () => {
     <>
       <div className="main-nav">
 
-        {/* <nav id="navbar" className="navbar">
-      <div className="container-fluid nav-con">
-      <li>
-            <Link to={"/"}>
-              <i style={{ color: "white" }} className="fa fa-home"></i>
-            </Link>
-          </li>
-          {renderMenuItems(menudata)}
-          <i class="fa-solid fa-bars mobile-nav-toggle"></i>
-          </div>
-          <i class="bi bi-list mobile-nav-toggle"></i>
-        
-        </nav> */}
-
-
-
         <nav className="navbar navbar-expand-lg cus-nav navbar-light bg-blue">
           <div className="container-fluid con-nav">
           <Link to={"/"} aria-label="Go to homepage" style={{ padding: "10px", display: "inline-block" }}>
@@ -301,32 +266,44 @@ const CmsDisplay = () => {
             <div className="collapse navbar-collapse" id="navbar1">
               <ul className="navbar-nav">
                 {renderMenuItems(menudata)}
-                <li
-                  className="nav-item active"
-                  onMouseEnter={handleGalleryHover}
-                  onMouseLeave={handleGalleryLeave}
+                <li 
+                className="nav-item dropdown"
+                onMouseEnter={() => setIsGalleryHovered(true)}
+                onMouseLeave={() => setIsGalleryHovered(false)}
+              >
+                
+                <Link 
+                 
+                  className="nav-link" 
+                  style={{ color: 'white', marginLeft: '30px' }}
                 >
-                  <a className="nav-link dropdown-toggle" href="#" id="navbarGallery" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Gallery
-                  </a>
-                  {/* Show dropdown on hover */}
-                  {isGalleryHovered && (
-                    <ul className="dropdown-menu" aria-labelledby="navbarGallery">
-                      {galleryList.map((item) => (
-                        <li key={item.u_id}>
-                          <Link to={`/gallery/${item.u_id}`} className="dropdown-item">
-                            {item.u_title}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </li>
-                <li>
-                  <Link to="/latestnews" className="nav-link" style={{ color: 'white', marginLeft: '30px' }}>
-                    Latest News
-                  </Link>
-                </li>
+                 {languageLabels[selectedLanguage].gallery}
+                </Link>
+                {isGalleryHovered && galleryList.length > 0 && (
+                  <div className="dropdown-menu show">
+                    {galleryList.map((item) => (
+                      <Link
+                        key={item.u_id}
+                        to={`/gallery/${item.u_id}`}
+                        className="dropdown-item"
+                      >
+                        {item.u_title}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </li>
+
+              {/* Latest News Link */}
+              <li className="nav-item">
+                <Link 
+                  to="/latestnews" 
+                  className="nav-link" 
+                  style={{ color: 'white', marginLeft: '30px' }}
+                >
+                  {languageLabels[selectedLanguage].news}
+                </Link>
+              </li>
 
               </ul>
             </div>
