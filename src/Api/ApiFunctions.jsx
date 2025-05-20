@@ -5,9 +5,9 @@ import apis from './api.json'
 
 
 //export const BASE_URL = 'https://mum.wrpc.gov.in';
-export const BASE_URL = 'http://localhost:5141'; 
+//export const BASE_URL = 'http://localhost:5141'; 
  //export const BASE_URL = 'https://wrpcgov.com';
-//export const BASE_URL = 'https://wrpc.gov.in';
+export const BASE_URL = 'https://wrpc.gov.in';
 
 
 

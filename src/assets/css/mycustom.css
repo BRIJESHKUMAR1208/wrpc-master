@@ -61,6 +61,7 @@ section.main-sec {
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
+    background: #00245c !important;
 }
 
 span.yellow-txt {

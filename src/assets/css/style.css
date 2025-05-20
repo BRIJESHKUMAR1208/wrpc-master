@@ -319,6 +319,7 @@ a {
 
 .widget_list p {
 	color: #fff;
+	background-color: #01296b;
 }
 
 .navigation ul ul>li:hover>ul {
@@ -2108,6 +2109,8 @@ ul.report-sec {
 	color: #fff;
 	margin-bottom: 15px;
 	font-weight: 600;
+	/* background-color: #00245c; */
+	background-color: #01296b;
 }
 
 .widget_text ul {
@@ -2143,10 +2146,12 @@ ul.report-sec {
 
 .widget_service ul li {
 	margin-bottom: 10px;
+	background-color: #01296B;
 }
 
 .widget_service ul li:last-child {
 	margin-bottom: 0px;
+	background-color: #01296B;
 }
 
 .widget_service ul li a {
@@ -2163,6 +2168,7 @@ ul.report-sec {
 
 .widget_service ul li a:before {
 	color: #fff;
+	
 }
 
 .widget_service ul li a:hover:before {
@@ -7430,8 +7436,9 @@ h3.apg-album-title {
 
 .MuiTabs-root {
 	color: #fff;
-	background-color: #32b447;
+	/* background-color: #32b447; */
 	border-color: #ddd;
+	background-color: #1B5F29;
 }
 
 .custom-tab {

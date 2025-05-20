@@ -18,16 +18,12 @@ export const TopHeader = ({ selectedLanguage, handleLanguageChange }) => {
   const storedUserString1 = localStorage.getItem("user1");
   const navigate = useNavigate();
   const [showDropdown, setShowDropdown] = useState(false);
-
   const [isReading, setIsReading] = useState(false);
   let cand_name = '';
 
   if (storedUserString1) {
     const user1 = JSON.parse(storedUserString1);
     cand_name = user1?.cand_name || '';  // Safely access cand_name or set it to an empty string if not found
-  } else {
-    // Handle the case when storedUserString1 is null
-    //console.log('No user data found in localStorage');
   }
 
   const startReading = () => {
@@ -43,7 +39,6 @@ export const TopHeader = ({ selectedLanguage, handleLanguageChange }) => {
   };
 
   const handleChangePassword = () => {
-    // Redirect to the change password page
     navigate('/candchangepassword');
   };
 
@@ -55,8 +50,8 @@ export const TopHeader = ({ selectedLanguage, handleLanguageChange }) => {
   const languages = {
     1: "English",
     2: "हिंदी",
-    // Add more languages as needed
   };
+
   const handleSelectChange = (event) => {
     const selectedValue = event.target.value;
 
@@ -66,26 +61,24 @@ export const TopHeader = ({ selectedLanguage, handleLanguageChange }) => {
       navigate('/candidate/login');
     }
   };
+
   const handleSelectCandidate = (event) => {
     const selectedValue = event.target.value;
 
     if (selectedValue === '1') {
-      //navigate('/login');
       const currentLanguage = selectedLanguageA;
-      const languageType = localStorage.getItem("languagetype"); // Save the languagetype value
-
+      const languageType = localStorage.getItem("languagetype");
       localStorage.clear();
       if (languageType) {
         localStorage.setItem("languagetype", languageType);
       }
-
       setSelectedLanguageA(currentLanguage);
-      //localStorage.clear();
       window.location.reload("/");
     } else if (selectedValue === '2') {
       navigate('/candchangepassword');
     }
   };
+
   useEffect(() => {
     const updateDateTime = () => {
       const now = new Date();
@@ -110,20 +103,16 @@ export const TopHeader = ({ selectedLanguage, handleLanguageChange }) => {
       setCurrentTime(formattedTime);
     };
 
-    // Update the date and time every second
     const intervalId = setInterval(updateDateTime, 1000);
-
-    // Call it once to initialize the values
     updateDateTime();
-
-    // Clean up the interval on component unmount
     return () => clearInterval(intervalId);
   }, []);
+
   const handleSkipToMainContent = () => {
-    // Use JavaScript to scroll to the target element with the id "rgt-three"
-    const targetElement = document.getElementById("rgt-three");
+    const targetElement = document.getElementById("main-content");
     if (targetElement) {
       targetElement.scrollIntoView({ behavior: "smooth" });
+      targetElement.focus();
     }
   };
 
@@ -145,576 +134,446 @@ export const TopHeader = ({ selectedLanguage, handleLanguageChange }) => {
       themeStylesheet.setAttribute("href", `css/${newTheme}.css`);
     }
   };
+
   const handleLogout = () => {
     localStorage.clear();
     window.location.reload("/");
   };
 
   return (
-    <>
+    <header role="banner" aria-label="Website header">
       {parseInt(selectedLanguageA) === 1 ? (
-        <div>
-          <div>
-            <div>
-              <section className="top-b-section">
-                <div className="container-fluid nav-con">
-                  <div className="top-bar-section">
-                    <div className="top-bar-lft">
-                      <span className="bdr-rgt">{currentDate}</span>
-                      <span className="bdr-rgt">{currentTime}</span>
+        <>
+          <nav className="top-b-section" aria-label="Utility navigation">
+            <div className="container-fluid nav-con">
+              <div className="top-bar-section">
+               <div className="top-bar-lft">
+  <time className="bdr-rgt" dateTime={new Date().toISOString()}>
+    <span className="visually-hidden">Current date: </span>
+    {currentDate}
+  </time>
+
+  <span className="divider" aria-hidden="true"></span>
+
+  <time className="bdr-rgt" dateTime={new Date().toISOString()}>
+    <span className="visually-hidden">Current time: </span>
+    {currentTime}
+  </time>
+</div>
+
+
+
+
+                <div className="top-bar-rgt">
+                  <div className="bar3 bar-c">
+                    <button
+                      onClick={isReading ? stopReading : startReading}
+                      aria-pressed={isReading}
+                      className="screen-reader-toggle"
+                    >
+                      {isReading ? "Stop Reading" : "Start Reading"}
+                    </button>
+
+                  </div>
+
+                  <div className="bar4 bar-c">
+                    <ul role="list">
+                      <li>
+                        <button
+                          className={`white-contrast dash_link_nt ${theme === "dark" ? "active" : ""}`}
+                          onClick={() => toggleTheme("dark")}
+                          aria-label="Switch to dark theme"
+                          aria-pressed={theme === "dark"}
+                        >
+                          <i className="fa fa-square" aria-hidden="true"></i>
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          className={`black-contrast dash_link_nt ${theme === "color" ? "active" : ""}`}
+                          onClick={() => toggleTheme("color")}
+                          aria-label="Switch to light theme"
+                          aria-pressed={theme === "color"}
+                        >
+                          <i className="fa fa-square" aria-hidden="true"></i>
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div className="bar5 bar-c">
+                    <ul role="list" aria-label="Font size controls">
+                      <li className="ftsz-70p ml-10">
+                        <button
+                          onClick={decreaseFontSize}
+                          className="dash_link_nt"
+                          aria-label="Decrease font size"
+                        >
+                          A<sup className="topbar-sup-txt">-</sup>
+                        </button>
+                      </li>
+                      <li className="ftsz-90p">
+                        <button
+                          className="dash_link_nt"
+                          onClick={resetFontSize}
+                          aria-label="Reset font size to default"
+                        >
+                          A
+                        </button>
+                      </li>
+                      <li className="ftsz-110p">
+                        <button
+                          onClick={increaseFontSize}
+                          className="dash_link_nt"
+                          aria-label="Increase font size"
+                        >
+                          A<sup className="topbar-sup-txt">+</sup>
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div className="bar6 bar-c">
+                    <div className="language-box">
+                      <label htmlFor="languageDropdown" className="visually-hidden">
+                        Select language
+                      </label>
+                      <select
+                        id="languageDropdown"
+                        value={selectedLanguage}
+                        onChange={handleLanguageChange}
+                        aria-label="Select language"
+                        aria-haspopup="listbox"
+                      >
+                        {Object.keys(languages).map((langCode) => (
+                          <option key={langCode} value={langCode}>
+                            {languages[langCode]}
+                          </option>
+                        ))}
+                      </select>
                     </div>
+                  </div>
 
-                    {/* <div className="top-bar-lft">
-  <time className="bdr-rgt12" dateTime={currentDate} aria-label={`Current Date: ${currentDate}`}>
-    <span role="text"> {currentDate}</span>
-  </time>
-  <time className="bdr-rgt12" dateTime={currentTime} aria-label={`Current Time: ${currentTime}`}>
-    <span role="text"> {currentTime}</span>
-  </time>
-</div> */}
-
-
-
-                    <div className="top-bar-rgt">
-                      <div className="bar1 bar-c">
-                        {/* <form id="search-form" action="/" method="get">
-                          <div class="search-box">
-                            <input
-                              id="myInputhidden"
-                              type="hidden"
-                              name="lang"
-                              placeholder="Search...."
-                              class="round"
-                              value="en"
-                            />
-                            <input
-                              id="myInput"
-                              type="search"
-                              name="s"
-                              placeholder="Search...."
-                              class="round"
-                            />
-
-                            <button
-                              type="submit"
-                              class="corner"
-                              aria-label="Search...."
-                              title="Search...."
-                            >
-                              <i class="fa fa-search " aria-hidden="true"></i>
-                            </button>
-                          </div>
-                        </form> */}
-                      </div>
-                      {/* <div class="bar2 bar-c">
-                                                <p><a href="#">Screen Reader Access</a></p>
-                                            </div> */}
-                      {/* <div className="bar3 bar-c">
-                        <p>
-                          <Link href="#">Skip to main content</Link>
-
-                        </p>
-                      </div> */}
-                      <div className="bar3 bar-c">
-
+                  <div className="bar6 bar-c">
+                    <div className="language-box">
+                      {storedUserString ? (
+                        <button
+                          onClick={handleLogout}
+                          className="logout-button"
+                          aria-label="Logout"
+                        >
+                          Logout
+                        </button>
+                      ) : storedUserString1 ? (
+                        <div className="language-box">
+                          <label htmlFor="candidateActions" className="visually-hidden">
+                            Candidate actions
+                          </label>
+                          <select
+                            id="candidateActions"
+                            name="languagetype"
+                            className="dash_link_nt"
+                            onChange={handleSelectCandidate}
+                            aria-label="Candidate actions"
+                            aria-haspopup="listbox"
+                          >
+                            <option value="">Welcome, {cand_name}</option>
+                            <option value="1">Candidate Logout</option>
+                            <option value="2">Change Password</option>
+                          </select>
+                        </div>
+                      ) : (
                         <div>
-                          {isReading ? (
-                            <button onClick={stopReading}>Stop Reading</button>
-                          ) : (
-                            <button onClick={startReading}>
-                              Start Reading
-                            </button>
-                          )}
-                        </div>
-                      </div>
-                      <div className="bar4 bar-c">
-                        <ul>
-                          <li>
-                            <a
-                              href="#"
-                              className={`white-contrast dash_link_nt ${theme === "dark" ? "active" : ""}`}
-                              onClick={() => toggleTheme("dark")}
-                              title="Switch to dark theme"
-                              role="button"
-                              aria-label="Switch to dark theme"
-                              tabIndex="0"
-                            >
-                              <i className="fa fa-square" aria-hidden="true"></i>
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                              href="#"
-                              className={`black-contrast dash_link_nt ${theme === "color" ? "active" : ""}`}
-                              onClick={() => toggleTheme("color")}
-                              title="Switch to light theme"
-                              role="button"
-                              aria-label="Switch to light theme"
-                              tabIndex="0"
-                            >
-                              <i className="fa fa-square" aria-hidden="true"></i>
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
-
-                      <div className="bar5 bar-c">
-                        <ul>
-                          {/* <li>
-                                                        <Link to="/sitemap" className="topbar-icon" title="Sitemap">
-                                                            <i className="fa fa-sitemap" aria-hidden="true"></i>
-                                                        </Link>
-                                                    </li> */}
-
-                          <li className="ftsz-70p ml-10">
-                            <button
-                              onClick={decreaseFontSize}
-                              className="dash_link_nt"
-                              aria-label="Decrease font size"
-                            >
-                              A<sup className="topbar-sup-txt">-</sup>
-                            </button>
-                          </li>
-                          <li className="ftsz-90p">
-                            <button
-                              className="dash_link_nt"
-                              onClick={resetFontSize}
-                            >
-                              A
-                            </button>
-                          </li>
-                          <li className="ftsz-110p">
-                            <button
-                              onClick={increaseFontSize}
-                              className="dash_link_nt"
-                              aria-label="Decrease font size"
-                            >
-                              A<sup className="topbar-sup-txt">+</sup>
-                            </button>
-                          </li>
-                        </ul>
-                      </div>
-                      <div className="bar6 bar-c">
-                        <div className="language-box">
+                          <label htmlFor="loginType" className="visually-hidden">
+                            Login options
+                          </label>
                           <select
-                            aria-label="languagetype"
-                            id="languageDropdown"
-                            value={selectedLanguage}
-                            onChange={handleLanguageChange}
+                            id="loginType"
+                            name="languagetype"
+                            className="dash_link_nt"
+                            onChange={handleSelectChange}
+                            aria-haspopup="listbox"
                           >
-                            {Object.keys(languages).map((langCode) => (
-                              <option key={langCode} value={langCode}>
-                                {languages[langCode]}
-                              </option>
-                            ))}
+                            {parseInt(selectedLanguage) === 1 ? (
+                              <>
+                                <option value="">--- Login ---</option>
+                                <option value="1">Admin Login</option>
+                                <option value="2">Candidate Login</option>
+                              </>
+                            ) : (
+                              <>
+                                <option value="">--- लॉग इन ---</option>
+                                <option value="1">व्यवस्थापक लॉगिन</option>
+                                <option value="2">अभ्यर्थी लॉगिन</option>
+                              </>
+                            )}
                           </select>
-
-                        </div>
-                      </div>
-                      <div className="bar6 bar-c">
-
-
-
-                        <div className="language-box">
-                          {storedUserString ? (
-                            // Logout Button
-                            <button onClick={handleLogout} className="logout-button">
-                              Logout
-                            </button>
-                          ) : storedUserString1 ? (
-                            // Candidate Menu (Logout & Change Password)
-                            <div className="language-box">
-                              <label htmlFor="candidateActions" className="visually-hidden">
-                                Candidate Actions
-                              </label>
-                              <select
-                                id="candidateActions"
-                                name="languagetype"
-                                className="dash_link_nt"
-                                onChange={handleSelectCandidate}
-                                aria-label="Candidate Actions"
-                              >
-                                <option value="">Welcome, {cand_name}</option>
-                                <option value="1">Candidate Logout</option>
-                                <option value="2">Change Password</option>
-                              </select>
-                            </div>
-                          ) : (
-                            // Language Selection & Login Options
-                            <div>
-                              <label htmlFor="loginType" className="visually-hidden">
-                                Select Login Type
-                              </label>
-                              <select
-                                id="loginType"
-                                name="languagetype"
-                                className="dash_link_nt"
-                                aria-label="Select login type"
-                                onChange={handleSelectChange}
-                              >
-                                {parseInt(selectedLanguage) === 1 ? (
-                                  <>
-                                    <option value="">--- Login ---</option>
-                                    <option value="1">Admin Login</option>
-                                    <option value="2">Candidate Login</option>
-                                  </>
-                                ) : (
-                                  <>
-                                    <option value="">--- लॉग इन ---</option>
-                                    <option value="1">व्यवस्थापक लॉगिन</option>
-                                    <option value="2">अभ्यर्थी लॉगिन</option>
-                                  </>
-                                )}
-                              </select>
-                            </div>
-                          )}
                         </div>
 
-
-                        {/* <button><Link to='/candidate/login'>Login</Link></button> */}
-
-                      </div>
+                      )}
                     </div>
                   </div>
                 </div>
-              </section>
+              </div>
             </div>
-            <div className="top-header-sec">
-              <div className="container">
-                <div className="row">
-                  <div className="col-md-8 col-sm-6">
-                    <div className="head-logo h-100">
-                      <h2 className="logo w-100">
-                        <a
-                          href="/"
-                          title="Home"
-                          rel="home"
-                          className="header__logo row w-100"
-                          id="logo"
-                        >
-                          <div className="col-md-3">
-                            <div className="custom-logo">
-                              {/* <img
-                                class="national_emblem "
-                                // src={Logo}
+          </nav>
 
-                                src={footerLogo}
-                                alt="national emblem"
-                              /> */}
-                              <img
-                                className="national_emblem"
-                                src={footerLogo}
-                                alt="National Emblem"
-                                style={{ maxWidth: "100%", height: "auto", objectFit: "contain" }}
-                              />
-
-                            </div>
+          <div className="top-header-sec">
+            <div className="container">
+              <div className="row">
+                <div className="col-md-8 col-sm-6">
+                  <div className="head-logo h-100">
+                    <h1 className="logo w-100">
+                      <Link
+                        to="/"
+                        title="Home"
+                        rel="home"
+                        className="header__logo row w-100"
+                        id="logo"
+                        aria-label="Western Regional Power Committee"
+                      >
+                        <div className="col-md-3">
+                          <div className="custom-logo">
+                            <img
+                              className="national_emblem"
+                              src={footerLogo}
+                              alt="National Emblem"
+                              style={{ maxWidth: "100%", height: "auto", objectFit: "contain" }}
+                            />
                           </div>
-                          <div className="col-md-9 d-flex align-items-center justify-content-end">
-                            <em>
-                              <span className="text-center">पश्चिम क्षेत्रीय विद्युत् समिति </span>
-                              <span> Western Regional Power Committee</span>
-                            </em>
-                          </div>
-                        </a>
-                      </h2>
-                    </div>
+                        </div>
+                        <div className="col-md-9 d-flex align-items-center justify-content-end">
+                          <em>
+                            <span className="text-center">पश्चिम क्षेत्रीय विद्युत् समिति </span>
+                            <span> Western Regional Power Committee</span>
+                          </em>
+                        </div>
+                      </Link>
+                    </h1>
                   </div>
-                  <div className="col-md-4 col-sm-6">
-                    <div className="head-right">
-                      {/* <div class="rgt-one">
-                        <img src={swatchBarath} alt="" />
-                      </div> */}
-                      <div className="rgt-two">
-                        {/* <h6>Site Under Construction</h6> */}
-                      </div>
-                      <div className="rgt-three">
-                        <img src={G20} alt="image" />
-                      </div>
-
-
+                </div>
+                <div className="col-md-4 col-sm-6">
+                  <div className="head-right">
+                    <div className="rgt-three" id="main-content" tabIndex="-1">
+                      <img src={G20} alt="G20 Logo" />
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </>
       ) : (
-        <div>
-          <div>
-            <div>
-              <section className="top-b-section">
-                <div className="container-fluid nav-con">
-                  <div className="top-bar-section">
-                    <div className="top-bar-lft">
-                      <p className="bdr-rgt">{currentDate}</p>
-                      <p className="bdr-rgt">{currentTime}</p>
+        <>
+          <nav className="top-b-section" aria-label="उपयोगिता नेविगेशन">
+            <div className="container-fluid nav-con">
+              <div className="top-bar-section">
+                <div className="top-bar-lft">
+                  <time
+                    className="bdr-rgt"
+                    dateTime={new Date().toISOString()}
+                    aria-label={`वर्तमान तिथि: ${currentDate}`}
+                  >
+                    {currentDate}
+                  </time>
+                  <time
+                    className="bdr-rgt"
+                    dateTime={new Date().toISOString()}
+                    aria-label={`वर्तमान समय: ${currentTime}`}
+                  >
+                    {currentTime}
+                  </time>
+                </div>
+                <div className="top-bar-rgt">
+                  <div className="bar3 bar-c">
+                    <button
+                      onClick={isReading ? stopReading : startReading}
+                      aria-label={isReading ? "स्क्रीन रीडर बंद करें" : "स्क्रीन रीडर शुरू करें"}
+                      aria-pressed={isReading}
+                      className="screen-reader-toggle"
+                    >
+                      {isReading ? "पढ़ना बंद करें" : "पढ़ना शुरू करें"}
+                    </button>
+                  </div>
+
+                  <div className="bar4 bar-c">
+                    <ul role="list">
+                      <li>
+                        <button
+                          className={`white-contrast dash_link_nt ${theme === "dark" ? "active" : ""}`}
+                          onClick={() => toggleTheme("dark")}
+                          aria-label="डार्क थीम पर स्विच करें"
+                          aria-pressed={theme === "dark"}
+                        >
+                          <i className="fa fa-square" aria-hidden="true"></i>
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          className={`black-contrast dash_link_nt ${theme === "color" ? "active" : ""}`}
+                          onClick={() => toggleTheme("color")}
+                          aria-label="लाइट थीम पर स्विच करें"
+                          aria-pressed={theme === "color"}
+                        >
+                          <i className="fa fa-square" aria-hidden="true"></i>
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div className="bar5 bar-c">
+                    <ul role="list" aria-label="फ़ॉन्ट आकार नियंत्रण">
+                      <li className="ftsz-70p ml-10">
+                        <button
+                          onClick={decreaseFontSize}
+                          className="dash_link_nt"
+                          aria-label="फ़ॉन्ट आकार घटाएं"
+                        >
+                          A<sup className="topbar-sup-txt">-</sup>
+                        </button>
+                      </li>
+                      <li className="ftsz-90p">
+                        <button
+                          className="dash_link_nt"
+                          onClick={resetFontSize}
+                          aria-label="डिफ़ॉल्ट फ़ॉन्ट आकार पर रीसेट करें"
+                        >
+                          A
+                        </button>
+                      </li>
+                      <li className="ftsz-110p">
+                        <button
+                          onClick={increaseFontSize}
+                          className="dash_link_nt"
+                          aria-label="फ़ॉन्ट आकार बढ़ाएं"
+                        >
+                          A<sup className="topbar-sup-txt">+</sup>
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div className="bar6 bar-c">
+                    <div className="language-box">
+                      <label htmlFor="languageDropdownHindi" className="visually-hidden">
+                        भाषा चुनें
+                      </label>
+                      <select
+                        id="languageDropdownHindi"
+                        value={selectedLanguage}
+                        onChange={handleLanguageChange}
+                        aria-label="भाषा चुनें"
+                        aria-haspopup="listbox"
+                      >
+                        {Object.keys(languages).map((langCode) => (
+                          <option key={langCode} value={langCode}>
+                            {languages[langCode]}
+                          </option>
+                        ))}
+                      </select>
                     </div>
-                    <div className="top-bar-rgt">
-                      <div className="bar1 bar-c">
-                        <form id="search-form" action="/" method="get">
-                          <div className="search-box">
-                            <input
-                              id="myInputhidden"
-                              type="hidden"
-                              name="lang"
-                              placeholder="Search...."
-                              className="round"
-                              value="en"
-                            />
-                            <input
-                              id="myInput"
-                              type="search"
-                              name="s"
-                              placeholder="
-खोज...."
-className="round"
-                            />
+                  </div>
 
-                            <button
-                              type="submit"
-                              className="corner"
-                              aria-label="Search...."
-                              title="
-खोज...."
-                            >
-                              <i className="fa fa-search " aria-hidden="true"></i>
-                            </button>
-                          </div>
-                        </form>
-                      </div>
-                      <div className="bar2 bar-c">
-                        <p>
-                          <a href="#">स्क्रीन रीडर एक्सेस</a>
-                        </p>
-                      </div>
-                      <div className="bar3 bar-c">
-                        <p>
-                          <a
-                            href="#rgt-three"
-                            onClick={handleSkipToMainContent}
-                          >
-                            मुख्य विषयवस्तु में जाएं
-                          </a>
-                        </p>
-                      </div>
-                      <div className="bar4 bar-c">
-                        {/* <ul>
-                                                    <li>
-                                                        <a href="#" class="white-contrast dash_link_nt" id="dark-mode-button"
-                                                            aria-pressed="false" title="Black" role="button">
-                                                            <i class="fa fa-square" aria-hidden="true"></i>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#" class="black-contrast dash_link_nt" id="light-mode-button"
-                                                            aria-pressed="true" title="white" role="button">
-                                                            <i class="fa fa-square" aria-hidden="true"></i>
-                                                        </a>
-                                                    </li>
-                                                </ul> */}
-                        <ul>
-                          <li>
-                            <a
-                              href="#"
-                              className={`white-contrast dash_link_nt ${theme === "dark" ? "active" : ""
-                                }`}
-                              onClick={() => toggleTheme("dark")}
-                              title="Black"
-                              role="button"
-                            >
-                              <i
-                                className="fa fa-square"
-                                aria-hidden="true"
-                              ></i>
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                              href="#"
-                              className={`black-contrast dash_link_nt ${theme === "light" ? "active" : ""
-                                }`}
-                              onClick={() => toggleTheme("light")}
-                              title="White"
-                              role="button"
-                            >
-                              <i
-                                className="fa fa-square"
-                                aria-hidden="true"
-                              ></i>
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
-                      <div className="bar5 bar-c">
-                        <ul>
-                          <li className="ftsz-70p ml-10">
-                            <button className="dash_link_nt" aria-label="Decrease font size">A<sup className="topbar-sup-txt">-</sup></button>
-                          </li>
-                          <li className="ftsz-90p">
-                            <button className="dash_link_nt" aria-label="Reset font size">A</button>
-                          </li>
-                          <li className="ftsz-110p">
-                            <button className="dash_link_nt" aria-label="Increase font size">A<sup className="topbar-sup-txt">+</sup></button>
-                          </li>
-                        </ul>
-
-                        {/* <ul>
-                          <li>
-                            <a href="#" className="topbar-icon" title="Sitemap">
-                              <i
-                                className="fa fa-sitemap"
-                                aria-hidden="true"
-                              ></i>
-                            </a>
-                          </li>
-
-                          <li className="ftsz-70p ml-10">
-                            <button
-                              onClick={decreaseFontSize}
-                              className="dash_link_nt"
-                              aria-label="Decrease font size"
-                            >
-                              A<sup className="topbar-sup-txt">-</sup>
-                            </button>
-                          </li>
-                          <li className="ftsz-90p">
-                            <button
-                              className="dash_link_nt"
-                              onClick={resetFontSize}
-                              aria-label="Decrease font size"
-                            >
-                              A
-                            </button>
-                          </li>
-                          <li className="ftsz-110p">
-                            <button
-                              onClick={increaseFontSize}
-                              className="dash_link_nt"
-                              aria-label="Decrease font size"
-                            >
-                              A<sup className="topbar-sup-txt">+</sup>
-                            </button>
-                          </li>
-                        </ul> */}
-                      </div>
-                      <div className="bar6 bar-c">
+                  <div className="bar6 bar-c">
+                    <div className="language-box">
+                      {storedUserString ? (
+                        <button
+                          onClick={handleLogout}
+                          className="logout-button"
+                          aria-label="लॉगआउट"
+                        >
+                          लॉगआउट
+                        </button>
+                      ) : storedUserString1 ? (
                         <div className="language-box">
+                          <label htmlFor="candidateActionsHindi" className="visually-hidden">
+                            उम्मीदवार क्रियाएँ
+                          </label>
                           <select
-                            id="languageDropdown"
-                            value={selectedLanguage}
-                            onChange={handleLanguageChange}
-                            aria-label="select language"
+                            id="candidateActionsHindi"
+                            name="languagetype"
+                            className="dash_link_nt"
+                            onChange={handleSelectCandidate}
+                            aria-label="उम्मीदवार क्रियाएँ"
+                            aria-haspopup="listbox"
                           >
-                            {Object.keys(languages).map((langCode) => (
-                              <option key={langCode} value={langCode}>
-                                {languages[langCode]}
-                              </option>
-                            ))}
+                            <option value="">स्वागत है, {cand_name}</option>
+                            <option value="1">उम्मीदवार लॉगआउट</option>
+                            <option value="2">पासवर्ड बदलें</option>
                           </select>
                         </div>
-                      </div>
-
-                      <div className="bar6 bar-c">
-                        <div className="language-box">
-                          {storedUserString ? (
-                            <Link to="/" className="logout-button">Logout</Link>
-                          ) : (
-                            <>
-                              <label htmlFor="loginType" className="visually-hidden">
-                                Select Login Type
-                              </label>
-                              <select
-                                id="loginType"
-                                name="languagetype"
-                                className="dash_link_nt"
-                                aria-label="Select login type"
-                                onChange={handleSelectChange}
-                              >
-                                {parseInt(selectedLanguage) === 1 ? (
-                                  <>
-                                    <option value="">--- Login ---</option>
-                                    <option value="1">Admin Login</option>
-                                    <option value="2">Candidate Login</option>
-                                  </>
-                                ) : (
-                                  <>
-                                    <option value="">--- लॉग इन ---</option>
-                                    <option value="1">व्यवस्थापक लॉगिन</option>
-                                    <option value="2">अभ्यर्थी लॉगिन</option>
-                                  </>
-                                )}
-                              </select>
-                            </>
-                          )}
+                      ) : (
+                        <div>
+                          <label htmlFor="loginTypeHindi" className="visually-hidden">
+                            लॉगिन विकल्प
+                          </label>
+                          <select
+                            id="loginTypeHindi"
+                            name="languagetype"
+                            className="dash_link_nt"
+                            aria-label="लॉगिन प्रकार चुनें"
+                            onChange={handleSelectChange}
+                            aria-haspopup="listbox"
+                          >
+                            <option value="">--- लॉग इन ---</option>
+                            <option value="1">व्यवस्थापक लॉगिन</option>
+                            <option value="2">अभ्यर्थी लॉगिन</option>
+                          </select>
                         </div>
-                      </div>
-
-
-
+                      )}
                     </div>
                   </div>
                 </div>
-              </section>
+              </div>
             </div>
-            <div className="top-header-sec">
-              <div className="container">
-                <div className="row">
-                  <div className="col-md-8 col-sm-6">
-                    <div className="head-logo h-100">
-                      <h2 className="logo w-100">
-                        <a
-                          href="/"
-                          title="Home"
-                          rel="home"
-                          className="header__logo row w-100"
-                          id="logo"
-                        >
-                          <div className="col-md-3">
-                            <div className="custom-logo">
-                              <img
-                                className="national_emblem w-50"
-                                // src={Logo}
-                                src={footerLogo}
-                                alt="national emblem"
-                              />
-                            </div>
-                          </div>
-                          <div className="col-md-8 d-flex align-items-center justify-content-end">
-                            <em>
-                              <span className="text-center">पश्चिम क्षेत्रीय विद्युत् समिति </span>
-                              <span> Western Regional Power Committee</span>
-                            </em>
-                          </div>
+          </nav>
 
-                        </a>
-                      </h2>
+          <div className="top-header-sec">
+            <div className="container">
+              <div className="row">
+                <div className="col-md-8 col-sm-6">
+                  <div className="head-logo h-100">
+                    <h1 className="logo w-100">
+                      <Link
+                        to="/"
+                        title="होम"
+                        rel="home"
+                        className="header__logo row w-100"
+                        id="logo-hindi"
+                        aria-label="पश्चिम क्षेत्रीय विद्युत् समिति"
+                      >
+                        <div className="col-md-3">
+                          <div className="custom-logo">
+                            <img
+                              className="national_emblem"
+                              src={footerLogo}
+                              alt="राष्ट्रीय प्रतीक"
+                              style={{ maxWidth: "100%", height: "auto", objectFit: "contain" }}
+                            />
+                          </div>
+                        </div>
+                        <div className="col-md-9 d-flex align-items-center justify-content-end">
+                          <em>
+                            <span className="text-center">पश्चिम क्षेत्रीय विद्युत् समिति </span>
+                            <span> Western Regional Power Committee</span>
+                          </em>
+                        </div>
+                      </Link>
+                    </h1>
+                  </div>
+                </div>
+                <div className="col-md-4 col-sm-6">
+                  <div className="head-right">
+                    <div className="rgt-three" id="main-content" tabIndex="-1">
+                      <img src={G20} alt="जी20 लोगो" />
                     </div>
                   </div>
-                  <div className="col-md-4 col-sm-6">
-                    <div className="head-right d-flex flex-end">
-                      {/* <div class="rgt-one">
-                        <img src={swatchBarath} alt="" />
-                      </div> */}
-                      <div className="rgt-two">
-                        {/* <img src={G20} alt="" /> */}
-                        {/* <h2 className="h6" style={{ marginLeft: '50%' }}>Site Under Construction</h2> */}
-                      </div>
-                      <div className="rgt-three">
-                        <img src={G20} alt="image" />
-                      </div>
-
-                    </div>
-
-                  </div>
-
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </>
       )}
-    </>
+    </header>
   );
 };
