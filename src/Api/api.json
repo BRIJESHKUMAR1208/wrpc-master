@@ -39,7 +39,7 @@
     "aboutus":"/api/About",
     "commerical":"/api/Commercial/",
     "commericaldata":"api/Commercial/Getcommtype/",
-    "customdata":"/Api/TopMenu/customdata",
+    "customdata":"/api/TopMenu/customdata",
     "customlist":"/api/TopMenu/Getcustom_list",
     "newuser":"/api/user",  
     "updateplanmonitorning":"/api/TPPA_Plan_Monitoring/put/",

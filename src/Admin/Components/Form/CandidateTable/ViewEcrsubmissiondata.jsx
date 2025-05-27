@@ -53,12 +53,12 @@ export default function Ecrsubmissionlist() {
     const headers = [
         { label: 'From Date (\'yyyy-mm-dd\')', key: 'From Date' },
         { label: 'To Date (\'yyyy-mm-dd\')', key: 'To Date' },
-        { label: 'Type (MTOA/STOA)', key: 'Type' },
+        { label: 'Type(GNA/TGNA)', key: 'Type' },
         { label: 'From Utility', key: 'From Utility' },
         { label: 'To Utility', key: 'To Utility' },
         { label: 'Approval No', key: 'Approval No' },
-        { label: 'Energy MW', key: 'Energy MW' },
-        { label: 'PPA Rate (paisa/Kwh)', key: 'PPA Rate (paisa/Kwh)' }
+        { label: 'PPA_rate(Rs./MWHr)', key: 'PPA Rate (paisa/Kwh)' },        
+        { label: 'Energy(MW)', key: 'Energy MW' }
     ];
 
     const gridColumns = [

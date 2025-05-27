@@ -1,9 +1,9 @@
 import axios from "axios";
 
 const instance = axios.create({
-  //  baseURL: "http://localhost:5141/",
+  baseURL: "http://localhost:5141/",
   //  // baseURL: "https://wrpcgov.com/",
-  baseURL: "https://wrpc.gov.in/",
+  // baseURL: "https://wrpc.gov.in/",
    // baseURL : 'https://mum.wrpc.gov.in/',
 });
 

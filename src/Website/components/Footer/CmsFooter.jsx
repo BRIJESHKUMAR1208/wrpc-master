@@ -34,11 +34,11 @@ export const CmsFooter = () => {
         <div>
           <footer>
             <div className="widget_wrap overlay">
-            <div className="container-fluid footer-con">
+              <div className="container-fluid footer-con">
                 <div className="row">
                   <div className="col-md-6 col-sm-6">
-                  <section className="widget_list" aria-labelledby="contact-title">
-                 <h4 id="contact-title" className="widget_title">Contact Us</h4>
+                    <section className="widget_list" aria-labelledby="contact-title">
+                      <h4 id="contact-title" className="widget_title">Contact Us</h4>
 
                       {menudata.map((i) => {
                         if (i.u_footertype === 3) {
@@ -70,7 +70,7 @@ export const CmsFooter = () => {
                                     <a href={item.u_file} target="_blank">
                                       {item.u_tittle_name}
                                     </a>
-                                    
+
                                   )}
                                   {item.u_contenttype === 2 && (
                                     <Link to={`/footer/${item.u_id}`}>
@@ -151,22 +151,22 @@ export const CmsFooter = () => {
                   <div className="col-md-3">
                     <div className="city_top_social">
                       <ul>
-                      <li>
+                        {/* <li>
                             <a href="#">
                               <i className="fa-brands fa-facebook"></i>                              
                               <span className="visually-hidden">Facebook</span>
                             </a>
-                          </li>
-                          <li>
-                            <a href="#">
-                              <i className="fa-brands fa-twitter"></i>
-                              
-                              <span className="visually-hidden">Twitter</span>
-                            </a>
-                          </li>
+                          </li> */}
+                        <li>
+                          <a href="https://x.com/Wrpcmumbai" target="_blank" rel="noopener noreferrer">
+                            <i className="fa-brands fa-twitter"></i>
 
-                          <li>
-                            <a href="#">
+                            <span className="visually-hidden">Twitter</span>
+                          </a>
+                        </li>
+
+                        {/* <li>
+                            <a href="">
                               <i className="fa-brands fa-linkedin-in"></i>
                               <span className="visually-hidden">Linkedin</span>
                             </a>
@@ -182,7 +182,7 @@ export const CmsFooter = () => {
                               <i className="fa-brands fa-google"></i>
                               <span className="visually-hidden">Google</span>
                             </a>
-                          </li>
+                          </li> */}
                       </ul>
                     </div>
                   </div>
@@ -310,26 +310,26 @@ export const CmsFooter = () => {
                         </p>
                         (वेबसाइट अंतिम अद्यतन तिथि: 14-जनवरी-2025)
                       </div>
-                      
+
                     </div>
                     <div className="col-md-3">
                       <div className="city_top_social">
                         <ul>
-                          <li>
+                          {/* <li>
                             <a href="https://www.facebook.com/">
                               <i className="fa-brands fa-facebook"></i>                              
                               <span className="visually-hidden">Facebook</span>
                             </a>
-                          </li>
+                          </li> */}
                           <li>
-                            <a href="https://x.com/">
-                              <i className="fa-brands fa-twitter"></i>
-                              
-                              <span className="visually-hidden">Twitter</span>
+                            <a href="https://x.com/Wrpcmumbai" target="_blank" rel="noopener noreferrer">
+                              <i class="fa-brands fa-twitter"></i>
+                              <span class="visually-hidden">Twitter</span>
                             </a>
                           </li>
 
-                          <li>
+
+                          {/* <li>
                             <a href="https://www.linkedin.com/">
                               <i className="fa-brands fa-linkedin-in"></i>
                               <span className="visually-hidden">Linkedin</span>
@@ -346,7 +346,7 @@ export const CmsFooter = () => {
                               <i className="fa-brands fa-google"></i>
                               <span className="visually-hidden">Google</span>
                             </a>
-                          </li>
+                          </li> */}
                         </ul>
                       </div>
                     </div>
