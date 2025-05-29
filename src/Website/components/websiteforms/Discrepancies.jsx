@@ -52,6 +52,7 @@ const Discrepancies = () => {
   };
 
   const handleObservationAChange = (event) => {
+    debugger;
     setObservationA(event.target.value);
     if (substation && event.target.value && observationB) {
       fetchData(substation, event.target.value, observationB); // Fetch data when Category A observation is selected
@@ -172,10 +173,12 @@ const Discrepancies = () => {
                           <TableCell>{item.kv_level}</TableCell>
                           <TableCell>{item.owner}</TableCell>
                           <TableCell>{item.date_of_audit}</TableCell>
-                          <TableCell>{item.cat_a_deficiencies}</TableCell>
+                          {/* <TableCell>{item.cat_a_deficiencies}</TableCell> */}
+                           <TableCell>{observationA}</TableCell>
                           <TableCell>{item.pcmreview_cata}</TableCell>
                           <TableCell>{item.attended_cat_a}</TableCell>
-                          <TableCell>{item.cat_b_deficiencies}</TableCell>
+                           <TableCell>{observationB}</TableCell>
+                          {/* <TableCell>{item.cat_b_deficiencies}</TableCell> */}
                           <TableCell>{item.pcmreview_catb}</TableCell>
                           <TableCell>{item.attended_cat_b}</TableCell>
                           <TableCell>{item.admin_remark}</TableCell>
