@@ -604,6 +604,7 @@ footer .widget_wrap {
 }
 .widget_copyright .city_top_social ul li a {
     border: 2px solid #00245c;
+    background-color: white;
 }
 
 .container-fluid.footer-con {
