@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Button, Card, Col, Container, Form, Spinner } from 'react-bootstrap';
-// import 'bootstrap/dist/css/bootstrap.css';
 import { CmsFooter } from '../../components/Footer/CmsFooter';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-// import { TopHeader } from '../../components/TopHeader/TopHeader';
 import apiclient from '../../../Api/ApiClient';
 import { Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import apis from '../../../Api/api.json'
@@ -14,17 +12,17 @@ import { useNavigate } from 'react-router-dom';
 
 export const EcrsubmissionForm = () => {
     const recommondationRef = useRef();
-    const [dropdownOptions, setDropdownOptions] = useState([]);
     const [selectedRole, setSelectedRole] = useState('');
-    const [selectedFile1, setSelectedFile1] = useState('');
-    const [selectedFile2, setSelectedFile2] = useState('');
+    const [selectedFile1, setSelectedFile1] = useState(null); // Initialize with null for file inputs
+    const [selectedFile2, setSelectedFile2] = useState(null); // Initialize with null for file inputs
     const [formErrors, setFormErrors] = useState({});
+    const [formErrorssubmit, setFormErrorssubmit] = useState({});
     const [successDialogOpen, setSuccessDialogOpen] = useState(false);
     const [getuser, setuser] = useState('');
     const [entities, setEntities] = useState([]);
     const [formData, setFormData] = useState({
-
         entityname: '',
+        subentityname: '',
         installedcapacity: '',
         beneficiary: '',
         ppa_quantum: '',
@@ -33,233 +31,329 @@ export const EcrsubmissionForm = () => {
         approvalnumber: '',
         fromdate: '',
         todate: '',
-        ecrdata: '',
-        copyofdata: '',
-        formblock:'',
-        toblock:''
+        // ecrdata and copyofdata are handled by selectedFile1/2
+        fromblock: '',
+        toblock: ''
     });
 
-    // New state variables for confirmation dialog and loading
+    // New state variable to hold the list of forms
+    const [submittedFormsList, setSubmittedFormsList] = useState([]);
+
     const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [entityname, setEntityName] = useState("");
+    const [entitynameFromLocalStorage, setEntityNameFromLocalStorage] = useState(""); // Renamed for clarity
     const navigate = useNavigate();
+
     useEffect(() => {
+        debugger;
         const storedEntityName = localStorage.getItem("entityname");
         if (storedEntityName) {
-            setEntityName(storedEntityName);
+            setEntityNameFromLocalStorage(storedEntityName);
         }
     }, []);
 
-   
     const handleRoleChange = (event) => {
         setSelectedRole(event.target.value);
     };
 
     const handleChange = (event) => {
         const { name, value } = event.target;
-        setSelectedRole(event.target.value);
+
+        // Restrict only digits for fromblock and toblock
+        if ((name === "fromblock" || name === "toblock") && !/^\d*$/.test(value)) {
+            return;
+        }
+
         setFormData((prevFormData) => ({
             ...prevFormData,
             [name]: value,
         }));
+
+        // Optional: Clear form errors
+        setFormErrors({
+            ...formErrors,
+            [name]: '',
+        });
     };
+
     const handleFileChange2 = (event) => {
         const file = event.target.files[0];
-
         if (file) {
-            // File is a PDF
             setSelectedFile2(file);
-
-            // You can perform additional actions here if needed
         } else {
-            // File is not a PDF
-            alert('Please upload a  file.');
+            alert('Please upload a file for ECR data.');
         }
     };
+
     const handleFileChange1 = (event) => {
         const file = event.target.files[0];
-
         if (file) {
-            // File is a PDF
             setSelectedFile1(file);
-
-            // You can perform additional actions here if needed
         } else {
-            // File is not a PDF
-            alert('Please upload a  file.');
+            alert('Please upload a file for Signed copy of AS format.');
         }
     };
+
     const validateForm = () => {
         const errors = {};
 
-        if (!formData.Substation) {
-            errors.Substation = "Please enter substation";
-        }
+        // Removed fields that are not in formData or are not explicitly validated
+        // For instance, 'Substation', 'Owner', 'kV_Level', 'NameElement', 'Protection', 'MakeOfRelay', 'SrNoOfRelay', 'Remarks'
+        // were in your validateForm but not in your formData state or displayed in the JSX.
+        // I'm assuming they are either removed or were placeholder validations.
+        // I've kept the validations for fields present in your formData.
 
-        if (!formData.Owner) {
-            errors.Owner = "Please enter owner";
-        }
-
-        if (!formData.kV_Level) {
-            errors.kV_Level = "Please enter kv level";
-        }
-        if (!formData.NameElement) {
-            errors.NameElement = "Please enter name element";
-        }
-        if (!formData.Protection) {
-            errors.Protection = "Please enter";
-        }
-        if (!formData.MakeOfRelay) {
-            errors.MakeOfRelay = "Input your values";
-        }
-        if (!formData.SrNoOfRelay) {
-            errors.SrNoOfRelay = "Input your values";
-        }
-        // if (!selectedFile) {
-        //     errors.selectedFile = "Input your values";
+        // if (!formData.entityname) {
+        //     errors.entityname = "Please enter  entity name";
         // }
-        if (!formData.Remarks) {
-            errors.Remarks = "Please enter remarks";
+        if (!formData.subentityname) {
+            errors.subentityname = "Please enter sub entity name";
         }
-
-        if (!selectedRole) {
-            errors.selectedRole = "Role is required";
+        if (!formData.beneficiary) {
+            errors.beneficiary = "Please enter beneficiary";
         }
+        if (!formData.ppa_quantum) {
+            errors.ppa_quantum = "Please enter PPA Quantum";
+        }
+        if (!formData.ppa_rate) {
+            errors.ppa_rate = "Please enter PPA Rate";
+        }
+        if (!formData.type) {
+            errors.type = "Please select type";
+        }
+        if (!formData.approvalnumber) {
+            errors.approvalnumber = "Please enter approval number";
+        }
+        if (!formData.fromdate) {
+            errors.fromdate = "Please select from date";
+        }
+        if (!formData.todate) {
+            errors.todate = "Please select to date";
+        }
+        // if (!selectedFile2) {
+        //     errors.ecrdata = "Please upload ECR data";
+        // }
+        // if (!selectedFile1) {
+        //     errors.copyofdata = "Please upload signed copy of AS format";
+        // }
+        // if (!formData.fromblock) {
+        //     errors.fromblock = "Please enter from block";
+        // }
+        // if (!formData.toblock) {
+        //     errors.toblock = "Please enter to block";
+        // }
 
         setFormErrors(errors);
         return Object.keys(errors).length === 0;
     };
 
-    const handleSubmit = async (event) => {
+
+    const handleAddToList = () => {
+        if (validateForm()) {
+            setSubmittedFormsList((prevList) => [...prevList, { ...formData }]);   //copyofdata: selectedFile1
+            // Clear the form after adding to the list
+            setFormData({
+                entityname: '',
+                subentityname: '',
+                installedcapacity: '',
+                beneficiary: '',
+                ppa_quantum: '',
+                ppa_rate: '',
+                type: '',
+                approvalnumber: '',
+                fromdate: '',
+                todate: '',
+                fromblock: '',
+                toblock: ''
+            });
+            setSelectedFile1(null);
+            setSelectedFile2(null);
+            setFormErrors({}); // Clear errors
+            toast.success("Form added to list!");
+        } else {
+            toast.error("Please fill all required fields before adding to list.");
+        }
+    };
+
+    const handleSubmitAllForms = async (event) => {
+        debugger;
         event.preventDefault();
 
-        if (validateForm()) {
-            return;
+        const errors = {};
+
+        if (!selectedFile1) {
+            errors.copyofdata = "Please upload signed copy of AS format";
+            setFormErrorssubmit(errors);
+            return Object.keys(errors).length === 1;
         }
 
-        // Open the confirmation dialog when the user clicks "Submit"
+        if (submittedFormsList.length === 0) {
+            toast.error("Please add at least one form to the list before submitting.");
+            return;
+        }
         setConfirmDialogOpen(true);
     };
 
     const handleDeleteCancel = () => {
-        // Handle cancel action in the confirmation dialog
         setConfirmDialogOpen(false);
     };
 
     const handleDeleteConfirm = async () => {
-        // Close the confirmation dialog
-       
+        debugger;
         setConfirmDialogOpen(false);
-        // Set loading state to true
         setLoading(true);
 
         try {
+            let candidateId = localStorage.getItem("candidateId") || 0;
 
-            let candidateId = 0;
-            if (localStorage.getItem("candidateId")) {
-                candidateId = localStorage.getItem("candidateId");
-            }
-            else {
-                candidateId = 0;
-            }
-            // const formDataToSend = {
-            //     ...formData,
-            //     Uploadfile:selectedFile
+            // Iterate over the submittedFormsList and send each form
+            // for (const formToSubmit of submittedFormsList) {
+            //     const formDataToSend = new FormData();
+            //     formDataToSend.append('user_id', candidateId);
+            //     formDataToSend.append('entityname', entitynameFromLocalStorage);
+            //     formDataToSend.append('subentityname', formToSubmit.subentityname);
+            //     formDataToSend.append('installedcapacity', formToSubmit.installedcapacity);
+            //     formDataToSend.append('beneficiary', formToSubmit.beneficiary);
+            //     formDataToSend.append('ppa_quantum', formToSubmit.ppa_quantum);
+            //     formDataToSend.append('ppa_rate', formToSubmit.ppa_rate);
+            //     formDataToSend.append('type', formToSubmit.type);
+            //     formDataToSend.append('approvalnumber', formToSubmit.approvalnumber);
+            //     formDataToSend.append('fromdate', formToSubmit.fromdate);
+            //     formDataToSend.append('todate', formToSubmit.todate);
+            //     formDataToSend.append('ecrdata', formToSubmit.ecrdata);
+            //     formDataToSend.append('copyofdata', formToSubmit.copyofdata);
+            //     formDataToSend.append('fromblock', formToSubmit.fromblock);
+            //     formDataToSend.append('toblock', formToSubmit.toblock);
 
-            // };
+            //     const response = await apiclient.post(apis.PostEcrsubmission,selectedFile1, formDataToSend);
+
+            //     if (response.status !== 200) {
+            //         // If any submission fails, stop and show error
+            //         toast.error(`Error submitting a form: ${response.data?.message || 'Something went wrong'}`);
+            //         setLoading(false);
+            //         return;
+            //     }
+            // }
+
+
+            // Add user_id and entityname to each form
+            const enrichedFormsList = submittedFormsList.map(form => ({
+                ...form,
+                user_id: Number(candidateId), // force numeric
+                entityname: entitynameFromLocalStorage
+            }));
+
+            // Prepare FormData with single file and list as JSON string
             const formDataToSend = new FormData();
-            formDataToSend.append('user_id', candidateId);
-            formDataToSend.append('entityname', entityname);
-            formDataToSend.append('installedcapacity', formData.installedcapacity);
-            formDataToSend.append('beneficiary', formData.beneficiary);
-            formDataToSend.append('ppa_quantum', formData.ppa_quantum);
-            formDataToSend.append('ppa_rate', formData.ppa_rate);
-            formDataToSend.append('type', formData.type);
-            formDataToSend.append('approvalnumber', formData.approvalnumber);
-            formDataToSend.append('fromdate', formData.fromdate);
-            formDataToSend.append('todate', formData.todate);
-            formDataToSend.append('ecrdata', selectedFile2);
-            formDataToSend.append('copyofdata', selectedFile1);
-            formDataToSend.append('fromblock', formData.formblock);
-            formDataToSend.append('toblock', formData.toblock);
+            formDataToSend.append('copyofdata', selectedFile1); // only one file
+            formDataToSend.append('data', JSON.stringify(enrichedFormsList)); // all rows in one JSON string
 
-            const response = await apiclient.post(apis.PostEcrsubmission, formDataToSend)
+            // Send data to API
+            const response = await apiclient.post(
+                apis.PostEcrsubmission,
+                formDataToSend,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }
+            );
+
             if (response.status === 200) {
-               
                 setTimeout(() => {
-                    // Set loading state back to false after the delay
                     setLoading(false);
-                    // Show the success dialog
                     setSuccessDialogOpen(true);
-                    setSelectedFile1(null);  // Clears the file input for copyofdata
-                    setSelectedFile2(null);  // Clears the file input for ecrdata
-                    
-                    setFormData({
-                        entityname: '',
-                        installedcapacity: '',
-                        ppa_quantum: '',
-                        beneficiary: formData.beneficiary,
-                        ppa_rate: '',
-                        type: '',
-                        approvalnumber: '',
-                        fromdate: '',
-                        todate: '',
-                        ecrdata: '',
-                        copyofdata: '',
-                        formblock:'',
-                        toblock:''
-                    });
-                    setSelectedRole('');
+                    setSubmittedFormsList([]); // Clear form
+                    navigate('/candidate/ecrsubmissionform');
                 }, 1000);
-                navigate('/candidate/ecrsubmissionform'); 
-                
-            } else if (response.status === 500) {
-                alert("Form already exists");
-
+            } else {
+                toast.error(`Error: ${response.data?.message || 'Something went wrong'}`);
+                setLoading(false);
             }
 
-            else {
-                alert('Something went wrong');
-            }
         } catch (error) {
             console.error('Error submitting data:', error);
-            toast.error('Something went wrong');
+            toast.error('Something went wrong during submission');
             setLoading(false);
         }
     };
 
     useEffect(() => {
-        const relaysave = async () => {
+        const fetchEntities = async () => {
             try {
                 const response = await apiclient.get(apis.Getentitylist);
                 if (response.status === 200) {
                     setEntities(response.data);
-
                 }
-
             } catch (error) {
-                console.error('Error fetching roles:', error);
+                console.error('Error fetching entities:', error);
             }
         };
-        relaysave();
+        fetchEntities();
     }, []);
 
-
+    // Function to render the list of added forms
+    const renderSubmittedForms = () => {
+        if (submittedFormsList.length === 0) {
+            return <p>No ECR added to the list yet.</p>;
+        }
+        return (
+            <div className="table-responsive">
+                <table className="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Entity Name</th>
+                            <th>Sub Entity Name</th>
+                            <th>Installed Capacity</th>
+                            <th>Beneficiary</th>
+                            <th>PPA Quantum</th>
+                            <th>PPA Rate</th>
+                            <th>Type</th>
+                            <th>Approval No.</th>
+                            <th>From Date</th>
+                            <th>To Date</th>
+                            <th>From Block</th>
+                            <th>To Block</th>
+                            {/* <th>ECR Data</th> */}
+                            {/* <th>Signed Copy</th> */}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {submittedFormsList.map((form, index) => (
+                            <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td>{entitynameFromLocalStorage}</td> {/* Display entity name from local storage */}
+                                <td>{form.subentityname}</td>
+                                <td>{form.installedcapacity}</td>
+                                <td>{form.beneficiary}</td>
+                                <td>{form.ppa_quantum}</td>
+                                <td>{form.ppa_rate}</td>
+                                <td>{form.type}</td>
+                                <td>{form.approvalnumber}</td>
+                                <td>{form.fromdate}</td>
+                                <td>{form.todate}</td>
+                                <td>{form.fromblock}</td>
+                                <td>{form.toblock}</td>
+                                {/* <td>{form.ecrdata ? form.ecrdata.name : 'N/A'}</td> */}
+                                {/* <td>{form.copyofdata ? form.copyofdata.name : 'N/A'}</td> */}
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+        );
+    };
 
     return (
         <>
             <div>
                 <div>
                     <TopHeader />
-
                 </div>
-
                 <CmsDisplay />
-
                 <main >
                     <div class="pagetitle">
-
                         {/* <div className="pagetitle-rgt">
                             <Link to="/dashboard">
                                 <button type="button" class="btn btn-info">
@@ -272,39 +366,52 @@ export const EcrsubmissionForm = () => {
                         <div class="container-fluid">
                             <div class="InnerSection">
                                 <div class="InnerSectionBox">
-                                    <form class="forms-sample" onSubmit={handleSubmit}>
+                                    <form class="forms-sample" onSubmit={handleSubmitAllForms}>
                                         <h4>ECR submission data for sellers </h4>
                                         <div class="row">
                                             <div class="col-md-12 grid-margin stretch-card">
                                                 <div class="card">
                                                     <div class="card-body registrationCard">
-
                                                         <div class="form-group row">
                                                             <label class="col-sm-2 col-form-label">Entities<span
                                                             ><b>*</b></span>:</label>
                                                             <div class="col-sm-2">
                                                                 <span style={{ color: "red" }}>{formErrors.entityname}</span>
-
                                                                 <input
-                                                                name="entityname"
+                                                                    name="entityname"
                                                                     type="text"
-                                                                    value={entityname}
+                                                                    value={entitynameFromLocalStorage} // Display from local storage
                                                                     onChange={handleChange}
+                                                                // readOnly // Make it read-only if it comes from local storage
+                                                                /><small class="invalid-feedback">
+                                                                </small></div>
+                                                            <label class="col-sm-2 col-form-label">Sub Entities (as per WRLDC Gen_sdl file )<span
+                                                            ><b>*</b></span>:</label>
+                                                            <div class="col-sm-2">
+                                                                <span style={{ color: "red" }}>{formErrors.subentityname}</span>
+                                                                <input class="form-control"
+                                                                    name="subentityname"
+                                                                    placeholder="Enter Sub Entities"
+                                                                    value={formData.subentityname}
+                                                                    onChange={handleChange}
+                                                                    isInvalid={!!formErrors.subentityname}
                                                                 /><small class="invalid-feedback">
                                                                 </small></div>
                                                             <label class="col-sm-2 col-form-label">Installed Capacity<span
-                                                            ><b>*</b></span>:</label>
+                                                            ><b></b></span>:</label>
                                                             <div class="col-sm-2">
                                                                 <span style={{ color: "red" }}>{formErrors.installedcapacity}</span>
                                                                 <input class="form-control"
                                                                     name="installedcapacity"
-                                                                    placeholder="Enter installedcapacity"
-                                                                  
+                                                                    placeholder="Enter installed capacity"
                                                                     value={formData.installedcapacity}
                                                                     onChange={handleChange}
                                                                     isInvalid={!!formErrors.installedcapacity}
                                                                 /><small class="invalid-feedback">
                                                                 </small></div>
+                                                        </div>
+
+                                                        <div class="form-group row">
                                                             <label
                                                                 class="col-sm-2 col-form-label">Beneficiary<span
                                                                 ><b>*</b></span>:</label>
@@ -315,24 +422,19 @@ export const EcrsubmissionForm = () => {
                                                                     placeholder="Enter beneficiary"
                                                                     onChange={handleChange}
                                                                     isInvalid={!!formErrors.beneficiary}
-                                                                    maxlength="500" value={formData.beneficiary} /><small class="invalid-feedback"></small>
+                                                                    maxLength="500" value={formData.beneficiary} /><small class="invalid-feedback"></small>
                                                             </div>
-
-                                                        </div>
-
-                                                        <div class="form-group row">
-
                                                             <label
-                                                                class="col-sm-2 col-form-label">PPA_quantum<span
+                                                                class="col-sm-2 col-form-label">PPA Quantum<span
                                                                 ><b>*</b></span>:</label>
                                                             <div class="col-sm-2">
                                                                 <span style={{ color: "red" }}>{formErrors.ppa_quantum}</span>
                                                                 <input class="form-control" name="ppa_quantum" placeholder="ppa_quantum"
                                                                     onChange={handleChange}
                                                                     isInvalid={!!formErrors.ppa_quantum}
-                                                                    maxlength="50" value={formData.ppa_quantum} /><small class="invalid-feedback"></small></div>
+                                                                    maxLength="50" value={formData.ppa_quantum} /><small class="invalid-feedback"></small></div>
                                                             <label className="col-sm-2 col-form-label">
-                                                                PPA_rate<span><b>*</b></span>:
+                                                                PPA Rate (in Rs/MWHr)<span><b>*</b></span>:
                                                             </label>
                                                             <div className="col-sm-2">
                                                                 <span style={{ color: "red" }}>{formErrors.ppa_rate}</span>
@@ -345,24 +447,22 @@ export const EcrsubmissionForm = () => {
                                                                     onChange={handleChange}
                                                                     onInput={(e) => {
                                                                         e.target.value = e.target.value.replace(/[^0-9.]/g, ''); // Allow only numbers and decimal
-
                                                                         // Prevent multiple decimal points
                                                                         if ((e.target.value.match(/\./g) || []).length > 1) {
                                                                             e.target.value = e.target.value.slice(0, -1);
                                                                         }
-
                                                                         // Limit to 3 decimal places
                                                                         if (e.target.value.includes('.') && e.target.value.split('.')[1].length > 3) {
                                                                             e.target.value = e.target.value.slice(0, -1); // Allow only 3 decimal places
                                                                         }
-
                                                                         setFormData({ ...formData, [e.target.name]: e.target.value });
                                                                     }}
                                                                 />
                                                                 <small className="invalid-feedback">{formErrors.ppa_rate}</small>
                                                             </div>
-
-                                                            <label class="col-sm-2 col-form-label">Type (GNA/TGNA)<span><b>*</b></span>:</label>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-2 col-form-label">Type (TGNA/GNA)<span><b>*</b></span>:</label>
                                                             <div class="col-sm-2">
                                                                 <span style={{ color: "red" }}>{formErrors.type}</span>
                                                                 <select
@@ -378,21 +478,17 @@ export const EcrsubmissionForm = () => {
                                                                 </select>
                                                                 <small class="invalid-feedback"></small>
                                                             </div>
-
-
-                                                        </div>
-                                                        <div class="form-group row">
                                                             <label
-                                                                class="col-sm-2 col-form-label">Approval number as per WRLDC<span ><b>*</b></span>:</label>
+                                                                class="col-sm-2 col-form-label">Approval No. as per WRLDC<span ><b>*</b></span>:</label>
                                                             <div class="col-sm-2">
                                                                 <span style={{ color: "red" }}>{formErrors.approvalnumber}</span>
                                                                 <input class="form-control" name="approvalnumber" placeholder="Enter"
-                                                                    maxlength="500" value={formData.approvalnumber}
+                                                                    maxLength="500" value={formData.approvalnumber}
                                                                     onChange={handleChange}
                                                                     isInvalid={!!formErrors.approvalnumber} />
                                                                 <small class="invalid-feedback"></small>
                                                             </div>
-                                                            <label class="col-sm-2 col-form-label">From _date<span><b>*</b></span>:</label>
+                                                            <label class="col-sm-2 col-form-label">From Date<span><b>*</b></span>:</label>
                                                             <div class="col-sm-2">
                                                                 <span style={{ color: "red" }}>{formErrors.fromdate}</span>
                                                                 <input
@@ -400,13 +496,15 @@ export const EcrsubmissionForm = () => {
                                                                     class="form-control"
                                                                     name="fromdate"
                                                                     placeholder="Enter fromdate"
-                                                                    maxlength="50"
+                                                                    maxLength="50"
                                                                     value={formData.fromdate}
                                                                     onChange={handleChange}
                                                                     isInvalid={!!formErrors.fromdate}
                                                                 />
                                                                 <small class="invalid-feedback"></small>
                                                             </div>
+                                                        </div>
+                                                        <div className="form-group row">
                                                             <label class="col-sm-2 col-form-label">To Date<span><b>*</b></span>:</label>
                                                             <div class="col-sm-2">
                                                                 <span style={{ color: "red" }}>{formErrors.todate}</span>
@@ -415,83 +513,60 @@ export const EcrsubmissionForm = () => {
                                                                     class="form-control"
                                                                     name="todate"
                                                                     placeholder="Enter todate"
-                                                                    maxlength="50"
+                                                                    maxLength="50"
                                                                     value={formData.todate}
                                                                     onChange={handleChange}
                                                                     isInvalid={!!formErrors.todate}
                                                                 />
                                                                 <small class="invalid-feedback"></small>
                                                             </div>
-
-                                                            <label
-                                                                class="col-sm-2 col-form-label">Signed copy of AS format<span
-                                                                ><b>*</b></span>:
-                                                            </label>
+                                                            <label class="col-sm-2 col-form-label">From Block<span><b></b></span>:</label>
                                                             <div class="col-sm-2">
-                                                                {/* <input class="form-control" name="Protection" type='file'
-                                                    maxlength="50" value={formData.Uploadfile}
-                                                    onChange={handleFileChange}
-                                                    isInvalid={!!formErrors.Uploadfile} /> */}
-                                                                <span style={{ color: "red" }}>{formErrors.copyofdata}</span>
-
-                                                                <input
-                                                                    className="form-control"
-                                                                    type="file"
-
-                                                                    name="copyofdata"
-
-                                                                    onChange={handleFileChange1}
-                                                                />
-                                                                <small class="invalid-feedback"></small></div>
-                                                            <label class="col-sm-2 col-form-label">From Block<span><b>*</b></span>:</label>
-                                                            <div class="col-sm-2">
-                                                                <span style={{ color: "red" }}>{formErrors.formblock}</span>
+                                                                <span style={{ color: "red" }}>{formErrors.fromblock}</span>
                                                                 <input
                                                                     type="text"
                                                                     class="form-control"
-                                                                    name="formblock"
-                                                                    placeholder="Enter fromdate"
-                                                                    maxlength="50"
-                                                                    value={formData.formblock}
+                                                                    name="fromblock"
+                                                                    placeholder="Enter from block"
+                                                                    maxLength="50"
+                                                                    value={formData.fromblock}
                                                                     onChange={handleChange}
-                                                                    isInvalid={!!formErrors.formblock}
+                                                                    isInvalid={!!formErrors.fromblock}
                                                                 />
                                                                 <small class="invalid-feedback"></small>
                                                             </div>
-                                                            <label class="col-sm-2 col-form-label">To Block<span><b>*</b></span>:</label>
+                                                            <label class="col-sm-2 col-form-label">To Block<span><b></b></span>:</label>
                                                             <div class="col-sm-2">
                                                                 <span style={{ color: "red" }}>{formErrors.toblock}</span>
                                                                 <input
                                                                     type="text"
                                                                     class="form-control"
                                                                     name="toblock"
-                                                                    placeholder="Enter fromdate"
-                                                                    maxlength="50"
+                                                                    placeholder="Enter to block"
+                                                                    maxLength="50"
                                                                     value={formData.toblock}
                                                                     onChange={handleChange}
                                                                     isInvalid={!!formErrors.toblock}
                                                                 />
                                                                 <small class="invalid-feedback"></small>
                                                             </div>
-                                                            <label
+                                                        </div>
+
+                                                        <div className="form-group row">
+                                                            {/* <label
                                                                 class="col-sm-2 col-form-label">Upload ECR data<span
                                                                 ><b>*</b></span>:</label>
                                                             <div class="col-sm-2">
-                                                                {/* <input class="form-control" name="Protection" type='file'
-                                                    maxlength="50" value={formData.Uploadfile}
-                                                    onChange={handleFileChange}
-                                                    isInvalid={!!formErrors.Uploadfile} /> */}
                                                                 <span style={{ color: "red" }}>{formErrors.ecrdata}</span>
-
                                                                 <input
                                                                     className="form-control"
                                                                     type="file"
-
                                                                     name="ecrdata"
-
                                                                     onChange={handleFileChange2}
+                                                                    key={selectedFile2 ? selectedFile2.name : 'empty2'} 
                                                                 />
-                                                                <small class="invalid-feedback"></small></div>
+                                                                <small class="invalid-feedback"></small>
+                                                            </div> */}
 
                                                         </div>
 
@@ -499,10 +574,56 @@ export const EcrsubmissionForm = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="submitButton"><button type="submit" class="btn btn-outline-success btn-icon-text btn-sm"><i
-                                            class="mdi mdi-file-check btn-icon-prepend"></i>Submit</button><button type="button"
-                                                class="btn btn-outline-danger btn-sm" style={{ marginLeft: "10px" }}><i
-                                                    class="mdi mdi-refresh"></i>Reset</button></div>
+                                        <div class="submitButton" style={{ marginBottom: '20px' }}>
+                                            <button type="button" className="btn btn-outline-primary btn-icon-text btn-sm me-2" onClick={handleAddToList}>
+                                                <i className="mdi mdi-plus-circle-outline fs-5"></i>
+                                                <span>Add to List</span>
+                                            </button>
+                                            {/* <button type="submit" class="btn btn-outline-success btn-icon-text btn-sm" disabled={loading}>
+                                                {loading ? (
+                                                    <Spinner animation="border" size="sm" />
+                                                ) : (
+                                                    <>
+                                                        <i class="mdi mdi-file-check btn-icon-prepend"></i>Submit All
+                                                    </>
+                                                )}
+                                            </button> */}
+                                        </div>
+
+                                        <hr />
+                                        <h4>ECR Added to List ({submittedFormsList.length})</h4>
+                                        {renderSubmittedForms()}
+
+
+                                        <div className="form-group row">
+
+                                            <label
+                                                class="col-sm-2 col-form-label">Signed copy of AS format<span
+                                                ><b>*</b></span>:
+                                            </label>
+                                            <div class="col-sm-2">
+                                                <span style={{ color: "red" }}>{formErrorssubmit.copyofdata}</span>
+                                                <input
+                                                    className="form-control"
+                                                    type="file"
+                                                    name="copyofdata"
+                                                    onChange={handleFileChange1}
+                                                    key={selectedFile1 ? selectedFile1.name : 'empty1'} // Resets file input
+                                                />
+                                                <small class="invalid-feedback"></small>
+                                            </div>
+                                            <div class="submitButton" style={{ marginBottom: '20px' }}>
+                                                <button type="submit" class="btn btn-outline-success btn-icon-text btn-sm" disabled={loading}>
+                                                    {loading ? (
+                                                        <Spinner animation="border" size="sm" />
+                                                    ) : (
+                                                        <>
+                                                            <i class="mdi mdi-file-check btn-icon-prepend"></i>Submit All
+                                                        </>
+                                                    )}
+                                                </button>
+                                            </div>
+                                        </div>
                                     </form>
                                 </div>
                             </div>
@@ -510,14 +631,13 @@ export const EcrsubmissionForm = () => {
                     </div>
                     <CmsFooter />
                 </main>
-
             </div>
             <ToastContainer />
             {/* Confirmation Dialog */}
             <Dialog open={confirmDialogOpen} onClose={handleDeleteCancel}>
-                <DialogTitle>Confirm Create</DialogTitle>
+                <DialogTitle>Confirm Submission</DialogTitle>
                 <DialogContent>
-                    Are you sure you want to submit ?
+                    Are you sure you want to submit all {submittedFormsList.length} forms?
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleDeleteCancel} color="primary">
@@ -535,15 +655,13 @@ export const EcrsubmissionForm = () => {
                 onClose={() => setSuccessDialogOpen(false)}
             >
                 <DialogTitle>Success</DialogTitle>
-                <DialogContent>Saved successfully!</DialogContent>
+                <DialogContent>All forms submitted successfully!</DialogContent>
                 <DialogActions>
                     <Button onClick={() => setSuccessDialogOpen(false)} color="primary">
                         OK
                     </Button>
                 </DialogActions>
             </Dialog>
-
         </>
     );
 }
-
