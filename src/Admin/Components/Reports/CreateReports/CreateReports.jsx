@@ -282,7 +282,7 @@ const[loading,setLoading]=useState(false);
                 <div class="card-body">
                   <div class="mb-3 mt-md-4">
                     <div class="box-sec">
-                      <h1 className="text-center heading-main">Report</h1>
+                      <h1 className="text-center heading-main">Latest News</h1>
                       <div className="mb-3">
                         <label className="form-label text-dark">
                           Language Type
@@ -331,8 +331,8 @@ const[loading,setLoading]=useState(false);
                           onChange={handleInputChange}
                         >
                           <option value="">Select a content type</option>
-                          {/* <option value="4">External</option>
-                          <option value="3">Internal</option>
+                           <option value="4">External</option>
+                         {/* <option value="3">Internal</option>
                          <option value="1">HTML</option> */}                          
                           <option value="2">File</option> 
                         </select>

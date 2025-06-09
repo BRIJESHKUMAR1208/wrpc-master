@@ -137,7 +137,7 @@ export default function ReportTable() {
                     </div>
                     <div className="header-box-rgt">
                         <Link to='/services/createreport'>
-                            <p><AddIcon /> New Report</p>
+                            <p><AddIcon /> Latest News</p>
                         </Link>
                     </div>
                 </div>

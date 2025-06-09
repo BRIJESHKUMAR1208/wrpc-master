@@ -41,7 +41,7 @@ export const EditReport = () => {
   const [editingItemId, setEditingItemId] = useState(null);
 
   const optionsData = [
-    // { id: 4, label: 'External Link' },
+     { id: 4, label: 'External Link' },
     // { id: 3, label: 'Internal Link' },
     { id: 2, label: 'File' },
    // { id: 1, label: 'HTML' },  // Updated label
@@ -257,7 +257,7 @@ export const EditReport = () => {
           <div className="row justify-content-center">
             <div className="container-fluid bg-white">
               <div class="box-sec">
-                <h1 className="text-center heading-main">Report</h1>
+                <h1 className="text-center heading-main">Latest News</h1>
                 <div className="mb-3">
                   <label className="form-label text-dark">Language Type</label>
                   <select
