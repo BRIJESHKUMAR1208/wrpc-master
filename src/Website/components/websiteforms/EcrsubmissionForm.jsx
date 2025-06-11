@@ -18,7 +18,9 @@ export const EcrsubmissionForm = () => {
     const [formErrors, setFormErrors] = useState({});
     const [formErrorssubmit, setFormErrorssubmit] = useState({});
     const [successDialogOpen, setSuccessDialogOpen] = useState(false);
+    const [submittedFormsList, setSubmittedFormsList] = useState([]);
     const [getuser, setuser] = useState('');
+    const [formRows, setFormRows] = useState(submittedFormsList);
     const [entities, setEntities] = useState([]);
     const [formData, setFormData] = useState({
         entityname: '',
@@ -35,9 +37,6 @@ export const EcrsubmissionForm = () => {
         fromblock: '',
         toblock: ''
     });
-
-    // New state variable to hold the list of forms
-    const [submittedFormsList, setSubmittedFormsList] = useState([]);
 
     const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -174,7 +173,17 @@ export const EcrsubmissionForm = () => {
             toast.error("Please fill all required fields before adding to list.");
         }
     };
+const handleEditChange = (e, index) => {
+    const { name, value } = e.target;
 
+    if ((name === "fromblock" || name === "toblock") && !/^\d*$/.test(value)) {
+        return;
+    }
+
+    const updatedList = [...submittedFormsList];
+    updatedList[index][name] = value;
+    setSubmittedFormsList(updatedList);
+};
     const handleSubmitAllForms = async (event) => {
         debugger;
         event.preventDefault();
@@ -277,7 +286,18 @@ export const EcrsubmissionForm = () => {
             setLoading(false);
         }
     };
+const handleChangeinput = (e, index) => {
+    const { name, value } = e.target;
 
+    // Restrict digits for fromblock & toblock
+    if ((name === "fromblock" || name === "toblock") && !/^\d*$/.test(value)) {
+        return;
+    }
+
+    const updatedRows = [...formRows];
+    updatedRows[index][name] = value;
+    setFormRows(updatedRows);
+};
     useEffect(() => {
         const fetchEntities = async () => {
             try {
@@ -299,49 +319,132 @@ export const EcrsubmissionForm = () => {
         }
         return (
             <div className="table-responsive">
-                <table className="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Entity Name</th>
-                            <th>Sub Entity Name</th>
-                            <th>Installed Capacity</th>
-                            <th>Beneficiary</th>
-                            <th>PPA Quantum</th>
-                            <th>PPA Rate</th>
-                            <th>Type</th>
-                            <th>Approval No.</th>
-                            <th>From Date</th>
-                            <th>To Date</th>
-                            <th>From Block</th>
-                            <th>To Block</th>
-                            {/* <th>ECR Data</th> */}
-                            {/* <th>Signed Copy</th> */}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {submittedFormsList.map((form, index) => (
+            <table className="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Entity Name</th>
+                        <th>Sub Entity Name</th>
+                        <th>Installed Capacity</th>
+                        <th>Beneficiary</th>
+                        <th>PPA Quantum</th>
+                        <th>PPA Rate</th>
+                        <th>Type</th>
+                        <th>Approval No.</th>
+                        <th>From Date</th>
+                        <th>To Date</th>
+                        <th>From Block</th>
+                        <th>To Block</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {submittedFormsList.map((form, index) => (
                             <tr key={index}>
                                 <td>{index + 1}</td>
-                                <td>{entitynameFromLocalStorage}</td> {/* Display entity name from local storage */}
-                                <td>{form.subentityname}</td>
-                                <td>{form.installedcapacity}</td>
-                                <td>{form.beneficiary}</td>
-                                <td>{form.ppa_quantum}</td>
-                                <td>{form.ppa_rate}</td>
-                                <td>{form.type}</td>
-                                <td>{form.approvalnumber}</td>
-                                <td>{form.fromdate}</td>
-                                <td>{form.todate}</td>
-                                <td>{form.fromblock}</td>
-                                <td>{form.toblock}</td>
-                                {/* <td>{form.ecrdata ? form.ecrdata.name : 'N/A'}</td> */}
-                                {/* <td>{form.copyofdata ? form.copyofdata.name : 'N/A'}</td> */}
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
+                            <td>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    value={entitynameFromLocalStorage}
+                                    readOnly
+                                />
+                            </td>
+                            <td>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    name="subentityname"
+                                    value={form.subentityname}
+                                    onChange={(e) => handleEditChange(e, index)}
+                                />
+                            </td>
+                            <td>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    name="installedcapacity"
+                                    value={form.installedcapacity}
+                                      onChange={(e) => handleEditChange(e, index)}
+                                />
+                            </td>
+                            <td>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    name="beneficiary"
+                                    value={form.beneficiary}
+                                    onChange={(e) => handleEditChange(e, index)}
+                                />
+                            </td>
+                            <td>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    name="ppa_quantum"
+                                    value={form.ppa_quantum}
+                                    onChange={(e) => handleEditChange(e, index)}
+                                />
+                            </td>
+                            <td>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    name="ppa_rate"
+                                    value={form.ppa_rate}
+                                  onChange={(e) => handleEditChange(e, index)}
+                                />
+                            </td>
+                             <td>{form.type}</td>
+                            <td>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    name="approvalnumber"
+                                    value={form.approvalnumber}
+                                    onChange={(e) => handleEditChange(e, index)}
+                                />
+                            </td>
+                            <td>
+                                <input
+                                    type="date"
+                                    className="form-control"
+                                    name="fromdate"
+                                    value={form.fromdate}
+                                   onChange={(e) => handleEditChange(e, index)}
+                                />
+                            </td>
+                            <td>
+                                <input
+                                    type="date"
+                                    className="form-control"
+                                    name="todate"
+                                    value={form.todate}
+                                  onChange={(e) => handleEditChange(e, index)}
+                                />
+                            </td>
+                            <td>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    name="fromblock"
+                                    value={form.fromblock}
+                                   onChange={(e) => handleEditChange(e, index)}
+                                />
+                            </td>
+                            <td>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    name="toblock"
+                                    value={form.toblock}
+                                    onChange={(e) => handleEditChange(e, index)}
+                                />
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
         );
     };
 

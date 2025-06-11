@@ -1,53 +1,77 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { CSVLink } from 'react-csv';
 import Box from '@mui/material/Box';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import apiClient from '../../../../Api/ApiClient'; // Ensure this is the correct API client
-import apis from '../../../../Api/api.json'; // Check if this is the correct path for your API
+import apiClient from '../../../../Api/ApiClient';
+import apis from '../../../../Api/api.json';
 import { Link } from 'react-router-dom';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import { format } from 'date-fns';
 
 export default function Ecrsubmissionlist() {
-    const [apiData, setApiData] = useState([]); // For candidate details
-    const [exportData, setExportData] = useState([]); // For data export
-    const [columns, setColumns] = useState([]); // For columns data
+    const [apiData, setApiData] = useState([]); // For candidate details (filtered)
+    const [exportData, setExportData] = useState([]); // For CSV export
     const [fromDate, setFromDate] = useState('');
     const [toDate, setToDate] = useState('');
+    const csvLinkRef = useRef();
+    const allCandidateData = useRef([]); // Store all data once
 
+    // Initial fetch of all candidate data
     useEffect(() => {
         async function fetchColumnsData() {
             try {
                 const response = await apiClient.get('/api/FormReports/ECRsubmissiondata');
                 const dataWithIds = response.data.map((row, index) => ({ id: index + 1, ...row }));
-                setColumns(dataWithIds);
+                allCandidateData.current = dataWithIds;
+                setApiData(dataWithIds); // Show full list initially
             } catch (error) {
                 console.error('Error fetching candidate details:', error);
             }
         }
-
         fetchColumnsData();
     }, []);
+const toDateOnly = (dateStr) => {
+    const date = new Date(dateStr);
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+};
 
-    // Fetch data for export (ECR submission data)
+    // Filter candidate data on date change
+    useEffect(() => {
+        if (!fromDate || !toDate) {
+            setApiData(allCandidateData.current); // Show all if no dates
+            return;
+        }
+
+        const selectedFromOnly = toDateOnly(fromDate);
+const selectedToOnly = toDateOnly(toDate);
+
+        const filtered = allCandidateData.current.filter(item => {
+    const itemFrom = toDateOnly(item.fromdate);
+    const itemTo = toDateOnly(item.todate);
+    return itemFrom >= selectedFromOnly && itemTo <= selectedToOnly;
+});
+
+
+        setApiData(filtered);
+    }, [fromDate, toDate]);
+
+    // Export ECR data
     const fetchExportData = async () => {
-
         if (!fromDate || !toDate) {
             alert('❌ Please select both From Date and To Date before downloading.');
             return;
         }
 
-
         try {
-            //const response = await apiClient.get(`/api/ECRsubmission`); // API call
             const response = await apiClient.get(`/api/ECRsubmission/GetEcrbetweendate/${fromDate}/${toDate}`);
             if (!response.data || response.data.length === 0) {
                 alert('No data available for the selected date range.');
-                setExportData([]); // Clear old data
+                setExportData([]);
                 return;
             }
+
             const formattedData = response.data.map(item => ({
-                'From Date': `\u200B${format(new Date(item.fromdate), "yyyy-MM-dd")}`, // Zero-width space
+                'From Date': `\u200B${format(new Date(item.fromdate), "yyyy-MM-dd")}`,
                 'To Date': `\u200B${format(new Date(item.todate), "yyyy-MM-dd")}`,
                 'Type': item.type,
                 'From Utility': item.entityname,
@@ -56,16 +80,19 @@ export default function Ecrsubmissionlist() {
                 'Energy MW': item.installedcapacity,
                 'PPA Rate (paisa/Kwh)': item.ppa_rate
             }));
+
             setExportData(formattedData);
+
+            // Trigger CSV download
+            setTimeout(() => {
+                csvLinkRef.current.link.click();
+            }, 0);
+
         } catch (error) {
             console.error('Error fetching export data:', error);
             alert('Error fetching data. Please try again.');
         }
-    }
-
-
-
-
+    };
 
     const headers = [
         { label: 'From Date (\'yyyy-mm-dd\')', key: 'From Date' },
@@ -106,52 +133,46 @@ export default function Ecrsubmissionlist() {
                         type="date"
                         value={fromDate}
                         onChange={(e) => setFromDate(e.target.value)}
-                        placeholder="From Date"
                         style={{ padding: '5px' }}
                     />
                     <input
                         type="date"
                         value={toDate}
                         onChange={(e) => setToDate(e.target.value)}
-                        placeholder="To Date"
                         style={{ padding: '5px' }}
                     />
-                    { fromDate && toDate && (
+                    <button
+                        onClick={fetchExportData}
+                        style={{
+                            backgroundColor: '#007bff',
+                            color: 'white',
+                            padding: '10px 20px',
+                            border: 'none',
+                            borderRadius: '5px',
+                            cursor: 'pointer',
+                            fontSize: '16px',
+                            fontWeight: 'bold',
+                            transition: 'background 0.3s ease'
+                        }}
+                        onMouseOver={(e) => e.target.style.backgroundColor = '#0056b3'}
+                        onMouseOut={(e) => e.target.style.backgroundColor = '#007bff'}
+                    >
+                        📥 Download ECR Data
+                    </button>
                     <CSVLink
                         data={exportData}
                         headers={headers}
                         filename={"ECRsubmissiondata.csv"}
                         target="_blank"
-                        style={{
-                            textDecoration: 'none'
-                        }}
-                    >
-                        <button
-                            onClick={fetchExportData}
-                            style={{
-                                backgroundColor: '#007bff',
-                                color: 'white',
-                                padding: '10px 20px',
-                                border: 'none',
-                                borderRadius: '5px',
-                                cursor: 'pointer',
-                                fontSize: '16px',
-                                fontWeight: 'bold',
-                                transition: 'background 0.3s ease'
-                            }}
-                            onMouseOver={(e) => e.target.style.backgroundColor = '#0056b3'}
-                            onMouseOut={(e) => e.target.style.backgroundColor = '#007bff'}
-                        >
-                            📥 Download ECR Data
-                        </button>
-                    </CSVLink>
-                    )}
+                        className="hidden"
+                        ref={csvLinkRef}
+                    />
                 </div>
             </div>
 
             <Box sx={{ height: 400, width: '100%' }}>
                 <DataGrid
-                    rows={columns}
+                    rows={apiData}
                     columns={gridColumns}
                     disableColumnFilter
                     disableColumnSelector

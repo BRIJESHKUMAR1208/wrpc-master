@@ -159,6 +159,9 @@ const CmsDisplay = () => {
           {user1.can_ft8 === 1 && (
             <li><Link to="/candidate/Monthlyaccountlist" className="dropdown-item">Monthly Discrepancies</Link></li>
           )}
+          <li><Link to="/menu/WRLDC _1071" className="dropdown-item">WRLDC</Link></li>
+         
+
         </ul>
       </li>
     );
