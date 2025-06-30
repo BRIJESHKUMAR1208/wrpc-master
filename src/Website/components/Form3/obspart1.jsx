@@ -234,8 +234,8 @@ export const Form3part1 = () => {
             formDataToSend.append('Compliances', selectedFilee);
             formDataToSend.append('Issues_Observed', selectedFilee1);
             formDataToSend.append('Remarks', formData.Remarks);
-            formDataToSend.append('CAT_A_Deficiencies', catAList.join(", "));
-            formDataToSend.append('CAT_B_Deficiencies', catBList.join(", "));
+            formDataToSend.append('CAT_A_Deficiencies', catAList.join("@@@ "));
+            formDataToSend.append('CAT_B_Deficiencies', catBList.join("@@@ "));
             formDataToSend.append('Attended_CAT_A', formData.AAttendedY_N);
             formDataToSend.append('Date_Attended_CAT_A', formData.ADate_Attended);
             formDataToSend.append('Attended_CAT_B', formData.BAttendedY_N);

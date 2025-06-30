@@ -175,14 +175,14 @@ const CmsDisplay = () => {
             <i style={{ color: "white", fontSize: "24px" }} className="fa fa-home"></i>
           </Link>
 
-          {/* <button
+          <button
             className="navbar-toggler navbar-toggler-right"
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#navbar1"
           >
             <span className="navbar-toggler-icon"></span>
-          </button> */}
+          </button>
 
           <div className="collapse navbar-collapse" id="navbar1">
             <ul className="navbar-nav">

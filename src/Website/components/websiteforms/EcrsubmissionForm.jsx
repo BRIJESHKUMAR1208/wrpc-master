@@ -701,7 +701,7 @@ const handleChangeinput = (e, index) => {
                                         <div className="form-group row">
 
                                             <label
-                                                class="col-sm-2 col-form-label">Signed copy of AS format<span
+                                                class="col-sm-2 col-form-label">Signed copy <span
                                                 ><b>*</b></span>:
                                             </label>
                                             <div class="col-sm-2">
