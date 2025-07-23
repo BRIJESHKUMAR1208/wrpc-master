@@ -79,6 +79,7 @@ import { Performanceindices } from "./Website/components/websiteforms/Performanc
 import { Weeklyaccount } from "./Website/components/websiteforms/Weeklyaccount.jsx";
 import {Weeklyaccountlist}  from "./Website/components/websiteforms/Weeklyaccountlist.jsx";
 import { Monthlyaccountlist } from "./Website/components/websiteforms/Monthlyaccountlist.jsx";
+import { EcrsubmissionList } from "./Website/components/websiteforms/EcrsubmissionList.jsx";
 import { Monthlyaccount } from "./Website/components/websiteforms/Monthlyaccount.jsx";
 import { AboutUsEdit } from "./Admin/Components/Aboutus/AboutUsEdit.jsx";
 import ForgetPassword from "./Admin/Components/pages/changepassword/ForgetPassword.jsx";
@@ -243,7 +244,7 @@ function App() {
              
             </Route>
            
-
+            <Route path="ecrlist" element={<EcrsubmissionList />} />
             <Route path="/candidate">
 
               <>
@@ -253,6 +254,8 @@ function App() {
                 <Route path="form4" element={<Formfour />} />
                 <Route path="performance" element={<Performanceindices />} />
                 <Route path="ecrsubmissionform" element={<EcrsubmissionForm />} />
+         
+                
                 <Route path= "weeklyaccount" element={< Weeklyaccount/>}/>
                 <Route path= "weeklyaccountlist" element={< Weeklyaccountlist/>}/>
                 <Route path= "Monthlyaccountlist" element={< Monthlyaccountlist/>}/>

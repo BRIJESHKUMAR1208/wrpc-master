@@ -147,6 +147,11 @@ export const EcrsubmissionForm = () => {
     };
 
 
+    const handleViewList = () => {
+    navigate('/ecrlist'); // Change this path to your actual route
+};
+
+
     const handleAddToList = () => {
         if (validateForm()) {
             setSubmittedFormsList((prevList) => [...prevList, { ...formData }]);   //copyofdata: selectedFile1
@@ -470,7 +475,22 @@ const handleChangeinput = (e, index) => {
                             <div class="InnerSection">
                                 <div class="InnerSectionBox">
                                     <form class="forms-sample" onSubmit={handleSubmitAllForms}>
-                                        <h4>ECR submission data for sellers </h4>
+                                        <div className="d-flex justify-content-between align-items-center mb-3">
+    <div className="flex-grow-1 text-center">
+        <h4 clasNasme="mb-0">ECR submission data for sellers</h4>
+    </div>
+    <div className="flex-grow-1 text-center" style={{ borderRadius: '5px', padding: '10px', backgroundColor: 'teal' }}>
+        <button
+            type="button"
+            className="btn btn-outline-info btn-sm"
+            style={{ color: 'white' }}
+            onClick={handleViewList}
+        >
+            View List
+        </button>
+    </div>
+</div>
+
                                         <div class="row">
                                             <div class="col-md-12 grid-margin stretch-card">
                                                 <div class="card">
