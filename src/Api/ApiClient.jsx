@@ -1,12 +1,17 @@
 import axios from "axios";
 
+const res = await fetch('/config.json');
+const config = await res.json();
+export const BASE_URL = config["API_URL"];
 const instance = axios.create({
  // baseURL: "http://localhost:5141/",
   //baseURL: "http://localhost",
   //  // baseURL: "https://wrpcgov.com/",
-     baseURL: "https://wrpc.gov.in/",
+    //  baseURL: "https://wrpc.gov.in/",
    // baseURL : 'https://mum.wrpc.gov.in/',
+   baseURL: BASE_URL,
 });
+console.log(BASE_URL)
 
 
 instance.interceptors.request.use(

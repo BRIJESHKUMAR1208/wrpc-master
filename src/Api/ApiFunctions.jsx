@@ -8,7 +8,10 @@ import apis from './api.json'
 //  export const BASE_URL = 'http://localhost:5141';
  //export const BASE_URL = 'https://wrpcgov.com';
  //export const BASE_URL = 'http://localhost';
-    export const BASE_URL = 'https://wrpc.gov.in';
+    const res = await fetch('/config.json');
+    const config = await res.json();
+    export const BASE_URL = config["API_URL"];
+    console.log(BASE_URL)
 
 
 

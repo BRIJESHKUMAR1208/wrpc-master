@@ -159,8 +159,9 @@ export const CmsFooter = () => {
                           </li> */}
                         <li>
                           <a href="https://x.com/Wrpcmumbai" target="_blank" rel="noopener noreferrer">
-                            <i className="fa-brands fa-twitter"></i>
+                            <i className="fa-brands fa-twitter">
 
+                            </i>
                             <span className="visually-hidden">Twitter</span>
                           </a>
                         </li>
