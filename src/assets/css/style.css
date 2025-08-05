@@ -7604,3 +7604,18 @@ nav.nav-menu .dropdown-menu a.dropdown-toggle:before {
 	background-color: #f8f9fa; /* Light gray, ensures readability */
   }
   
+  .head-logo{
+    display: flex;
+    justify-content: space-between;
+}
+.title-logo {
+   
+    text-align: center;
+}
+
+
+span.title-logo1 {
+    color: #012970;
+    font-family: Nunito, sans-serif;
+    font-weight: 900;
+}

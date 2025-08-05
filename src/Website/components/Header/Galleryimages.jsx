@@ -20,6 +20,7 @@ const GalleryDetail = () => {
   useEffect(() => {
     async function fetchData2() {
       try {
+        debugger;
         const response = await apiClient.get(apis.getgalleryimage + id);
         setGallery(response.data); // Set the gallery data
       } catch (error) {
@@ -83,10 +84,11 @@ const GalleryDetail = () => {
                       <div className="card gallery-box">
                         <img
                           src={`${BASE_URL}${imagePath}`} // Image URL
-                          alt={`Gallery Image ${index + 1}`}
+                          alt={`Image ${index + 1}`}
                           className="card-img-top gallery-image"
                           onClick={() => openLightbox(imagePath)} // Open lightbox on click
                           loading="eager" // Ensure eager loading to prevent lazy loading
+                          aria-label={imagePath || ` image ${index + 1}`}
                         />
                       </div>
                     </div>

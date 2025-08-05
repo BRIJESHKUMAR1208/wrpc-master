@@ -1,0 +1,39 @@
+.marquee-wrapper {
+  overflow: hidden;
+  position: relative;
+  height: 30px;
+  background-color:#2d79bd;
+}
+
+.marquee {
+  position: absolute;
+  white-space: nowrap;
+  animation: scroll-left 12s linear infinite;
+}
+
+.marquee.paused {
+  animation-play-state: paused;
+}
+
+.marquee.running {
+  animation-play-state: running;
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+
+
+.marquee1 {
+  animation: scroll 15s linear infinite;
+}
+
+.paused {
+  animation-play-state: paused !important;
+}

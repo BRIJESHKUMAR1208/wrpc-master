@@ -104,16 +104,28 @@ const Discrepancies = () => {
                 </TextField>
               </div>
               <div className="col-md-5">
-                <TextField
-                  id="outlined-select-observation-a"
-                  select
-                  label="Category A Observations"
-                  fullWidth
-                  size="normal"
-                  value={observationA}
-                  onChange={handleObservationAChange}
-                  disabled={!substation} // Disable if no substation is selected
-                >
+              <TextField
+  id="outlined-select-observation-a"
+  select
+  label="Category A Observations"
+  fullWidth
+  size="normal"
+  value={observationA}
+  onChange={handleObservationAChange}
+  disabled={!substation} // Disable if no substation is selected
+  SelectProps={{
+    MenuProps: {
+      PaperProps: {
+        style: {
+          maxHeight: 200,           // Enables vertical scrolling
+          overflowY: 'auto',
+          overflowX: 'auto',        // Enables horizontal scrolling
+          whiteSpace: 'nowrap',     // Prevents wrapping so horizontal scroll appears
+        },
+      },
+    },
+  }}
+>
                   {observationsA.map((option) => (
                     <MenuItem key={option.id} value={option.cat_a_deficiencies}>
                       {option.cat_a_deficiencies}
@@ -133,6 +145,18 @@ const Discrepancies = () => {
                   value={observationB}
                   onChange={handleObservationBChange}
                   disabled={!substation} // Disable if no substation is selected
+                  SelectProps={{
+    MenuProps: {
+      PaperProps: {
+        style: {
+          maxHeight: 200,           // Enables vertical scrolling
+          overflowY: 'auto',
+          overflowX: 'auto',        // Enables horizontal scrolling
+          whiteSpace: 'nowrap',     // Prevents wrapping so horizontal scroll appears
+        },
+      },
+    },
+  }}
                 >
                   {observationsB.map((option) => (
                     <MenuItem key={option.id} value={option.cat_b_deficiencies}>

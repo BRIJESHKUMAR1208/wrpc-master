@@ -13,20 +13,46 @@ export const CmsFooter = () => {
   const [selectedLanguage, setSelectedLanguage] = useState(1);
   const [menudata, setMenuData] = useState([]);
   const { id } = useParams();
-  useEffect(() => {
-    async function fetchMenuData() {
-      try {
-        const data = await getFooteroptins();
-        setMenuData(data);
-      } catch (error) {
-        console.error("Error fetching menu data:", error);
-      }
-    }
+  // useEffect(() => {
+  //   async function fetchMenuData() {
+  //     try {
+  //       debugger;
+  //       const data = await getFooteroptins();
+  //       setMenuData(data);
+  //     } catch (error) {
+  //       console.error("Error fetching menu data:", error);
+  //     }
+  //   }
 
-    fetchMenuData();
-    const newSelectedLanguage = localStorage.getItem("selectedLanguage");
-    setSelectedLanguage(newSelectedLanguage || 1);
-  }, []);
+  //   fetchMenuData();
+  //   debugger;
+  //   const newSelectedLanguage = localStorage.getItem("selectedLanguage");
+  //   setSelectedLanguage(newSelectedLanguage || 1);
+  // }, []);
+
+  useEffect(() => {
+  async function fetchMenuData() {
+    try {
+      const data = await getFooteroptins();
+
+      const newSelectedLanguage = localStorage.getItem("selectedLanguage") || 1;
+      setSelectedLanguage(newSelectedLanguage);
+
+      // Filter based on selectedLanguage
+      const filteredData =
+        parseInt(newSelectedLanguage) === 2
+          ? data.filter((item) => item.u_languagetype === 2)
+          : data.filter((item) => item.u_languagetype === 1);
+
+      setMenuData(filteredData);
+    } catch (error) {
+      console.error("Error fetching menu data:", error);
+    }
+  }
+
+  fetchMenuData();
+}, []);
+
 
   return (
     <>
