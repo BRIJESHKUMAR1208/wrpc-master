@@ -1,29 +1,140 @@
+/* Banner marquee wrapper for smooth horizontal scrolling */
+.marquee-wrapper {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  height: 150px; /* Adjust horizontal marquee height as needed */
+  background: #f8f9fa;
+  border: 1px solid #f8f9fa;
+  border-radius: 5px;
+}
+
+/* Horizontal marquee list for scrolling */
+.marquee-list {
+  display: flex;
+  width: max-content;
+  animation: marqueeScroll 20s linear infinite;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+/* Animation play state control */
+.running {
+  animation-play-state: running;
+}
+
+.paused {
+  animation-play-state: paused !important;
+}
+
+/* Each marquee item spacing and nowrap */
+.marquee-item {
+  margin-right: 40px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Keyframes for horizontal marquee scrolling */
+@keyframes marqueeScroll {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Play/Pause button styling */
+.pause-play-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 10;
+  cursor: pointer;
+  padding: 4px 12px;
+  font-size: 14px;
+  border-radius: 4px;
+  border: 1px solid #004085;
+  background-color: #007bff;
+  color: white;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.pause-play-btn:hover,
+.pause-play-btn:focus {
+  background-color: #004085;
+  border-color: #002752;
+  outline: none;
+}
+
+/* Notice section styling */
 .notice-section {
-    background-color: #f8f9fa; /* Change to your desired background color */
-    padding: 10px 0;
+  background-color: #f8f9fa;
+  padding: 10px 0;
 }
 
+/* Marquee container for notices (smaller height) */
 .marquee-container {
-    overflow: hidden;
-    white-space: nowrap;
-    position: relative;
-    height: 30px; /* Adjust height as needed */
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+  height: 30px; /* Adjust height as needed */
 }
 
+/* Alternative marquee animation used in notice section */
 .marquee {
-    display: inline-block;
-    animation: marquee 10s linear infinite;
+  display: inline-block;
+  animation: marqueeAlternate 10s linear infinite;
 }
 
-@keyframes marquee {
-    0% { transform: translateX(100%); }
-    50% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
-}
-
+/* Notice marquee repeated message spacing */
 #message2 {
-    display: inline-block;
-    white-space: nowrap;
-    padding-left: 20px; /* Space between the repeated messages */
+  display: inline-block;
+  white-space: nowrap;
+  padding-left: 20px;
 }
+
+/* Revised marquee-wrapper for notice */
+.marquee-wrapper {
+  overflow: hidden;
+  position: relative;
+  height: 30px;
+  background-color: #2d79bd;
+}
+
+/* Notice marquee animation and state */
+.marquee {
+  position: absolute;
+  white-space: nowrap;
+  animation: scroll-left 12s linear infinite;
+}
+
+.marquee.paused {
+  animation-play-state: paused;
+}
+
+.marquee.running {
+  animation-play-state: running;
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* Another horizontal marquee style if needed */
+.marquee1 {
+  animation: scroll 15s linear infinite;
+}
+
+/* General paused state override */
+.paused {
+  animation-play-state: paused !important;
+}
+
 

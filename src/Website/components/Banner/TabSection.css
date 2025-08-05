@@ -1,0 +1,54 @@
+.marquee-container1 {
+  position: relative;
+  height: 400px; /* Adjust marquee height as needed */
+  overflow: hidden;
+  border: 0px solid #f8f9fa;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+}
+
+.vertical-marquee {
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: thin; /* Firefox */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+}
+
+.vertical-marquee::-webkit-scrollbar {
+  width: 8px;
+}
+
+.vertical-marquee::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.vertical-marquee::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.vertical-marquee::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.marquee-list {
+  padding: 0 10px;
+  margin: 0;
+  list-style-type: none;
+}
+
+.newsbox {
+  border-bottom: 1px solid #eee;
+  padding: 5px 0;
+}
+
+.newsbox:last-child {
+  border-bottom: none;
+}
+
+/* Style for paused marquee */
+.paused {
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}

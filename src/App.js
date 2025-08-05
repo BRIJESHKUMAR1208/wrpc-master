@@ -114,6 +114,7 @@ import Form3part2list from "./Website/components/Form3/VIewform3part2list.jsx";
 import {Quicklinkmenu} from "./Website/components/Footer/Quicklinkmenu.jsx";
 import {Getecrdatabyid} from "./Admin/Components/Form/GetECRdatabyid.jsx";
 import {Editform3data} from "./Website/components/websiteforms/Editform3data.jsx"
+import MenuWrapper from "./Website/components/Header/MenuWrapper.jsx";
 function App() {
   const [sessionExpired, setSessionExpired] = useState(false);
   const storedUserString = localStorage.getItem("user");
@@ -200,7 +201,7 @@ function App() {
             {/* <Route exact path="/" element={<CmsDisplay/>} /> */}
             {/* <Route exact path="/" element={<Home />} /> */}
             <Route path="/" element={<Home />} />
-            <Route path="/menu/:id" element={<MenuDetail />} />
+            <Route path="/menu/:id" element={<MenuWrapper />} />
             <Route path="/custom/:id" element={<CustomDetail />} />
             <Route path="/footer/:id" element={<FooterDetails />} />
             <Route path="/gallery/:id" element={<GalleryDetail />} />

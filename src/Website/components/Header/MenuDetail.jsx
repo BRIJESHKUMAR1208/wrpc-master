@@ -1,101 +1,123 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { getContent } from "./getContent";
-import CmsDisplay from "./CmsDisplay";
-import { CmsFooter } from "../Footer/CmsFooter";
-import { getMenuoptinsById } from "../../../Api/ApiFunctions";
-import axios from "axios";
-import { TopHeader } from "../TopHeader/TopHeader";
-import { Errorfound } from "../error404/Errorfound";
 
-const MenuDetail = () => {
-  const [Menuoptions, setMenuData] = useState(null); // Initialize as null or an empty object
-  const [extractedNumber, setExtractedNumber] = useState(null);
-  const { id } = useParams();
-  const navigate = useNavigate();
+// MenuDetail.jsx
+import React, { useEffect, useRef } from 'react';
+import axios from 'axios';
 
-  const [selectedLanguage, setSelectedLanguage] = useState(1);
+const MenuDetail = ({ html }) => {
+  const containerRef = useRef(null);
+  const processedLinks = useRef(new Set()); // ✅ cache
 
   useEffect(() => {
-    
-    const numberMatch = id.match(/\d+/);
+    const enhanceLinks = async () => {
+      const container = containerRef.current;
+      if (!container) return;
 
-    if (numberMatch) {
-      const number = parseInt(numberMatch[0], 10);
-      setExtractedNumber(number);
-      async function fetchMenuData() {
+      const anchors = container.querySelectorAll('a[href]');
+
+      anchors.forEach(async anchor => {
+        const href = anchor.getAttribute('href');
+
+        // ✅ only target file links
+        if (!href || !href.includes('/allfile/')) return;
+
+        // ✅ skip already processed links
+        if (processedLinks.current.has(href)) return;
+
+        // ✅ avoid duplicate span
+        if (anchor.nextSibling?.classList?.contains('file-meta-span')) return;
+
         try {
-          const data = await getMenuoptinsById(number);
-          setMenuData(data);
-        } catch (error) {
-          console.error('Error fetching menu data:', error);
+          const res = await axios.get('http://localhost:5141/api/FileMeta', {
+            params: { url: href }
+          });
+
+          const { type, size } = res.data;
+
+          const span = document.createElement('span');
+          span.className = 'file-meta-span'; // ✅ for idempotent detection
+          span.style.color = 'gray';
+          span.style.fontSize = '0.9em';
+          span.style.marginLeft = '5px';
+          span.innerText = `(${type.toUpperCase()} • ${size})`;
+
+          // ✅ insert AFTER the anchor tag
+          anchor.parentNode.insertBefore(span, anchor.nextSibling);
+
+          // ✅ mark as processed
+          processedLinks.current.add(href);
+        } catch (err) {
+          console.warn(`⚠️ Failed for ${href}:`, err.message);
         }
-      }
-  
-      fetchMenuData();
-      
-      
-    }
-  }, [id]);
-  useEffect(() => {
-    
-    const storedLanguage = localStorage.getItem('selectedLanguage');
-    if (storedLanguage) {
-        setSelectedLanguage(storedLanguage);
-    }
-}, []);
-  const handleLanguageChange = (event) => {
-    const newSelectedLanguage = event.target.value;
+      });
+    };
 
-    setSelectedLanguage(newSelectedLanguage);
-
-    // Store the selected language in localStorage
-    localStorage.setItem('selectedLanguage', newSelectedLanguage);
-
-    // Reload the window after a brief delay to allow saving the selected language
-      setTimeout(() => {
-        if (newSelectedLanguage===1) {
-          alert('Language changed to :English')
-      
-      } else if (newSelectedLanguage===2) {
-          alert('Language changed to :Hindi')
-      } else {
-          
-      }
-          navigate('/')
-      }, 500);
+    if (html) {
+      enhanceLinks();
     }
-  
-  if (Menuoptions === null) {
-    return <div></div>;
-  }
+  }, [html]);
 
   return (
-    <div>
-      <TopHeader selectedLanguage={selectedLanguage}
-                        handleLanguageChange={handleLanguageChange} />
-      <CmsDisplay />
-      <div >
-      <div className="container inner-sec main-sec">
-        <div className="box-sec">
-           <h2>{Menuoptions.menuname}</h2>
-  
-        {getContent(
-          Menuoptions.menu_id,
-          Menuoptions.menu_url,
-          Menuoptions.contenttype,
-          Menuoptions.html,
-          Menuoptions.file,
-          Menuoptions.internal_link,
-          Menuoptions.external_link
-        )}
-        
-      </div>
-      </div>
-      </div>
-      <CmsFooter />
-    </div>
+    <div ref={containerRef} dangerouslySetInnerHTML={{ __html: html }} />
   );
 };
 
 export default MenuDetail;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
