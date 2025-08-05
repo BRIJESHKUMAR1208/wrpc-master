@@ -101,7 +101,7 @@ const CmsDisplay = () => {
         onMouseEnter={() => setIsGalleryHovered(true)}
         onMouseLeave={() => setIsGalleryHovered(false)}
       >
-        <span className="nav-link" style={{ color: "white", marginLeft: "30px" }}>
+        <span className="nav-link" style={{ color: "white", marginTop: "4px" }}>
           {languageLabels[selectedLanguage].gallery}
         </span>
         {isGalleryHovered && filteredGallery.length > 0 && (

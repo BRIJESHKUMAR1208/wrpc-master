@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useFontSize  } from '../src/util/FontSizeContext.jsx';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import MenuDetail from "./Website/components/Header/MenuDetail";
 import FooterDetail from "./Website/components/Footer/FooterDetails";
@@ -119,7 +118,7 @@ function App() {
   const [sessionExpired, setSessionExpired] = useState(false);
   const storedUserString = localStorage.getItem("user");
   const token = localStorage.getItem("token")
-  const { fontSize } = useFontSize();
+
   // console.log(token);
   // console.log(storedUserString)
 
@@ -195,7 +194,7 @@ function App() {
   return (
     <>
       {/* Website */}
-       <div style={{ fontSize: `${fontSize}%`, transition: "font-size 0.2s ease" }}>
+       <div>
         <Router>
           <Routes>
             {/* <Route exact path="/" element={<CmsDisplay/>} /> */}
