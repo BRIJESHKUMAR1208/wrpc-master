@@ -102,7 +102,6 @@ export default function Login() {
 
     };
     try {
-       debugger;
       const response = await apiClient.post(api.login, jsonData
         , {
           headers: {
@@ -147,15 +146,18 @@ export default function Login() {
       }
     } catch (error) {
       // console.log("loginerrrrerer",error);
-      if (error.response.data === "already_login") {
+      if (error.response?.data?.status === "already_login") {
         setDialogText("User already login if you want to continue please click ok ");
         handleOpenDialog();
-      } else if (error.response.data === "not_found") {
+      } else if (error.response?.data?.status === "not_found") {
         setDialogText("You have entered invalid details");
         //handleOpenDialog();
         handleOpenIncorrectCredentialsDialog();
       }
+     
     }
+ 
+
   };
 
 
