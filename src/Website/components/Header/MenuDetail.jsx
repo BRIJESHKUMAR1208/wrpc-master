@@ -1,7 +1,9 @@
 
 // MenuDetail.jsx
 import React, { useEffect, useRef } from 'react';
-import axios from 'axios';
+import apiClient from "../../../Api/ApiClient";
+import apis from '../../../Api/api.json';
+import DOMPurify from 'dompurify';
 
 const MenuDetail = ({ html }) => {
   const containerRef = useRef(null);
@@ -27,10 +29,11 @@ const MenuDetail = ({ html }) => {
         if (anchor.nextSibling?.classList?.contains('file-meta-span')) return;
 
         try {
-          const res = await axios.get('http://localhost:5141/api/FileMeta', {
-            params: { url: href }
-          });
+          // const res = await axios.get('http://localhost:5141/api/FileMeta', {
+          //   params: { url: href }
+          // });
 
+           const res = await apiClient.get(apis.filemetadata,{params: { url: href }});
           const { type, size } = res.data;
 
           const span = document.createElement('span');
@@ -57,7 +60,7 @@ const MenuDetail = ({ html }) => {
   }, [html]);
 
   return (
-    <div ref={containerRef} dangerouslySetInnerHTML={{ __html: html }} />
+    <div ref={containerRef} dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(html) }} />
   );
 };
 

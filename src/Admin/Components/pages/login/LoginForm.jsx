@@ -102,7 +102,7 @@ export default function Login() {
 
     };
     try {
-       ;
+       debugger;
       const response = await apiClient.post(api.login, jsonData
         , {
           headers: {
@@ -119,7 +119,7 @@ export default function Login() {
 
 
       if (response && response.data) {
-         ;
+         
         if (response.status === 200) {
           let dt = response.data;
           let user = dt.user;

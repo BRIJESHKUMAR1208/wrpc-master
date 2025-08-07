@@ -7,6 +7,8 @@ import CmsDisplay from "./CmsDisplay";
 import { CmsFooter } from "../Footer/CmsFooter";
 import { useLocation } from "react-router-dom";
 import { TopHeader } from "../TopHeader/TopHeader";
+import apiClient from "../../../Api/ApiClient";
+import apis from '../../../Api/api.json';
 
 const MenuWrapper = () => {
   const [html, setHtml] = useState('');
@@ -23,18 +25,42 @@ const MenuWrapper = () => {
     }
   }, []);
 
+  // useEffect(() => {
+  //   const numberMatch = id?.match(/\d+/);
+  //   if (!numberMatch) return;
+  //   axios
+  //     .get('http://localhost:5141/api/TopMenu/' + parseInt(numberMatch[0]))
+  //     .then(res => {
+  //       console.log("✅ API Response:", res.data);
+  //       setHtml(res.data.html);
+  //       setMenuData(res.data); // ✅ You were missing this
+  //     })
+  //     .catch(err => console.error("❌ API Error:", err));
+  // }, [id]);
+
+
+
   useEffect(() => {
-    const numberMatch = id?.match(/\d+/);
+    if (!id) return;
+debugger
+    const numberMatch = id.match(/\d+/); // Extract digits from "menu_12"
     if (!numberMatch) return;
-    axios
-      .get('http://localhost:5141/api/TopMenu/' + parseInt(numberMatch[0]))
-      .then(res => {
-        console.log("✅ API Response:", res.data);
-        setHtml(res.data.html);
-        setMenuData(res.data); // ✅ You were missing this
-      })
-      .catch(err => console.error("❌ API Error:", err));
-  }, [id]);
+
+    const menuId = parseInt(numberMatch[0]);
+
+    const fetchMenuData = async () => {
+      try {
+        const response = await apiClient.get(`${apis.Menuwrapper}${menuId}`);
+       
+        setMenuData(response.data);
+        setHtml(response.data.html);
+      } catch (error) {
+        console.error('Error fetching menu data:', error);
+      }
+    };
+
+    fetchMenuData();
+  }, [id]); 
 
   const handleLanguageChange = (event) => {
     const newSelectedLanguage = event.target.value;

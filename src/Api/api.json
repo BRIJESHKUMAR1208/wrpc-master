@@ -13,6 +13,8 @@
     "gettender":"/api/Tenders",
     "getlatestnews":"/api/TopMenu/lastestuploads",
     "getmenuSubmenu":"/api/TopMenu/MenuSubmenuList/",
+    "Menuwrapper":"/api/TopMenu/",
+    "filemetadata":"/api/FileMeta",
     "getgallerylist":"/api/Gallery/getlist",
     "Relaysave":"/api/Relay",
     "Weeklyaccontsave":"/api/Weeklyaccount",

@@ -152,7 +152,7 @@ const LatestNews = () => {
              <div>
                <div>
                  <h3 className="m-4 text-center">Latest News</h3>
-                 <div className="news-list marquee-container marquee h-100">
+                 <div>
                    <ul>
                      {reportData.map((item) => (
                        <li key={item.u_id} className="border-bottom border-success p-2 m-2">

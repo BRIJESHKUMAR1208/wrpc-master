@@ -11,6 +11,7 @@ import {
 } from "../../../Api/ApiFunctions";
 import TabSection from "./TabSection";
 
+
 import "./../../../assets/css/letestnews.css";
 
 const Banner = () => {
@@ -129,43 +130,80 @@ const Banner = () => {
           </div>
         </div>
       </section>
-
-      <section className="notice-section" aria-label="Live Streaming Notices">
-        <div className="container">
-          <div className="row pt-2">
-            <div className="col-md-2">
-              <div className="notice-lft">
-                <p>अद्यतन समाचार</p>
-                <div className="marquee-controls mt-2">
-                  <button
-                    onClick={togglePlay}
-                    className="btn btn-sm btn-outline-primary"
-                  >
-                    {isPlaying ? "⏸️Pause" : "▶️Play"}
-                  </button>
-                </div>
-              </div>
+{selectedLanguage === 1 ? (
+  <section className="notice-section" aria-label="Live Streaming Notices">
+    <div className="container">
+      <div className="row pt-2">
+        <div className="col-md-2">
+          <div className="notice-lft">
+            <p>Live Streaming</p>
+            <div className="marquee-controls mt-2">
+              {/* <button
+                onClick={togglePlay}
+                className="btn btn-sm btn-outline-primary"
+              >
+                {isPlaying ? "⏸️Pause" : "▶️Play"}
+              </button> */}
             </div>
-            <div className="col-md-10">
-              <div className="notice-rgt">
-                <div className="marquee-wrapper">
-                  <div className={`marquee ${isPlaying ? "running" : "paused"}`}>
-                    <span>
-                      <p>
-                        <i className="fa-solid fa-bullhorn"></i> &nbsp; सौभाग्य के
-                        तहत घरेलू विद्युतीकरण पर सभी प्रश्नों और शिकायतों के लिए
-                        टोल-फ्री हेल्पलाइन नंबर 1800-121-5555 डायल करें।
-                      </p>
-                    </span>
-                  </div>
-                </div>
+          </div>
+        </div>
+        <div className="col-md-10">
+          <div className="notice-rgt">
+            <div className="marquee-wrapper">
+              <div className={`marquee ${isPlaying ? "running" : "paused"}`}>
+                <span>
+                  <p>
+                   
+                  </p>
+                </span>
               </div>
             </div>
           </div>
         </div>
-      </section>
+      </div>
+    </div>
+  </section>
+) : (
+  <section className="notice-section" aria-label="Live Streaming Notices">
+    <div className="container">
+      <div className="row pt-2">
+        <div className="col-md-2">
+          <div className="notice-lft">
+            <p>अद्यतन समाचार</p>
+            <div className="marquee-controls mt-2">
+              <button
+                onClick={togglePlay}
+                className="btn btn-sm btn-outline-primary"
+              >
+                {isPlaying ? "⏸️Pause" : "▶️Play"}
+              </button>
+            </div>
+          </div>
+        </div>
+        <div className="col-md-10">
+          <div className="notice-rgt">
+            <div className="marquee-wrapper">
+              <div className={`marquee ${isPlaying ? "running" : "paused"}`}>
+                <span>
+                  <p>
+                    <i className="fa-solid fa-bullhorn"></i> &nbsp;
+                    सौभाग्य के तहत घरेलू विद्युतीकरण पर सभी प्रश्नों और
+                    शिकायतों के लिए टोल-फ्री हेल्पलाइन नंबर 1800-121-5555 डायल
+                    करें।
+                  </p>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+)}
+
     </>
   );
+ 
 };
 
 export default Banner;
