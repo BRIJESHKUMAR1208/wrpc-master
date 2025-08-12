@@ -525,46 +525,39 @@ export const TopHeader = ({ selectedLanguage, handleLanguageChange }) => {
 
           <div className="top-header-sec">
             <div className="container">
-              <div className="row">
-                <div className="col-md-8 col-sm-6">
-                  <div className="head-logo h-100">
-                    <h1 className="logo w-100">
-                      <Link
-                        to="/"
-                        title="होम"
-                        rel="home"
-                        className="header__logo row w-100"
-                        id="logo-hindi"
-                        aria-label="पश्चिम क्षेत्रीय विद्युत् समिति"
-                      >
-                        <div className="col-md-3">
-                          <div className="custom-logo">
-                            <img
-                              className="national_emblem"
-                              src={footerLogo}
-                              alt="राष्ट्रीय प्रतीक"
-                              style={{ maxWidth: "100%", height: "auto", objectFit: "contain" }}
-                            />
-                          </div>
-                        </div>
-                        <div className="col-md-9 d-flex align-items-center justify-content-end">
-                          <em>
-                            <span className="text-center">पश्चिम क्षेत्रीय विद्युत् समिति </span>
-                            <span> Western Regional Power Committee</span>
-                          </em>
-                        </div>
-                      </Link>
-                    </h1>
-                  </div>
-                </div>
-                <div className="col-md-4 col-sm-6">
-                  <div className="head-right">
-                    <div className="rgt-three" id="main-content" tabIndex="-1">
-                      <img src={G20} alt="जी20 लोगो" />
-                    </div>
-                  </div>
-                </div>
-              </div>
+                <div className="row">
+  <div className="col-md-4 col-sm-4">
+    <div className="head-logo h-100" aria-label="राष्ट्रीय प्रतीक">
+      <div className="custom-logo">
+        <img
+          className="national_emblem"
+          src={footerLogo}
+          alt="राष्ट्रीय प्रतीक"
+          style={{ maxWidth: "100%", height: "auto", objectFit: "contain" }}
+        />
+      </div>
+    </div>
+  </div>
+
+  <div className="col-md-4 col-sm-4">
+    <div className="title-logo" aria-label="पश्चिम क्षेत्रीय विद्युत् समिति">
+      <em>
+        <span className="title-logo1 text-center">पश्चिम क्षेत्रीय विद्युत् समिति</span><br />
+        <span className="title-logo1 text-center"> Western Regional Power Committee</span>
+      </em>
+    </div>
+  </div>
+
+  <div className="col-md-4 col-sm-4">
+    <div className="head-right" aria-label="जी20 लोगो">
+      <div className="rgt-three" id="main-content" tabIndex="-1">
+        <img src={G20} alt="जी20 लोगो" />
+      </div>
+    </div>
+  </div>
+
+</div>
+
             </div>
           </div>
         </>

@@ -7154,7 +7154,7 @@ a.black-contrast {
 .head-right {
 	display: flex;
 	align-items: center;
-	justify-content: space-around;
+	justify-content: end;
 }
 
 .rgt-one img {
@@ -7618,4 +7618,125 @@ span.title-logo1 {
     color: #012970;
     font-family: Nunito, sans-serif;
     font-weight: 900;
+}
+
+
+@media (min-width: 991px) and (max-width: 1450px) {
+	.navbar-nav a.nav-link {
+		margin-left: 8px !important;
+		margin-right: 8px !important;
+	}
+
+	.navbar-expand-lg .navbar-nav {
+		align-items: center !important;
+	}
+
+	.dropdown .nav-link {
+		margin-left: 0px !important;
+	}
+}
+
+@media (min-width: 1000px) and (max-width: 1100px) {
+	.css-1q2h7u5 {
+		padding: 5px;
+	}
+}
+
+@media (min-width: 767px) and (max-width: 1000px) {
+	.css-1q2h7u5 {
+		padding: 5px;
+	}
+
+	#main-banner-slider .row {
+		display: inline;
+	}
+
+	#main-banner-slider .col-md-8 {
+		width: 100%;
+	}
+    #main-banner-slider .col-md-4 {
+        width: 50%;
+    }
+}
+
+@media (min-width: 250px) and (max-width: 770px) {
+   .css-1q2h7u5 {
+		padding: 5px;
+	}
+	.top-bar-rgt {
+    justify-content: center!important;
+    align-items: center;
+    flex-wrap: wrap;
+    grid-gap: 4px!important;
+}
+}
+
+@media (min-width: 250px) and (max-width: 400px) {
+	.main-box1 {
+         padding: 10px;
+	}
+}
+
+
+@media (min-width: 250px) and (max-width: 1200px){
+	.box-sec {
+       overflow-x: scroll;
+    }
+}
+
+
+a:focus{
+	 outline: dotted 2px black;
+     outline-offset: 1px;
+}
+button:focus {
+    outline: dotted 2px black;
+    outline-offset: 1px;
+}
+img:focus{
+	 outline: dotted 2px black;
+     outline-offset: 1px;
+}
+
+.title-logo1{
+	font-size: 20px;
+}
+
+@media (max-width: 767px) {
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  /* Make first and third columns appear first on mobile */
+  .col-md-4:first-child,
+  .col-md-4:last-child {
+    order: 1;
+    width: 48%;
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  /* Make middle column (title) appear last on mobile */
+  .col-md-4:nth-child(2) {
+    order: 2;
+    width: 100%;
+    text-align: center;
+    margin-top: 10px;
+  }
+  .head-right {
+        justify-content: end!important;
+    }
+}
+
+.bar5 .dash_link_nt {
+    border: 1px solid #fff;
+    border-radius: 4px;
+    margin: 0px 2px;
+    background-color: #fff !important;
+}
+.bar-c {
+    padding-left: 2px!important;
+    padding-right: 2px!important;
 }

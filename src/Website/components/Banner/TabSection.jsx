@@ -184,8 +184,8 @@ const TabSection = ({
   // Define tab labels dynamically based on selected language
   const tabLabels =
     selectedLanguage === 1
-      ? { news: "News", uploads: "Latest Uploads", tenders: "Tenders", play: "▶️Play", pause: "⏸️Pause" }
-      : { news: "समाचार", uploads: "नवीनतम अपलोड", tenders: "निविदाओं", play: "▶️प्ले", pause: "⏸️पॉज" };
+      ? { news: "News", uploads: "Latest Uploads", tenders: "Tenders", play: "▶️", pause: "⏸️" }
+      : { news: "समाचार", uploads: "नवीनतम अपलोड", tenders: "निविदाओं", play: "▶️", pause: "⏸️" };
 
   return (
     <Box className="main-box1" sx={{ width: "100%", typography: "body1" }} bgcolor={"#00000"}>
@@ -195,8 +195,8 @@ const TabSection = ({
             <Tab label={tabLabels.news} value="1" className="custom-tab" />
             <Tab label={tabLabels.uploads} value="2" className="custom-tab" />
             <Tab label={tabLabels.tenders} value="3" className="custom-tab" />
-            <div className="d-flex justify-content-end mb-2">
-              <button onClick={() => setIsPaused((prev) => !prev)} className="btn btn-sm btn-primary me-2">
+            <div className="d-flex justify-content-end">
+              <button onClick={() => setIsPaused((prev) => !prev)} className="btn-sm btn-primary me-2">
                 {isPaused ? tabLabels.play : tabLabels.pause}
               </button>
             </div>

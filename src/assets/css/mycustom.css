@@ -459,9 +459,9 @@ section.notice-section p {
     color: #fff;
 }
 
-.notice-lft p {
+/*.notice-lft p {
     border-right: 2px solid white;
-}
+}*/
 
 .marquee2 {
     white-space: nowrap;

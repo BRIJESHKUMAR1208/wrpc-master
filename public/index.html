@@ -47,14 +47,38 @@
   
   <!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script> -->
   <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
-  <script src="/assets/jquery-3.6.0.min.js"></script>
-  <script>   document.querySelectorAll('h1,h2,h3,h4,h5,h6,p,a,img,strong,i,input,button,li').forEach(el => el.setAttribute('tabindex', '0'));
-</script>
+  
+  
 </head>
 
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
   <div id="root"></div>
+
+
+  <script src="/assets/jquery-3.6.0.min.js"></script>
+  <script>
+  function applyTabindex() {
+    document.querySelectorAll(
+      'a, button, input, textarea, select, [role="button"], img, h1, h2, h3, h4, h5, h6, span, p, li, label, i, svg, [tabindex="0"]'
+    ).forEach(el => {
+      if (!el.hasAttribute('tabindex')) {
+        el.setAttribute('tabindex', '0');
+      }
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    applyTabindex();
+
+    // Watch for new elements being added to the DOM
+    const observer = new MutationObserver(() => {
+      applyTabindex();
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+  });
+</script>
 </body>
 
 </html>

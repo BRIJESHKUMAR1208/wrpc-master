@@ -137,12 +137,12 @@ const Banner = () => {
         <div className="col-md-2">
           <div className="notice-lft">
             <p>Live Streaming</p>
-            <div className="marquee-controls mt-2">
+            <div className="marquee-controls new-add-plays">
               {/* <button
                 onClick={togglePlay}
-                className="btn btn-sm btn-outline-primary"
+                className="btn-sm btn-outline-primary bg-plays"
               >
-                {isPlaying ? "⏸️Pause" : "▶️Play"}
+                {isPlaying ? "⏸️" : "▶️"}
               </button> */}
             </div>
           </div>
@@ -153,7 +153,7 @@ const Banner = () => {
               <div className={`marquee ${isPlaying ? "running" : "paused"}`}>
                 <span>
                   <p>
-                   
+                 
                   </p>
                 </span>
               </div>
@@ -170,12 +170,12 @@ const Banner = () => {
         <div className="col-md-2">
           <div className="notice-lft">
             <p>अद्यतन समाचार</p>
-            <div className="marquee-controls mt-2">
+            <div className="marquee-controls new-add-plays">
               <button
                 onClick={togglePlay}
-                className="btn btn-sm btn-outline-primary"
+                className="btn-sm btn-outline-primary bg-plays"
               >
-                {isPlaying ? "⏸️Pause" : "▶️Play"}
+                {isPlaying ? "⏸️" : "▶️"}
               </button>
             </div>
           </div>
