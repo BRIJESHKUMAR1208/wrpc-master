@@ -1,57 +1,44 @@
-
 // MenuDetail.jsx
 import React, { useEffect, useRef } from 'react';
 import apiClient from "../../../Api/ApiClient";
 import apis from '../../../Api/api.json';
-import DOMPurify from 'dompurify';
+import './MenuDetail.css';
 
 const MenuDetail = ({ html }) => {
   const containerRef = useRef(null);
-  const processedLinks = useRef(new Set()); // ✅ cache
+  const processedLinks = useRef(new Set());
 
   useEffect(() => {
+    // Har nayi HTML load hone par cache reset karo
+    processedLinks.current = new Set();
+
     const enhanceLinks = async () => {
       const container = containerRef.current;
       if (!container) return;
 
       const anchors = container.querySelectorAll('a[href]');
 
-      anchors.forEach(async anchor => {
+      for (const anchor of anchors) {
         const href = anchor.getAttribute('href');
-
-        // ✅ only target file links
-        if (!href || !href.includes('/allfile/')) return;
-
-        // ✅ skip already processed links
-        if (processedLinks.current.has(href)) return;
-
-        // ✅ avoid duplicate span
-        if (anchor.nextSibling?.classList?.contains('file-meta-span')) return;
+        // Sirf file links process karo
+        if (!href || !href.includes('/allfile/')) continue;
+        // Already processed skip karo
+        if (processedLinks.current.has(href)) continue;
+        // Already span exist kare to skip karo
+        if (anchor.nextSibling?.classList?.contains('file-meta-span')) continue;
 
         try {
-          // const res = await axios.get('http://localhost:5141/api/FileMeta', {
-          //   params: { url: href }
-          // });
-
-           const res = await apiClient.get(apis.filemetadata,{params: { url: href }});
+          const res = await apiClient.get(apis.filemetadata, { params: { url: href } });
           const { type, size } = res.data;
-
           const span = document.createElement('span');
-          span.className = 'file-meta-span'; // ✅ for idempotent detection
-          span.style.color = 'gray';
-          span.style.fontSize = '0.9em';
-          span.style.marginLeft = '5px';
+          span.className = 'file-meta-span';
           span.innerText = `(${type.toUpperCase()} • ${size})`;
-
-          // ✅ insert AFTER the anchor tag
           anchor.parentNode.insertBefore(span, anchor.nextSibling);
-
-          // ✅ mark as processed
           processedLinks.current.add(href);
         } catch (err) {
           console.warn(`⚠️ Failed for ${href}:`, err.message);
         }
-      });
+      }
     };
 
     if (html) {
@@ -60,67 +47,12 @@ const MenuDetail = ({ html }) => {
   }, [html]);
 
   return (
-    <div ref={containerRef} dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(html) }} />
+    <div
+      ref={containerRef}
+      className="menu-detail-wrapper"
+      dangerouslySetInnerHTML={{ __html: html }}
+    />
   );
 };
 
 export default MenuDetail;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

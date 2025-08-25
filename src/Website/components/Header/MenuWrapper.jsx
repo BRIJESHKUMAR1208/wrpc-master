@@ -88,6 +88,7 @@ debugger
       <div>
         <div className="container inner-sec main-sec">
           <div className="box-sec">
+            <h2 className="menu-title">{Menuoptions.menuname}</h2>
           <MenuDetail html={html} />
           </div>
         </div>

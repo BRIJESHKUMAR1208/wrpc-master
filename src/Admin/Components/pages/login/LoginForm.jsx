@@ -67,6 +67,7 @@ export default function Login() {
     setOpenIncorrectCredentialsDialog(false);
   };
   const handleSubmit = async (event) => {
+    debugger
     event.preventDefault();
 
     // Validate email

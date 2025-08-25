@@ -9,7 +9,7 @@ import footerLogo from "../../../assets/images/top-logo.png";
 export const CmsFooter = () => {
   const [extractedNumber, setExtractedNumber] = useState(null);
   // const { fontSize } = useFontSize();
-
+  const [lastUpdated, setLastUpdated] = useState(null);
   const [selectedLanguage, setSelectedLanguage] = useState(1);
   const [menudata, setMenuData] = useState([]);
   const { id } = useParams();
@@ -38,6 +38,12 @@ export const CmsFooter = () => {
       const newSelectedLanguage = localStorage.getItem("selectedLanguage") || 1;
       setSelectedLanguage(newSelectedLanguage);
 
+      // Save last updated date before filtering
+        const lastUpdatedRecord = data.find((item) => item.u_creaded_date);
+        if (lastUpdatedRecord) {
+          setLastUpdated(lastUpdatedRecord.u_creaded_date);
+        }
+
       // Filter based on selectedLanguage
       const filteredData =
         parseInt(newSelectedLanguage) === 2
@@ -52,6 +58,13 @@ export const CmsFooter = () => {
 
   fetchMenuData();
 }, []);
+
+// Date formatting function
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const options = { day: "numeric", month: "short", year: "numeric" };
+    return date.toLocaleDateString("en-GB", options); // e.g. 1 Feb 2024
+  };
 
 
   return (
@@ -81,6 +94,8 @@ export const CmsFooter = () => {
                         }
                       })}
                     </section>
+                    
+                      
                   </div>
 
                   <div className="col-md-3 col-sm-3">
@@ -121,6 +136,13 @@ export const CmsFooter = () => {
                             </li>
                           ))}
                         </ul>
+                        {/* <ul>
+                          <li>
+                            <Link to="/Feedback">
+                                      <p>Feedback</p>
+                                    </Link>
+                                    </li>
+                        </ul> */}
                       </div>
                     </div>
                   </div>
@@ -168,6 +190,11 @@ export const CmsFooter = () => {
                         </span>
                         All Rights Reserved. | This site is best viewed at:
                         800x600 resolution.
+                       
+                      </p>
+                      <p>
+                        (Website Last Updated on:{" "}
+                        {lastUpdated ? formatDate(lastUpdated) : "N/A"})
                       </p>
                     </div>
                   </div>
@@ -335,7 +362,10 @@ export const CmsFooter = () => {
                           सर्वाधिकार सुरक्षित। | इस साइट को सबसे अच्छी तरह से
                           देखा जा सकता है: 800x600 रिज़ॉल्यूशन।{" "}
                         </p>
-                        (वेबसाइट अंतिम अद्यतन तिथि: 14-जनवरी-2025)
+                        <p>
+                          (वेबसाइट अंतिम अद्यतन तिथि:{" "}
+                          {lastUpdated ? formatDate(lastUpdated) : "N/A"})
+                        </p>
                       </div>
 
                     </div>

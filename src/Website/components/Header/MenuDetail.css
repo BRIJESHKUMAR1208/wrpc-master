@@ -1,0 +1,59 @@
+/* Wrapper for content control */
+.menu-detail-wrapper {
+  max-width: 100%;
+  overflow-x: auto; /* Table agar bada hua to scroll ho */
+  word-wrap: break-word;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* Style for file metadata span */
+.file-meta-span {
+  color: gray;
+  font-size: 0.9em;
+  margin-left: 6px;
+  white-space: nowrap;
+}
+
+/* Table fixed layout and responsive */
+.menu-detail-wrapper table {
+  width: 100% !important;
+  max-width: 100%;
+  border-collapse: collapse;
+  table-layout: auto;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+/* Table cells: wrap content, do not truncate */
+.menu-detail-wrapper table td,
+.menu-detail-wrapper table th {
+  /* No hidden, no ellipsis! */
+  /* overflow: hidden; */
+  /* text-overflow: ellipsis; */
+  white-space: normal;         /* Enable multi-line wrap */
+  word-break: break-word;
+  vertical-align: top;
+  padding: 8px;
+  /* Optional: uncomment next line to set min width for columns */
+  /* min-width: 120px; */
+}
+
+/* Links and span inside table: always wrap */
+.menu-detail-wrapper table a,
+.menu-detail-wrapper .file-meta-span {
+  word-break: break-word;
+  white-space: normal;
+}
+
+/* Responsive images inside table/cells */
+.menu-detail-wrapper img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Responsive iframes */
+.menu-detail-wrapper iframe {
+  max-width: 100%;
+}

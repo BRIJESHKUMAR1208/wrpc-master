@@ -115,6 +115,8 @@ import {Quicklinkmenu} from "./Website/components/Footer/Quicklinkmenu.jsx";
 import {Getecrdatabyid} from "./Admin/Components/Form/GetECRdatabyid.jsx";
 import {Editform3data} from "./Website/components/websiteforms/Editform3data.jsx"
 import MenuWrapper from "./Website/components/Header/MenuWrapper.jsx";
+import Feedback from "./Website/components/Feedback/Feedback.jsx";
+import WebInfoManager from "./Website/components/Footer/WebInfoManager.jsx";
 function App() {
   const [sessionExpired, setSessionExpired] = useState(false);
   const storedUserString = localStorage.getItem("user");
@@ -231,7 +233,9 @@ function App() {
             <Route path="/menu/commerical/:id" element={<CommericalData />} />
             <Route path="/archive" element={<ArchiveComponent />} />
             {/* <Route path="/sitemap" element ={<SiteMap/>} /> */}
-            <Route path="/Quicklinkmenu" element={<Quicklinkmenu/>} />
+            <Route path="/Quicklinkmenu" element={<Quicklinkmenu/>} />  
+            <Route path="/Feedback" element={<Feedback/>} />
+            <Route path="/WebInfoManager" element={<WebInfoManager/>} />
             <Route path="/menu">
               
               <>

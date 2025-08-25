@@ -28,6 +28,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 // import './js/main.js';
 import '../src/assets/AdminAssets/js/main.js';
 import './index.css'
+import { DarkModeProvider } from './util/DarkModeContext';
 
 // import 'bootstrap/dist/css/bootstrap.min.css';
 // import "bootstrap-icons/font/bootstrap-icons.css";
@@ -36,9 +37,11 @@ import './index.css'
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <DarkModeProvider>
   <FontSizeProvider>
   <App />
   </FontSizeProvider>
+  </DarkModeProvider>
 </React.StrictMode>
 )
 reportWebVitals();

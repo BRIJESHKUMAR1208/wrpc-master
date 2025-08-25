@@ -8,10 +8,11 @@ import swatchBarath from "../../../assets/images/G20-logo.png";
 import footerLogo from "../../../assets/images/top-logo.png"
 import './TopHeader.scss'
 import './UserOptionsDropdown.css';
-
+import { useDarkMode } from "../../../util/DarkModeContext";
 
 
 export const TopHeader = ({ selectedLanguage, handleLanguageChange }) => {
+  const {theme, toggleTheme} = useDarkMode();
   const { increaseFontSize, decreaseFontSize, resetFontSize } = useFontSize();
   const [selectedLanguageA, setSelectedLanguageA] = useState(1);
   const [currentDate, setCurrentDate] = useState("");
@@ -118,24 +119,24 @@ export const TopHeader = ({ selectedLanguage, handleLanguageChange }) => {
     }
   };
 
-  const [theme, setTheme] = useState("");
+  // const [theme, setTheme] = useState("");
 
-  useEffect(() => {
-    const userTheme = localStorage.getItem("theme");
-    if (userTheme) {
-      setTheme(userTheme);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const userTheme = localStorage.getItem("theme");
+  //   if (userTheme) {
+  //     setTheme(userTheme);
+  //   }
+  // }, []);
 
-  const toggleTheme = (newTheme) => {
-    setTheme(newTheme);
-    localStorage.setItem("theme", newTheme);
+  // const toggleTheme = (newTheme) => {
+  //   setTheme(newTheme);
+  //   localStorage.setItem("theme", newTheme);
 
-    const themeStylesheet = document.getElementById("theme-stylesheet");
-    if (themeStylesheet) {
-      themeStylesheet.setAttribute("href", `css/${newTheme}.css`);
-    }
-  };
+  //   const themeStylesheet = document.getElementById("theme-stylesheet");
+  //   if (themeStylesheet) {
+  //     themeStylesheet.setAttribute("href", `css/${newTheme}.css`);
+  //   }
+  // };
 
   const handleLogout = () => {
     localStorage.clear();
