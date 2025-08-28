@@ -136,14 +136,14 @@ const Banner = () => {
       <div className="row pt-2">
         <div className="col-md-2">
           <div className="notice-lft">
-            <p>Live Streaming</p>
+            <p>Latest News</p>
             <div className="marquee-controls new-add-plays">
-              {/* <button
+              <button
                 onClick={togglePlay}
                 className="btn-sm btn-outline-primary bg-plays"
               >
                 {isPlaying ? "⏸️" : "▶️"}
-              </button> */}
+              </button>
             </div>
           </div>
         </div>
@@ -153,7 +153,8 @@ const Banner = () => {
               <div className={`marquee ${isPlaying ? "running" : "paused"}`}>
                 <span>
                   <p>
-                 
+                  <i className="fa-solid fa-bullhorn"></i> &nbsp;
+                  For all questions and complaints regarding household electrification under Saubhagya, dial the toll-free helpline number 1800-121-5555.
                   </p>
                 </span>
               </div>

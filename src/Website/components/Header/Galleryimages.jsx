@@ -79,24 +79,34 @@ const GalleryDetail = () => {
                 {gallery.ImagePaths.length === 0 ? (
                   <p>No images available.</p>
                 ) : (
-                  gallery.ImagePaths.map((imagePath, index) => (
-                    <div key={index} className="gallery-card">
-                      <div className="card gallery-box">
-                        <img
-                          src={`${BASE_URL}${imagePath}`} // Image URL
-                          alt={`Image ${index + 1}`}
+                  gallery.ImagePaths.map((imagePath, index) => {
+                    // file extension हटाकर caption/title बनाएँ
+                  const title = imagePath
+  .replace(/^\/?Galleryuploads\//, "") // "/Galleryupload/" हटाओ
+  .replace(/\.[^/.]+$/, "");          // extension हटाओ
+                    return (
+                      <div key={index} className="gallery-card">
+                        <div className="card gallery-box">
+                          <img
+                            src={`${BASE_URL}${imagePath}`} // Image URL
+
+                          //alt={`Image ${index + 1}`}
+                          alt={title}
                           className="card-img-top gallery-image"
                           onClick={() => openLightbox(imagePath)} // Open lightbox on click
                           loading="eager" // Ensure eager loading to prevent lazy loading
                           aria-label={imagePath || ` image ${index + 1}`}
+                          title={title}
                         />
+                          
                       </div>
                     </div>
-                  ))
-                )}
-              </div>
-            </>
-          ) : (
+                  );
+                })
+              )}
+            </div>
+          </>
+        ) : (
             <p>Loading gallery details...</p>
           )}
         </div>

@@ -1,0 +1,62 @@
+.help-container {
+  background: linear-gradient(135deg, #f7fafc 0%, #e0e7ff 100%);
+  min-height: 100vh;
+}
+
+.access-bar {
+  position: webkit-sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(255,255,255,0.92);
+  box-shadow: 0 1px 8px 0 rgba(0,0,0,0.03);
+  border-radius: 8px;
+}
+
+.category-card {
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.category-card:hover {
+  transform: translateY(-4px) scale(1.04);
+  box-shadow: 0 6px 30px #b3c2f7;
+}
+
+.faq-accordion .accordion-item {
+  border-radius: 8px;
+  border: 1px solid #e7eafd;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 8px #e3eefe;
+}
+
+.faq-accordion .accordion-header {
+  font-weight: 600;
+  background: #eff6ff;
+}
+
+.faq-accordion .accordion-body {
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.contact-float-btn {
+  animation: pulse 1.7s infinite;
+  box-shadow: 0 10px 32px 0 #6366f1;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 #6366f1; }
+  70% { box-shadow: 0 0 0 16px rgba(99,102,241, 0.09);}
+  100% { box-shadow: 0 0 0 0 #6366f1; }
+}
+
+@media (max-width: 768px) {
+  .category-card { margin-bottom: 12px; }
+  .faq-accordion { margin-top: 18px; }
+}
+
+.access-btn:focus, .access-btn:hover {
+  border-color: #6366f1 !important;
+  color: #fff !important;
+  background: #6366f1 !important;
+  transition: background 0.2s;
+}

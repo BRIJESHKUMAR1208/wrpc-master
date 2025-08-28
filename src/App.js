@@ -117,6 +117,7 @@ import {Editform3data} from "./Website/components/websiteforms/Editform3data.jsx
 import MenuWrapper from "./Website/components/Header/MenuWrapper.jsx";
 import Feedback from "./Website/components/Feedback/Feedback.jsx";
 import WebInfoManager from "./Website/components/Footer/WebInfoManager.jsx";
+import HelpHome from "./Website/components/Help/HelpHome.jsx";
 function App() {
   const [sessionExpired, setSessionExpired] = useState(false);
   const storedUserString = localStorage.getItem("user");
@@ -236,8 +237,10 @@ function App() {
             <Route path="/Quicklinkmenu" element={<Quicklinkmenu/>} />  
             <Route path="/Feedback" element={<Feedback/>} />
             <Route path="/WebInfoManager" element={<WebInfoManager/>} />
+            
+            <Route path="/help" element={<HelpHome/>} />
             <Route path="/menu">
-              
+
               <>
                
                 <Route path="performance" element={<Performanceindices />} />
