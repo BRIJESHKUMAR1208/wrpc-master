@@ -5,6 +5,7 @@ import { getFooteroptins } from "../../../Api/ApiFunctions"; // Import Bootstrap
 import HomeIcon from "@mui/icons-material/Home";
 import Logo from "../../../assets/images/emblem-dark.png";
 import footerLogo from "../../../assets/images/top-logo.png";
+import ExternalLinkGuard from "../modal/ExternalLinkGuard";
 
 export const CmsFooter = () => {
   const [extractedNumber, setExtractedNumber] = useState(null);
@@ -13,22 +14,7 @@ export const CmsFooter = () => {
   const [selectedLanguage, setSelectedLanguage] = useState(1);
   const [menudata, setMenuData] = useState([]);
   const { id } = useParams();
-  // useEffect(() => {
-  //   async function fetchMenuData() {
-  //     try {
-  //       debugger;
-  //       const data = await getFooteroptins();
-  //       setMenuData(data);
-  //     } catch (error) {
-  //       console.error("Error fetching menu data:", error);
-  //     }
-  //   }
-
-  //   fetchMenuData();
-  //   debugger;
-  //   const newSelectedLanguage = localStorage.getItem("selectedLanguage");
-  //   setSelectedLanguage(newSelectedLanguage || 1);
-  // }, []);
+  
 
   useEffect(() => {
   async function fetchMenuData() {
@@ -203,6 +189,8 @@ export const CmsFooter = () => {
 
                   <div className="col-md-3">
                     <div className="city_top_social">
+                      <ExternalLinkGuard>
+
                       <ul>
                         {/* <li>
                             <a href="#">
@@ -238,6 +226,8 @@ export const CmsFooter = () => {
                             </a>
                           </li> */}
                       </ul>
+                      </ExternalLinkGuard>
+
                     </div>
                   </div>
                 </div>
