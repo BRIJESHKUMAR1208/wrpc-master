@@ -361,11 +361,12 @@ export const CmsFooter = () => {
                     </div>
                     <div className="col-md-3">
                       <div className="city_top_social">
-                        <ul>
-                          {/* <li>
-                            <a href="https://www.facebook.com/">
-                              <i className="fa-brands fa-facebook"></i>                              
-                              <span className="visually-hidden">Facebook</span>
+                        <ExternalLinkGuard>
+                          <ul>
+                            {/* <li>
+                              <a href="https://www.facebook.com/">
+                                <i className="fa-brands fa-facebook"></i>
+                                <span className="visually-hidden">Facebook</span>
                             </a>
                           </li> */}
                           <li>
@@ -395,6 +396,7 @@ export const CmsFooter = () => {
                             </a>
                           </li> */}
                         </ul>
+                        </ExternalLinkGuard>
                       </div>
                     </div>
                   </div>
