@@ -57,7 +57,7 @@
 
 
   <script src="/assets/jquery-3.6.0.min.js"></script>
-  <script>
+  <!-- <script>
   function applyTabindex() {
     document.querySelectorAll(
       'a, button, input, textarea, select, [role="button"], img, h1, h2, h3, h4, h5, h6, span, p, li, label, i, svg, [tabindex="0"]'
@@ -78,7 +78,93 @@
 
     observer.observe(document.body, { childList: true, subtree: true });
   });
+</script> -->
+
+<script>
+function applyTabindex() {
+  const selectors = 'a, input, textarea, select, [role="button"], img, h1, h2, h3, h4, h5, h6, time, span, p, li, label, i, svg';
+
+  document.querySelectorAll(selectors).forEach(el => {
+    if (el.closest('[data-tab-applied]') && !el.hasAttribute('data-tab-applied')) return;
+
+    if (!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '0');
+    el.setAttribute('data-tab-applied', 'true');
+
+    el.querySelectorAll(selectors).forEach(child => {
+      child.setAttribute('tabindex', '-1');
+    });
+
+    // ===== Dropdown handling =====
+    if (el.classList.contains('nav-item')) {
+      handleDropdown(el);
+    }
+  });
+}
+
+function handleDropdown(item) {
+  const dropdown = item.querySelector('.dropdown-menu');
+  if (!dropdown) return;
+
+  // Open dropdown on focus
+  item.addEventListener('focus', () => {
+    openDropdown(dropdown);
+  });
+
+  // Close dropdown if focus leaves
+  const closeDropdownOnFocusOut = () => {
+    if (!item.contains(document.activeElement)) {
+      closeDropdown(dropdown);
+    }
+  };
+
+  item.addEventListener('keydown', (e) => {
+    if (e.key === 'Tab') setTimeout(closeDropdownOnFocusOut, 0);
+    if (e.key === 'Escape') {
+      closeDropdown(dropdown);
+      item.focus();
+    }
+  });
+
+  item.addEventListener('blur', closeDropdownOnFocusOut);
+
+  // Recursively handle submenus
+  const submenus = dropdown.querySelectorAll('.dropdown-submenu');
+  submenus.forEach(sub => {
+    sub.querySelectorAll('a, button').forEach(link => {
+      link.setAttribute('tabindex', '-1'); // disable until open
+    });
+
+    sub.addEventListener('focusin', () => {
+      const submenuMenu = sub.querySelector('.dropdown-menu');
+      if (submenuMenu) openDropdown(submenuMenu);
+    });
+
+    sub.addEventListener('focusout', () => {
+      const submenuMenu = sub.querySelector('.dropdown-menu');
+      if (submenuMenu && !sub.contains(document.activeElement)) closeDropdown(submenuMenu);
+    });
+  });
+}
+
+// Helper functions
+function openDropdown(menu) {
+  menu.classList.add('show');
+  menu.querySelectorAll('a, button').forEach(link => link.setAttribute('tabindex', '0'));
+}
+
+function closeDropdown(menu) {
+  menu.classList.remove('show');
+  menu.querySelectorAll('a, button').forEach(link => link.setAttribute('tabindex', '-1'));
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  applyTabindex();
+
+  const observer = new MutationObserver(() => applyTabindex());
+  observer.observe(document.body, { childList: true, subtree: true });
+});
 </script>
+
 </body>
 
 </html>

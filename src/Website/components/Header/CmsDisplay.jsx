@@ -97,7 +97,7 @@ const CmsDisplay = () => {
 
     return (
       <li
-        className="nav-item dropdown"
+        className="nav-item"
         onMouseEnter={() => setIsGalleryHovered(true)}
         onMouseLeave={() => setIsGalleryHovered(false)}
       >

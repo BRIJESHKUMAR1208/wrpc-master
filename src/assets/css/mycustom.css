@@ -380,14 +380,13 @@ ul.marquee-list li {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 46px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
 }
 
 .latest-news-date p {
-    color: #fff;
-    font-size: 12px;
-    line-height: 14px;
+       color: #fff;
+    font-size: 0.85rem;
     margin-bottom: 0px;
 }
 
@@ -399,14 +398,13 @@ ul.marquee-list li {
 }
 
 p.news-p a {
-    font-size: 13px;
     color: #666;
     margin-bottom: 0px;
 }
 
 p.news-p {
     margin-bottom: 0px;
-    line-height: 18px;
+   
 }
 
 .language-box select {
@@ -414,7 +412,7 @@ p.news-p {
     height: 28px;
     color: black; /* Ensures text color is black */
     cursor: pointer;
-    font-size: 12px;
+    font-size: 0.75rem;
     font-weight: 400; /* Improved readability */
     padding: 3px 10px;
     display: inline-block;
@@ -576,22 +574,21 @@ html {
     box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
 }
 .box-sec h2 {
-    font-family: 'Poppins';
+   
     font-size: 28px;
     font-weight: 500;
     color: #012970;
 }
-table strong {
-    font-family: "Roboto" !important;
-}
+
 table span {
-    font-family: "Roboto" !important;
-    font-size: 17px !important;
+      font-family: "Noto Sans", sans-serif !important;
+    font-size: 0.95rem !important;
     line-height: 32px;
     color: #000;
 }
 .main-sec strong {
-    font-family: "Roboto" !important;
+  font-size: 1rem!important;
+    font-family: "Noto Sans", sans-serif !important;
 }
 table p {
     color: #000;
@@ -614,4 +611,12 @@ footer .widget_wrap {
 .responsivetable {
     overflow-x: auto;
     width: 100%;
+}
+
+.navbar-nav a.nav-link {
+    font-size: 1rem;
+}
+
+.menu-detail-wrapper span {
+     font-size: 1rem !important;
 }

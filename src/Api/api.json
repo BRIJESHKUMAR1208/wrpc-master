@@ -104,6 +104,7 @@
    "Getutilitylist":"/api/ECRsubmission/Utilitylist",
    "PostEcrsubmission":"/api/ECRsubmission",
    "GetEcrsubmission":"/api/ECRsubmission",
-   "Gallarylist":"/api/Gallery/getlist"
-    
+   "Gallarylist":"/api/Gallery/getlist",
+   "Help": "/api/Feedback"
+
 }

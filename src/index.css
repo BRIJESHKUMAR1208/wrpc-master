@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:300i,400,400i,500,500i,600,600i,700,700i,800,800i,900|Poppins:400,400i,500,500i,600,600i,700');	
+	
 /* global css */
 :root {
     scroll-behavior: smooth;
@@ -51,7 +53,7 @@
   }
   
   .pagetitle h1 {
-    font-size: 24px;
+    font-size: 1.375rem;
     margin-bottom: 0;
     font-weight: 600;
     color: #012970;
@@ -75,7 +77,7 @@
   }
   
   .back-to-top i {
-    font-size: 24px;
+    font-size: 1.375rem;
     color: #fff;
     line-height: 0;
   }
@@ -114,7 +116,6 @@
   .dropdown-menu .dropdown-header,
   .dropdown-menu .dropdown-footer {
     text-align: center;
-    font-size: 15px;
     padding: 10px 25px;
   }
   
@@ -133,14 +134,14 @@
   }
   
   .dropdown-menu .dropdown-item {
-    font-size: 14px;
+   
     padding: 10px 15px;
     transition: 0.3s;
   }
   
   .dropdown-menu .dropdown-item i {
     margin-right: 10px;
-    font-size: 18px;
+    font-size: 1rem;
     line-height: 0;
   }
   

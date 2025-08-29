@@ -1,3 +1,7 @@
+
+
+@import url('https://fonts.googleapis.com/css?family=Montserrat:300i,400,400i,500,500i,600,600i,700,700i,800,800i,900|Poppins:400,400i,500,500i,600,600i,700');	
+	
 /*=====================================================================================
 Global css */
 .main-menu ul {
@@ -319,7 +323,7 @@ a {
 
 .widget_list p {
 	color: #fff;
-	background-color: #01296b;
+
 }
 
 .navigation ul ul>li:hover>ul {
@@ -2109,8 +2113,6 @@ ul.report-sec {
 	color: #fff;
 	margin-bottom: 15px;
 	font-weight: 600;
-	/* background-color: #00245c; */
-	background-color: #01296b;
 }
 
 .widget_text ul {
@@ -2146,19 +2148,18 @@ ul.report-sec {
 
 .widget_service ul li {
 	margin-bottom: 10px;
-	background-color: #01296B;
+	
 }
 
 .widget_service ul li:last-child {
 	margin-bottom: 0px;
-	background-color: #01296B;
+	
 }
 
 .widget_service ul li a {
 	display: block;
 	padding-left: 20px;
 	color: #fff;
-	font-size: 15px;
 	position: relative;
 }
 
@@ -7301,7 +7302,7 @@ di.wpml-ls-legacy-dropdown {
 	color: #444;
 	border: 1px solid #cdcdcd;
 	background-color: #fff;
-	padng: 5px 10px;
+	padding: 5px 10px;
 	line-height: 1
 }
 
@@ -7538,11 +7539,11 @@ nav.nav-menu .dropdown-menu a.dropdown-toggle:before {
 }
 
 .inner-sec table {
-
+    margin: 0px ! Important;
 	width: 100%;
 	border-collapse: collapse;
-	font-family: Arial, sans-serif;
-	font-size: 14px;
+	  font-family: "Noto Sans", sans-serif !important;
+	font-size: 1rem;
 	border: 2px solid #333;
 	background-color: white;
 
@@ -7551,7 +7552,7 @@ nav.nav-menu .dropdown-menu a.dropdown-toggle:before {
     background-color: #8ca8c8;
     color: white;
 	border: 1px solid #333;
-	font-family: Arial, sans-serif;
+	  font-family: "Noto Sans", sans-serif !important;
 }
 
 .inner-sec table th {
@@ -7559,15 +7560,16 @@ nav.nav-menu .dropdown-menu a.dropdown-toggle:before {
     text-align: left;
 	border: 1px solid #333;
 	font-size: bolt;
-	font-family: Arial, sans-serif;
+	  font-family: "Noto Sans", sans-serif !important;
 }
 
 /* Body Cell Style */
 .inner-sec table td {
     padding: 10px;
+	font-size: 1rem!important;
 	border: 1px solid #333;
 	color: #000;
-	font-family: Arial, sans-serif;
+	  font-family: "Noto Sans", sans-serif !important;
 }
 /* 13/2/2025 */
 .skip-link {
@@ -7685,21 +7687,8 @@ span.title-logo1 {
 }
 
 
-a:focus{
-	 outline: dotted 2px black;
-     outline-offset: 1px;
-}
-button:focus {
-    outline: dotted 2px black;
-    outline-offset: 1px;
-}
-img:focus{
-	 outline: dotted 2px black;
-     outline-offset: 1px;
-}
-
 .title-logo1{
-	font-size: 20px;
+	font-size: 1.25rem;
 }
 
 @media (max-width: 767px) {
@@ -7739,4 +7728,63 @@ img:focus{
 .bar-c {
     padding-left: 2px!important;
     padding-right: 2px!important;
+}
+
+
+.dropdown, .dropdown-center, .dropend, .dropstart, .dropup, .dropup-center {
+    position: relative;
+	font-size: 1rem;
+}
+
+
+.navbar-nav a.nav-link {
+    font-size: 1rem;
+}
+
+.menu-detail-wrapper table a, .menu-detail-wrapper .file-meta-span {
+   font-size: 1rem!important;
+}
+
+img.profiless-fluid {
+    width: 100%;
+    height: 400px;
+    border-radius: 8px;
+    margin: auto;
+    margin-bottom: 14px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    object-fit: cover;
+}
+
+h4.profiles-name1 {
+    text-align: center;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+h5.profiles-titles1 {
+    text-align: center;
+    font-size: 1.11rem;
+}
+
+.profile-img1 {
+    margin: auto;
+}
+
+.row.rows-profiles {
+    /* align-items: center; */
+    margin: 20px 0px;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    border-radius: 8px;
+}
+
+.profile-details {
+    padding: 1rem 0rem;
+}
+
+h5.headings-profile-exp {
+    font-weight: 700;
+    text-decoration: underline;
+    margin: 1rem 0rem;
 }

@@ -3,8 +3,10 @@ import { TopHeader } from "../../components/TopHeader/TopHeader";
 import CmsDisplay from "../../components/Header/CmsDisplay";
 import { CmsFooter } from "../../components/Footer/CmsFooter";
 import { useNavigate } from "react-router-dom";
+import api from "../../../Api/api.json";
+import apiClient from "../../../Api/ApiClient";
 
-const initialState = { name: "", email: "", message: "" };
+const initialState = { name: "", email: "", message: "", type: "Feedback" };
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
 
@@ -76,36 +78,44 @@ export default function Feedback() {
     validate({ [name]: value });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setSubmitMsg({ type: "", text: "" });
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setSubmitMsg({ type: "", text: "" });
 
-    if (!validate()) {
-      setSubmitMsg({ type: "danger", text: "Please fix the errors above." });
-      return;
-    }
+  if (!validate()) {
+    setSubmitMsg({ type: "danger", text: "Please fix the errors above." });
+    return;
+  }
 
-    try {
-      setSubmitting(true);
+  try {
+    setSubmitting(true);
 
-      // TODO: Replace with actual API call
-      await new Promise((r) => setTimeout(r, 1000));
+    // axios call
+    const response = await apiClient.post(api.Help, values, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
+    if (response.status === 200) {
       setValues(initialState);
       setErrors({});
       setSubmitMsg({
         type: "success",
-        text: "✅ Thanks! Your feedback has been submitted.",
+        text: response.data.message || "✅ Thanks! Your feedback has been submitted.",
       });
-    } catch (err) {
-      setSubmitMsg({
-        type: "danger",
-        text: "❌ Something went wrong. Please try again.",
-      });
-    } finally {
-      setSubmitting(false);
     }
-  };
+  } catch (err) {
+    setSubmitMsg({
+      type: "danger",
+      text: err.response?.data?.message || "❌ Something went wrong. Please try again.",
+    });
+  } finally {
+    setSubmitting(false);
+  }
+};
+
+
 
   const inputClass = (field) =>
     `form-control ${errors[field] ? "is-invalid" : values[field] ? "is-valid" : ""}`;
