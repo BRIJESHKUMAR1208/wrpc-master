@@ -1,13 +1,14 @@
-// src/components/modal/ExternalLinkGuard.jsx
 import React, { useState, useCallback } from "react";
 
+// Checks if href is an http(s) URL
 const isHttpLink = (href) =>
   href && (href.startsWith("http://") || href.startsWith("https://"));
 
+// Determines if the link is external
 const isExternal = (href) => {
   try {
     const url = new URL(href, window.location.href);
-    return url.origin !== window.location.origin; // different site?
+    return url.origin !== window.location.origin;
   } catch {
     return false;
   }
@@ -23,16 +24,16 @@ export default function ExternalLinkGuard({
   const [show, setShow] = useState(false);
   const [pendingUrl, setPendingUrl] = useState("");
 
+  // Delegated onClick: handles all anchor tags within the wrapper
   const handleWrapperClick = useCallback((e) => {
-    // Find nearest <a> inside (icon/LI/UL sab cover ho jayenge)
     const anchor = e.target.closest("a");
     if (!anchor) return;
 
     const href = anchor.getAttribute("href");
-    if (!isHttpLink(href)) return; // mailto/tel/# etc. ignore
+    if (!isHttpLink(href)) return;
 
     if (isExternal(href)) {
-      e.preventDefault(); // stop immediate navigation
+      e.preventDefault();
       setPendingUrl(href);
       setShow(true);
     }
@@ -53,7 +54,7 @@ export default function ExternalLinkGuard({
     setPendingUrl("");
   };
 
-  // --- Minimal styles to match your screenshot ---
+  // --- Minimal modal styles ---
   const overlay = {
     position: "fixed",
     inset: 0,
@@ -94,7 +95,6 @@ export default function ExternalLinkGuard({
 
   return (
     <>
-      {/* Wrapper: put ANY markup inside; clicks on inner <a> will be intercepted */}
       <div onClick={handleWrapperClick} className={className} style={style}>
         {children}
       </div>
