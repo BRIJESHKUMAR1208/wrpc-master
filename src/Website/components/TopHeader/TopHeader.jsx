@@ -236,7 +236,7 @@ export const TopHeader = ({ selectedLanguage, handleLanguageChange }) => {
                     </ul>
                   </div>
 
-                  <div className="bar6 bar-c">
+                  {/* <div className="bar6 bar-c">
                     <div className="language-box">
                       <label htmlFor="languageDropdown" className="visually-hidden">
                         Select language
@@ -255,7 +255,7 @@ export const TopHeader = ({ selectedLanguage, handleLanguageChange }) => {
                         ))}
                       </select>
                     </div>
-                  </div>
+                  </div> */}
 
                   <div className="bar6 bar-c">
                     <div className="language-box">
