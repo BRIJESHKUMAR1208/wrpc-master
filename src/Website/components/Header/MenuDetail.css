@@ -57,3 +57,54 @@
 .menu-detail-wrapper iframe {
   max-width: 100%;
 }
+
+/* Modal For External Link */
+/* .modal-custom {
+    background: rgb(255, 255, 255);
+    width: 420px;
+    max-width: 90vw;
+    border-radius: 8px;
+    padding: 20px 24px;
+    text-align: center;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 10px 30px;
+
+  }
+
+
+.modal-custom-body {
+  color: #222;
+  text-align: center;
+  font-size: 17px;
+  margin-bottom: 28px;
+  line-hieght: 1.5
+}
+
+.modal-custom-btns {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+}
+
+.modal-btn-yes {
+  background: #111;
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  border-radius: 7px;
+  padding: 10px 28px;
+  font-size: 16px;
+  outline: none;
+  cursor: pointer;
+}
+
+.modal-btn-no {
+  background: rgb(255, 155, 155);
+  color: #111;
+  font-weight: bold;
+  border: none;
+  border-radius: 7px;
+  padding: 10px 28px;
+  font-size: 16px;
+  outline: none;
+  cursor: pointer;
+} */
