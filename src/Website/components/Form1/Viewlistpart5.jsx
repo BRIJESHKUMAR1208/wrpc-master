@@ -47,7 +47,7 @@ const Form1part5list = () => {
       <TopHeader /> {/* Top Header */}
       <CmsDisplay /> {/* CMS Display */}
       <main>
-        <div className="container mt-4 vh-100">
+        <div className="container mt-4 ">
           <h2>Tripping Reporting and Compliance of PCM Monitoring List</h2>
           <div className="row mt-4">
            

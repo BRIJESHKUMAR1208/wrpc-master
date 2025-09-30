@@ -53,7 +53,7 @@ section.main-sec {
 }
 
 .widget_copyright {
-    background: url(../../assets/images/carousel-bg.png);
+    background: url(../../assets/images/carousel-bg.png), #ddd;
 }
 
 .widget_wrap.overlay:before {
@@ -408,7 +408,7 @@ p.news-p {
 }
 
 .language-box select {
-    width: 100px; /* Adjusted width with a valid unit */
+    width: max-content; /* Adjusted width with a valid unit */
     height: 28px;
     color: black; /* Ensures text color is black */
     cursor: pointer;
@@ -543,10 +543,15 @@ html {
     justify-content: space-between;
     flex-wrap: wrap;
     gap:3rem;
-    margin-bottom: 20px;
-    padding: 12px;
+    border-radius: 8px;
+    padding: 2rem 0rem;
+    margin: 0px 0px 16px 0px;
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
     background-color: #fff;
+}
+.css-11xur9t-MuiPaper-root-MuiTableContainer-root {
+    margin: 16px 0px;
+   
 }
 .marquee-text {
     display: inline-block;
@@ -619,4 +624,37 @@ footer .widget_wrap {
 
 .menu-detail-wrapper span {
      font-size: 1rem !important;
+}
+
+.css-1ygcj2i-MuiTableCell-root {
+    white-space: nowrap!important;
+}
+
+.discrepancy-titles{
+       margin-top: 2rem;
+    font-weight: 600;
+}
+
+.css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root {
+    color: rgb(0 0 0)!important;
+}
+
+.box-sec h2 {
+    font-size: 28px;
+    font-weight: 500;
+    color: #000;
+}
+
+.black-contrast.dash_link_nt {
+    background-color: #fff;
+    color: #000;
+}
+button.white-contrast.dash_link_nt {
+    background-color: #000;
+    color: #fff;
+}
+
+.notice-lft {
+    display: flex;
+    justify-content: space-between;
 }

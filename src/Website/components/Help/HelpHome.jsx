@@ -312,9 +312,9 @@ export default function HelpHome() {
                       support@wrpc.gov.in
                     </a>
                   </p>
-                  <p>
+                  {/* <p>
                     📞 <strong>Helpline:</strong> 1800-XXXX-XXX
-                  </p>
+                  </p> */}
                   <Button
                     variant="success"
                     className="w-100 mb-2"
@@ -335,6 +335,7 @@ export default function HelpHome() {
                         setFormData({ ...formData, name: e.target.value })
                       }
                       isInvalid={!!errors.name}
+                      placeholder="Enter Your Name"
                     />
                     <Form.Control.Feedback type="invalid">
                       {errors.name}
@@ -349,6 +350,7 @@ export default function HelpHome() {
                         setFormData({ ...formData, email: e.target.value })
                       }
                       isInvalid={!!errors.email}
+                       placeholder="Enter Your Email"
                     />
                     <Form.Control.Feedback type="invalid">
                       {errors.email}
@@ -364,6 +366,7 @@ export default function HelpHome() {
                         setFormData({ ...formData, message: e.target.value })
                       }
                       isInvalid={!!errors.message}
+                       placeholder="Enter Your Message"
                     />
                     <Form.Control.Feedback type="invalid">
                       {errors.message}

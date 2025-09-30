@@ -10,6 +10,8 @@ import {
   Getlivestreaming,
 } from "../../../Api/ApiFunctions";
 import TabSection from "./TabSection";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+
 
 
 import "./../../../assets/css/letestnews.css";
@@ -69,7 +71,40 @@ const Banner = () => {
     setSelectedLanguage(lang ? parseInt(lang) : 1);
   }, []);
 
-  const sliderSettings = {
+  
+
+  const PrevArrow = (props) => {
+  const { className, style, onClick } = props;
+  return (
+    <OverlayTrigger placement="top" overlay={<Tooltip id="tooltip-prev">Previous Slide</Tooltip>}>
+      <div
+        className={className}
+        style={{ ...style, display: "block", cursor: "pointer" }}
+        onClick={onClick}
+      >
+        <i className="fa fa-angle-left" style={{ fontSize: "24px" }}></i>
+      </div>
+    </OverlayTrigger>
+  );
+};
+
+const NextArrow = (props) => {
+  const { className, style, onClick } = props;
+  return (
+    <OverlayTrigger placement="top" overlay={<Tooltip id="tooltip-next">Next Slide</Tooltip>}>
+      <div
+        className={className}
+        style={{ ...style, display: "block", cursor: "pointer" }}
+        onClick={onClick}
+      >
+        <i className="fa fa-angle-right" style={{ fontSize: "24px" }}></i>
+      </div>
+    </OverlayTrigger>
+  );
+};
+
+
+const sliderSettings = {
     infinite: true,
     speed: 500,
     slidesToShow: 1,
@@ -78,7 +113,10 @@ const Banner = () => {
     autoplaySpeed: 3000,
     adaptiveHeight: true,
     arrows: true,
+   prevArrow: <PrevArrow />,
+  nextArrow: <NextArrow />,
   };
+
 
   return (
     <>
@@ -107,6 +145,7 @@ const Banner = () => {
                           src={BASE_URL + item.imgpath}
                           alt={item.title || `Banner image ${index + 1}`}
                           loading="lazy"
+                          title={item.title || `Banner image ${index + 1}`}
                         />
                       </div>
                     </figure>
@@ -138,12 +177,17 @@ const Banner = () => {
           <div className="notice-lft">
             <p>Latest News</p>
             <div className="marquee-controls new-add-plays">
+               <OverlayTrigger
+                placement="top"
+                overlay={<Tooltip id="tooltip-national-emblem">Click to Play/Pause</Tooltip>}
+              >
               <button
                 onClick={togglePlay}
                 className="btn-sm btn-outline-primary bg-plays"
               >
                 {isPlaying ? "⏸️" : "▶️"}
               </button>
+              </OverlayTrigger>
             </div>
           </div>
         </div>

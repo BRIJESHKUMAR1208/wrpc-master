@@ -81,90 +81,148 @@
 </script> -->
 
 <script>
-function applyTabindex() {
-  const selectors = 'a, input, textarea, select, [role="button"], img, h1, h2, h3, h4, h5, h6, time, span, p, li, label, i, svg';
+ (function () {
+  const selectors =
+    'a, button, input, textarea, select, [role="button"], img, h1, h2, h3, h4, h5, h6, time, span, p, li, label, i, svg';
 
-  document.querySelectorAll(selectors).forEach(el => {
-    if (el.closest('[data-tab-applied]') && !el.hasAttribute('data-tab-applied')) return;
+  function setLinksTabindex(menu, val) {
+    if (!menu) return;
+    menu.querySelectorAll('a, button').forEach(el => el.setAttribute('tabindex', val));
+  }
 
-    if (!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '0');
-    el.setAttribute('data-tab-applied', 'true');
+  function getTrigger(menu) {
+    if (!menu) return null;
+    let prev = menu.previousElementSibling;
+    if (prev && (prev.tagName === 'A' || prev.tagName === 'BUTTON')) return prev;
+    const parent = menu.parentElement;
+    if (!parent) return null;
+    return parent.querySelector('.dropdown-item.dropdown-toggle, .nav-link');
+  }
 
-    el.querySelectorAll(selectors).forEach(child => {
-      child.setAttribute('tabindex', '-1');
-    });
+  function closeMenu(menu) {
+    if (!menu) return;
+    menu.querySelectorAll('.dropdown-menu.show').forEach(m => closeMenu(m));
+    menu.classList.remove('show');
+    setLinksTabindex(menu, '-1');
+    const trigger = getTrigger(menu);
+    if (trigger) trigger.setAttribute('aria-expanded', 'false');
+  }
 
-    // ===== Dropdown handling =====
-    if (el.classList.contains('nav-item')) {
-      handleDropdown(el);
+  function openMenu(menu) {
+    if (!menu) return;
+    const parentMenu = menu.parentElement?.parentElement;
+    if (parentMenu) {
+      parentMenu.querySelectorAll(':scope > .dropdown-submenu > .dropdown-menu.show').forEach(m => {
+        if (m !== menu) closeMenu(m);
+      });
     }
-  });
-}
+    menu.classList.add('show');
+    setLinksTabindex(menu, '0');
+    const trigger = getTrigger(menu);
+    if (trigger) trigger.setAttribute('aria-expanded', 'true');
+  }
 
-function handleDropdown(item) {
-  const dropdown = item.querySelector('.dropdown-menu');
-  if (!dropdown) return;
+  function initSubmenus(container) {
+    if (!container) return;
+    container.querySelectorAll('.dropdown-submenu > .dropdown-item.dropdown-toggle').forEach(trigger => {
+      if (trigger.__submenuInitialized) return;
+      trigger.__submenuInitialized = true;
 
-  // Open dropdown on focus
-  item.addEventListener('focus', () => {
-    openDropdown(dropdown);
-  });
+      const submenu = trigger.nextElementSibling;
+      if (!submenu || !submenu.classList.contains('dropdown-menu')) return;
+      if (!submenu.classList.contains('show')) setLinksTabindex(submenu, '-1');
 
-  // Close dropdown if focus leaves
-  const closeDropdownOnFocusOut = () => {
-    if (!item.contains(document.activeElement)) {
-      closeDropdown(dropdown);
-    }
-  };
+      trigger.addEventListener('click', ev => {
+        ev.preventDefault(); // only for toggling submenu
+        if (submenu.classList.contains('show')) {
+          closeMenu(submenu);
+          trigger.focus();
+        } else {
+          openMenu(submenu);
+          const first = submenu.querySelector('a, button');
+          if (first) first.focus();
+        }
+      });
 
-  item.addEventListener('keydown', (e) => {
-    if (e.key === 'Tab') setTimeout(closeDropdownOnFocusOut, 0);
-    if (e.key === 'Escape') {
-      closeDropdown(dropdown);
-      item.focus();
-    }
-  });
+      trigger.addEventListener('focusin', () => openMenu(submenu));
 
-  item.addEventListener('blur', closeDropdownOnFocusOut);
+      trigger.addEventListener('focusout', () => {
+        setTimeout(() => {
+          const active = document.activeElement;
+          if (!submenu.contains(active) && active !== trigger) closeMenu(submenu);
+        }, 0);
+      });
 
-  // Recursively handle submenus
-  const submenus = dropdown.querySelectorAll('.dropdown-submenu');
-  submenus.forEach(sub => {
-    sub.querySelectorAll('a, button').forEach(link => {
-      link.setAttribute('tabindex', '-1'); // disable until open
+      initSubmenus(submenu);
+    });
+  }
+
+  function setupNavItem(item) {
+    if (item.__navInitialized) return;
+    item.__navInitialized = true;
+
+    // ✅ Only make interactive children focusable, not the container <li>
+    const interactive = item.querySelector('a, button') || item;
+    if (!interactive.hasAttribute('tabindex')) interactive.setAttribute('tabindex', '0');
+
+    const dropdown = item.querySelector('.dropdown-menu');
+    if (!dropdown) return;
+    if (!dropdown.classList.contains('show')) setLinksTabindex(dropdown, '-1');
+
+    item.addEventListener('focusin', ev => {
+      openMenu(dropdown);
+      if (ev.target === item) {
+        const first = dropdown.querySelector('a, button');
+        if (first) first.focus();
+      }
     });
 
-    sub.addEventListener('focusin', () => {
-      const submenuMenu = sub.querySelector('.dropdown-menu');
-      if (submenuMenu) openDropdown(submenuMenu);
+    item.addEventListener('focusout', () => {
+      setTimeout(() => {
+        const active = document.activeElement;
+        if (!item.contains(active)) closeMenu(dropdown);
+      }, 0);
     });
 
-    sub.addEventListener('focusout', () => {
-      const submenuMenu = sub.querySelector('.dropdown-menu');
-      if (submenuMenu && !sub.contains(document.activeElement)) closeDropdown(submenuMenu);
+    item.addEventListener('keydown', ev => {
+      if (ev.key === 'Escape') {
+        closeMenu(dropdown);
+        const interactive = item.querySelector('a, button') || item;
+        interactive.focus();
+      }
     });
+
+    initSubmenus(dropdown);
+  }
+
+  function applyTabindex() {
+    document.querySelectorAll(selectors).forEach(el => {
+      if (!el.hasAttribute('data-tab-applied')) {
+        // ❌ Skip <li> if it already contains a button/link
+        if (el.tagName === "LI" && el.querySelector("a, button, input, select, textarea")) {
+          el.setAttribute('data-tab-applied', 'true');
+          return;
+        }
+
+        // ✅ Otherwise make element focusable
+        if (!el.closest('[tabindex]') || el.hasAttribute('tabindex')) {
+          el.setAttribute('tabindex', '0');
+        }
+        el.setAttribute('data-tab-applied', 'true');
+      }
+    });
+
+    document.querySelectorAll('.nav-item').forEach(setupNavItem);
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    applyTabindex();
+    const observer = new MutationObserver(() => applyTabindex());
+    observer.observe(document.body, { childList: true, subtree: true });
   });
-}
+})();
 
-// Helper functions
-function openDropdown(menu) {
-  menu.classList.add('show');
-  menu.querySelectorAll('a, button').forEach(link => link.setAttribute('tabindex', '0'));
-}
-
-function closeDropdown(menu) {
-  menu.classList.remove('show');
-  menu.querySelectorAll('a, button').forEach(link => link.setAttribute('tabindex', '-1'));
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  applyTabindex();
-
-  const observer = new MutationObserver(() => applyTabindex());
-  observer.observe(document.body, { childList: true, subtree: true });
-});
 </script>
-
 </body>
 
 </html>

@@ -7,6 +7,7 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import { BASE_URL } from "../../../Api/ApiFunctions";
 import "./TabSection.css";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 const SCROLL_SPEED = 1.5; // Adjust marquee scroll speed as needed
 
@@ -196,9 +197,14 @@ const TabSection = ({
             <Tab label={tabLabels.uploads} value="2" className="custom-tab" />
             <Tab label={tabLabels.tenders} value="3" className="custom-tab" />
             <div className="d-flex justify-content-end">
+               <OverlayTrigger
+                              placement="top"
+                              overlay={<Tooltip id="tooltip-national-emblem">Click to Play/Pause</Tooltip>}
+                            >
               <button onClick={() => setIsPaused((prev) => !prev)} className="btn-sm btn-primary me-2">
                 {isPaused ? tabLabels.play : tabLabels.pause}
               </button>
+              </OverlayTrigger>
             </div>
           </TabList>
         </Box>

@@ -311,7 +311,7 @@
 .city_top_social ul li a,
 .city_top_social ul li a:hover
 {
-	border-color:#135796;
+	border-color:#000;
 }
 
 
@@ -326,7 +326,7 @@
 .city_top_social ul li a:hover,
 .banner_search_field input:focus,
 .theam_btn:hover{
-	border-color:#14284b;
+	border-color:#000;
 }
 /*
 	  ============================================================
@@ -708,6 +708,7 @@ section.notice-section p {
 }
 button.btn-sm.btn-primary.me-2 {
     background-color: #000;
+    color: #ff0!important;
 }
 ul.marquee-list li {
     padding: 12px 0px;
@@ -869,4 +870,65 @@ table p {
     color: #ff0!important;
     border: 1px solid #333!important;
     background-color: #333!important;
+}
+
+
+h1{
+	color: #ff0!important;
+}
+.date-sec {
+    background-color: #333!important;
+}
+.discrepancy-titles{
+	color: #ff0!important;
+}
+.bdr-rgt{
+	color: #ff0!important;
+}
+.css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root {
+   color: #ff0!important;
+}
+
+.css-1jy569b-MuiFormLabel-root-MuiInputLabel-root {
+     color: #ff0!important;
+}
+.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
+    color: #ff0!important;
+}
+
+.box-sec h2 {
+    font-size: 28px;
+    font-weight: 500;
+    color: #ff0;
+}
+
+.report-sec p.news-p:hover a {
+    color: #ff0!important;
+    font-weight: 500;
+}
+
+ul.marquee-list li {
+    padding: 12px 0px;
+    color: #ff0;
+    border-bottom: thin dotted #ff0;
+}
+
+.css-5cho09 {
+    background-color: #000!important;
+
+}
+
+.dropdown-menu .dropdown-item:hover {
+    background-color: #000!important;
+  }
+  .dropdown-item:focus, .dropdown-item:hover {
+    background-color: #000!important;
+}
+.content-container {
+    background: #333;
+    color: #ff0;
+}
+.menu-detail-wrapper table a {
+    background-color: transparent!important;
+    color: #ff0!important;
 }

@@ -48,7 +48,7 @@ const Form3part2list = () => {
       <TopHeader /> {/* Top Header */}
       <CmsDisplay /> {/* CMS Display */}
       <main>
-        <div className="container mt-4 vh-100">
+        <div className="container mt-4 ">
           <h2>TPPA Observations/Descripancies</h2>
           <div className="row mt-4">
 

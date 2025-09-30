@@ -17,19 +17,31 @@ const GalleryDetail = () => {
   const [currentImage, setCurrentImage] = useState(''); // Store the full image path
   const [loadingImage, setLoadingImage] = useState(false); // Track image loading state
 
-  useEffect(() => {
-    async function fetchData2() {
-      try {
-        debugger;
-        const response = await apiClient.get(apis.getgalleryimage + id);
-        setGallery(response.data); // Set the gallery data
-      } catch (error) {
-        setError('Error fetching gallery data'); // Update error state
-        console.error('Error fetching gallery data:', error);
+ useEffect(() => {
+  async function fetchData2() {
+    try {
+      debugger;
+      const response = await apiClient.get(apis.getgalleryimage + id);
+      if (response.data && response.data.length > 0) {
+        const galleryData = response.data[0];
+        setGallery({
+          title: galleryData.u_title,
+          ImagePaths: galleryData.u_imagepaths
+            ? galleryData.u_imagepaths.split(",")
+            : [],
+          Captions: galleryData.u_caption
+            ? galleryData.u_caption.split(",")
+            : [],
+        });
       }
+    } catch (error) {
+      setError("Error fetching gallery data");
+      console.error("Error fetching gallery data:", error);
     }
-    fetchData2();
-  }, [id]);
+  }
+  fetchData2();
+}, [id]);
+
 
   // Preload the image when opening the lightbox
   const preloadImage = (imagePath) => {
@@ -75,37 +87,40 @@ const GalleryDetail = () => {
           {gallery ? (
             <>
               <h4 className="gallery-heading">{gallery.title}</h4>
-              <div className="gallery-container">
-                {gallery.ImagePaths.length === 0 ? (
-                  <p>No images available.</p>
-                ) : (
-                  gallery.ImagePaths.map((imagePath, index) => {
-                    // file extension हटाकर caption/title बनाएँ
-                  const title = imagePath
-  .replace(/^\/?Galleryuploads\//, "") // "/Galleryupload/" हटाओ
-  .replace(/\.[^/.]+$/, "");          // extension हटाओ
-                    return (
-                      <div key={index} className="gallery-card">
-                        <div className="card gallery-box">
-                          <img
-                            src={`${BASE_URL}${imagePath}`} // Image URL
 
-                          //alt={`Image ${index + 1}`}
-                          alt={title}
-                          className="card-img-top gallery-image"
-                          onClick={() => openLightbox(imagePath)} // Open lightbox on click
-                          loading="eager" // Ensure eager loading to prevent lazy loading
-                          aria-label={imagePath || ` image ${index + 1}`}
-                          title={title}
-                        />
-                          
-                      </div>
-                    </div>
-                  );
-                })
-              )}
-            </div>
-          </>
+             <div className="gallery-container">
+  {!gallery?.ImagePaths || gallery.ImagePaths.length === 0 ? (
+    <p>No images available.</p>
+  ) : (
+gallery.ImagePaths.map((imagePath, index) => {
+   const galleryTitle = imagePath  ;
+  const title = gallery.Captions[index]
+    .replace(/^\/?galleryuploads\//i, "")
+    .replace(/\.[^/.]+$/, "");
+    
+  return (
+    <div key={index} className="gallery-card">
+      <div className="card gallery-box">
+        <img
+          src={`${BASE_URL}${imagePath}`}
+          alt={title}
+          className="card-img-top gallery-image"
+          onClick={() => openLightbox(imagePath)}
+          loading="eager"
+          aria-label={title}
+          title={title}
+        />
+        <p className="image-caption">{title}</p>
+      </div>
+    </div>
+  );
+})
+
+
+  )}
+</div>
+
+          </> 
         ) : (
             <p>Loading gallery details...</p>
           )}

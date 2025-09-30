@@ -83,8 +83,8 @@ const Discrepancies = () => {
         <TopHeader />
         <CmsDisplay />
         <main>
-          <div className="container mt-4 vh-100">
-            <h4>TPPA Observations/descripancies</h4>
+          <div className="container mt-4 ">
+            <h4 className="discrepancy-titles">TPPA Observations/descripancies</h4>
             <div className="date-sec row">
               <div className="col-md-5">
                 <TextField
@@ -169,7 +169,7 @@ const Discrepancies = () => {
 
             {substation && observationA && observationB ? (
               <div>
-                <h4>{substation} Discrepancy Data:</h4>
+                <h4 className="discrepancy-titles">{substation} Discrepancy Data:</h4>
                 <TableContainer component={Paper}>
                   <Table>
                     <TableHead>

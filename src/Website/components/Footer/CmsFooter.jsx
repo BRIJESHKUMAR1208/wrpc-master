@@ -6,6 +6,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import Logo from "../../../assets/images/emblem-dark.png";
 import footerLogo from "../../../assets/images/top-logo.png";
 import ExternalLinkGuard from "../modal/ExternalLinkGuard";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 export const CmsFooter = () => {
   const [extractedNumber, setExtractedNumber] = useState(null);
@@ -160,12 +161,18 @@ export const CmsFooter = () => {
                     <div className="widget_logo">
                       {/* <a href="#"><img src={footerLogo} alt="" /></a>
                   </div> */}
+                  <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip id="tooltip-national-emblem">National Emblem of India</Tooltip>}
+                  >
                       <img
                         className="footer_emblem"
                         src={Logo}
                         // src={footerLogo}
-                        alt="national emblem"
+                        alt="National Emblem"
+                        title="National Emblem of India"
                       />
+                      </OverlayTrigger>
                     </div>
                   </div>
                   <div className="col-md-6">
@@ -178,6 +185,8 @@ export const CmsFooter = () => {
                         800x600 resolution.
                        
                       </p>
+                      <p>Note: Content on this website is published and managed by Western Regional Power Committee.
+For any query regarding this website, please contact the <a href="/menu/WebInformationManager_1083">Web Information Manager</a> Email ID:  as-wrpc[at]nic[dot]in, Contact No.: +91 9711250509.</p>
                       <p>
                         (Website Last Updated on:{" "}
                         {lastUpdated ? formatDate(lastUpdated) : "N/A"})
@@ -199,12 +208,19 @@ export const CmsFooter = () => {
                             </a>
                           </li> */}
                         <li>
-                          <a href="https://x.com/Wrpcmumbai" target="_blank" rel="noopener noreferrer">
+                           <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip id="tooltip-national-emblem">Twitter</Tooltip>}
+                  >
+                          <Link to="https://x.com/Wrpcmumbai" target="_blank" rel="noopener noreferrer" alt="Twitter" title="Twitter">
                             <i className="fa-brands fa-twitter">
 
                             </i>
-                            <span className="visually-hidden">Twitter</span>
-                          </a>
+                           
+                    <span className="visually-hidden">Twitter</span>
+                 
+                          </Link>
+                           </OverlayTrigger>
                         </li>
 
                         {/* <li>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import apiClient from "../../../Api/ApiClient";
 import apis from '../../../Api/api.json';
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 const CmsDisplay = () => {
   const { id } = useParams();
@@ -10,8 +11,8 @@ const CmsDisplay = () => {
   const [galleryList, setGalleryList] = useState([]);
   const [isGalleryHovered, setIsGalleryHovered] = useState(false);
 
-  const storedUserData = localStorage.getItem("user1");
-  const user1 = JSON.parse(storedUserData);
+   const storedUserData =    localStorage.getItem("user1");
+   const user1 = JSON.parse(storedUserData);
 
   const languageLabels = {
     1: { gallery: "Gallery", news: "Latest News" },
@@ -173,9 +174,24 @@ const CmsDisplay = () => {
     <div className="main-nav">
       <nav className="navbar navbar-expand-lg cus-nav navbar-light bg-blue">
         <div className="container-fluid con-nav">
-          <Link to="/" aria-label="Go to homepage" style={{ padding: "10px", display: "inline-block" }}>
+          {/* <Link to="/" aria-label="Go to homepage" alt="Home button" title="Home button" style={{ padding: "10px", display: "inline-block" }}>
             <i style={{ color: "white", fontSize: "24px" }} className="fa fa-home"></i>
-          </Link>
+          </Link> */}
+         <OverlayTrigger
+  placement="top"
+  overlay={<Tooltip id="home-tooltip">Go to homepage</Tooltip>}
+>
+  <Link
+    to="/"
+    aria-label="Go to homepage"
+    style={{ padding: "10px", display: "inline-block" }}
+  >
+    <i
+      style={{ color: "white", fontSize: "24px" }}
+      className="fa fa-home"
+    ></i>
+  </Link>
+</OverlayTrigger>
 
           <button
             className="navbar-toggler navbar-toggler-right"

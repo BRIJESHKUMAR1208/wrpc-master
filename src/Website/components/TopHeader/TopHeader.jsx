@@ -9,6 +9,7 @@ import footerLogo from "../../../assets/images/top-logo.png"
 import './TopHeader.scss'
 import './UserOptionsDropdown.css';
 import { useDarkMode } from "../../../util/DarkModeContext";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 
 export const TopHeader = ({ selectedLanguage, handleLanguageChange }) => {
@@ -182,24 +183,36 @@ export const TopHeader = ({ selectedLanguage, handleLanguageChange }) => {
                   <div className="bar4 bar-c">
                     <ul role="list">
                       <li>
+                         <OverlayTrigger
+    placement="top"
+    overlay={<Tooltip id="tooltip-theme-dark">Switch to dark theme</Tooltip>}
+  >
                         <button
                           className={`white-contrast dash_link_nt ${theme === "dark" ? "active" : ""}`}
                           onClick={() => toggleTheme("dark")}
                           aria-label="Switch to dark theme"
+                          title="Switch to dark theme"
                           aria-pressed={theme === "dark"}
                         >
                           <i className="fa fa-square" aria-hidden="true"></i>
                         </button>
+                        </OverlayTrigger>
                       </li>
                       <li>
+                        <OverlayTrigger
+    placement="top"
+    overlay={<Tooltip id="tooltip-theme-light">Switch to light theme</Tooltip>}
+  >
                         <button
                           className={`black-contrast dash_link_nt ${theme === "color" ? "active" : ""}`}
                           onClick={() => toggleTheme("color")}
                           aria-label="Switch to light theme"
+                          title="Switch to light theme"
                           aria-pressed={theme === "color"}
                         >
                           <i className="fa fa-square" aria-hidden="true"></i>
                         </button>
+                      </OverlayTrigger>
                       </li>
                     </ul>
                   </div>
@@ -207,31 +220,49 @@ export const TopHeader = ({ selectedLanguage, handleLanguageChange }) => {
                   <div className="bar5 bar-c">
                     <ul role="list" aria-label="Font size controls">
                       <li className="ftsz-70p ml-10">
+                         <OverlayTrigger
+    placement="top"
+    overlay={<Tooltip id="tooltip-Decrease">Decrease font size</Tooltip>}
+  >
                         <button
                           onClick={decreaseFontSize}
                           className="dash_link_nt"
                           aria-label="Decrease font size"
+                          title = "Decrease font size"
                         >
                           A<sup className="topbar-sup-txt">-</sup>
                         </button>
+                        </OverlayTrigger>
                       </li>
                       <li className="ftsz-90p">
+                        <OverlayTrigger
+    placement="top"
+    overlay={<Tooltip id="tooltip-default">Reset font size to default</Tooltip>}
+  >
                         <button
                           className="dash_link_nt"
                           onClick={resetFontSize}
                           aria-label="Reset font size to default"
+                          title = "Reset font size to default"
                         >
                           A
                         </button>
+                        </OverlayTrigger>
                       </li>
                       <li className="ftsz-110p">
+                         <OverlayTrigger
+    placement="top"
+    overlay={<Tooltip id="tooltip-Increase">Increase font size</Tooltip>}
+  >
                         <button
                           onClick={increaseFontSize}
                           className="dash_link_nt"
                           aria-label="Increase font size"
+                          title = "Increase font size"
                         >
                           A<sup className="topbar-sup-txt">+</sup>
                         </button>
+                        </OverlayTrigger>
                       </li>
                     </ul>
                   </div>
@@ -305,9 +336,13 @@ export const TopHeader = ({ selectedLanguage, handleLanguageChange }) => {
                               </>
                             ) : (
                               <>
-                                <option value="">--- लॉग इन ---</option>
+                                <option value="">--- Login ---</option>
+                                <option value="1">Admin Login</option>
+                                <option value="2">Candidate Login</option>
+
+                                {/* <option value="">--- लॉग इन ---</option>
                                 <option value="1">व्यवस्थापक लॉगिन</option>
-                                <option value="2">अभ्यर्थी लॉगिन</option>
+                                <option value="2">अभ्यर्थी लॉगिन</option> */}
                               </>
                             )}
                           </select>
@@ -327,12 +362,18 @@ export const TopHeader = ({ selectedLanguage, handleLanguageChange }) => {
   <div className="col-md-4 col-sm-4">
     <div className="head-logo h-100" aria-label="National Emblem of India">
       <div className="custom-logo">
-        <img
-          className="national_emblem"
-          src={footerLogo}
-          alt="National Emblem of India"
-          style={{ maxWidth: "100%", height: "auto", objectFit: "contain" }}
-        />
+        <OverlayTrigger
+  placement="top"
+  overlay={<Tooltip id="tooltip-national-emblem">National Emblem of India</Tooltip>}
+>
+  <img
+    className="national_emblem"
+    src={footerLogo}
+    alt="National Emblem of India"
+    title="National Emblem of India"
+    style={{ maxWidth: "100%", height: "auto", objectFit: "contain" }}
+  />
+</OverlayTrigger>
       </div>
     </div>
   </div>
@@ -347,10 +388,13 @@ export const TopHeader = ({ selectedLanguage, handleLanguageChange }) => {
   </div>
 
   <div className="col-md-4 col-sm-4">
-    <div className="head-right" aria-label="G20 Branding Section">
-      <div className="rgt-three" id="main-content" tabIndex="-1">
-        <img src={G20} alt="G20 India Logo" />
-      </div>
+    <div className="head-right" aria-label="Swachh Bharat">
+ <OverlayTrigger
+  placement="top"
+  overlay={<Tooltip id="tooltip-national-emblem">Swachh Bharat</Tooltip>}
+>
+        <img src={G20} alt="Swachh Bharat" title="Swachh Bharat" />
+</OverlayTrigger>
     </div>
   </div>
 </div>
@@ -550,10 +594,10 @@ export const TopHeader = ({ selectedLanguage, handleLanguageChange }) => {
   </div>
 
   <div className="col-md-4 col-sm-4">
-    <div className="head-right" aria-label="जी20 लोगो">
-      <div className="rgt-three" id="main-content" tabIndex="-1">
-        <img src={G20} alt="जी20 लोगो" />
-      </div>
+    <div className="head-right" aria-label="स्वच्छ भारत">
+      
+        <img src={G20} alt="स्वच्छ भारत" />
+      
     </div>
   </div>
 
