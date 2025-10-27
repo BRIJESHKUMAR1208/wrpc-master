@@ -37,7 +37,6 @@ const CmsDisplay = () => {
 
     async function fetchGalleryData() {
       try {
-        debugger; 
         const response = await apiClient.get(apis.getgallerylist);
         const data = response.data;
         setGalleryList(Array.isArray(data) ? data : []);
@@ -93,7 +92,6 @@ const CmsDisplay = () => {
   };
 
   const renderGalleryDropdown = () => {
-    debugger;
     const filteredGallery = galleryList.filter(
       (item) => item.u_languagetype === selectedLanguage || !item.u_languagetype
     );

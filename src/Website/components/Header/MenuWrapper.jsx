@@ -84,8 +84,9 @@ debugger
         selectedLanguage={selectedLanguage}
         handleLanguageChange={handleLanguageChange}
       />
+      <div id="main-content">
       <CmsDisplay />
-      <div>
+      
         <div className="container inner-sec main-sec">
           <div className="box-sec">
             <h2 className="menu-title">{Menuoptions.menuname}</h2>

@@ -7,8 +7,13 @@ import apiClient from '../../../Api/ApiClient'
 const Header = () => {
 
   const storedUserString = localStorage.getItem("user");
-  const user = JSON.parse(storedUserString);
-const email = user.r_email
+  const user = storedUserString ? JSON.parse(storedUserString) : {};
+  const last_login = user?.last_login || "Not available";
+
+
+
+//const email = user.r_email  
+const email = user.email_result
   const navigate = useNavigate();
   const handleLogout = async () => {
     try {
@@ -49,87 +54,11 @@ const email = user.r_email
               </a>
             </li>
 
-            <li class="nav-item dropdown">
-
-              {/* <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-            <i class="bi bi-bell"></i>
-            <span class="badge bg-primary badge-number">4</span>
-          </a> */}
-
-              {/* <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
-            <li class="dropdown-header">
-              You have 4 new notifications
-              <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
-            </li>
-            <li>
-              <hr class="dropdown-divider"/>
-            </li>
-
-            <li class="notification-item">
-              <i class="bi bi-exclamation-circle text-warning"></i>
-              <div>
-                <h4>Lorem Ipsum</h4>
-                <p>Quae dolorem earum veritatis oditseno</p>
-                <p>30 min. ago</p>
-              </div>
-            </li>
-
-            <li>
-              <hr class="dropdown-divider"/>
-            </li>
-
-            <li class="notification-item">
-              <i class="bi bi-x-circle text-danger"></i>
-              <div>
-                <h4>Atque rerum nesciunt</h4>
-                <p>Quae dolorem earum veritatis oditseno</p>
-                <p>1 hr. ago</p>
-              </div>
-            </li>
-
-            <li>
-              <hr class="dropdown-divider"/>
-            </li>
-
-            <li class="notification-item">
-              <i class="bi bi-check-circle text-success"></i>
-              <div>
-                <h4>Sit rerum fuga</h4>
-                <p>Quae dolorem earum veritatis oditseno</p>
-                <p>2 hrs. ago</p>
-              </div>
-            </li>
-
-            <li>
-              <hr class="dropdown-divider"/>
-            </li>
-
-            <li class="notification-item">
-              <i class="bi bi-info-circle text-primary"></i>
-              <div>
-                <h4>Dicta reprehenderit</h4>
-                <p>Quae dolorem earum veritatis oditseno</p>
-                <p>4 hrs. ago</p>
-              </div>
-            </li>
-
-            <li>
-              <hr class="dropdown-divider"/>
-            </li>
-            <li class="dropdown-footer">
-              <a href="#">Show all notifications</a>
-            </li>
-
-          </ul> */}
-
-            </li>
+           
 
             <li class="nav-item dropdown">
 
-              {/* <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-            <i class="bi bi-chat-left-text"></i>
-            <span class="badge bg-success badge-number">3</span>
-          </a> */}
+             
 
               <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
               
@@ -144,7 +73,9 @@ const email = user.r_email
                 <img src={Img1} alt="Profile" class="rounded-circle" />
                 <span class="d-none d-md-block dropdown-toggle ps-2">{user.r_name}</span>
               </a>
-
+  <li className="dropdown-item-text text-center">
+                <small className="text-muted">Last Active: {last_login}</small>
+              </li>
               <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                 <li class="dropdown-header">
                   <h6> {user.r_name}</h6>
@@ -154,12 +85,7 @@ const email = user.r_email
                   <hr class="dropdown-divider" />
                 </li>
 
-                {/* <li>
-                  <Link class="dropdown-item d-flex align-items-center" to='/Profile'>
-                    <i class="bi bi-person"></i>
-                    <span>My Profile</span>
-                  </Link>
-                </li> */}
+               
                 <li>
                   <hr class="dropdown-divider" />
                 </li>
@@ -169,10 +95,7 @@ const email = user.r_email
                   <hr class="dropdown-divider" />
                 </li>
 
-
-                <li>
-                  {/* <hr class="dropdown-divider"/> */}
-                </li>
+             
 
                 <li >
                   <Link to='/' class="dropdown-item d-flex align-items-center" onClick={handleLogout} >

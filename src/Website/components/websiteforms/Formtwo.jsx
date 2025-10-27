@@ -128,18 +128,22 @@ const [utility, setutilityName] = useState("");
     };
 
     const handleFileChange = (event) => {
-        const file = event.target.files[0];
+        const selected = event.target.files[0];
+    if (!selected) return;
 
-        if (file) {
+    // MIME टाइप चेक — आमतौर पर PDF के लिए 'application/pdf'
+    if (selected.type !== "application/pdf") {
+      // यूज़र को बताएं
+      alert("Only PDF files are allowed!");
+      // इनपुट को रीसेट करें ताकि वह गलत फ़ाइल हटा दे
+      event.target.value = "";
+      setSelectedFile(null);
+      return;
+    }
+   
             // File is a PDF
-            setSelectedFile(file);
+            setSelectedFile(selected);
 
-            // You can perform additional actions here if needed
-        }
-        // else {
-        //     // File is not a PDF
-        //     alert('Please upload a PDF file.');
-        // }
     };
     const handleFileChange1 = (event) => {
         const file = event.target.files[0];
@@ -365,7 +369,7 @@ const [utility, setutilityName] = useState("");
                                                                         ><b></b></span>:</label>
                                                             <div class="col-sm-2">
                                                                 <span style={{ color: "red" }}>{formErrors.Report}</span>
-                                                                <input class="form-control" name="Report" type="file"
+                                                                <input class="form-control" name="Report" type="file" accept="application/pdf"
                                                                     // value={selectedFile}
                                                                     
                                                                     onChange={handleFileChange}

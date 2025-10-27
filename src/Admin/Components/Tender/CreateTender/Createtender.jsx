@@ -121,8 +121,19 @@ export const CreateTender = () => {
   };
 
   const handleImageChange = (event) => {
-    const imageFile = event.target.files[0];
-    setselectefile(imageFile);
+     const selected = event.target.files[0];
+    if (!selected) return;
+
+    // MIME टाइप चेक — आमतौर पर PDF के लिए 'application/pdf'
+    if (selected.type !== "application/pdf") {
+      // यूज़र को बताएं
+      alert("Only PDF files are allowed!");
+      // इनपुट को रीसेट करें ताकि वह गलत फ़ाइल हटा दे
+      event.target.value = "";
+      setselectefile(null);
+      return;
+    }
+    setselectefile(selected);
   };
 
   const handleInputChange = (event) => {
@@ -373,6 +384,7 @@ export const CreateTender = () => {
                             className="form-control"
                             type="file"
                             name="file"
+                            accept="application/pdf"
                             onChange={handleImageChange}
                           />
                           {errors.file && (

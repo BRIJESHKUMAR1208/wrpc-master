@@ -7788,3 +7788,18 @@ h5.headings-profile-exp {
     text-decoration: underline;
     margin: 1rem 0rem;
 }
+
+.file-meta-span {
+    color: #4F4F4F;
+}
+
+.menu-detail-wrapper table a, .menu-detail-wrapper .file-meta-span {
+    color: #4F4F4F!important;
+}
+.custom-pause-slider {
+	    font-size: 24px;
+    padding: 6px 12px;
+    position: absolute;
+    bottom: 2%;
+    right: 50%;
+}

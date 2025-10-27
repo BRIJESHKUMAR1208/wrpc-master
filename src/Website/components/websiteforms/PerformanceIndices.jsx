@@ -86,6 +86,7 @@ const [utility, setutilityName] = useState("");
             setSelectedFile(file);
         } else {
             alert('Please upload a valid Excel file.');
+             event.target.value = "";
             setSelectedFile(null);
         }
     };

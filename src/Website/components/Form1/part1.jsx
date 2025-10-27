@@ -186,9 +186,11 @@ export const Formonepart1 = () => {
       ;
       const response = await apiclient.post(
         apis.Trippingreportpart1,
-        formDataToSend
-      );
-      ;
+        formDataToSend, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
       if (response.status === 200) {
         console.log("user" + response.data);
         // Simulate a 3-second delay

@@ -65,17 +65,21 @@ export const Formfour = () => {
         }));
     };
     const handleFileChange = (event) => {
-        const file = event.target.files[0];
+       const selected = event.target.files[0];
+    if (!selected) return;
 
-        if (file) {
-            // File is a PDF
-            setSelectedFile(file);
+    // MIME टाइप चेक — आमतौर पर PDF के लिए 'application/pdf'
+    if (selected.type !== "application/pdf") {
+      // यूज़र को बताएं
+      alert("Only PDF files are allowed!");
+      // इनपुट को रीसेट करें ताकि वह गलत फ़ाइल हटा दे
+      event.target.value = "";
+      setSelectedFile(null);
+      return;
+    }
+    
+            setSelectedFile(selected);
 
-            // You can perform additional actions here if needed
-        } else {
-            // File is not a PDF
-            alert('Please upload a  file.');
-        }
     };
     const validateForm = () => {
         const errors = {};
@@ -363,7 +367,7 @@ export const Formfour = () => {
                                                                 <input
                                                                     className="form-control"
                                                                     type="file"
-
+                                                                    accept="application/pdf"
                                                                     name="Uploadfile"
 
                                                                     onChange={handleFileChange}

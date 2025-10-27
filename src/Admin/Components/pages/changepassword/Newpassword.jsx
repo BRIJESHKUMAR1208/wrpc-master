@@ -33,6 +33,7 @@ const ChangePasswordForm = () => {
  
   
   const handleSubmit = async (e) => {
+    debugger;
     e.preventDefault();
 
     if (newPassword !== confirmPassword) {
@@ -46,7 +47,7 @@ const ChangePasswordForm = () => {
       try {
          ;
         const userObject = JSON.parse(user);
-        if(userObject.email_result != '')
+        if (userObject.email_result && userObject.email_result.trim() !== '') 
         email_result = userObject.email_result || '';
         else
           email_result = userObject.r_email || '';
@@ -74,8 +75,40 @@ const ChangePasswordForm = () => {
      
       
     } catch (error) {
-      setMessage(error.response.data);
+  console.error('API Error:', error);
+
+  if (error.response && error.response.data) {
+    const errData = error.response.data;
+
+    // ✅ Case 1: Validation errors array from backend
+    if (errData.errors) {
+      const errorMessages = Object.values(errData.errors)
+        .flat() // flatten nested arrays
+        .join(' | '); // combine all messages into one string
+      setMessage(errorMessages);
+      toast.error(errorMessages);
     }
+    // ✅ Case 2: Other message or title
+    else if (errData.title) {
+      setMessage(errData.title);
+      toast.error(errData.title);
+    }
+    // ✅ Case 3: String message
+    else if (typeof errData === 'string') {
+      setMessage(errData);
+      toast.error(errData);
+    }
+    // ✅ Fallback
+    else {
+      setMessage('Something went wrong');
+      toast.error('Something went wrong');
+    }
+  } else {
+    setMessage('Server not reachable');
+    toast.error('Server not reachable');
+  }
+}
+
   };
 
   return (

@@ -143,9 +143,10 @@ const LatestNews = () => {
   return (
     <div>
       <TopHeader selectedLanguage={selectedLanguage} handleLanguageChange={handleLanguageChange} />
+        <div id="main-content" className="container main-sec">
       <CmsDisplay selectedLanguage={selectedLanguage} />
 
-      <div className="container main-sec">
+    
         {parseInt(selectedLanguage) === 1 ? (
           <section className="news-section-box">
             <h3 className="m-4 text-center">Latest News</h3>
@@ -214,8 +215,9 @@ const LatestNews = () => {
             </div>
           </section>
         )}
-      </div>
+     
       <CmsFooter />
+       </div>
     </div>
   );
 };

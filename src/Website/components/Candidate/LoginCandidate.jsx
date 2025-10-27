@@ -105,6 +105,7 @@ export const LoginCandidate = () => {
   //   }
   // };
   const handleSubmit = async (event) => {
+    debugger;
     event.preventDefault();
 
     // Validate email
@@ -143,10 +144,17 @@ export const LoginCandidate = () => {
           var candidateId = response.data.user.cands_id;
           var utilityname = response.data.user.utilityname;
           var entityname = response.data.user.entityname;
+          var last_login = response.data.user.last_login;
+           var token = response.data.token;
           localStorage.setItem("candidateId", candidateId);
           localStorage.setItem("utilityname", utilityname);
           localStorage.setItem("entityname", entityname);
+          localStorage.setItem("last_login", last_login);
           localStorage.setItem("user1", JSON.stringify(user));
+          localStorage.setItem("token", token);
+          console.log('Candidate Token:--------------------', token);
+     
+
           if (dt) {
             // localStorage.setItem("user", JSON.stringify(dt));
 

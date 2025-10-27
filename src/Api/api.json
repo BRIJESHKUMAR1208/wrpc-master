@@ -74,7 +74,7 @@
     "getmenuname":"/api/TopMenu",
     "getcustomdatabyid":"/api/TopMenu/custom/",
     "getmenudatabyid":"/api/TopMenu/",
-    "getgalleryimage":"/api/Gallery/GetGallery/",
+    "getgalleryimage":"/api/Gallery/GetGalleryDasboard/",
     "submenunav":"/api/TopMenu/SubMenu",
     "homepage":"/api/Homemaster",
     "homepagebyid":"/api/Homemaster/",

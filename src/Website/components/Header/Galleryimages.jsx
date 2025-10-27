@@ -81,7 +81,9 @@ const GalleryDetail = () => {
   return (
     <>
       <TopHeader />
+      <div id="main-content">
       <CmsDisplay />
+
       <main>
         <div className="container mt-4 vh-90">
           {gallery ? (
@@ -142,7 +144,9 @@ gallery.ImagePaths.map((imagePath, index) => {
         {loadingImage && <div className="loading-spinner">Loading...</div>}
 
         <CmsFooter />
+       
       </main>
+       </div>
     </>
   );
 };

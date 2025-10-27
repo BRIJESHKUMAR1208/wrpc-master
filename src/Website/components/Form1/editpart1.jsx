@@ -55,39 +55,53 @@ export const Editformonepart1 = () => {
     setSelectedRole(event.target.value);
   };
   // const [selectedFile, setSelectedFile] = useState(null);
+// ✅ PDF validation helper
+  const validatePDF = (file) => {
+    const allowedType = "application/pdf";
+    if (file && file.type !== allowedType) {
+      toast.error("Only PDF files are allowed!");
+      return false;
+    }
+    return true;
+  };
+
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
 
-    if (file) {
+    if (file && validatePDF(file)) {
       setSelectedFile(file);
     } else {
-      alert("Please upload a PDF file.");
+      event.target.value = null;
+      setSelectedFile(null);
     }
   };
   const handleFileChange1 = (event) => {
     const file = event.target.files[0];
 
-    if (file) {
+    if (file && validatePDF(file)) {
       setSelectedFile1(file);
     } else {
-      alert("Please upload a PDF file.");
+      event.target.value = null;
+      setSelectedFile1(null);
     }
   };
   const handleFileChange2 = (event) => {
     const file = event.target.files[0];
-    if (file) {
+     if (file && validatePDF(file)) {
       setSelectedFile2(file);
     } else {
-      alert("Please upload a PDF file.");
+      event.target.value = null;
+      setSelectedFile2(null);
     }
   };
   const handleFileChange3 = (event) => {
     const file = event.target.files[0];
-    if (file) {
+     if (file && validatePDF(file)) {
       setSelectedFile3(file);
     } else {
-      alert("Please upload a PDF file.");
+      event.target.value = null;
+      setSelectedFile3(null);
     }
   };
 
@@ -395,6 +409,7 @@ export const Editformonepart1 = () => {
                                   class="form-control"
                                   name="fir_s"
                                   type="file"
+                                  accept="application/pdf"
                                   // value={selectedFile}
                                   onChange={handleFileChange}
                                   isInvalid={!!formErrors.fir_s}
@@ -428,6 +443,7 @@ export const Editformonepart1 = () => {
                                   class="form-control"
                                   name="dr_s"
                                   type="file"
+                                  accept="application/pdf"
                                   maxlength="50"
                                   onChange={handleFileChange1}
                                   isInvalid={!!formErrors.dr_s}
@@ -461,6 +477,7 @@ export const Editformonepart1 = () => {
                                   class="form-control"
                                   name="el_s"
                                   type="file"
+                                  accept="application/pdf"
                                   maxlength="50"
                                   onChange={handleFileChange2}
                                   isInvalid={!!formErrors.el_s}
@@ -496,6 +513,7 @@ export const Editformonepart1 = () => {
                                   class="form-control"
                                   name="tr_s"
                                   type="file"
+                                  accept="application/pdf"
                                   maxlength="50"
                                   onChange={handleFileChange3}
                                   isInvalid={!!formErrors.tr_s}

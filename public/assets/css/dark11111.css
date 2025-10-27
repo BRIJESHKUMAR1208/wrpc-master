@@ -803,6 +803,7 @@ table{
 }
 table span {
     color: #ff0!important;
+    background-color: transparent!important;
 }
 strong {
     color: #ff0;
@@ -932,3 +933,34 @@ ul.marquee-list li {
     background-color: transparent!important;
     color: #ff0!important;
 }
+
+.inner-sec {
+    padding: 45px 0px;
+    background-color: #000;
+}
+.file-meta-span {
+    color: #ff0;
+}
+
+.news-p .text-muted{
+     color: #ff0!important;
+}
+.file-meta-span{
+    background-color: transparent!important;
+}
+
+.menu-detail-wrapper table a, .menu-detail-wrapper .file-meta-span {
+    color: #ff0!important;
+}
+
+.skip-to-content-link{
+	color: #ff0;
+    background-color: #333!important;
+
+}
+
+
+
+
+
+

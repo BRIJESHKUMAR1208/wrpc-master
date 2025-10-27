@@ -85,12 +85,22 @@ export const EcrsubmissionForm = () => {
     };
 
     const handleFileChange1 = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            setSelectedFile1(file);
-        } else {
-            alert('Please upload a file for Signed copy of AS format.');
-        }
+       const selected = event.target.files[0];
+    if (!selected) return;
+
+    // MIME टाइप चेक — आमतौर पर PDF के लिए 'application/pdf'
+    if (selected.type !== "application/pdf") {
+      // यूज़र को बताएं
+      alert("Only PDF files are allowed!");
+      // इनपुट को रीसेट करें ताकि वह गलत फ़ाइल हटा दे
+      event.target.value = "";
+      setSelectedFile1(null);
+      return;
+    }
+    
+            setSelectedFile1(selected);
+           
+       
     };
 
     const validateForm = () => {
@@ -730,6 +740,7 @@ const handleChangeinput = (e, index) => {
                                                     className="form-control"
                                                     type="file"
                                                     name="copyofdata"
+                                                    accept="application/pdf"
                                                     onChange={handleFileChange1}
                                                     key={selectedFile1 ? selectedFile1.name : 'empty1'} // Resets file input
                                                 />

@@ -39,6 +39,17 @@ export const AddGallery = () => {
     const handleFileChange = (event) => {
         const newFiles = Array.from(event.target.files);
 
+    const validImageTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+
+    // Filter only valid images
+    const invalidFiles = newFiles.filter(file => !validImageTypes.includes(file.type));
+
+    if (invalidFiles.length > 0) {
+        toast.error('Only JPG, JPEG, and PNG image files are allowed!');
+        event.target.value = ''; // Reset input field
+        return;
+    }
+
         setFormData((prevFormData) => ({
             ...prevFormData,
             lstImagePaths: [...prevFormData.lstImagePaths, ...newFiles],  // Append new files to the existing ones
@@ -75,6 +86,8 @@ export const AddGallery = () => {
     const handleDeleteConfirm = async () => {
         setConfirmDialogOpen(false);
         setLoading(true);
+
+        
     
         try {
             const dataToSubmit = new FormData();

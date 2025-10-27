@@ -118,9 +118,14 @@ import MenuWrapper from "./Website/components/Header/MenuWrapper.jsx";
 import Feedback from "./Website/components/Feedback/Feedback.jsx";
 import WebInfoManager from "./Website/components/Footer/WebInfoManager.jsx";
 import HelpHome from "./Website/components/Help/HelpHome.jsx";
+
+
+
+
 function App() {
   const [sessionExpired, setSessionExpired] = useState(false);
   const storedUserString = localStorage.getItem("user");
+  const storedcandidateString = localStorage.getItem("user1");
   const token = localStorage.getItem("token")
 
   // console.log(token);
@@ -136,18 +141,21 @@ function App() {
     const currentTime = new Date().getTime();
     const currentPath = window.location.pathname;
 
-    // Define the login page path
-    const loginPagePath = "/";
-    if (currentPath === loginPagePath && currentPath === '/login') {
-      return;
-    }
+    if (!expirationTime) return;
 
+  // Expired?
+  if (currentTime > parseInt(expirationTime)) {
+    try {
+      let email = null;
 
-    if (expirationTime && currentTime > parseInt(expirationTime, 15)) {
-      if (storedUserString) {
-        const email = storedUserString.r_email
+      if (storedUserString && storedUserString.r_email) {
+        email = storedUserString.r_email;
+      } else if (storedcandidateString && storedcandidateString.r_email) {
+        email = storedcandidateString.r_email;
+      }
 
-        try {
+      if (email) {
+         try {
 
           const response = apiClient.get('/api/user/token?email=' + email);
           //console.log("logout",response)
@@ -167,8 +175,11 @@ function App() {
         }
       }
 
-
+     
+    } catch (error) {
+      console.error("Error checking session:", error);
     }
+  }
 
   };
 
@@ -199,7 +210,9 @@ function App() {
     <>
       {/* Website */}
        <div>
+        {/* <SkipToContent targetId="main-content" /> */}
         <Router>
+          
           <Routes>
             {/* <Route exact path="/" element={<CmsDisplay/>} /> */}
             {/* <Route exact path="/" element={<Home />} /> */}
@@ -208,26 +221,11 @@ function App() {
             <Route path="/custom/:id" element={<CustomDetail />} />
             <Route path="/footer/:id" element={<FooterDetails />} />
             <Route path="/gallery/:id" element={<GalleryDetail />} />
-            <Route path="/editform3data/:id" element={<Editform3data />} />
+       
             <Route path="*" element={<Errorfound />} />
             <Route path="/latestnews" element={<LatestNews/>} />
-            <Route path="/form3part3/:id" element={<Form3part3/>} /> 
-            <Route path="/form3part2" element={<Form3part2/>} />
-            <Route path="/form3part1" element={<Form3part1/>} />            
-            <Route path="/form1part1" element={<Formonepart1/>} />
-            <Route path="/editform1part1/:id" element={<Editformonepart1/>} />
-            <Route path="/editform3part1/:id" element={<Editform3part1/>} />
-            <Route path="/form1partsdata" element={<Formoneallparts/>} />
-            <Route path="/form1part2/:id" element={<Formonepart2/>} />
-            <Route path="/form1part3/:id" element={<Formonepart3/>} />
-            <Route path="/form1part5/:id" element={<Formonepart5/>} />
-            <Route path="/form1part1list" element={<Form1part1list/>} />
-            <Route path="/form1part2list" element={<Form1part2list/>} />
-            <Route path="/form1part3list" element={<Form1part3list/>} />
-            <Route path="/form1part5list" element={<Form1part5list/>} />
-            <Route path="/form3part1list" element={<Form3part1list/>} />
-            <Route path="/form3part2list" element={<Form3part2list/>} />
-            <Route path="/form3all_list" element={<Form3allpartsdata/>} />
+          
+          
             <Route path="/candchangepassword" element={<ChangecandidatePassword/>} />
             <Route path="/candforgotpassword" element={<CandidateForgetpassword/>} />
             <Route path="/commerical" element={<Commerical />} />
@@ -252,42 +250,28 @@ function App() {
               </>
              
             </Route>
+             <Route path="/candidate">
+ <>
+             <Route path="login" element={<LoginCandidate />} />
+             </>
+             </Route>
            
-            <Route path="ecrlist" element={<EcrsubmissionList />} />
-            <Route path="/candidate">
-
-              <>
-                <Route path="form1" element={<Formone />} />
-                <Route path="form2" element={<Formtwo />} />
-                <Route path="form3" element={<Formthree />} />
-                <Route path="form4" element={<Formfour />} />
-                <Route path="performance" element={<Performanceindices />} />
-                <Route path="ecrsubmissionform" element={<EcrsubmissionForm />} />
-         
-                
-                <Route path= "weeklyaccount" element={< Weeklyaccount/>}/>
-                <Route path= "weeklyaccountlist" element={< Weeklyaccountlist/>}/>
-                <Route path= "Monthlyaccountlist" element={< Monthlyaccountlist/>}/>
-                 <Route path= "Monthlyaccount" element={< Monthlyaccount/>}/> 
-                
-                
-              </>
-              <Route path="login" element={<LoginCandidate />} />
-            </Route>
-
+          
+           
             {sessionExpired ? (
               <p>Your session has expired. Redirecting to the login page...</p>
             ) : (
               <>
-                {storedUserString ? (
+                {storedUserString || storedcandidateString ? (
+                  
                   <>
-
+                          {/* ✅ admin routes go here */}
                     <Route path="/banner" element={<Banner />} />
                     <Route path="/livestreaming" element={<Livestreaming />} />
                     <Route path="/streamingtable" element={<LivestreamingTable />} />
                     <Route path="/slider" element={<Slider />} />
                     <Route path="/gallery" element={<AddGallery />} />
-                    <Route path="/gallerylist" element={<Gallerylist />} />  Gallerydetail
+                    <Route path="/gallerylist" element={<Gallerylist />} />  
                     <Route path="/gallerydetail/:id" element={<Gallerydetail />} /> 
                     <Route path="/sitemap" element={<SiteMap />} />
                     <Route path="/dashboard" element={<HomeNew />} />
@@ -400,19 +384,63 @@ function App() {
                         <Route path="formmonthly/:id" element={<ViewFormmonthly />} />
                         <Route path="formsix/:id" element={<Getecrdatabyid />} />
                       </>
-                      <Route path="login" element={<LoginCandidate />} />
+                      
                     </Route>
+                      {/* ✅ candidate routes go here */}
+ <Route path="/candidate">
+
+              <>
+                <Route path="form1" element={<Formone />} />
+                <Route path="form2" element={<Formtwo />} />
+                <Route path="form3" element={<Formthree />} />
+                <Route path="form4" element={<Formfour />} />
+                <Route path="performance" element={<Performanceindices />} />
+                <Route path="ecrsubmissionform" element={<EcrsubmissionForm />} />
+         
+                
+                <Route path= "weeklyaccount" element={< Weeklyaccount/>}/>
+                <Route path= "weeklyaccountlist" element={< Weeklyaccountlist/>}/>
+                <Route path= "Monthlyaccountlist" element={< Monthlyaccountlist/>}/>
+                 <Route path= "Monthlyaccount" element={< Monthlyaccount/>}/> 
+                
+                
+              </>
+             
+            </Route>
+<Route path="/form1partsdata" element={<Formoneallparts/>} />
+<Route path="/form3all_list" element={<Form3allpartsdata/>} />
+   <Route path="/form3part1" element={<Form3part1/>} />   
+   <Route path="/form3part1list" element={<Form3part1list/>} />
+     <Route path="ecrlist" element={<EcrsubmissionList />} />
+        <Route path="/form1part1list" element={<Form1part1list/>} />
+             <Route path="/form1part2list" element={<Form1part2list/>} />
+            <Route path="/form1part3list" element={<Form1part3list/>} />
+            <Route path="/form1part5list" element={<Form1part5list/>} />
+                <Route path="/form1part2/:id" element={<Formonepart2/>} />
+            <Route path="/form1part3/:id" element={<Formonepart3/>} />
+            <Route path="/form1part5/:id" element={<Formonepart5/>} />
+              <Route path="/form3part3/:id" element={<Form3part3/>} /> 
+            <Route path="/form3part2" element={<Form3part2/>} />
+            <Route path="/form1part1" element={<Formonepart1/>} />
+              <Route path="/editform1part1/:id" element={<Editformonepart1/>} />
+            <Route path="/editform3part1/:id" element={<Editform3part1/>} />
+            <Route path="/form3part2list" element={<Form3part2list/>} />
+                 <Route path="/editform3data/:id" element={<Editform3data />} />
+
                   </>
-                ) : (
+                )
+                  : (
 
                   <Route path="*" element={<Errorfound />} />
                 )}
               </>
             )}
             <Route path="/login" element={<LoginForm />} />
+             <Route path="/candidate/login" element={<LoginCandidate />} />
             <Route path="/ForgetPassword" element={<ForgetPassword />} />
 
           </Routes>
+         
         </Router>
       </div>
       <Router>

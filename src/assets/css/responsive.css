@@ -2243,3 +2243,25 @@
        font-size: 1.4rem;
 	}
 }
+
+@media (min-width: 767px) and (max-width: 840px){
+
+	.css-1h9z7r5-MuiButtonBase-root-MuiTab-root {  
+    font-weight: 500;
+    font-size: 0.675rem!important;
+    max-width: 200px!important;
+    min-width: 90px;
+    padding: 12px 6px!important;
+	}
+}
+
+@media (min-width: 267px) and (max-width: 400px){
+
+	.css-1h9z7r5-MuiButtonBase-root-MuiTab-root {  
+    font-weight: 500;
+    font-size: 0.675rem!important;
+    max-width: 200px!important;
+    min-width: 90px;
+    padding: 12px 6px!important;
+	}
+}

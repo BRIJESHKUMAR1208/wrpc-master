@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Slider from "react-slick";
 import {
   BASE_URL,
@@ -11,8 +11,6 @@ import {
 } from "../../../Api/ApiFunctions";
 import TabSection from "./TabSection";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
-
-
 
 import "./../../../assets/css/letestnews.css";
 
@@ -28,12 +26,27 @@ const Banner = () => {
 
   const [value, setValue] = useState("1"); // For tabs
   const [isPaused, setIsPaused] = useState(false); // For marquee pause/play
-  const [isPlaying, setIsPlaying] = useState(true); // For live streaming marquee
+  const [isPlaying, setIsPlaying] = useState(true); // For marquee
+  const [isSliderPlaying, setIsSliderPlaying] = useState(true); // For slider play/pause
+
+  const sliderRef = useRef(null); // slider reference
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
   const togglePlay = () => setIsPlaying((prev) => !prev);
+
+  const toggleSliderPlay = () => {
+    if (sliderRef.current) {
+      if (isSliderPlaying) {
+        sliderRef.current.slickPause();
+      } else {
+        sliderRef.current.slickPlay();
+      }
+      setIsSliderPlaying(!isSliderPlaying);
+    }
+  };
 
   useEffect(() => {
     async function fetchData() {
@@ -71,40 +84,70 @@ const Banner = () => {
     setSelectedLanguage(lang ? parseInt(lang) : 1);
   }, []);
 
-  
-
+  // Arrows
   const PrevArrow = (props) => {
-  const { className, style, onClick } = props;
-  return (
-    <OverlayTrigger placement="top" overlay={<Tooltip id="tooltip-prev">Previous Slide</Tooltip>}>
-      <div
-        className={className}
-        style={{ ...style, display: "block", cursor: "pointer" }}
-        onClick={onClick}
+    const { className, style, onClick } = props;
+    return (
+      <OverlayTrigger
+        placement="top"
+        overlay={<Tooltip id="tooltip-prev">Previous Slide</Tooltip>}
       >
-        <i className="fa fa-angle-left" style={{ fontSize: "24px" }}></i>
+        <div
+          className={className}
+          style={{ ...style, display: "block", cursor: "pointer" }}
+          onClick={onClick}
+        >
+          <i className="fa fa-angle-left" style={{ fontSize: "24px" }}></i>
+        </div>
+      </OverlayTrigger>
+    );
+  };
+
+  // ✅ NextArrow with Play/Pause button
+  const NextArrow = (props) => {
+    const { className, style, onClick } = props;
+    return (
+      <div style={{ position: "relative" }}>
+        <OverlayTrigger
+          placement="top"
+          overlay={<Tooltip id="tooltip-next">Next Slide</Tooltip>}
+        >
+          <div
+            className={className}
+            style={{ ...style, display: "block", cursor: "pointer" }}
+            onClick={onClick}
+          >
+            <i className="fa fa-angle-right" style={{ fontSize: "24px" }}></i>
+          </div>
+        </OverlayTrigger>
+
+        {/* Play/Pause button above NextArrow */}
+        <div
+          style={{
+            position: "absolute",
+            top: "-35px",
+            right: "0",
+            zIndex: 10,
+          }}
+        >
+          <OverlayTrigger
+            placement="top"
+            overlay={<Tooltip id="tooltip-playpause">Play/Pause Slider</Tooltip>}
+          >
+            <button
+              onClick={toggleSliderPlay}
+              className="btn-sm btn-outline-primary custom-pause-slider"
+              
+            >
+              {isSliderPlaying ? "⏸️" : "▶️"}
+            </button>
+          </OverlayTrigger>
+        </div>
       </div>
-    </OverlayTrigger>
-  );
-};
+    );
+  };
 
-const NextArrow = (props) => {
-  const { className, style, onClick } = props;
-  return (
-    <OverlayTrigger placement="top" overlay={<Tooltip id="tooltip-next">Next Slide</Tooltip>}>
-      <div
-        className={className}
-        style={{ ...style, display: "block", cursor: "pointer" }}
-        onClick={onClick}
-      >
-        <i className="fa fa-angle-right" style={{ fontSize: "24px" }}></i>
-      </div>
-    </OverlayTrigger>
-  );
-};
-
-
-const sliderSettings = {
+  const sliderSettings = {
     infinite: true,
     speed: 500,
     slidesToShow: 1,
@@ -113,17 +156,13 @@ const sliderSettings = {
     autoplaySpeed: 3000,
     adaptiveHeight: true,
     arrows: true,
-   prevArrow: <PrevArrow />,
-  nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
+    nextArrow: <NextArrow />,
   };
-
 
   return (
     <>
-      <section
-        className="city_main_banner"
-        aria-labelledby="main-banner-slider"
-      >
+      <section className="city_main_banner" aria-labelledby="main-banner-slider">
         <div className="main-banner-slider" id="main-banner-slider">
           <h2 id="main-banner-slider-title">Slider</h2>
           <div className="row">
@@ -133,19 +172,16 @@ const sliderSettings = {
               aria-live="polite"
               aria-labelledby="main-banner-slider-title"
             >
-              <Slider {...sliderSettings}>
+              <Slider ref={sliderRef} {...sliderSettings}>
                 {menudata.map((item, index) => (
                   <div key={item.u_id || item.imgpath || index}>
                     <figure className="overlay">
-                      <div
-                        className="video-container"
-                        style={{ minHeight: "500px" }}
-                      >
+                      <div className="video-container" style={{ minHeight: "500px" }}>
                         <img
                           src={BASE_URL + item.imgpath}
-                          alt={item.title || `Banner image ${index + 1}`}
+                          alt={item.u_content || `Banner image ${index + 1}`}
                           loading="lazy"
-                          title={item.title || `Banner image ${index + 1}`}
+                          title={item.u_content || `Banner image ${index + 1}`}
                         />
                       </div>
                     </figure>
@@ -169,86 +205,88 @@ const sliderSettings = {
           </div>
         </div>
       </section>
-{selectedLanguage === 1 ? (
-  <section className="notice-section" aria-label="Live Streaming Notices">
-    <div className="container">
-      <div className="row pt-2">
-        <div className="col-md-2">
-          <div className="notice-lft">
-            <p>Latest News</p>
-            <div className="marquee-controls new-add-plays">
-               <OverlayTrigger
-                placement="top"
-                overlay={<Tooltip id="tooltip-national-emblem">Click to Play/Pause</Tooltip>}
-              >
-              <button
-                onClick={togglePlay}
-                className="btn-sm btn-outline-primary bg-plays"
-              >
-                {isPlaying ? "⏸️" : "▶️"}
-              </button>
-              </OverlayTrigger>
-            </div>
-          </div>
-        </div>
-        <div className="col-md-10">
-          <div className="notice-rgt">
-            <div className="marquee-wrapper">
-              <div className={`marquee ${isPlaying ? "running" : "paused"}`}>
-                <span>
-                  <p>
-                  <i className="fa-solid fa-bullhorn"></i> &nbsp;
-                  For all questions and complaints regarding household electrification under Saubhagya, dial the toll-free helpline number 1800-121-5555.
-                  </p>
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-) : (
-  <section className="notice-section" aria-label="Live Streaming Notices">
-    <div className="container">
-      <div className="row pt-2">
-        <div className="col-md-2">
-          <div className="notice-lft">
-            <p>अद्यतन समाचार</p>
-            <div className="marquee-controls new-add-plays">
-              <button
-                onClick={togglePlay}
-                className="btn-sm btn-outline-primary bg-plays"
-              >
-                {isPlaying ? "⏸️" : "▶️"}
-              </button>
-            </div>
-          </div>
-        </div>
-        <div className="col-md-10">
-          <div className="notice-rgt">
-            <div className="marquee-wrapper">
-              <div className={`marquee ${isPlaying ? "running" : "paused"}`}>
-                <span>
-                  <p>
-                    <i className="fa-solid fa-bullhorn"></i> &nbsp;
-                    सौभाग्य के तहत घरेलू विद्युतीकरण पर सभी प्रश्नों और
-                    शिकायतों के लिए टोल-फ्री हेल्पलाइन नंबर 1800-121-5555 डायल
-                    करें।
-                  </p>
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-)}
 
+      {/* Marquee section */}
+      {selectedLanguage === 1 ? (
+        <section className="notice-section" aria-label="Live Streaming Notices">
+          <div className="container">
+            <div className="row pt-2">
+              <div className="col-md-2">
+                <div className="notice-lft">
+                  <p>Latest News</p>
+                  <div className="marquee-controls new-add-plays">
+                    <OverlayTrigger
+                      placement="top"
+                      overlay={<Tooltip id="tooltip-play-marquee">Click to Play/Pause</Tooltip>}
+                    >
+                      <button
+                        onClick={togglePlay}
+                        className="btn-sm btn-outline-primary bg-plays"
+                      >
+                        {isPlaying ? "⏸️" : "▶️"}
+                      </button>
+                    </OverlayTrigger>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-10">
+                <div className="notice-rgt">
+                  <div className="marquee-wrapper">
+                    <div className={`marquee ${isPlaying ? "running" : "paused"}`}>
+                      <span>
+                        <p>
+                          <i className="fa-solid fa-bullhorn"></i> &nbsp; For all
+                          questions and complaints regarding household
+                          electrification under Saubhagya, dial the toll-free
+                          helpline number 1800-121-5555.
+                        </p>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      ) : (
+        <section className="notice-section" aria-label="Live Streaming Notices">
+          <div className="container">
+            <div className="row pt-2">
+              <div className="col-md-2">
+                <div className="notice-lft">
+                  <p>अद्यतन समाचार</p>
+                  <div className="marquee-controls new-add-plays">
+                    <button
+                      onClick={togglePlay}
+                      className="btn-sm btn-outline-primary bg-plays"
+                    >
+                      {isPlaying ? "⏸️" : "▶️"}
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-10">
+                <div className="notice-rgt">
+                  <div className="marquee-wrapper">
+                    <div className={`marquee ${isPlaying ? "running" : "paused"}`}>
+                      <span>
+                        <p>
+                          <i className="fa-solid fa-bullhorn"></i> &nbsp;
+                          सौभाग्य के तहत घरेलू विद्युतीकरण पर सभी प्रश्नों और
+                          शिकायतों के लिए टोल-फ्री हेल्पलाइन नंबर 1800-121-5555
+                          डायल करें।
+                        </p>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
     </>
   );
- 
 };
 
 export default Banner;

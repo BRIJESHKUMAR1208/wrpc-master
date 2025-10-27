@@ -105,7 +105,21 @@ export const Monthlyaccount = () => {
     };
  
       const handleFileChange1 = (e) => {
-          setSummarysheetFile(e.target.files[0]);  // Store the file object
+         const selected = e.target.files[0];
+    if (!selected) return;
+
+    // MIME टाइप चेक — आमतौर पर PDF के लिए 'application/pdf'
+    if (selected.type !== "application/pdf") {
+      // यूज़र को बताएं
+      alert("Only PDF files are allowed!");
+      // इनपुट को रीसेट करें ताकि वह गलत फ़ाइल हटा दे
+      e.target.value = "";
+      setSummarysheetFile(null);
+      return;
+    }
+    
+            setSummarysheetFile(selected);
+      
       };
     const validateForm = () => {
         const errors = {};

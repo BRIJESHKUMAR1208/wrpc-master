@@ -126,9 +126,10 @@ export default function Login() {
           let token = dt.token;
           let newExpirationTime = dt.timeexpire;
           localStorage.setItem("user", JSON.stringify(user));
-         
           localStorage.setItem("token", token);
           localStorage.setItem("expirationTime", newExpirationTime);
+          
+
 
           setDialogText("You have successfully logged in ");
           handleOpenIncorrectCredentialsDialog();
@@ -179,6 +180,7 @@ export default function Login() {
   };
 
   const handleCloseDialog = async (event) => {
+    debugger;
     setOpenDialog(false);
     event.preventDefault();
 
@@ -231,6 +233,8 @@ export default function Login() {
           localStorage.setItem("user", JSON.stringify(user));
           localStorage.setItem("token", token);
           localStorage.setItem("expirationTime", newExpirationTime);
+
+
 
           setDialogText("You have successfully logged in ");
           handleOpenIncorrectCredentialsDialog();

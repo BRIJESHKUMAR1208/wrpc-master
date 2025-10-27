@@ -23,6 +23,16 @@ export const TopHeader = ({ selectedLanguage, handleLanguageChange }) => {
   const navigate = useNavigate();
   const [showDropdown, setShowDropdown] = useState(false);
   const [isReading, setIsReading] = useState(false);
+const [lastLogin, setLastLogin] = useState("");
+
+// Fetch last login from localStorage
+useEffect(() => {
+  const storedLastLogin = localStorage.getItem("last_login"); // stored as string
+  if (storedLastLogin) {
+    setLastLogin(storedLastLogin); // directly use the string
+  }
+}, []);
+
   let cand_name = '';
 
   if (storedUserString1) {
@@ -70,14 +80,15 @@ export const TopHeader = ({ selectedLanguage, handleLanguageChange }) => {
     const selectedValue = event.target.value;
 
     if (selectedValue === '1') {
-      const currentLanguage = selectedLanguageA;
-      const languageType = localStorage.getItem("languagetype");
+      //const currentLanguage = selectedLanguageA;
+      //const languageType = localStorage.getItem("languagetype");
       localStorage.clear();
-      if (languageType) {
-        localStorage.setItem("languagetype", languageType);
-      }
-      setSelectedLanguageA(currentLanguage);
-      window.location.reload("/");
+      // if (languageType) {
+      //   localStorage.setItem("languagetype", languageType);
+      // }
+      //setSelectedLanguageA(currentLanguage);
+      //window.location.reload("/");
+      navigate('/');
     } else if (selectedValue === '2') {
       navigate('/candchangepassword');
     }
@@ -113,12 +124,12 @@ export const TopHeader = ({ selectedLanguage, handleLanguageChange }) => {
   }, []);
 
   const handleSkipToMainContent = () => {
-    const targetElement = document.getElementById("main-content");
-    if (targetElement) {
-      targetElement.scrollIntoView({ behavior: "smooth" });
-      targetElement.focus();
-    }
-  };
+  const mainContent = document.getElementById("main-content");
+  if (mainContent) {
+    mainContent.scrollIntoView({ behavior: "smooth" });
+    mainContent.focus(); // accessibility ke liye focus
+  }
+};
 
   // const [theme, setTheme] = useState("");
 
@@ -152,6 +163,10 @@ export const TopHeader = ({ selectedLanguage, handleLanguageChange }) => {
             <div className="container-fluid nav-con">
               <div className="top-bar-section">
                <div className="top-bar-lft">
+
+ 
+
+               
   <time className="bdr-rgt" dateTime={new Date().toISOString()}>
     <span className="visually-hidden">Current date: </span>
     {currentDate}
@@ -169,6 +184,25 @@ export const TopHeader = ({ selectedLanguage, handleLanguageChange }) => {
 
 
                 <div className="top-bar-rgt">
+                  {storedUserString1 && (
+    <div className="bar3 bar-c">
+      {lastLogin && (
+        <span className="skip-to-content-link">
+          Last Active: {lastLogin}
+        </span>
+      )}
+    </div>
+  )}
+  {/* Skip to Main Content Button */}
+            <div className="bar3 bar-c">
+             <button
+  onClick={handleSkipToMainContent}
+  className="skip-to-content-link"
+>
+  Skip to main content 
+</button>
+
+            </div>
                   <div className="bar3 bar-c">
                     <button
                       onClick={isReading ? stopReading : startReading}

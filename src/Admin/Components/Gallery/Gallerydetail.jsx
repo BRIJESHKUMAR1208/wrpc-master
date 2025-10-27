@@ -13,6 +13,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import apiClient from '../../../Api/ApiClient';
+import {ToastContainer, toast } from "react-toastify";
+
 
 export default function GalleryDetail() {
   const { id } = useParams();
@@ -76,11 +78,37 @@ export default function GalleryDetail() {
   };
 
   // Handle file selection
-  const handleFileSelect = (event) => {
-    const files = Array.from(event.target.files);
-    setSelectedFiles(files); // Store selected files in state
-    
-  };
+const handleFileSelect = (event) => {
+  const files = Array.from(event.target.files);
+
+  // ✅ Allowed extensions
+  const allowedExtensions = ["jpg", "jpeg", "png"];
+
+  // ✅ Validate each file
+  const validFiles = [];
+  let hasInvalidFile = false;
+
+  for (const file of files) {
+    const extension = file.name.split(".").pop().toLowerCase();
+    if (!allowedExtensions.includes(extension)) {
+      toast.error(`Only JPG, JPEG, and PNG image files are allowed!`);
+      hasInvalidFile = true;
+    } else {
+      validFiles.push(file);
+    }
+  }
+
+  // ✅ If any invalid file found → clear input and state
+  if (hasInvalidFile) {
+    event.target.value = ""; // Clear the file input
+    setSelectedFiles([]);    // Clear the state
+    return;
+  }
+
+  // ✅ Otherwise, save valid files
+  setSelectedFiles(validFiles);
+};
+
   // const handleFileSelect = (event) => {
   //   const files = Array.from(event.target.files);
   //   const lstImagePaths = files.map((file) => URL.createObjectURL(file)); // Create temporary preview URLs
@@ -257,6 +285,7 @@ export default function GalleryDetail() {
           {snackbarMessage}
         </MuiAlert>
       </Snackbar>
+       <ToastContainer />
     </div>
   );
 }

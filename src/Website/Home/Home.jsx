@@ -8,6 +8,8 @@ import  Slider  from '../components/Slider/Slider';
 import { Link, useNavigate } from 'react-router-dom';
 import { Aboutus } from '../components/AboutUs/Aboutus';
 import { Counter } from '../components/Counter/Counter';
+import SkipToContent from '../../Common/SkipToContent ';
+import '../../Common/SkipToContent.css';
 
 export const Home = (prop) => {
     const navigate = useNavigate()
@@ -53,22 +55,33 @@ export const Home = (prop) => {
     };
     
     return (
+        <> 
+            {/* <SkipToContent targetId="main-content" /> */}
         
-        <div className='overflow-hidden'>
-            <div>
-                 <div>
+               <div className='overflow-hidden'>
+               
+                     
                      <TopHeader selectedLanguage={selectedLanguage}
                         handleLanguageChange={handleLanguageChange} />
+                    {/* <main id="main-content" tabIndex={-1}> 
+                         */}
+                                     <div id="main-content" className="page">
+
                     <CmsDisplay selectedLanguage={selectedLanguage} />
-                    </div>
+             
+                  
                  <Banner/>   
                  {/* <Aboutus/> */}
                   {/* <Counter/> */}
                   {/* <Services/> */}
                   {/* <Slider/> */}
+                 
                   <CmsFooter/>
-                    
-                </div>
+ 
+                {/* </main> */}
             </div>
+            </div>
+
+</>
     )
 }
